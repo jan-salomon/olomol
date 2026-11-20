@@ -12,6 +12,8 @@ const files = readdirSync('dist', { recursive: true })
   // (Cloudflare's rules for its server, not served; and what is only for search engines)
   .filter((file) => !['_headers', 'robots.txt', 'sitemap.xml', 'llms.txt'].includes(file))
   .filter((file) => !file.endsWith('.pdf')) // the manuals: kept once opened (sw.js), not by every visitor
+  // the manual on the web and its pictures too (scripts/manual-web.mjs)
+  .filter((file) => !/(^|\/)manual\.html$/.test(file) && !file.startsWith('manual/'))
   // the about page's pictures and videos and the link preview: not for the app, and a video from the
   // cache would answer a range request with the whole file, which Safari doesn't play
   .filter((file) => !file.startsWith('about/') && file !== 'og.png')

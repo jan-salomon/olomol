@@ -7,8 +7,8 @@
 // in OLOMOL_PASSWORD), also the login window and the Install button.
 // With --only <names> (comma separated: preklopeni, newman-e2, newman-preklopeni,
 // tycinkovy-model (and tycinkovy-model-male-h), skupiny, lambda-delta, orbitaly-diels-alder, orbitaly-sn2, nova-vazba, plochy-kruh, sipky,
-// lewis, or new for all of them; and napoveda, Help's window), only those
-// pictures, the others left as they are.
+// lewis, or new for all of them; znacka-ulozeno, kontextove-menu, objekty, karty, styl-vlastni, or 05 for all of them; napoveda,
+// Help's window; and nahlaseni, the report window), only those pictures, the others left as they are.
 // The pictures are then made 256-colour PNGs (scripts/shrink-pictures.py, needs Pillow).
 // Then compile the manual: typst compile --root . docs/manual.typ (and
 // docs/rychly-start.typ).
@@ -532,6 +532,104 @@ async function newShots(wanted = null) {
     await svg('lewis-cary', { pairStyle: 'bars' });
   }
 }
+// --- the pictures of 0.5: the right-click menu, the Objects panel, tabs, a style of one's own; taken after the
+// others, or alone with --only (their names, or 05 for all of them) ---
+async function shots05(wanted = null) {
+  const take = (name) => !wanted || wanted.includes('05') || wanted.includes(name);
+  // the mark that says the drawing is kept, beside its name (0.5: a new drawing has none, so it is named; that
+  // starts autosaving again, so wait until it says Autosaved). Before the tabs: with them the name field goes.
+  if (take('znacka-ulozeno')) {
+    await show('CC(=O)Oc1ccccc1C(=O)O', 380);
+    await state(() => {
+      olomol.title = 'aspirin';
+      olomol.emit();
+    });
+    await page.locator('[data-testid="kept-mark"].kept').waitFor({ timeout: 15_000 }).catch(() => console.log('the mark never said Autosaved'));
+    // (the Czech bar is longer: it drops its words, the mark's too; only its left end is in the picture)
+    await state(() => {
+      document.querySelector('.topbar').dataset.compact = '0';
+    });
+    await page.waitForTimeout(300);
+    await shot('znacka-ulozeno', around([await box('[data-testid="kept-mark"]'), await box('.title-field')], 4));
+  }
+  // the right-click menu of a molecule: aspirin, its lowest atom right-clicked (its molecule selected, as a double
+  // click does), the menu opening below the molecule
+  if (take('kontextove-menu')) {
+    await show('CC(=O)Oc1ccccc1C(=O)O', 380, 70);
+    await placeAt(420, 320, 70);
+    const at = await state(() => {
+      const screen = (a) => ({ x: a.x * olomol.view.scale + olomol.view.tx, y: a.y * olomol.view.scale + olomol.view.ty });
+      return [...olomol.doc.atoms.values()].map(screen).sort((a, b) => b.y - a.y || b.x - a.x)[0];
+    });
+    await page.mouse.click(at.x, at.y, { button: 'right' });
+    await page.locator('.context-menu').waitFor();
+    await page.waitForTimeout(300);
+    await shot('kontextove-menu', around([await box('.context-menu'), await drawingBox()], 8));
+    await page.keyboard.press('Escape');
+    await state(() => olomol.clearSelection());
+  }
+  // the Objects panel: the lactate dehydrogenase scheme of Help made one group, named, unfolded
+  if (take('objekty')) {
+    await show(readFileSync('src/ui/examples/enzyme.olom', 'utf8'), 30, 50);
+    await selectAll();
+    await page.keyboard.press('Control+g');
+    await state(async (name) => {
+      const { renameGroup } = await import('/src/editor/grouping.js');
+      renameGroup(olomol, [...olomol.doc.groups.keys()].at(-1), name);
+      olomol.clearSelection();
+    }, 'LDH');
+    const opened = await page.getByTestId('objects').count();
+    if (!opened) await page.getByTestId('objects-open').click();
+    await page.getByTestId('objects').waitFor();
+    await page.getByTestId('objects').locator('.fold').first().click().catch(() => console.log('no group to unfold'));
+    await page.mouse.move(5, 450);
+    await page.waitForTimeout(400);
+    await shot('objekty', around([await box('[data-testid="objects"]')], 6));
+    if (!opened) await page.getByTestId('objects-open').click(); // (open or closed is remembered)
+  }
+  // tabs: an exercise and its solution opened from a link typed into the search bar, beside the drawing there was
+  if (take('karty')) {
+    await clear();
+    const field = page.getByTestId('from-name-field');
+    await field.click();
+    await field.fill(say('#title=Úloha&smiles=C=CC.Br&title=Řešení&smiles=CC(Br)C', '#title=Exercise&smiles=C=CC.Br&title=Solution&smiles=CC(Br)C'));
+    await page.getByTestId('search-link').waitFor();
+    await field.press('Enter');
+    await page.getByTestId('tabs').waitFor();
+    await page.mouse.move(5, 450);
+    await state(() => document.querySelector('.messages')?.style.setProperty('visibility', 'hidden')); // ("Opened 2 drawings…")
+    await page.waitForTimeout(800);
+    // the top bar's left end (the logo, the mark, New, Open, Save, Export) and the tabs under it
+    const tabs = await box('[data-testid="tabs"]');
+    const bar = await box('.topbar');
+    await shot('karty', around([{ ...bar, width: Math.max(tabs.x + tabs.width, (await box('[data-testid="export"]')).x + 90) - bar.x }, tabs], 6));
+    await state(() => document.querySelector('.messages')?.style.removeProperty('visibility'));
+  }
+  // a style of one's own: Settings → Style → Custom…, the sample drawn at true size
+  if (take('styl-vlastni')) {
+    await clear();
+    await page.getByTestId('settings').click();
+    await page.getByTestId('style-custom').click();
+    await page.getByTestId('style-dialog').waitFor();
+    await page.waitForTimeout(1500);
+    await shot('styl-vlastni', around([await box('.dialog')], 0));
+    await page.getByRole('button', { name: say('Zrušit', 'Cancel'), exact: true }).click();
+  }
+}
+
+// Reporting a problem: the envelope's window (an empty drawing: no link in the table); also alone (--only
+// nahlaseni). Its table names the version and the commit, with "+" for changed files: take it from a clean worktree.
+async function reportShot() {
+  await clear();
+  await state(() => document.querySelector('.empty-hint')?.style.setProperty('visibility', 'hidden'));
+  await page.getByTestId('help').click(); // (reporting is in Help)
+  await page.getByTestId('help-report').click();
+  await page.getByTestId('report-table').locator('tr').nth(7).waitFor({ timeout: 10_000 });
+  await page.waitForTimeout(300);
+  await shot('nahlaseni', around([await box('.dialog')], 0));
+  await page.keyboard.press('Escape');
+}
+
 // Help: an example, its curved arrow pointed at (a lower window: less empty room in it); also alone (--only napoveda)
 async function helpShot() {
   await page.setViewportSize({ width: 1440, height: 740 });
@@ -558,7 +656,9 @@ const shrink = () => {
 };
 if (only) {
   if (only.includes('napoveda')) await helpShot();
-  await newShots(only.filter((name) => name !== 'napoveda'));
+  if (only.includes('nahlaseni')) await reportShot();
+  await newShots(only.filter((name) => name !== 'napoveda' && name !== 'nahlaseni'));
+  await shots05(only);
   await browser.close();
   shrink();
   console.log(`pictures in ${OUT}/: ${only.join(', ')}`);
@@ -593,19 +693,25 @@ await page.waitForTimeout(300);
 }
 await page.keyboard.press('Escape');
 
-// 3. Name / SMILES with the live picture, and a SMILES with a mistake
+// 3. the search bar (0.5: instead of the Name / SMILES window): a SMILES with its live picture, and a word finding
+// templates and actions
 await clear();
-await page.getByTestId('from-name').click();
-await page.getByTestId('from-name-field').fill('CC(=O)Oc1ccccc1C(=O)O');
-await page.getByTestId('smiles-preview').waitFor();
-await page.waitForTimeout(600);
-await shot('nazev-smiles', around([await box('.dialog')], 0));
-await page.getByTestId('from-name-field').fill('');
-await page.waitForTimeout(300);
-await page.getByTestId('from-name-field').fill('CN(C)(C)C');
-await page.waitForTimeout(800);
-await shot('smiles-chyba', around([await box('.dialog')], 0));
-await page.keyboard.press('Escape');
+{
+  const field = page.getByTestId('from-name-field');
+  const results = async () => around([await box('[data-testid="search-results"]'), await box('.search-bar')], 6);
+  await field.click();
+  await field.fill('CC(=O)Oc1ccccc1C(=O)O');
+  await page.getByTestId('smiles-preview').waitFor();
+  await page.waitForTimeout(600);
+  await shot('nazev-smiles', await results());
+  await field.fill('');
+  await page.waitForTimeout(300);
+  await field.fill(say('židlička', 'chair'));
+  await page.waitForTimeout(1500);
+  await shot('hledani', await results());
+  await field.press('Escape');
+  await field.press('Escape');
+}
 
 // 4. templates
 await clear();
@@ -737,15 +843,8 @@ await page.waitForTimeout(1000);
 await shot('rozvrzeni', around([await box('.dialog')], 0));
 await page.keyboard.press('Escape');
 
-// 17. reporting a problem: the envelope's window (an empty drawing: no link in the table)
-await clear();
-await state(() => document.querySelector('.empty-hint')?.style.setProperty('visibility', 'hidden'));
-await page.getByTestId('help').click(); // (reporting is in Help)
-await page.getByTestId('help-report').click();
-await page.getByTestId('report-table').locator('tr').nth(7).waitFor({ timeout: 10_000 });
-await page.waitForTimeout(300);
-await shot('nahlaseni', around([await box('.dialog')], 0));
-await page.keyboard.press('Escape');
+// 17. reporting a problem (reportShot)
+await reportShot();
 
 // 18. Turn in 3D: bornyl salicylate as pasted, in the window, turned by hand until the bornane looks
 // as in a textbook, and the drawing that gives (methyls as plain line ends: CH3 labels crowd the cage)
@@ -842,12 +941,7 @@ await shot('text-okenko', around([await box('.text-tools'), await box('.text-edi
 await page.keyboard.press('Escape');
 await page.keyboard.press('Escape');
 
-// 23. the mark that says the drawing is kept
-await show('CC(=O)Oc1ccccc1C(=O)O', 380);
-await page.waitForTimeout(1000);
-await state(() => { document.querySelector('.title-field').style.width = '172px'; }); // (the mark right after the name)
-await page.waitForTimeout(200);
-await shot('znacka-ulozeno', around([await box('[data-testid="kept-mark"]'), await box('.title-field')], 4));
+// 23. the mark that says the drawing is kept: with the 0.5 pictures (shots05)
 
 // 24. drawings from the examples: anchors, side arcs, a complex in brackets
 for (const [example, name] of [['aspirin', 'kotvy'], ['enzyme', 'bocni-oblouky'], ['cobalt', 'komplex-kobalt']]) {
@@ -873,8 +967,9 @@ for (const [example, name] of [['aspirin', 'kotvy'], ['enzyme', 'bocni-oblouky']
   await cards.close();
 }
 
-// the pictures of 0.4 (on the same page, before it goes)
+// the pictures of 0.4 and 0.5 (on the same page, before it goes; 0.5's last: they leave tabs open)
 await newShots();
+await shots05();
 await context.close();
 
 // 26. the login window and the Install button of a built site (the login is in Czech only)

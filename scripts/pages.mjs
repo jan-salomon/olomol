@@ -217,6 +217,11 @@ function sitemap() {
       + `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE + page}"/>\n`;
     for (const code of LANGUAGES) entries.push(url(pathOf(page, code), lastmod, alternates));
   }
+  // the manual on the web, in English and Czech (scripts/manual-web.mjs; German: the English one)
+  const manuals = { en: 'manual.html', cs: 'cs/manual.html' };
+  const manualAlternates = Object.entries(manuals).map(([code, loc]) => `    <xhtml:link rel="alternate" hreflang="${code}" href="${SITE + loc}"/>\n`).join('')
+    + `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}manual.html"/>\n`;
+  for (const loc of Object.values(manuals)) entries.push(url(loc, changed(`public/${loc}`), manualAlternates));
   for (const pdf of ['docs/manual.pdf', 'docs/rychly-start.pdf', 'docs/en/manual.pdf', 'docs/en/quick-start.pdf']) entries.push(url(pdf, changed(pdf)));
   return `<?xml version="1.0" encoding="UTF-8"?>\n<!-- olomol's pages for search engines (robots.txt points here), written by scripts/pages.mjs -->\n`
     + `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries.join('\n')}\n</urlset>\n`;

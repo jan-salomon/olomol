@@ -88,8 +88,9 @@ self.addEventListener('fetch', (event) => {
     })());
     return;
   }
-  // the manuals (PDF): from the network, a copy kept for offline once opened
-  if (url.pathname.endsWith('.pdf')) {
+  // the manuals (PDF), and the pictures of the manual on the web (its page is a navigation: above): from the
+  // network, a copy kept for offline once opened
+  if (url.pathname.endsWith('.pdf') || url.pathname.includes('/manual/img/')) {
     event.respondWith((async () => {
       try {
         const response = await fetch(request);

@@ -16,11 +16,10 @@ import { ALIASES } from './aliases.js';
 import { icons } from './icons.jsx';
 import { AlignIcon } from './Menus.jsx';
 import { keyOf } from './keys.js';
-import { WHATS_NEW } from './report.js';
+import { DOCS, WHATS_NEW } from './report.js';
 import { duplicateTab, shownTitle } from './tabs.js';
 
 const fill = (text, vars = {}) => text.replace(/\{(\w+)\}/g, (whole, name) => (name in vars ? vars[name] : whole));
-const DOCS = language === 'cs' ? { quickStart: 'docs/rychly-start.pdf', manual: 'docs/manual.pdf' } : { quickStart: 'docs/en/quick-start.pdf', manual: 'docs/en/manual.pdf' };
 
 // A name: t('…') here only marks it, keeping its English (the test of the translations finds every t('…')), and
 // entry() translates it
@@ -160,6 +159,7 @@ export function commands(editor, ui) {
     opens(t('About'), 'about', { icon: icons.info }),
     page(t("What's new"), WHATS_NEW, { icon: icons.external }),
     page(t('Manual'), DOCS.manual, { icon: icons.external }),
+    page(t('Manual as PDF'), DOCS.manualPdf, { icon: icons.external }),
     page(t('Quick start'), DOCS.quickStart, { icon: icons.external }),
   ];
 }

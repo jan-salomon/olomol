@@ -14,6 +14,11 @@ export const VERSION = `${__APP_VERSION__} (${[__BUILD_DATE__, __COMMIT__].filte
 const pageIn = (page, query = '') => (['cs', 'de'].includes(language)
   ? `${language}/${page}${query ? `?${query}` : ''}`
   : `${page}?lang=en${query ? `&${query}` : ''}`);
+// The quick start and the manual: the manual on the web (manual.html, cs/manual.html: scripts/manual-web.mjs, the
+// same text as its PDF), the PDFs for printing; Czech in the Czech app, English otherwise (there is no German one)
+export const DOCS = language === 'cs'
+  ? { quickStart: 'docs/rychly-start.pdf', manual: 'cs/manual.html', manualPdf: 'docs/manual.pdf' }
+  : { quickStart: 'docs/en/quick-start.pdf', manual: 'manual.html', manualPdf: 'docs/en/manual.pdf' };
 // What's new at this version's entry
 export const WHATS_NEW = `${pageIn('changelog.html')}#v${__APP_VERSION__.replace(/-.*/, '')}`;
 // the about page (?stay: not on to the app, as a kept link of someone who has used it would go)

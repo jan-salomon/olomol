@@ -14,7 +14,7 @@ olomol je bezplatný nástroj na kreslení chemických struktur, reakcí a mecha
 
 Otevřete adresu, kterou jste dostali, v Chromu, Edgi nebo Firefoxu.
 
-Kresba se průběžně ukládá v prohlížeči, takže po zavření a novém otevření tam bude. Na důležité věci ale používejte uložit #ik("save") (#kl[Ctrl+S]).
+Kresby se průběžně uchovávají v prohlížeči, každá ve své kartě, takže po zavření a novém otevření tam budou. Na důležité věci ale používejte uložit #ik("save") (#kl[Ctrl+S]).
 
 == 2. Okno
 
@@ -23,9 +23,9 @@ Kresba se průběžně ukládá v prohlížeči, takže po zavření a novém ot
   [
     #set par(justify: false)
     #legenda(
-      (1, [soubory, zpět, #ui[Překreslit], #ui[Otočit ve 3D], #ui[Zarovnat], překlopení]),
+      (1, [soubory, zpět, #ui[Překreslit], #ui[Otočit ve 3D], #ui[Zarovnat], překlopení, #ui[Promítat]]),
       (2, [kreslicí nástroje (trojúhelníček v rohu: další varianty)]),
-      (3, [prvky, kruhy, #ui[Šablony], #ui[Název / SMILES]]),
+      (3, [prvky, kruhy, #ui[Šablony], vyhledávací řádek]),
       (4, [panel s vlastnostmi toho, co je vybrané (bod 5)]),
       (5, [nápověda k nástroji; #kl[?] ukáže všechny klávesy]),
     )
@@ -40,11 +40,11 @@ Kresba se průběžně ukládá v prohlížeči, takže po zavření a novém ot
 
 Klávesy nad atomem mění prvek (#kl[N], #kl[O], #kl[S], #kl[L] je Cl…), nad vazbou #kl[1] #kl[2] #kl[3] mění její řád. Stejné písmeno nad prázdným místem zvolí *kreslení tím prvkem*: kliknutí na atom ho změní, #kl[Shift]+kliknutí připojí nový, #kl[C] vrátí uhlík. Náboj přidáte nástrojem náboje #ik("plusCharge") vlevo (ve variantách je i záporný, δ+ a δ−), nebo klávesou #kl[+] či #kl[−] nad atomem. #kl[Ctrl+Z] vrací zpět.
 
-== 4. Struktura podle názvu nebo SMILES
+== 4. Vyhledávací řádek: struktura podle názvu nebo SMILES
 
 #grid(columns: (1fr, 5.6cm), gutter: 12pt,
   [
-    Klikněte na #ui[Název / SMILES] (nebo stiskněte #kl[/]) a napište SMILES, InChI nebo název, třeba `aspirin`. SMILES se nakreslí hned, jak píšete. Stiskněte #kl[Enter] a klikněte, kam má molekula přijít.
+    Pište do vyhledávacího řádku vpravo v dolní liště (kurzor do něj dá #kl[/]): SMILES, InChI nebo název, třeba `aspirin`. SMILES se nakreslí hned, jak píšete. Stiskněte #kl[Enter] a klikněte, kam má molekula přijít. Najde i šablony a akce olomolu (`překlopení židličky`).
 
     SMILES a InChI se zpracují ve vašem počítači. Názvy se hledají v databázi PubChem (potřebuje internet a zná jen anglické názvy); odešle se jen napsaný text, nikdy vaše kresba. SMILES zkopírovaný odjinud stačí vložit na plátno přes #kl[Ctrl+V].
   ],
@@ -96,7 +96,7 @@ Zahnuté šipky jsou součástí kresby: drží u svých atomů a vazeb, a když
 #pagebreak(weak: true)
 == 8. Barvy, zvýraznění a mřížka
 
-#figure(image("img/katecholaminy.svg", width: 86%))
+#figure(image("img/katecholaminy.svg", width: 80%))
 
 Šest katecholaminů a příbuzných léčiv. Všechny mají *modře zvýrazněnou* stejnou společnou část, nakreslenou stejně natočenou. Salbutamol (lék na astma) má *oranžově zvýrazněnou* hlavní odlišnost: místo jedné skupiny OH má CH#sub[2]OH, enzym COMT ho proto neodbourává a působí hodiny, ne minuty. *Fialově obarvené* jsou skupiny na dusíku: čím větší, tím víc látka působí na β-receptory.
 
@@ -115,7 +115,7 @@ Zahnuté šipky jsou součástí kresby: drží u svých atomů a vazeb, a když
     - #ui[Náboje]: #ui("+ −"), nebo v kroužku #text(font: "Noto Sans Math")[⊕ ⊖],
     - #ui[Volné páry]: #ui[Tečky ··], nebo #ui[Čárky (Lewis)], jak se často učí u nás,
     - #ui[Barvy atomů]: #ui[Podle prvku], nebo #ui[Černé] (vlastní barvy a zvýraznění zůstanou),
-    - dále #ui[Styl] #ui[ACS 1996] pro časopisy, #ui[Uhlíky], #ui[Aromáty] (kroužek nebo čárkovaně); označení R/S a E/Z se zaškrtává v panelu u molekuly.
+    - dále #ui[Styl] (#ui[ACS], #ui[RSC], #ui[Prezentace] nebo vlastní), #ui[Uhlíky], #ui[Aromáty] (kroužek nebo čárkovaně); označení R/S a E/Z se zaškrtává v panelu u molekuly.
   ],
   figure(image("img/styl-vychozi.svg", width: 100%), caption: text(8pt)[výchozí], supplement: none, numbering: none),
   figure(image("img/styl-lewis.svg", width: 100%), caption: text(8pt)[#text(font: "Noto Sans Math")[⊕ ⊖], čárky, černé], supplement: none, numbering: none),
@@ -123,9 +123,10 @@ Zahnuté šipky jsou součástí kresby: drží u svých atomů a vazeb, a když
 
 == 10. Uložit, exportovat, vložit do Wordu
 
-- Uložit #ik("save") (#kl[Ctrl+S]) uloží kresbu jako soubor KET, který se tu zase otevře se vším, i se šipkami a barvami.
+- Uložit #ik("save") (#kl[Ctrl+S]) uloží kresbu jako soubor .olom, který se tu zase otevře se vším, i se šipkami a barvami.
 - #ui[Kopírovat jako obrázek] (#kl[Ctrl+Shift+C]) dá kresbu (nebo výběr) do schránky. Ve Wordu nebo PowerPointu ji vložte přes #kl[Ctrl+V].
-- #ui[Export] nabízí SVG (vektorový obrázek pro Inkscape a tisk), PNG a soubory molfile, SDF, SMILES a další. #ui[Kopírovat odkaz] tamtéž udělá odkaz, ve kterém je kresba přímo uložená.
+- #ui[Export] nabízí SVG (vektorový obrázek pro Inkscape a tisk), PNG, #ui[PDF / Tisk…] a soubory molfile, SDF, SMILES a další. #ui[Kopírovat odkaz] tamtéž udělá odkaz, ve kterém je kresba přímo uložená.
+- Kresby se otevírají vedle sebe v *kartách*; #ui[Promítat] #ik("present") je ukáže přes celou obrazovku na přednášku.
 
 == 11. Problém nebo nápad?
 Budeme rádi za každou zprávu. Klikněte na brouka #ik("debug") vpravo nahoře: #ui[Napsat e-mail] otevře e-mail na bugs\@olomol.org i s verzí programu a prohlížečem; napište, co jste dělali a co se stalo. Odkaz na kresbu je na e-mail moc dlouhý: #ui[Kopírovat tabulku] ho zkopíruje i s tabulkou, vložte ho na konec e-mailu. V nápovědě jsou také příklady (u každé části kresby řeknou, jak se kreslí) a v jejím záhlaví tento návod i podrobná _Příručka_. Tlačítko #ui[Ukázky na videu] v ní ukáže pět krátkých videí z práce v programu.

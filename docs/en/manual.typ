@@ -49,9 +49,9 @@ The first visit takes a little longer, and a bar shows how much is left. The che
 #v(0.3em)
 #grid(columns: (1fr, 1fr), gutter: 16pt,
   legenda(
-    (1, [*Top bar*: the drawing's name, new drawing #ik("newDoc"), open #ik("open"), save #ik("save"), #ui[Export], undo and redo #ik("undo") #ik("redo"), #ui[Redraw], #ui[Turn in 3D] #ik("turn3d"), #ui[Align], flips #ik("flipH") #ik("flipV") #ik("flipBond"), ring flip and turning a chair #ik("ringFlip") #ik("chairTurn"), #ui[Horizontal / vertical] #ik("snap") and zoom.]),
-    (2, [*Drawing tools.* A small triangle in a button's corner means it has more variants: rest the pointer on the button, click the triangle, or click the chosen tool again.]),
-    (3, [*Bottom bar*: elements, the periodic table #ik("table"), rings, #ui[Templates] and #ui[Name / SMILES].]),
+    (1, [*Top bar*, in groups: the drawing's name and #ui[Autosaved], new drawing #ik("newDoc"), open #ik("open"), save #ik("save"), #ui[Export] | undo and redo #ik("undo") #ik("redo") | #ui[Redraw], #ui[Turn in 3D] #ik("turn3d") | #ui[Align], flips #ik("flipH") #ik("flipV") #ik("flipBond"), #ui[Horizontal / vertical] #ik("snap") | ring flip and turning a chair #ik("ringFlip") #ik("chairTurn") | zoom, #ik("fit") and #ui[Show] #ik("present"). In a narrow window, the groups that don't fit go under #ik("more") at the end of the bar. With two drawings or more, the tabs are under it (@karty).]),
+    (2, [*Drawing tools.* A small triangle in a button's corner means it has more variants: rest the pointer on the button, click the triangle, or click the chosen tool again. At the bottom, #ik("objects") opens the #ui[Objects] panel (@objekty).]),
+    (3, [*Bottom bar*: elements, the periodic table #ik("table"), rings, #ui[Templates] and the *search bar* (@nazev).]),
   ),
   legenda(
     (4, [*Panel* with the properties of whatever is selected (@panel).]),
@@ -63,9 +63,13 @@ The first visit takes a little longer, and a bar shows how much is left. The che
 
 == Help and examples <pomoc>
 
-Rest the pointer on any button and a tooltip tells you what it does, along with its shortcut. The hint line at the bottom changes with the chosen tool, so it is worth a glance whenever a tool surprises you. Below it, a second line names what else the tool's button holds (behind the small corner of the button): the bond tool's wedges, dative and hydrogen bonds, say. Where the top bar has room, its buttons have words as well; in a narrower window they drop them, #ui[Turn in 3D]'s first.
+Rest the pointer on any button and a tooltip tells you all it does, along with its shortcut. The hint line above the bottom bar changes with the chosen tool, so it is worth a glance whenever a tool surprises you. Where the top bar has room, its buttons have words as well; in a narrower window they drop them, #ui[Turn in 3D]'s first.
 
-The round button #ik("napoveda") at the bottom right opens *Help*, the quickest way to see how something is done. It holds more than twenty finished drawings, shown as small pictures. Tags such as #ui[Mechanisms], #ui[Stereochemistry] or #ui[Texts] narrow the list down.
+A *right click* on the canvas opens a menu of what can be done with what is under the pointer: cut, copy, paste, delete, #ui[Redraw], #ui[Turn in 3D], the flips, a bond made horizontal or vertical, #ui[Abbreviate], #ui[One compound], #ui[Group]… A right click on a molecule selects it first, as a double click does. On the empty canvas the menu has paste, select all, the view and #ui[Show]. Each item does what its button or key does, and the key is beside it.
+
+#obr("img/kontextove-menu.png", sirka: 30%, popis: [The right-click menu of a molecule])
+
+The round button #ik("napoveda") at the bottom right opens *Help*, the quickest way to see how something is done. It holds about thirty finished drawings, shown as small pictures. Tags such as #ui[Mechanisms], #ui[Stereochemistry], #ui[Texts] or #ui[Files and tabs] narrow the list down.
 
 #obr("img/napoveda.png", sirka: 74%, popis: [Help: pointing at a curved arrow says how it is drawn, and its button lights up in the left bar])
 
@@ -75,22 +79,24 @@ The round button #ik("napoveda") at the bottom right opens *Help*, the quickest 
 
 Above the tags, #ui[Examples in action] opens the about page in a new tab, with five short videos of olomol at work: a mechanism, a reaction scheme, a molecule built in steps and partly redrawn, a complex turned in 3D, and a Haworth projection of glucose made a chair, flipped and turned in 3D.
 
-The header of the Help window has the #ui[Quick start] and this #ui[Manual] (PDF; the Czech ones when the program is in Czech), #ui[What's new] with the changes in each version, #ui[Keyboard shortcuts], #ui[Report a problem or an idea] (@problemy, also the bug #ik("debug") at the top right) and #ui[About], with the credits and licences. What's new and About are also under the version in the bottom left corner.
+The header of the Help window has the #ui[Quick start] (PDF), this #ui[Manual] on the web and, beside it, #ui[PDF] for printing (the Czech ones when the program is in Czech), #ui[What's new] with the changes in each version, #ui[Keyboard shortcuts], #ui[Report a problem or an idea] (@problemy, also the bug #ik("debug") at the top right) and #ui[About], with the credits and licences. What's new and About are also under the version in the bottom left corner.
 
-== The drawing saves itself
+== The drawing saves itself <ulozeni>
 
 #grid(columns: (1fr, 5cm), gutter: 14pt, align: horizon,
   [You need not worry about losing your drawing. The browser remembers it by itself, a moment after each change, so you can close the window or turn off the computer and it will be waiting when you come back. The mark beside the drawing's name shows this: #ui[Autosaving…] just after a change, then #ui[Autosaved].],
   obr("img/znacka-ulozeno.png"),
 )
 
-This covers one drawing, the one on the canvas, in this browser on this computer. To have several drawings, to move one to another computer or to send it to someone, save it as a file with #ui[Save] (#kl[Ctrl+S], @soubory). A file is also the safest home for work that matters to you, because it stays even if the browser's data are cleared.
+Every drawing you have open is kept this way, so all of them are back the next time you open olomol, each in its tab (@karty). This is in this browser on this computer. To move a drawing to another computer or to send it to someone, save it as a file with #ui[Save] (#kl[Ctrl+S], @soubory). A file is also the safest home for work that matters to you, because it stays even if the browser's data are cleared.
 
-The mark warns you in two cases. #ui[Not autosaved] means this browser can't autosave, as in a private window or when its storage is full: save your drawing to a file before you close it. #ui[Another tab] means olomol is open in a second tab that has autosaved its own drawing since. Next time, the one changed last comes back, so save this one if you want to be sure of it.
+*Earlier versions.* While you draw, the browser also keeps earlier versions of the drawing, a few minutes apart. Click the mark (#ui[Autosaved]), or #ui[Open] #ik("open") → #ui[Earlier versions of this drawing…], and a window shows them as pictures, the newest first; #ui[Bring back] puts one on the canvas, and #kl[Ctrl+Z] returns to the drawing you had. Closing the drawing forgets its earlier versions.
 
-The #ik("newDoc") button starts a new drawing on an empty canvas, and #kl[Ctrl+Z] brings the previous one back. The empty canvas shows a faint example, a different one of four each time. Point at a part of it to learn how it is drawn, and its button lights up in red.
+The mark warns you in two cases. #ui[Not autosaved] means this browser can't autosave, as in a private window or when its storage is full: save your drawing to a file before you close it. #ui[Another tab] means olomol is open in a second tab that has autosaved its own drawing since. Next time, the one changed last comes back, so save this one if you want to be sure of it. A drawing open in one window of olomol stays in that window: a second window doesn't open it too, so the two never write over each other.
 
-At the top left, next to the logo, is the *drawing's name*. It starts as `drawing-` with the date and time, so files do not overwrite each other. Click it to rename the drawing; saved files are named after it.
+The #ik("newDoc") button starts a new drawing in a new tab, and the drawing you had stays in its own. The empty canvas shows a faint example, a different one of four each time. Point at a part of it to learn how it is drawn, and its button lights up in red.
+
+At the top left, next to the logo, is the *drawing's name*. A new drawing has none yet (#ui[New drawing] in grey); its files are offered under `drawing-` with the date and time, so they do not overwrite each other. Click the name to rename the drawing; saved files are named after it. With two drawings or more, the name is on the drawing's tab, and a double click there renames it.
 
 == Moving and zooming
 
@@ -186,15 +192,15 @@ An atom with more bonds than it can have gets a *red dashed ring*, which shows o
 
 *Hydrogens* are worked out from the bonds and the charge (CH#sub[3], NH#sub[2], OH). To set another number, use the #ui[Hydrogens] row of the panel. #ui[Draw the H] draws the hydrogens of the selected atoms as atoms of their own, which you need when a curved arrow goes to or from a hydrogen. #ui[Hide drawn H] hides them again.
 
-Chain ends are written as CH#sub[3] by default. The #ui[Carbons] switch in the panel (#ui[CH₃], #ui[line] or #ui[All C]) changes this for the selected carbons: the whole molecule, or just one end. #ui[All C] writes every carbon (CH#sub[3], CH#sub[2], CH), for those who do not yet read a corner as a carbon. The default for new drawings is in #ui[Settings].
+Chain ends are written as CH#sub[3] by default. The #ui[Carbons] switch in the panel (#ui[CH₃], #ui[line] or #ui[All C]) changes this for the selected carbons: the whole molecule, or just one end. #ui[All C] writes every carbon (CH#sub[3], CH#sub[2], CH), for those who do not yet read a corner as a carbon. The default for new drawings is in #ui[Settings]. A charged carbon is written (C#super[+]) unless it is set to #ui[line]: then only its charge is drawn, at the corner, as a carbocation or a carbanion often is in a mechanism.
 
 == Stereochemistry
 
 The wedge #ik("wedge") points towards you and the hashed wedge #ik("hash") away from you. Both are among the bond tool's variants. A wedge starts at the atom you drag from, so its narrow end is at the stereocentre. The wavy bond #ik("wavy") marks an undefined configuration.
 
-To show *R/S and E/Z* labels (Λ and Δ for complexes), tick #ui[R/S, E/Z, Λ/Δ] in the panel, for the whole selected molecule or just the selected atoms and bonds. RDKit computes them, and they also go into exported pictures and KET files.
+To show *R/S and E/Z* labels (Λ and Δ for complexes), tick #ui[R/S, E/Z, Λ/Δ] in the panel, for the whole selected molecule or just the selected atoms and bonds. RDKit computes them, and they also go into exported pictures and olomol's files.
 
-When a bond joins the wide ends of two wedges it is drawn bold, as is customary (the bridge of a morphinan, the front edge of a Haworth formula).
+When a bond joins the wide ends of two wedges it is drawn bold, as is customary (the bridge of a morphinan, the front edge of a Haworth formula). Any single bond can be drawn bold on purpose too, a bond forming in a scheme or one you want to point at: select it and choose #ui[bold bond] (▬) in the panel's #ui[Stereo] row. An atom's label can be bold as well: #ui[Label] → B in the panel.
 
 == Special bonds
 
@@ -208,15 +214,16 @@ A wedge or a hashed wedge gives a coordination bond depth, with its narrow end a
 
 #obr("img/lambda-delta.svg", sirka: 18%, popis: [[Co(en)#sub[3]]#super[3+] drawn with wedges; #ui[R/S, E/Z, Λ/Δ] writes (Λ) or (Δ) beside the metal])
 
-These bonds are kept in KET files and pictures, but not in molfile, SMILES and similar files (@omezeni).
+These bonds are kept in olomol's files (.olom), KET files and pictures, but not in molfile, SMILES and similar files (@omezeni).
 
 == Selecting, moving, rotating and deleting
 
 The Select tool #ik("select") (#kl[V], or #kl[Esc]) does the following:
 
 - a click selects an atom, bond, arrow or text, and #kl[Shift]+click adds to the selection,
-- dragging over empty space selects everything in a box; the tool's variants include a lasso #ik("lasso"), and #kl[Esc] switches between the two when there is nothing left to cancel,
-- a *double click* selects the whole molecule, #kl[Shift]+double click adds it to the selection, and #kl[Ctrl+A] selects everything,
+- dragging over empty space selects everything in a box, and what it will take lights up before you let go; the tool's variants include a lasso #ik("lasso"), and #kl[Esc] switches between the two when there is nothing left to cancel,
+- a *double click* selects the whole molecule, #kl[Shift]+double click adds it to the selection, a *triple click* selects its whole row of a reaction scheme (its molecules, + signs and arrows with what is on them), and #kl[Ctrl+A] selects everything,
+- #kl[Ctrl]+click selects the group a thing is in (@objekty),
 - dragging moves the selection, and so do the arrow keys (with #kl[Shift], further),
 - the *round handle* above the selection rotates it,
 - an atom or bond dragged onto another atom *merges* with it. It snaps while you drag and shows the result; drag on and it lets go. A filled ring keeps its colour as long as it stays a ring.
@@ -225,11 +232,22 @@ To delete, use the eraser #ik("erase") (#kl[E]), which works by clicking or with
 
 Every step can be undone, so feel free to try things: #kl[Ctrl+Z] undoes and #kl[Ctrl+Shift+Z] redoes.
 
-== Keeping particles together <pohromade>
+== One compound <pohromade>
 
-A salt such as K#sub[2]SiF#sub[6] is three separate particles (K#super[+], K#super[+] and SiF#sub[6]#super[2−]). Select them all and click #ui[Keep together] in the panel. An invisible link joins them, so they move, align and go into a grid as one molecule, and the panel shows one formula (F#sub[6]K#sub[2]Si).
+A salt such as K#sub[2]SiF#sub[6] is three separate particles (K#super[+], K#super[+] and SiF#sub[6]#super[2−]). Select them all and click #ui[One compound] in the panel. An invisible link joins them, so they move, align and go into a grid as one molecule, and the panel shows one formula (F#sub[6]K#sub[2]Si).
 
-The links show while the group is selected, or all the time when #ui[Links] in #ui[Settings] is set to #ui[shown]. #ui[Keep apart] separates the particles again. Links are not written to molfile and SMILES.
+The links show while the compound is selected, or all the time when #ui[Links] in #ui[Settings] is set to #ui[shown]. #ui[Separate] separates the particles again. Links are not written to molfile and SMILES.
+
+== Groups and the Objects panel <objekty>
+
+A *group* holds things together for selecting and moving, without making them one compound: a molecule with its number under it, the two halves of a scheme, an exercise's answer you want to move aside. Select two things or more (molecules, arrows, + signs, texts) and press #kl[Ctrl+G]; groups can go into larger groups too. #kl[Ctrl+Shift+G] takes a group apart, one level.
+
+A plain click still selects an atom or a molecule, so a group never gets in the way of drawing. #kl[Ctrl]+click selects the group, and another #kl[Ctrl]+click the group round it; #kl[Ctrl]+drag moves it, and #kl[Ctrl]+drag of a box takes the whole groups of what it touches. #ui[Align] moves groups as wholes, and SVG pictures keep them as groups, for Inkscape.
+
+#grid(columns: (1fr, 6cm), gutter: 14pt, align: horizon,
+  [The #ui[Objects] panel #ik("objects"), at the bottom of the tool bar, lists the drawing's things and groups. A click on a row selects it (with #kl[Shift] or #kl[Ctrl], adds it), the pointer on a row lights it up in the drawing, and the arrow before a group unfolds it. A double click on a group names it. A row dragged onto a group goes into it, and onto the strip at the bottom out of every group. The buttons at the top group and ungroup what is selected. The right-click menu has #ui[Group], #ui[Ungroup] and #ui[Select its group] too.],
+  obr("img/objekty.png", popis: [The LDH scheme from Help as one group, named]),
+)
 
 == Copying and pasting
 
@@ -246,6 +264,7 @@ Choose the text tool #ik("text") (#kl[T]), click and type. What you type stays e
 - #ui[Formula] turns the selected part, or with nothing selected the whole text, into a formula. Digits after letters become subscripts and a charge at the end (Fe3+, CO32-, [SiF6]2-) a superscript. It also understands CO\_3^2-, and e- or 2e- as the electron's charge. #ui[Plain] removes the formatting.
 - What this rule cannot do, you set by hand: x#sub[2] (#kl[Ctrl+,]), x#super[2] (#kl[Ctrl+.]), *B* (#kl[Ctrl+B]) and _I_ (#kl[Ctrl+I]). They change the selected part or, with nothing selected, what you type next.
 - The bar's menus hold the alignment of lines (a multi-line text under a molecule or on an arrow is otherwise centred) and special characters: Greek letters, arrows, °, ±, ‡.
+- #ui[Aa] switches the whole text between a sans-serif (Arial) and a serif font (Times New Roman), and the field beside it sets its size in points. Without them a text has the drawing style's font and size (@nastaveni). A selected text can be made bold as a whole with #ui[Bold] in the panel, a compound number, say.
 
 #kl[Enter] finishes the text and #kl[Shift+Enter] starts a new line. A copied text reaches other programs as plain words, so a DOI pastes straight into the browser.
 
@@ -295,11 +314,11 @@ On an *equilibrium arrow* each of its two harpoons has its own arcs: an arc abov
   [
     The panel shows the properties of whatever is selected and lets you change them.
 
-    For a *whole molecule* it shows the formula (with the #ui[Info] button, @info), #ui[Carbons], #ui[IUPAC numbering], #ui[R/S, E/Z, Λ/Δ], #ui[Aromatize] and #ui[Kekulé], #ui[Brackets], lone pairs, #ui[Draw the H], #ui[Colour] and #ui[Highlight]. For several molecules it adds #ui[Keep together].
+    For a *whole molecule* it shows the formula (with the #ui[Info] button, @info), #ui[Carbons], #ui[IUPAC numbering], #ui[R/S, E/Z, Λ/Δ], #ui[Aromatize] and #ui[Kekulé], #ui[Brackets], lone pairs, #ui[Draw the H], #ui[Colour] and #ui[Highlight]. For several molecules it adds #ui[One compound].
 
-    For *one atom or part of a molecule*, an #ui[Atom] section appears: #ui[Element], #ui[Number], #ui[Charge] (− and + by one; also δ− and δ+), #ui[Unpaired] electrons, #ui[Lone pairs] and #ui[Hydrogens]. Under the lone pairs it says how many the atom has.
+    For *one atom or part of a molecule*, an #ui[Atom] section appears: #ui[Element], #ui[Number], #ui[Charge] (− and + by one; also δ− and δ+), #ui[Unpaired] electrons, #ui[Lone pairs], #ui[Label] (normal or bold) and #ui[Hydrogens]. Under the lone pairs it says how many the atom has.
 
-    For a *bond* it shows #ui[Order], #ui[Kind], #ui[Stereo] and, for a double bond, #ui[2nd line]: #ui[Next] moves the second line on, to the middle, one side or the other, and #ui[Auto] gives it back to the program.
+    For a *bond* it shows #ui[Order], #ui[Kind], #ui[Stereo] (with a bold bond among them) and, for a double bond, #ui[2nd line]: #ui[Next] moves the second line on, to the middle, one side or the other, and #ui[Auto] gives it back to the program.
 
     At the bottom there is always #ui[Delete] and how many things are selected.
   ],
@@ -319,7 +338,7 @@ On an *equilibrium arrow* each of its two harpoons has its own arcs: an arc abov
 
 == Searching <hledani>
 
-Type part of a name into #ui[Search…], in English or Czech (`acid`, `glucose`, `chair`). An amino acid is also found by its code, which is on its card (`Phe` or `F`). When no template matches, the field works like #ui[Name / SMILES] (@nazev).
+Type part of a name into #ui[Search…], in English or Czech (`acid`, `glucose`, `chair`). An amino acid is also found by its code, which is on its card (`Phe` or `F`). When no template matches, the field draws a SMILES or looks up a name, as the search bar does (@nazev).
 
 #grid(columns: (1fr, 8cm), gutter: 14pt,
   [
@@ -366,7 +385,7 @@ The #ui[Complexes] group has the general shapes of coordination compounds: #ui[L
 + Put down an #ui[Octahedral] complex, then change M to Si and all L to F (select them and type F into #ui[Element]).
 + Select Si and set #ui[Charge] in the panel to #ui[2−], or press #kl[−] twice over the atom. Si with six bonds is now fine and the red ring goes.
 + For the bracket notation, click the ion with the #ui[Brackets] tool. Si already carries the charge, so do not write it on the brackets, or the picture shows it twice.
-+ Add the K#super[+] ions and join the whole salt with #ui[Keep together] (@pohromade).
++ Add the K#super[+] ions and join the whole salt with #ui[One compound] (@pohromade).
 
 There is another way, closer to the bonding picture: four plain Si–F bonds, and two fluorides F#super[−] attached by coordination bonds #ik("dative") from F to Si. A dative bond does not count among Si's bonds, so Si stays neutral and the two F#super[−] carry the charges.
 
@@ -374,31 +393,33 @@ There is another way, closer to the bonding picture: four plain Si–F bonds, an
 
 To see any complex in space, use #ui[Turn in 3D] (@otoceni), also a square planar one such as cisplatin drawn as a cross.
 
-== Structures from a name or SMILES <nazev>
+== The search bar: structures, templates and actions <nazev>
 
-#grid(columns: (1fr, 6.6cm), gutter: 14pt,
+The field at the right end of the bottom bar (#kl[/] puts the cursor in it) understands what you type in several ways, and a list above it shows what it found, the best next to the field. #kl[↑] and #kl[↓] choose, #kl[Enter] does it, #kl[Esc] leaves.
+
+#grid(columns: (1fr, 7.4cm), gutter: 14pt,
   [
-    Click #ui[Name / SMILES] in the bottom bar, or press #kl[/], and type:
-
-    - a *SMILES* (`CC(=O)Oc1ccccc1C(=O)O`) or an *InChI*, which is drawn as you type, on your own computer, even offline;
-    - a *name* (`aspirin`, `caffeine`) or a *PubChem number* (`CID 2244`), which is looked up in PubChem and needs the internet.
-
-    Press #kl[Enter] and click where the molecule should go.
-
-    PubChem gets only what you typed, never your drawing. #ui[PubChem page] opens the compound's page on PubChem.
+    - A *SMILES* (`CC(=O)Oc1ccccc1C(=O)O`) or an *InChI* is drawn as you type, on your own computer, even offline; #kl[Enter] and a click put it where it should go.
+    - A *name* (`aspirin`, `caffeine`) or a *PubChem number* (`CID 2244`) is looked up in PubChem, which needs the internet and knows English names only. PubChem gets only what you typed, never your drawing.
+    - *Elements* by symbol or name (`Fe`, `iron`) give the atom tool; *templates* come by name, as in #ui[Templates]; and with a question mark in front, the templates with a part in them (`?ester`, `?C=O`, @hledani).
+    - *olomol's own tools and actions* by name or by what they do (`ring flip`, `export SVG`, `newman`, `show`), with their keys beside them, so you can find what you don't know the button of.
+    - *Drawings*: the open ones by name, and your recent files.
+    - A *link* to olomol, or just its end (`#smiles=CCO`), opens what it holds (@odkazy), handy in the installed app, which has no address bar.
   ],
-  obr("img/nazev-smiles.png"),
+  obr("img/nazev-smiles.png", popis: [A SMILES drawn as you type]),
 )
 
-#grid(columns: (1fr, 6.6cm), gutter: 14pt,
-  [
-    When a SMILES has a mistake, the program says what and where, for example #ui[Atom 2 (N) has 4 bonds, more than a neutral N can have; with a charge it can have one more: \[N+\].] When the mistake is a charge outside its brackets (N+ for [N+]), it offers the corrected SMILES: #ui[Draw … instead].
+A SMILES, InChI or CID comes first in the list; words find what olomol has first and PubChem last, so #kl[Enter] never sends a word to PubChem that a template or an action matches.
 
-    A SMILES or InChI copied from elsewhere can simply be pasted onto the canvas with #kl[Ctrl+V]; you do not need this window for that.
+When a SMILES has a mistake, the program says what and where, for example #ui[Atom 2 (N) has 4 bonds, more than a neutral N can have; with a charge it can have one more: \[N+\].] When the mistake is a charge outside its brackets (N+ for [N+]), it offers the corrected SMILES: #ui[Draw … instead].
+
+#grid(columns: (1fr, 7.4cm), gutter: 14pt,
+  [
+    A SMILES or InChI copied from elsewhere can simply be pasted onto the canvas with #kl[Ctrl+V]; you do not need the search bar for that.
 
     A halogen with more bonds is drawn as written: `Cl(=O)(=O)(=O)[O-]` as perchlorate with Cl=O double bonds (not Cl#super[3+] with four O#super[−]) and `Cl=O` as H–Cl=O. RDKit itself rejects such notation, so it gives no InChI or R/S for them.
   ],
-  obr("img/smiles-chyba.png"),
+  obr("img/hledani.png", popis: [`chair`: templates and actions]),
 )
 
 = Mechanisms <mechanismy>
@@ -625,7 +646,7 @@ Below, #ui[Whole molecules] offers the usual drawings of the whole thing, should
 
 Fused, bridged and spiro rings (naphthalene, steroids) have numberings of their own that the program does not work out. For them, and for assigning NMR signals, use the atom number tool #ik("atomNumber"), a variant of the text tool. Click atoms in the order you want them numbered; clicking again removes a number.
 
-To change one atom's number, use the panel's #ui[Number] field. #ui[Remove own numbers] deletes them all. Numbers are kept in KET files, links and pictures.
+To change one atom's number, use the panel's #ui[Number] field. #ui[Remove own numbers] deletes them all. Numbers are kept in olomol's files, links and pictures.
 
 == The Info card <info>
 
@@ -700,7 +721,7 @@ To make a picture like this:
 + Select the common part (drag a box, #kl[Shift]+click) and click the blue #ui[Highlight] in the panel. Do the same with orange for the difference.
 + Colour the groups on nitrogen with the #ik("barva") tool or with #ui[Colour] in the panel.
 
-= Files, export and links <soubory>
+= Files, tabs, export and links <soubory>
 
 The way out of olomol depends on what you want to do next:
 
@@ -710,10 +731,13 @@ The way out of olomol depends on what you want to do next:
 #table(columns: (auto, 1fr), stroke: none, inset: (x: 5pt, y: 2.5pt),
   fill: (_, y) => if calc.odd(y) { akcent-svetly } else { none },
   table.header([*You want to…*], [*Use*]),
-  [keep working on a drawing later], [#ui[Save] (#kl[Ctrl+S]): a KET file, with everything in it],
+  [keep working on a drawing later], [#ui[Save] (#kl[Ctrl+S]): an olomol drawing (.olom), with everything in it],
   [put it into Word, PowerPoint or Google Docs], [#ui[Copy as picture] (#kl[Ctrl+Shift+C]), then #kl[Ctrl+V] there],
-  [print it, or go on editing it in Inkscape], [#ui[SVG]],
-  [send it to a colleague or students], [#ui[Copy link], or the KET file],
+  [print it, or make a PDF of it], [#ui[Export] → #ui[PDF / Print…]],
+  [go on editing it in Inkscape], [#ui[SVG]],
+  [send it to a colleague or students], [#ui[Copy link], or the .olom file],
+  [show it in a lecture], [#ui[Show] #ik("present") (@promitani)],
+  [open it in Ketcher], [#ui[Structure file]: KET],
   [open it in ChemDraw or another chemistry program], [#ui[Structure file]: Molfile, SDF, SMILES or InChI],
   [start a calculation from it], [#ui[Structure file]: XYZ],
 )
@@ -721,11 +745,32 @@ The way out of olomol depends on what you want to do next:
 
 == Save and open
 
-#ui[Save] #ik("save") (#kl[Ctrl+S]) stores the drawing as a *KET* file. It opens here again with everything in it: lone pairs, curved arrows, colours, highlights and numbers. Ketcher opens it too, showing lone pairs and arrows as pictures. For your own work, KET is the best choice.
+#ui[Save] #ik("save") (#kl[Ctrl+S]) stores the drawing as an *olomol drawing*, a `.olom` file. It opens here again with everything in it: lone pairs, curved arrows, colours, highlights, numbers, groups and the drawing's style. For your own work it is the best choice. (Its name stands for #strong[O]lomol #strong[L]ayout #strong[O]bject #strong[M]odel; @data-soubory says more.)
 
-When saving, the program asks for a file name. Chrome and Edge also let you choose the folder; in Firefox, a #ui[Save as] window asks for the name and the file goes where downloads go.
+As in a word processor, a drawing knows its file. In Chrome and Edge, #kl[Ctrl+S] writes it back into that file without asking (the browser asks once per visit whether olomol may), and #kl[Ctrl+Shift+S] (Save as) asks for a new name and folder. A dot on the save button, and on the drawing's tab, means changes that are not in the file yet. A file another program wrote (KET, CDXML, a molfile) is never written over: #kl[Ctrl+S] then asks where to save the drawing as .olom. If the file has changed since olomol read it (in another program or another tab), olomol asks before writing over it. Firefox and Safari can't write into files, so they download them: the first time under a name you give, then again under that name, into the downloads folder.
 
-#ui[Open] #ik("open") (#kl[Ctrl+O]) reads KET, molfile, SDF, SMILES, RXN, CDXML and CDX (ChemDraw), CML and XYZ. A drawing (KET, a reaction, CDXML) opens in place of the one you have. From ChemDraw, abbreviations (OMe, OTBS, Et) stay labels, the hydrogens written on an atom stay as written, and an attachment point (the squiggle across a bond) becomes an R. A reaction from an RXN file is lined up as #ui[Align reaction scheme] does, its reagents on the arrow. A file of molecules only (molfile, SDF, SMILES, XYZ) goes into the drawing you have, like a template: click where it should go. An XYZ file from a quantum chemistry program has no bonds, so the program adds them from the distances between atoms, works out bond orders and stereochemistry, and draws the molecule in 2D.
+#ui[Open] #ik("open") (#kl[Ctrl+O]) reads olomol drawings (.olom), KET, molfile, SDF, SMILES, RXN, CDXML and CDX (ChemDraw), CML and XYZ. A picture exported from olomol (SVG or PNG) carries the drawing inside it, so it opens again as the drawing, not as a picture. Once you have opened files, #ui[Open] first lists the *recent files*, and #ui[Open a file from this computer…] below them. Files can also be dropped onto the window, and the installed app (@instalace) opens .olom files from the file manager.
+
+A drawing (.olom, KET, a reaction, CDXML) opens in a tab of its own (@karty). A file of molecules only (molfile, SDF, SMILES, XYZ) goes into the drawing you have, like a template: click where it should go, or it lands where you dropped it. From ChemDraw, abbreviations (OMe, OTBS, Et) stay labels, the hydrogens written on an atom stay as written, and an attachment point (the squiggle across a bond) becomes an R. A reaction from an RXN file is lined up as #ui[Align reaction scheme] does, its reagents on the arrow. An XYZ file from a quantum chemistry program has no bonds, so the program adds them from the distances between atoms, works out bond orders and stereochemistry, and draws the molecule in 2D.
+
+== Several drawings: tabs <karty>
+
+#obr("img/karty.png", sirka: 60%, popis: [Three drawings open: an exercise and its solution opened from a link, and the drawing there was])
+
+Each drawing opens in a tab of its own, with its own undo, file and view, so an exercise and its solution, or a scheme and the molecules for it, sit side by side. The tabs show under the top bar once there are two drawings; the drawing's name is then on its tab.
+
+- A click on a tab shows that drawing, a double click on the tab in front renames it, and a tab dragged along the others moves among them.
+- The #ik("close") on a tab, or a middle click, closes the drawing; if it has changes that are not in a file, olomol asks first. + at the end of the tabs (or #ik("newDoc")) starts a new drawing.
+- A right click on a tab offers #ui[Duplicate drawing] (a copy in a new tab, say of an exercise for its solution), #ui[Rename] and #ui[Close].
+- In the installed app, #kl[Ctrl+Tab] and #kl[Ctrl+Shift+Tab] go to the next and the previous drawing (a browser keeps these keys for its own tabs).
+
+All open drawings are autosaved and come back the next time you open olomol (@ulozeni). The example #ui[An exercise and its solution: tabs and Show] in Help shows it all on one exercise.
+
+== Show: drawings full screen <promitani>
+
+#ui[Show] #ik("present"), the last button of the top bar, puts the open drawings on the whole screen, without bars and panels, each fitted to the screen: the thing for a lecture or a seminar. #kl[→], #kl[↓], #kl[Space] or #kl[Page Down] (what a presentation clicker sends) shows the next drawing, #kl[←], #kl[↑] or #kl[Page Up] the one before, #kl[Home] and #kl[End] the first and the last. While the mouse moves, a small bar at the bottom shows the drawing's number and name with back and next. #kl[Esc] returns to drawing, every drawing as it was. Nothing can be changed meanwhile; the wheel still zooms.
+
+Put each step in a tab of its own, an exercise first and its solution after it, and Show goes through them in order.
 
 == Exporting pictures and files
 
@@ -734,14 +779,17 @@ When saving, the program asks for a file name. Chrome and Edge also let you choo
     The #ui[Export] menu in the top bar offers:
 
     - #ui[SVG] (#ui[vector, for Inkscape]): a clean vector picture in which text stays text. It is the best choice for print, posters and further editing.
-    - #ui[PNG] (#ui[4× resolution]): a raster picture with a transparent background, or a white one if you tick #ui[White background].
-    - #ui[Copy as picture] (#kl[Ctrl+Shift+C]): a PNG on the clipboard, transparent or with #ui[White background].
+    - #ui[PNG] (#ui[4× resolution]): a raster picture with a transparent background, or a white one if you tick #ui[White background]. It says its own size, so Word and PowerPoint place it as large as the drawing's style gives.
+    - #ui[Copy as picture] (#kl[Ctrl+Shift+C]): a PNG on the clipboard, and an SVG beside it for programs that take one; transparent or with #ui[White background].
+    - #ui[PDF / Print…]: the drawing alone on a page, at the size of its style and smaller only if it doesn't fit, landscape if it is wide. In the browser's print window choose #ui[Save as PDF] for a vector PDF, or a printer.
     - #ui[Copy link]: see @odkazy.
-    - #ui[Structure file]: KET, Molfile, SDF, SMILES, InChI and XYZ (3D coordinates).
+    - #ui[Structure file]: KET (for Ketcher), Molfile, SDF, SMILES, InChI and XYZ (3D coordinates). Beside a format, the menu says what of the drawing it can't hold (#ui[without curved arrows, colours…]).
 
     With something selected, #ui[Only the selection] is ticked and only the selection is exported. Untick it to export the whole drawing.
 
-    Structure files carry atoms, positions, charges, isotopes, radicals and wedges in standard formats. Reading them back has been tested in olomol, RDKit and Indigo, not in other programs. *Lone pairs, curved arrows, brackets, partial bonds and colours are kept only in KET and in pictures.*
+    SVG and PNG pictures from olomol carry the drawing inside them, unseen, so #ui[Open] or dropping the picture on the window brings back the drawing itself. A program that edits the picture may drop it, and a picture copied to the clipboard has none.
+
+    Structure files carry atoms, positions, charges, isotopes, radicals and wedges in standard formats. Reading them back has been tested in olomol, RDKit and Indigo, not in other programs. *Lone pairs, curved arrows, brackets, partial bonds and colours are kept only in olomol's own files, links and pictures.* KET keeps the most of them for Ketcher: abbreviations as its groups, and Haworth and Fischer projections with their stereochemistry as wedges.
 
     An *XYZ* file holds 3D coordinates with all hydrogens. It is a starting geometry for calculations (Gaussian, ORCA and the like), optimised by a force field only, not by quantum chemistry. A metal complex is built as in #ui[Turn in 3D], optimised as a whole by the universal force field (UFF) on its coordination polyhedron; UFF makes metal–ligand bonds somewhat shorter than they are (Zn–N in ZnTPP 1.95 Å instead of 2.04 Å). A complex #ui[Turn in 3D] can't build (ferrocene) isn't written, and the program says why. The coordinates are worked out in the background: a panel shows that it is working while you keep drawing, and #ui[Save XYZ file] saves them when they are ready, for the drawing as it was when you asked. The suggested file name is the molecule's InChIKey, so several structures from one drawing don't overwrite each other. Check the warning about stereocentres with no R/S drawn: the file then holds just one of the possible stereoisomers.
   ],
@@ -752,18 +800,20 @@ When saving, the program asks for a file name. Chrome and Edge also let you choo
 
 Select what you want to take over, or nothing for the whole drawing. Press #kl[Ctrl+Shift+C], or choose #ui[Export] → #ui[Copy as picture], and then #kl[Ctrl+V] in Word, PowerPoint or Google Docs.
 
-SVG is the sharpest in print: Word and PowerPoint insert it (Insert → Pictures) and it does not blur when enlarged. For ACS journals, set the style in #ui[Settings] to #ui[ACS 1996] (bonds 14.4 pt, lines 0.6 pt, Arial 10 pt).
+SVG is the sharpest in print: Word and PowerPoint insert it (Insert → Pictures) and it does not blur when enlarged. For a journal, choose its style first (#ui[Settings] → #ui[Style]: #ui[ACS], #ui[RSC] or your own, @nastaveni), and pictures come out at the size it asks for.
 
 == Links <odkazy>
 
-#ui[Export] → #ui[Copy link] makes a link that *holds the whole drawing*, after the \# sign, which the browser does not send to the server. Whoever opens it sees your drawing, and their own comes back with #kl[Ctrl+Z]. Some chat programs cut long links short; if that happens, send the KET file.
+#ui[Export] → #ui[Copy link] makes a link that *holds the whole drawing*, after the \# sign, which the browser does not send to the server. Whoever opens it sees your drawing, and their own comes back with #kl[Ctrl+Z]. Some chat programs cut long links short; if that happens, send the .olom file.
+
+*A link with a structure.* A link can also say which structure to draw, written by hand, in a worksheet or by a chatbot: `olomol.org/#smiles=CCO` draws ethanol, `#name=caffeine` looks the name up in PubChem, and `#inchi=…` and `#cid=2244` work too. `&title=…` names the drawing, and several structures open each in a tab of its own, in order: `#title=Exercise&smiles=C=CC.Br&title=Solution&smiles=CC(Br)C` is an exercise with its solution behind it, ready for #ui[Show]. A reaction SMILES (reactants`>`reagents`>`products) is drawn as a reaction. The installed app has no address bar: paste such a link into the search bar (@nazev). Chatbots learn how to write these links from `olomol.org/llms.txt`.
 
 = Settings and keyboard shortcuts <nastaveni>
 
 == The look of the drawing, language and window
 
 #grid(columns: (1fr, 3.2cm, 3.2cm), column-gutter: 12pt, align: horizon,
-  [The look changes most with how *charges*, *lone pairs* and *atom colours* are drawn. On the right is the same glycine in the default look, and with circled charges, lone pairs as bars (Lewis) and black atoms. Settings apply to the whole drawing and to exported pictures.],
+  [The look changes most with how *charges*, *lone pairs* and *atom colours* are drawn. On the right is the same glycine in the default look, and with circled charges, lone pairs as bars (Lewis) and black atoms. The style, the charges and the lone pairs belong to the drawing and are kept in its file; the other settings apply to all drawings. All of them show in exported pictures.],
   figure(image("img/styl-vychozi.svg", width: 100%), caption: text(8pt)[default], supplement: none, numbering: none),
   figure(image("img/styl-lewis.svg", width: 100%), caption: text(8pt)[#text(font: "Noto Sans Math")[⊕ ⊖], bars, black], supplement: none, numbering: none),
 )
@@ -773,14 +823,15 @@ SVG is the sharpest in print: Word and PowerPoint insert it (Insert → Pictures
     #ui[Settings] (#ik("settings") at the top right):
 
     *Drawing*
-    - #ui[Style]: #ui[Screen], or #ui[ACS 1996] (ChemDraw's style for ACS journals; pictures then come out at that size).
+    - #ui[Style] of this drawing: #ui[Screen], #ui[ACS] (ChemDraw's ACS Document 1996: bonds 14.4 pt, lines 0.6 pt, Arial 10 pt), #ui[RSC] (12.2 pt, 0.5 pt, Arial 7 pt), #ui[Slides] (thicker, for a projector) or #ui[Custom…] (below). Pictures and PDFs come out at the style's size.
+      - #ui[Charges]: #ui("+ −"), or circled #text(font: "Noto Sans Math")[⊕ ⊖].
+      - #ui[Lone pairs]: #ui[Dots ··], or #ui[Bars (Lewis)].
+      - #ui[Use for new drawings] (shown when this drawing's style differs): new drawings, and files that say no style, start in it.
     - #ui[Atom colours]: #ui[By element], or #ui[Black] (your own colours stay).
     - #ui[Carbons]: CH#sub[3], #ui[Plain line], or #ui[All C] for new drawings.
-    - #ui[Charges]: #ui("+ −"), or circled #text(font: "Noto Sans Math")[⊕ ⊖].
     - #ui[Aromatic]: #ui[Circle], or #ui[Dashed] (the circle dashed).
     - #ui[Coordination]: #ui[→] (an arrow from the donor), or #ui[Line] (plain lines, as complexes are often drawn); with depth they are wedges either way.
-    - #ui[Lone pairs]: #ui[Dots ··], or #ui[Bars (Lewis)].
-    - #ui[Links]: #ui[hidden], or #ui[shown] (the invisible links of #ui[Keep together] groups, on screen only).
+    - #ui[Links]: #ui[hidden], or #ui[shown] (the invisible links of #ui[One compound], on screen only).
     - #ui[New arrows]: the colour of new curved arrows.
 
     *Window*
@@ -790,6 +841,11 @@ SVG is the sharpest in print: Word and PowerPoint insert it (Insert → Pictures
     - #ui[Debug]: debug mode shows how the program decided (layout methods, label boxes, arrow candidates). It is meant for developers, but when you report a drawing problem, a screenshot with it on can help.
   ],
   obr("img/nastaveni.png"),
+)
+
+#grid(columns: (1fr, 8.4cm), gutter: 14pt, align: horizon,
+  [*A style of your own.* #ui[Custom…] opens the #ui[Drawing style] window for the sizes a journal or your group asks for, in points: #ui[Bond length], #ui[Lines], #ui[Bold bonds, wedges], #ui[Hash spacing], #ui[Margin round labels], #ui[Labels and texts] and the #ui[Font], sans (Arial) or serif (Times). #ui[Start from] fills in ACS 1996 or RSC to change from. A molecule beside them is drawn at true size as you type; #ui[Use] gives the drawing that style. The example #ui[A journal's look: ACS, RSC or a style of your own] in Help shows one drawing in each.],
+  obr("img/styl-vlastni.png"),
 )
 
 == Keyboard shortcuts <klavesy>
@@ -866,13 +922,23 @@ The #kl[?] key or #ui[Keyboard shortcuts] in Help (@pomoc) shows them too. Lette
   ([#kl[Ctrl+C] #kl[Ctrl+X] #kl[Ctrl+V]], [copy, cut, paste (SMILES and molfile too)]),
   (kl[Ctrl+Shift+C], [copy as picture (PNG), for Word, PowerPoint, Docs]),
   (kl[Ctrl+A], [select all]),
+  ([#kl[Ctrl+G] #kl[Ctrl+Shift+G]], [group the selection, take a group apart (one level)]),
+  ([#kl[Ctrl]+click], [a group (again: the group round it); #kl[Ctrl]+drag moves it, #kl[Ctrl]+drag of a box takes whole groups]),
   (kl[Del], [delete the selection]),
   ([Arrow keys], [move the selection (Shift: further)]),
   ([#kl[Ctrl+S] #kl[Ctrl+O]], [save, open]),
+  (kl[Ctrl+Shift+S], [save as another file]),
+  ([#kl[Ctrl+Tab] #kl[Ctrl+Shift+Tab]], [the next drawing, the one before (in the installed app)]),
   ([#kl[Ctrl]+wheel], [zoom]),
   ([space+drag], [move the canvas]),
-  (kl[/], [draw from a name, SMILES or InChI]),
+  (kl[/], [the search bar: a name, SMILES, InChI or what you want to do]),
   (kl[?], [this overview]),
+))
+#tabulka([In Show], (
+  ([#kl[→] #kl[↓] #kl[Space] #kl[Page Down]], [the next drawing]),
+  ([#kl[←] #kl[↑] #kl[Page Up]], [the one before]),
+  ([#kl[Home] #kl[End]], [the first, the last]),
+  (kl[Esc], [back to drawing]),
 ))
 
 = Installing, limitations and reporting problems
@@ -901,10 +967,11 @@ olomol is a testing version. This is what it cannot do yet, or can do only in pa
 - *Drawings of metal complexes and molecules with an expanded octet* made from a 3D model in #ui[Redraw] are experimental: they sometimes look odd or are not offered at all. The XYZ export is only a starting geometry, optimised by a force field.
 - *A name from a structure* is something the program cannot make. The other way round, a structure from a name goes through PubChem, so it needs the internet and English names.
 - *IUPAC numbering* handles the parent chain and simple rings. Fused, bridged and spiro rings must be numbered by hand with the atom number tool #ik("atomNumber").
-- *Lone pairs, curved arrows, brackets, special bonds and colours* are carried only by KET, links and pictures, not by molfile or SMILES.
+- *Lone pairs, curved arrows, brackets, special bonds and colours* are carried only by olomol's own files (.olom), links and pictures, and mostly by KET, not by molfile or SMILES.
 - *Chairs* give stereochemistry only on their own, not fused or bridged; boats give none. #ui[Ring flip] and #ui[Turn a chair] refuse fused and bridged rings and rings with a double bond.
 - *Copying pictures to the clipboard* is not allowed by some browsers. The program tells you so; export a PNG instead.
-- *The drawing in the browser* lives only in this browser on this computer and does not sync between computers. To carry it over, use KET files or links.
+- *The drawings in the browser* live only in this browser on this computer and do not sync between computers. To carry them over, use .olom files or links.
+- *Saving back into a file* (#kl[Ctrl+S] without asking) works in Chrome and Edge. Firefox and Safari download the file instead (@soubory).
 
 == Problems and ideas <problemy>
 
@@ -914,7 +981,7 @@ Every message is welcome, even about a small thing. Click the bug #ik("debug") a
 
 + Click #ui[Write the e-mail]. A new e-mail to bugs\@olomol.org opens with a few questions that are enough to answer: what you did (briefly is fine), what happened and what you expected. The table is already in it.
 + A link to a drawing is too long for an e-mail, so with the drawing, click #ui[Copy the table] and paste the table (#kl[Ctrl+V]) at the end of the e-mail.
-+ A screenshot or a KET file helps too.
++ A screenshot or the drawing's .olom file helps too.
 
 Nothing is sent from here: you see the e-mail and send it yourself. If no e-mail opens after the click (you use webmail only, say), write to the address by hand and paste the table all the same. The program's version is also at the bottom left and in #ui[About].
 
@@ -926,7 +993,7 @@ This appendix is for those who want to know what is under the bonnet: computing 
 
 == The big picture
 
-olomol is a *static web page*: HTML, JavaScript and WebAssembly, nothing more. It needs no application server, database or accounts. Any web space with https (a school server, GitHub Pages) is enough, and everything else runs in the user's browser. Its own code is about 24,000 lines of JavaScript.
+olomol is a *static web page*: HTML, JavaScript and WebAssembly, nothing more. It needs no application server, database or accounts. Any web space with https (a school server, GitHub Pages) is enough, and everything else runs in the user's browser. Its own code is about 33,000 lines of JavaScript.
 
 #let vrstva(nazev, popis, barva, sloupce: 1) = grid.cell(colspan: sloupce, fill: barva, inset: (x: 8pt, y: 6pt), {
   text(9pt, weight: "bold", nazev)
@@ -938,18 +1005,18 @@ olomol is a *static web page*: HTML, JavaScript and WebAssembly, nothing more. I
   {
     set par(justify: false, leading: 0.5em)
     grid(columns: (1fr, 1fr, 1fr), gutter: 4pt, align: left + top,
-      vrstva([Screen · `src/ui`], [bars, panel, menus, dialogs, the Info card (React 19)], akcent.lighten(70%), sloupce: 3),
+      vrstva([Screen · `src/ui`], [bars, tabs, panel, menus, dialogs, the search bar, the Info card (React 19)], akcent.lighten(70%), sloupce: 3),
       vrstva([Editor · `src/editor`], [tools, selection, undo and redo, view, mouse and keys], akcent.lighten(78%)),
       vrstva([Arranging · `src/arrange`], [align, space evenly, grid, reaction scheme], akcent.lighten(78%)),
       vrstva([Layout · `src/layout`], [layout methods, ring templates, checking, 3D], akcent.lighten(78%)),
       vrstva([Drawing · `src/model`], [atoms, bonds, reaction and curved arrows, texts, brackets, fills: plain data, the copy for undo is `structuredClone`], akcent-2.lighten(82%), sloupce: 3),
       vrstva([Chemistry · `src/chem`], [hydrogens and lone pairs, formula and masses, R/S, IUPAC numbering, templates], akcent.lighten(86%)),
       vrstva([Rendering · `src/render`], [the scene: labels, bonds, electrons, arrow rules; canvas and SVG], akcent.lighten(86%)),
-      vrstva([Files · `src/io`], [KET, molfile, conversions, links, PubChem], akcent.lighten(86%)),
+      vrstva([Files · `src/io`], [.olom, KET, molfile, conversions, links, PubChem], akcent.lighten(86%)),
       vrstva([RDKit.js, megane-rdkit], [SMILES, InChI, layout, CIP (R/S, E/Z), canonical SMILES; 3D structures (ETKDG, MMFF94s)], rgb("#e8f4ec")),
       vrstva([Indigo (own thread)], [RXN, CDXML, CDX, SDF, CML, Ketcher's layout], rgb("#e8f4ec")),
       vrstva([OpenChemLib], [3D structures where RDKit makes none, the MMFF94s+ force field], rgb("#e8f4ec")),
-      vrstva([Browser], [localStorage (drawing, settings) · service worker (offline) · clipboard], rgb("#eef0f4"), sloupce: 3),
+      vrstva([Browser], [IndexedDB (drawings, earlier versions, recent files) · localStorage (settings) · service worker (offline) · clipboard], rgb("#eef0f4"), sloupce: 3),
     )
   },
   caption: [The program's layers. The top three rows are its own code (folders in `src/`); the green row are WebAssembly libraries, downloaded only when first needed.],
@@ -967,8 +1034,8 @@ olomol is a *static web page*: HTML, JavaScript and WebAssembly, nothing more. I
   [`src/render`], [After every change the *scene* is computed once: where labels go, how bonds look, where lone pairs sit and which way curved arrows run. The canvas, the SVG export and finding what is under the pointer all use it. The pictures in this manual are exports of that same scene.],
   [`src/editor`], [The editor and tools: selection, dragging, bonds, rings, templates, history (200 steps), keys.],
   [`src/arrange`, `src/layout`], [Aligning and new layouts: several methods (RDKit, CoordGen, Indigo, RDKit's ring system templates, 3D from RDKit or OpenChemLib, metal complexes by UFF), each drawing of a whole molecule turned onto the 30° grid.],
-  [`src/io`], [Files: KET (reading and writing), molfile V2000/V3000, conversions through RDKit and Indigo, XYZ, links, PubChem.],
-  [`src/ui`], [The screen in React: bars, panel, menus, dialogs, the Info card.],
+  [`src/io`], [Files: olomol's own .olom and KET (reading and writing), molfile V2000/V3000, conversions through RDKit and Indigo, XYZ, the drawing inside pictures, links, PubChem, printing.],
+  [`src/ui`], [The screen in React: bars, tabs, panel, menus, dialogs, the search bar, Show, the Info card.],
   [`src/i18n`], [Languages. The key is the English text, `cs.js` and `de.js` are translation tables; a test reports missing texts.],
 )
 
@@ -980,11 +1047,13 @@ olomol is a *static web page*: HTML, JavaScript and WebAssembly, nothing more. I
 - *IUPAC numbering* follows the IUPAC 2013 recommendations (parent chain or ring, lowest locants, alphabetical order) and stores the reason with the numbers, which the panel shows.
 - *Flipping* swaps wedges and hashed wedges, so the mirror image stays the same molecule; tests check that too.
 
-== Data and files
+== Data and files <data-soubory>
 
-- *Its own format* is KET, the JSON of Ketcher. Molecules, arrows, "+" and texts are written in the standard way, so Ketcher and the Indigo library open the file. Lone pairs and curved arrows are in it also as pictures (so that Ketcher shows them), and an `olomol` section in the file's root carries what only olomol uses: colours, highlights, ring fills, arrows anchored to atoms and bonds. Other programs skip it.
-- *Saving as you go:* the drawing (as KET) and the settings are in the browser's `localStorage`.
-- *A link to a drawing:* KET, compressed (`deflate-raw`) and written in base64url after `#d=`. The browser does not send the part of an address after \# to the server, so a drawing in a link never passes through the server olomol is on.
+- *Its own format* is .olom, #strong[O]lomol #strong[L]ayout #strong[O]bject #strong[M]odel: the drawing as olomol holds it, in JSON (UTF-8), so any program, script or language model can read and write it. Coordinates are in bond lengths, references between objects go by id, defaults are left out. The format makes promises: every olomol opens every earlier .olom; a new minor version (1.0 → 1.1) only adds; what a reader doesn't know (a newer olomol's field, another program's `program:key`) it keeps and writes back unchanged. The full description is `docs/olom.md` in the source code.
+- *KET*, the JSON of Ketcher, is written for Ketcher and Indigo (abbreviations as Ketcher's groups, projections as wedges) and read, as were olomol's own files before 0.5.0.
+- *Saving as you go:* each open drawing, its earlier versions and the recent files are in the browser's IndexedDB; the settings in `localStorage`.
+- *A link to a drawing:* the .olom, compressed (`deflate-raw`) and written in base64url after `#d=`. The browser does not send the part of an address after \# to the server, so a drawing in a link never passes through the server olomol is on.
+- *The drawing inside a picture:* an SVG carries the .olom in a `<metadata>` element, a PNG in a text chunk (`olomol-ket`), both in base64; nothing of it shows.
 
 == What leaves the computer
 

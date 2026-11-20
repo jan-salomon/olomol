@@ -7,7 +7,8 @@
   <a href="https://olomol.org/about.html">About</a> ·
   <a href="https://olomol.org/changelog.html">What's new</a> ·
   Quick start <a href="docs/en/quick-start.pdf">EN</a> / <a href="docs/rychly-start.pdf">CZ</a> ·
-  Manual <a href="docs/en/manual.pdf">EN</a> / <a href="docs/manual.pdf">CZ</a>
+  Manual <a href="https://olomol.org/manual.html">EN</a> / <a href="https://olomol.org/cs/manual.html">CZ</a>
+  (PDF <a href="docs/en/manual.pdf">EN</a> / <a href="docs/manual.pdf">CZ</a>)
   <br>
   <a href="#citing-olomol">How to cite</a> (DOI <a href="https://doi.org/10.5281/zenodo.24104909">10.5281/zenodo.24104909</a>) ·
   <a href="#building-and-testing">Build it yourself</a>
@@ -119,7 +120,8 @@ The full list is in [docs/features.md](docs/features.md).
 Use the bug button at the top right of the app: it writes the email for you,
 with your browser and the app's version filled in, to
 [bugs@olomol.org](mailto:bugs@olomol.org?subject=olomol). The
-[manual](docs/en/manual.pdf) ([Czech](docs/manual.pdf)) explains every
+[manual](https://olomol.org/manual.html) ([Czech](https://olomol.org/cs/manual.html);
+PDF: [English](docs/en/manual.pdf), [Czech](docs/manual.pdf)) explains every
 tool, and [What's new](https://olomol.org/changelog.html) lists the
 changes of each version.
 

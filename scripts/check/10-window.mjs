@@ -210,10 +210,11 @@ export default async function run() {
     await state(() => olomol.setTool({ name: 'select' }));
   }
 
-  // --- the help button: the quick start and the manual (PDFs next to the app), what is new ---
+  // --- the help button: the quick start (a PDF), the manual (a page of the site, and its PDF), what is new ---
   await page.getByTestId('help').click();
+  const web = await state(async (h) => { const r = await fetch(h); return `${h} ${r.status} ${(await r.text()).includes('<nav class="toc">')}`; }, await page.getByTestId('help-manual').getAttribute('href'));
   const manuals = [];
-  for (const id of ['help-quick-start', 'help-manual']) {
+  for (const id of ['help-quick-start', 'help-manual-pdf']) {
     const href = await page.getByTestId(id).getAttribute('href');
     manuals.push(`${href} ${await state(async (h) => { const r = await fetch(h); return `${r.status} ${r.headers.get('content-type')}`; }, href)}`);
   }
@@ -229,7 +230,8 @@ export default async function run() {
   await page.keyboard.press('Escape');
   check(/^(?:(?:cs|de)\/about\.html\?stay|about\.html\?lang=en&stay)$/.test(videosLink.href) && videosLink.target === '_blank' && videosLink.page === '200 true',
     `help: a link to the videos beside the examples, in a new tab (${videosLink.href}, ${videosLink.target}, ${videosLink.page})`);
-  check(manuals.every((m) => / 200 application\/pdf/.test(m)), `help button: the quick start and the manual open (${manuals.join('; ')})`);
+  check(manuals.every((m) => / 200 application\/pdf/.test(m)), `help button: the quick start and the manual as PDFs open (${manuals.join('; ')})`);
+  check(/^(?:cs\/)?manual\.html 200 true$/.test(web), `help button: the manual on the web opens, with its contents (${web})`);
   // the ? button opens Help at once (the examples); its header has the shortcuts, which open in place of it
   await page.getByTestId('help').click();
   const helpOpen = await page.getByTestId('examples').count();
@@ -309,7 +311,7 @@ export default async function run() {
   await page.getByTestId('help-report').click();
   const fromHelp = await page.getByTestId('report-table').isVisible().catch(() => false);
   await page.keyboard.press('Escape');
-  check(topRight.filter((id) => id !== 'install').join() === 'report,settings' && fromHelp && ['help-quick-start', 'help-manual', 'help-changelog', 'help-keys', 'help-report', 'help-about'].every((id) => helpButtons.includes(id)),
+  check(topRight.filter((id) => id !== 'install').join() === 'report,settings' && fromHelp && ['help-quick-start', 'help-manual', 'help-manual-pdf', 'help-changelog', 'help-keys', 'help-report', 'help-about'].every((id) => helpButtons.includes(id)),
     `the top right has reporting and Settings (${topRight.join(', ')}); Help has the manuals, What's new, the keys, reporting (opens: ${fromHelp}) and About (${helpButtons.join(', ')})`);
   await page.getByTestId('report').click();
   await page.getByTestId('report-table').locator('tr').nth(7).waitFor({ timeout: 10_000 }).catch(() => {});

@@ -1,5 +1,9 @@
 // Společný vzhled rychlého startu a příručky.
 // Obrázky v img/ dělá skript: node scripts/manual-shots.mjs (viz README).
+// Z téhož zdroje je i příručka na webu (HTML: npm run manual:web, scripts/manual-web.mjs): co je jen rozvržení
+// stránky (mřížky, titulní strana, velké nadpisy kapitol, čísla na snímku okna), se na webu vynechá nebo
+// zjednoduší podle `web()`; na papíře se nic nemění.
+#let web() = target() == "html"
 
 // Komu psát o problémech a nápady.
 #let kontakt = [Jan Salomon (bugs\@olomol.org)]
@@ -54,7 +58,7 @@
 #let cislo-kapitoly(h) = numbering(h.numbering, ..counter(heading).at(h.location()))
 
 // Titulní strana: barevný pruh s názvem, pod ním obrázek (karty), autor a datum.
-#let titulni(nazev: "", podtitul: "", obrazek: none, pata: none) = page(margin: 0pt, header: none, footer: none)[
+#let titulni-strana(nazev: "", podtitul: "", obrazek: none, pata: none) = page(margin: 0pt, header: none, footer: none)[
   #block(width: 100%, height: 38%, fill: barevny-prechod, inset: (x: 2.4cm, top: 2.4cm, bottom: 1.6cm))[
     #image("../public/icons/icon.svg", width: 2.2cm)
     #v(1fr)
@@ -104,10 +108,12 @@
         align(center, text(8.5pt, fill: seda, counter(page).display()))
       }
     })
+  // na webu mřížka (text vedle obrázku) jen vypíše své části za sebou: stránka se přizpůsobí sama
+  show grid: it => context if web() { for c in it.children { c.body } } else { it }
   set heading(supplement: if jazyk == "en" [Chapter] else [Kapitola])
   show heading.where(level: 2): set heading(supplement: if jazyk == "en" [section] else [oddíl])
   show heading.where(level: 3): set heading(numbering: none)
-  show heading.where(level: 1): it => {
+  show heading.where(level: 1): it => context if web() { it } else {
     pagebreak(weak: true)
     block(width: 100%, above: 0pt, below: 1em, {
       if it.numbering != none {
@@ -137,7 +143,7 @@
 }
 
 // Obsah na samostatné stránce, bez čísla.
-#let obsah() = page(header: none, footer: none, margin: (x: 2cm, top: 2cm, bottom: 1.6cm))[
+#let obsah-strana() = page(header: none, footer: none, margin: (x: 2cm, top: 2cm, bottom: 1.6cm))[
   #v(0.4cm)
   #text(24pt, weight: "bold", fill: akcent, cesky[Obsah][Contents])
   #v(0.2em)
@@ -157,16 +163,16 @@
 
 // Text tlačítka nebo nabídky, jak ho vidíte na obrazovce.
 // (zvýraznění místo rámečku: dlouhý text se může zalomit)
-#let ui(body) = highlight(fill: akcent-svetly, extent: 0.8pt, radius: 2.5pt, top-edge: "ascender", bottom-edge: "descender", text(weight: "medium", body))
+#let ui-papir(body) = highlight(fill: akcent-svetly, extent: 0.8pt, radius: 2.5pt, top-edge: "ascender", bottom-edge: "descender", text(weight: "medium", body))
 
 // Symbol tlačítka, jak je v programu (docs/img/ikony/, scripts/manual-icons.mjs).
-#let ik(name) = box(stroke: 0.5pt + seda, radius: 2.5pt, inset: (x: 0.8pt, y: 0pt), outset: (y: 1.2pt), baseline: 18%, image("img/ikony/" + name + ".svg", height: 0.95em))
+#let ik-papir(name) = box(stroke: 0.5pt + seda, radius: 2.5pt, inset: (x: 0.8pt, y: 0pt), outset: (y: 1.2pt), baseline: 18%, image("img/ikony/" + name + ".svg", height: 0.95em))
 
 // Klávesa.
-#let kl(body) = box(stroke: 0.5pt + seda, inset: (x: 2pt, y: 0pt), outset: (y: 2.5pt), radius: 2.5pt, text(font: "DejaVu Sans Mono", size: 0.85em, body))
+#let kl-papir(body) = box(stroke: 0.5pt + seda, inset: (x: 2pt, y: 0pt), outset: (y: 2.5pt), radius: 2.5pt, text(font: "DejaVu Sans Mono", size: 0.85em, body))
 
 // Rámeček s tipem nebo poznámkou.
-#let tip(nadpis: "Tip", body) = block(fill: akcent-svetly, inset: 9pt, radius: 5pt, width: 100%, below: 1em)[
+#let tip-papir(nadpis: "Tip", body) = block(fill: akcent-svetly, inset: 9pt, radius: 5pt, width: 100%, below: 1em)[
   #text(weight: "bold", fill: akcent, nadpis) #h(0.4em) #body
 ]
 
@@ -185,7 +191,7 @@
 // část podle img/okno.json, kde: "x", "levo", "pravo" (svisle uprostřed
 // části, vodorovně uprostřed nebo u okraje). `slozka`: kde snímek je
 // (anglický: "en/img/").
-#let okno(sirka, znacky, slozka: "img/") = {
+#let okno-papir(sirka, znacky, slozka: "img/") = {
   let casti = json(slozka + "okno.json")
   let vyska = sirka * 1800 / 2880
   box(width: sirka, height: vyska, stroke: 0.5pt + rgb("#d8dbe5"), radius: 4pt, clip: true, {
@@ -199,5 +205,16 @@
 }
 
 // Vysvětlivky k číslům na obrázku: (číslo, text), ...
-#let legenda(..polozky) = grid(columns: (auto, 1fr), column-gutter: 5pt, row-gutter: 6pt, align: (center + top, left + top),
+#let legenda-papir(..polozky) = grid(columns: (auto, 1fr), column-gutter: 5pt, row-gutter: 6pt, align: (center + top, left + top),
   ..polozky.pos().map(((n, t)) => (cislo(n), t)).flatten())
+
+
+// Na papíře, nebo na webu (viz web() nahoře).
+#let titulni(nazev: "", podtitul: "", obrazek: none, pata: none) = context if web() { } else { titulni-strana(nazev: nazev, podtitul: podtitul, obrazek: obrazek, pata: pata) }
+#let obsah() = context if web() { html.elem("nav", attrs: (class: "toc"), outline(title: none, depth: 2)) } else { obsah-strana() }
+#let ui(body) = context if web() { html.elem("span", attrs: (class: "ui"), body) } else { ui-papir(body) }
+#let ik(name) = context if web() { html.elem("span", attrs: (class: "ik"), image("img/ikony/" + name + ".svg", height: 0.95em)) } else { ik-papir(name) }
+#let kl(body) = context if web() { html.elem("kbd", body) } else { kl-papir(body) }
+#let tip(nadpis: "Tip", body) = context if web() { html.elem("aside", attrs: (class: "tip"), [#strong(nadpis) #body]) } else { tip-papir(nadpis: nadpis, body) }
+#let okno(sirka, znacky, slozka: "img/") = context if web() { html.elem("span", attrs: (class: "okno"), image(slozka + "okno.png")) } else { okno-papir(sirka, znacky, slozka: slozka) }
+#let legenda(..polozky) = context if web() { enum(..polozky.pos().map(((n, t)) => enum.item(n, t))) } else { legenda-papir(..polozky) }

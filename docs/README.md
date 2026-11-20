@@ -15,6 +15,12 @@ login window and the Install button) and with `--en` for the English ones
 `node scripts/manual-icons.mjs` (the app's own icons, `docs/img/ikony/`);
 then `typst compile --root . docs/manual.typ` (and the other three).
 
+The manual is also a page of the site, from the same source: `npm run manual:web` (`scripts/manual-web.mjs`,
+Typst's HTML export) writes `public/manual.html`, `public/cs/manual.html` and their pictures in
+`public/manual/img/`. Run it after the pictures and the PDFs, and commit what it writes, as the PDFs are: the
+site's build needs no Typst. What is only the paper's layout (grids, the title page, the big chapter headings,
+the numbers on the window's picture) `docs/styl.typ` leaves out on the web (`web()`).
+
 ## The clips in the README
 
 The clips in the [README](../README.md) (`docs/readme/`) are the about page's videos

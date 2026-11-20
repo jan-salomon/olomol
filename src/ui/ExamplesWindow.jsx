@@ -14,9 +14,8 @@ import { useEffect, useState } from 'react';
 import ExampleDrawing, { EXAMPLES, ExampleLooks, ExampleThumb, exampleDoc, TAGS } from './ExampleDrawing.jsx';
 import { language, t } from '../i18n/i18n.js';
 import { icons } from './icons.jsx';
-import { ABOUT_PAGE, WHATS_NEW } from './report.js';
+import { ABOUT_PAGE, DOCS, WHATS_NEW } from './report.js';
 
-const DOCS = language === 'cs' ? { quickStart: 'docs/rychly-start.pdf', manual: 'docs/manual.pdf' } : { quickStart: 'docs/en/quick-start.pdf', manual: 'docs/en/manual.pdf' };
 
 export default function ExamplesWindow({ editor, dark, fit, onClose, onKeys, onReport, onAbout }) {
   const [id, setId] = useState(EXAMPLES[0].id);
@@ -55,7 +54,8 @@ export default function ExamplesWindow({ editor, dark, fit, onClose, onKeys, onR
         {/* (the only way to them from the window, besides keys: buttons, not quiet links) */}
         <nav className="help-links">
           <a className="btn" href={DOCS.quickStart} target="_blank" rel="noopener" title={t('PDF, a few pages')} data-testid="help-quick-start">{icons.external}<span className="label">{t('Quick start')}</span></a>
-          <a className="btn" href={DOCS.manual} target="_blank" rel="noopener" title={t('PDF, everything')} data-testid="help-manual">{icons.external}<span className="label">{t('Manual')}</span></a>
+          <a className="btn" href={DOCS.manual} target="_blank" rel="noopener" title={t('Every tool explained, on the web')} data-testid="help-manual">{icons.external}<span className="label">{t('Manual')}</span></a>
+          <a className="btn" href={DOCS.manualPdf} target="_blank" rel="noopener" title={t('The manual as a PDF, for printing')} data-testid="help-manual-pdf"><span className="label">PDF</span></a>
           <a className="btn" href={WHATS_NEW} target="_blank" rel="noopener"
             title={t("All versions; you're on {version}", { version: __APP_VERSION__ })} data-testid="help-changelog">{icons.external}<span className="label">{t("What's new")}</span></a>
           <button type="button" className="btn" onClick={() => { onClose(); onKeys(); }} title="?" data-testid="help-keys">{icons.keyboard}<span className="label">{t('Keyboard shortcuts')}</span></button>

@@ -18,7 +18,7 @@ olomol is a free tool for drawing chemical structures, reactions and mechanisms.
 
 Open the address you were given in Chrome, Edge or Firefox.
 
-The drawing is saved in the browser as you go, so it is still there after you close the page and open it again. For anything important, use Save #ik("save") (#kl[Ctrl+S]) as well.
+Your drawings are kept in the browser as you go, each in its tab, so they are still there after you close the page and open it again. For anything important, use Save #ik("save") (#kl[Ctrl+S]) as well.
 
 == 2. The window
 
@@ -27,9 +27,9 @@ The drawing is saved in the browser as you go, so it is still there after you cl
   [
     #set par(justify: false)
     #legenda(
-      (1, [files, undo, #ui[Redraw], #ui[Turn in 3D], #ui[Align], flipping]),
+      (1, [files, undo, #ui[Redraw], #ui[Turn in 3D], #ui[Align], flipping, #ui[Show]]),
       (2, [drawing tools (the small triangle in the corner: more variants)]),
-      (3, [elements, rings, #ui[Templates], #ui[Name / SMILES]]),
+      (3, [elements, rings, #ui[Templates], the search bar]),
       (4, [the panel for whatever is selected (section 5)]),
       (5, [help for the tool; #kl[?] shows all keys]),
     )
@@ -44,11 +44,11 @@ The drawing is saved in the browser as you go, so it is still there after you cl
 
 Keys over an atom change the element (#kl[N], #kl[O], #kl[S], #kl[L] is Cl…), over a bond #kl[1] #kl[2] #kl[3] change its order. The same letter over an empty spot chooses *drawing with that element*: a click on an atom changes it, #kl[Shift]+click attaches a new one, #kl[C] goes back to carbon. Add a charge with the charge tool #ik("plusCharge") on the left (its variants have the negative one, δ+ and δ−), or with the #kl[+] and #kl[−] keys over an atom. #kl[Ctrl+Z] undoes.
 
-== 4. A structure from a name or SMILES
+== 4. The search bar: a structure from a name or SMILES
 
 #grid(columns: (1fr, 5.6cm), gutter: 12pt,
   [
-    Click #ui[Name / SMILES] (or press #kl[/]) and type a SMILES, an InChI or a name, such as `aspirin`. A SMILES is drawn as you type. Press #kl[Enter] and click where the molecule should go.
+    Type into the search bar at the right of the bottom bar (#kl[/] puts the cursor there): a SMILES, an InChI or a name, such as `aspirin`. A SMILES is drawn as you type. Press #kl[Enter] and click where the molecule should go. It also finds templates and olomol's actions (`ring flip`).
 
     SMILES and InChI are read on your computer. Names are looked up in the PubChem database (this needs the internet); only the typed text is sent, never your drawing. A SMILES copied from elsewhere can simply be pasted onto the canvas with #kl[Ctrl+V].
   ],
@@ -100,7 +100,7 @@ Curved arrows are part of the drawing: they stay with their atoms and bonds, and
 #pagebreak(weak: true)
 == 8. Colours, highlighting and a grid
 
-#figure(image("img/katecholaminy.svg", width: 86%))
+#figure(image("img/katecholaminy.svg", width: 80%))
 
 Six catecholamines and related drugs. All of them have the same common part *highlighted in blue*, drawn in the same orientation. Salbutamol (an asthma drug) has its one important difference *highlighted in orange*: CH#sub[2]OH in place of an OH, so the enzyme COMT does not break it down and it acts for hours, not minutes. The groups on the nitrogen are *coloured purple*: the bigger they are, the more the compound acts on β-receptors.
 
@@ -119,7 +119,7 @@ Six catecholamines and related drugs. All of them have the same common part *hig
     - #ui[Charges]: #ui("+ −"), or circled #text(font: "Noto Sans Math")[⊕ ⊖],
     - #ui[Lone pairs]: #ui[Dots ··], or #ui[Bars (Lewis)],
     - #ui[Atom colours]: #ui[By element], or #ui[Black] (your own colours and highlights stay),
-    - and #ui[Style] #ui[ACS 1996] for journals, #ui[Carbons], #ui[Aromatic] (a circle or dashed); R/S and E/Z labels are ticked in the molecule's panel.
+    - and #ui[Style] (#ui[ACS], #ui[RSC], #ui[Slides] or your own), #ui[Carbons], #ui[Aromatic] (a circle or dashed); R/S and E/Z labels are ticked in the molecule's panel.
   ],
   figure(image("img/styl-vychozi.svg", width: 100%), caption: text(8pt)[default], supplement: none, numbering: none),
   figure(image("img/styl-lewis.svg", width: 100%), caption: text(8pt)[#text(font: "Noto Sans Math")[⊕ ⊖], bars, black], supplement: none, numbering: none),
@@ -127,9 +127,10 @@ Six catecholamines and related drugs. All of them have the same common part *hig
 
 == 10. Save, export, paste into Word
 
-- Save #ik("save") (#kl[Ctrl+S]) saves the drawing as a KET file, which opens here again with everything, arrows and colours included.
+- Save #ik("save") (#kl[Ctrl+S]) saves the drawing as an .olom file, which opens here again with everything, arrows and colours included.
 - #ui[Copy as picture] (#kl[Ctrl+Shift+C]) puts the drawing (or the selection) on the clipboard. In Word or PowerPoint, paste it with #kl[Ctrl+V].
-- #ui[Export] offers SVG (a vector picture for Inkscape and print), PNG, and molfile, SDF, SMILES and other files. #ui[Copy link] there makes a link with the drawing stored in it.
+- #ui[Export] offers SVG (a vector picture for Inkscape and print), PNG, #ui[PDF / Print…], and molfile, SDF, SMILES and other files. #ui[Copy link] there makes a link with the drawing stored in it.
+- Drawings open side by side as *tabs*; #ui[Show] #ik("present") puts them full screen for a lecture.
 
 == 11. A problem or an idea?
 Every message is welcome. Click the bug #ik("debug") at the top right: #ui[Write the e-mail] opens an e-mail to bugs\@olomol.org with the program's version and your browser filled in; write what you did and what happened. A link to the drawing is too long for an e-mail: #ui[Copy the table] copies it with the table, paste it at the end of the e-mail. Help also holds examples of every kind of drawing, where pointing at a part says how it was drawn, with this guide and the full _Manual_ in its header. Its #ui[Examples in action] button shows five short videos of olomol at work.

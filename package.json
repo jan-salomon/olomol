@@ -1,6 +1,6 @@
 {
   "name": "olomol",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "doi": "10.5281/zenodo.24375817",
   "doiVersion": "0.5.0",
   "conceptDoi": "10.5281/zenodo.24104909",
@@ -16,6 +16,7 @@
     "build": "vite build && node scripts/pages.mjs && node scripts/pwa.mjs",
     "build:locked": "vite build && node scripts/pages.mjs && node scripts/lock.mjs && node scripts/pwa.mjs",
     "preview": "vite preview",
+    "manual:web": "node scripts/manual-web.mjs",
     "check": "node scripts/browser-check.mjs",
     "test": "node --test tests/*.test.mjs",
     "report:other-programs": "node scripts/other-programs-report.mjs"

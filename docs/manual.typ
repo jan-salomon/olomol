@@ -45,9 +45,9 @@ Poprvé se stránka načítá o něco déle a pruh ukazuje, kolik zbývá. Chemi
 #v(0.3em)
 #grid(columns: (1fr, 1fr), gutter: 16pt,
   legenda(
-    (1, [*Horní lišta*: název kresby, nová kresba #ik("newDoc"), otevřít #ik("open"), uložit #ik("save"), #ui[Export], zpět a znovu #ik("undo") #ik("redo"), #ui[Překreslit], #ui[Otočit ve 3D] #ik("turn3d"), #ui[Zarovnat], překlopení #ik("flipH") #ik("flipV") #ik("flipBond"), překlopení a otočení židličky #ik("ringFlip") #ik("chairTurn"), #ui[Vodorovně / svisle] #ik("snap") a zvětšení.]),
-    (2, [*Kreslicí nástroje.* Trojúhelníček v rohu tlačítka znamená, že má další varianty: nechte myš chvíli na tlačítku, klikněte na trojúhelníček, nebo znovu na zvolený nástroj.]),
-    (3, [*Dolní lišta*: prvky, periodická tabulka #ik("table"), kruhy, #ui[Šablony] a #ui[Název / SMILES].]),
+    (1, [*Horní lišta*, ve skupinách: název kresby a #ui[Uchováno], nová kresba #ik("newDoc"), otevřít #ik("open"), uložit #ik("save"), #ui[Export] | zpět a znovu #ik("undo") #ik("redo") | #ui[Překreslit], #ui[Otočit ve 3D] #ik("turn3d") | #ui[Zarovnat], překlopení #ik("flipH") #ik("flipV") #ik("flipBond"), #ui[Vodorovně / svisle] #ik("snap") | překlopení a otočení židličky #ik("ringFlip") #ik("chairTurn") | zvětšení, #ik("fit") a #ui[Promítat] #ik("present"). V úzkém okně se skupiny, které se nevejdou, schovají pod #ik("more") na konci lišty. Při dvou a více kresbách jsou pod ní karty (@karty).]),
+    (2, [*Kreslicí nástroje.* Trojúhelníček v rohu tlačítka znamená, že má další varianty: nechte myš chvíli na tlačítku, klikněte na trojúhelníček, nebo znovu na zvolený nástroj. Dole #ik("objects") otevírá panel #ui[Objekty] (@objekty).]),
+    (3, [*Dolní lišta*: prvky, periodická tabulka #ik("table"), kruhy, #ui[Šablony] a *vyhledávací řádek* (@nazev).]),
   ),
   legenda(
     (4, [*Panel* s vlastnostmi toho, co je právě vybrané (@panel).]),
@@ -59,9 +59,13 @@ Poprvé se stránka načítá o něco déle a pruh ukazuje, kolik zbývá. Chemi
 
 == Nápověda a příklady <pomoc>
 
-Když na tlačítko najedete myší a chvíli počkáte, objeví se popisek, co dělá, i s klávesovou zkratkou. Řádek s nápovědou dole se mění podle zvoleného nástroje, takže stojí za to na něj mrknout, kdykoli vás nástroj překvapí. Pod ním je napsané, co dalšího tlačítko nástroje skrývá (pod malým rohem tlačítka): u vazby třeba klíny, koordinační a vodíkovou vazbu. Kde je v horní liště místo, mají tlačítka i popisky; v užším okně je ztratí, nejdřív #ui[Otočit ve 3D].
+Když na tlačítko najedete myší a chvíli počkáte, objeví se popisek se vším, co dělá, i s klávesovou zkratkou. Řádek s nápovědou nad dolní lištou se mění podle zvoleného nástroje, takže stojí za to na něj mrknout, kdykoli vás nástroj překvapí. Kde je v horní liště místo, mají tlačítka i popisky; v užším okně je ztratí, nejdřív #ui[Otočit ve 3D].
 
-Kulaté tlačítko #ik("napoveda") vpravo dole otevře *nápovědu*, nejrychlejší cestu k tomu, jak se co dělá. Je v ní přes dvacet hotových kreseb, ukázaných jako malé obrázky. Štítky jako #ui[Mechanismy], #ui[Stereochemie] nebo #ui[Texty] seznam zúží.
+*Pravé tlačítko myši* na plátně otevře nabídku toho, co se dá dělat s tím, na co ukazujete: vyjmout, kopírovat, vložit, smazat, #ui[Překreslit], #ui[Otočit ve 3D], překlopení, vazbu vodorovně nebo svisle, #ui[Zkratkou], #ui[Jedna sloučenina], #ui[Seskupit]… Pravé tlačítko na molekule ji nejdřív vybere, stejně jako dvojklik. Na prázdném plátně nabídne vložení, výběr všeho, zobrazení a #ui[Promítat]. Každá položka dělá totéž co její tlačítko nebo klávesa, a ta je napsaná vedle.
+
+#obr("img/kontextove-menu.png", sirka: 30%, popis: [Nabídka pravého tlačítka u molekuly])
+
+Kulaté tlačítko #ik("napoveda") vpravo dole otevře *nápovědu*, nejrychlejší cestu k tomu, jak se co dělá. Je v ní asi třicet hotových kreseb, ukázaných jako malé obrázky. Štítky jako #ui[Mechanismy], #ui[Stereochemie], #ui[Texty] nebo #ui[Soubory a karty] seznam zúží.
 
 #obr("img/napoveda.png", sirka: 80%, popis: [Nápověda: ukázání na zahnutou šipku řekne, jak se kreslí, a její tlačítko se rozsvítí v levé liště])
 
@@ -71,22 +75,24 @@ Kulaté tlačítko #ik("napoveda") vpravo dole otevře *nápovědu*, nejrychlej�
 
 Nad štítky otevře #ui[Ukázky na videu] v nové kartě stránku o programu s pěti krátkými videi z práce v programu: mechanismus, reakční schéma, molekula stavěná po krocích a překreslená jen zčásti, komplex otočený ve 3D a Haworthova projekce glukosy změněná na židličku, překlopená a otočená ve 3D.
 
-V záhlaví okna nápovědy je #ui[Rychlý start] a tato #ui[Příručka] (PDF), #ui[Co je nového] se změnami v každé verzi, #ui[Klávesové zkratky], #ui[Nahlásit problém nebo nápad] (@problemy, také brouk #ik("debug") vpravo nahoře) a #ui[O aplikaci] s poděkováním a licencemi. #ui[Co je nového] a #ui[O aplikaci] jsou také pod verzí vlevo dole.
+V záhlaví okna nápovědy je #ui[Rychlý start] (PDF), tato #ui[Příručka] na webu a vedle ní #ui[PDF] k tisku, #ui[Co je nového] se změnami v každé verzi, #ui[Klávesové zkratky], #ui[Nahlásit problém nebo nápad] (@problemy, také brouk #ik("debug") vpravo nahoře) a #ui[O aplikaci] s poděkováním a licencemi. #ui[Co je nového] a #ui[O aplikaci] jsou také pod verzí vlevo dole.
 
-== Kresba se ukládá sama
+== Kresba se ukládá sama <ulozeni>
 
 #grid(columns: (1fr, 5cm), gutter: 14pt, align: horizon,
   [Nemusíte se bát, že o kresbu přijdete. Prohlížeč si ji pamatuje sám, chvilku po každé změně, takže klidně zavřete okno nebo vypněte počítač a kresba na vás počká, až se vrátíte. Ukazuje to značka vedle jejího názvu: hned po změně #ui[Uchovává se…], potom #ui[Uchováno].],
   obr("img/znacka-ulozeno.png"),
 )
 
-Platí to pro jednu kresbu, tu na plátně, v tomto prohlížeči na tomto počítači. Chcete-li mít kreseb víc, přenést kresbu na jiný počítač nebo ji někomu poslat, uložte ji do souboru tlačítkem #ui[Uložit] (#kl[Ctrl+S], @soubory). Soubor je také nejjistější domov pro práci, na které vám hodně záleží, protože zůstane, i když se data prohlížeče vymažou.
+Takhle se uchovává každá otevřená kresba, takže až olomol příště otevřete, budou zpátky všechny, každá ve své kartě (@karty). Platí to v tomto prohlížeči na tomto počítači. Chcete-li kresbu přenést na jiný počítač nebo ji někomu poslat, uložte ji do souboru tlačítkem #ui[Uložit] (#kl[Ctrl+S], @soubory). Soubor je také nejjistější domov pro práci, na které vám hodně záleží, protože zůstane, i když se data prohlížeče vymažou.
 
-Značka varuje ve dvou případech. #ui[Neuchováno] znamená, že tento prohlížeč nic neuchová, například v anonymním okně nebo při plném úložišti: než okno zavřete, uložte si kresbu do souboru. #ui[Jiná karta] znamená, že olomol je otevřený i v další kartě a ta mezitím uchovala svou kresbu. Příště se vrátí ta naposledy změněná, takže na jistotu si tuto kresbu uložte.
+*Dřívější verze.* Během kreslení si prohlížeč uchovává i dřívější verze kresby, po několika minutách. Klikněte na značku (#ui[Uchováno]) nebo na #ui[Otevřít] #ik("open") → #ui[Dřívější verze této kresby…] a okno je ukáže jako obrázky, nejnovější nahoře; #ui[Vrátit] dá vybranou na plátno a #kl[Ctrl+Z] vrátí kresbu, kterou jste měli. Zavřením kresby se její dřívější verze zapomenou.
 
-Tlačítko #ik("newDoc") začne novou kresbu na prázdném plátně a předchozí vrátí #kl[Ctrl+Z]. Na prázdném plátně je bledá ukázka, pokaždé jiná ze čtyř. Najeďte myší na její část a dozvíte se, jak se kreslí; její tlačítko se rozsvítí červeně.
+Značka varuje ve dvou případech. #ui[Neuchováno] znamená, že tento prohlížeč nic neuchová, například v anonymním okně nebo při plném úložišti: než okno zavřete, uložte si kresbu do souboru. #ui[Jiná karta] znamená, že olomol je otevřený i v další kartě a ta mezitím uchovala svou kresbu. Příště se vrátí ta naposledy změněná, takže na jistotu si tuto kresbu uložte. Kresba otevřená v jednom okně olomolu zůstane v něm: druhé okno ji už neotevře, takže se dvě okna nikdy navzájem nepřepíšou.
 
-Vlevo nahoře vedle loga je *název kresby*. Na začátku je to `drawing-` s datem a časem, takže se soubory navzájem nepřepíšou. Klikněte na něj a přepište ho; podle něj se jmenují uložené soubory.
+Tlačítko #ik("newDoc") začne novou kresbu v nové kartě a dosavadní kresba zůstane ve své. Na prázdném plátně je bledá ukázka, pokaždé jiná ze čtyř. Najeďte myší na její část a dozvíte se, jak se kreslí; její tlačítko se rozsvítí červeně.
+
+Vlevo nahoře vedle loga je *název kresby*. Nová kresba ho ještě nemá (šedé #ui[Nová kresba]); její soubory se nabídnou pod jménem `drawing-` s datem a časem, takže se navzájem nepřepíšou. Klikněte na název a přepište ho; podle něj se jmenují uložené soubory. Při dvou a více kresbách je název na kartě kresby a přejmenuje se dvojklikem na ni.
 
 == Posun a zvětšení
 
@@ -184,15 +190,15 @@ Atom, který má víc vazeb, než může mít, dostane *červený čárkovaný k
 
 *Vodíky* dopočítává program sám podle vazeb a náboje (CH#sub[3], NH#sub[2], OH). Jiný počet nastavíte v panelu v řádku #ui[Vodíky]. Tlačítko #ui[Nakreslit H] nakreslí vodíky vybraných atomů jako samostatné atomy, což potřebujete, když na vodík nebo od něj má vést zahnutá šipka. #ui[Skrýt nakreslené H] je zase schová.
 
-Na koncích řetězců se ve výchozím stavu píše CH#sub[3]. Přepínač #ui[Uhlíky] v panelu (#ui[CH₃], #ui[čára] nebo #ui[Všechny C]) to změní pro vybrané uhlíky: pro celou molekulu, nebo jen pro jeden konec. #ui[Všechny C] napíše každý uhlík (CH#sub[3], CH#sub[2], CH), pro ty, kdo ještě nečtou roh jako uhlík. Výchozí volba pro nové kresby je v #ui[Nastavení].
+Na koncích řetězců se ve výchozím stavu píše CH#sub[3]. Přepínač #ui[Uhlíky] v panelu (#ui[CH₃], #ui[čára] nebo #ui[Všechny C]) to změní pro vybrané uhlíky: pro celou molekulu, nebo jen pro jeden konec. #ui[Všechny C] napíše každý uhlík (CH#sub[3], CH#sub[2], CH), pro ty, kdo ještě nečtou roh jako uhlík. Výchozí volba pro nové kresby je v #ui[Nastavení]. Nabitý uhlík se píše (C#super[+]), ledaže je nastavený na #ui[čára]: pak se nakreslí jen jeho náboj v rohu, jak se karbokation nebo karbanion v mechanismu často kreslí.
 
 == Stereochemie
 
 Plný klín #ik("wedge") míří k vám a šrafovaný klín #ik("hash") od vás. Oba jsou ve variantách nástroje vazby. Klín začíná na atomu, ze kterého táhnete, takže jeho úzký konec je u stereocentra. Vlnovka #ik("wavy") značí, že konfigurace není určená.
 
-Označení *R/S a E/Z* (u komplexů Λ a Δ) zapnete v panelu zaškrtnutím #ui[R/S, E/Z, Λ/Δ], pro celou vybranou molekulu, nebo jen pro vybrané atomy a vazby. Počítá je RDKit a přejdou i do exportovaných obrázků a do souborů KET.
+Označení *R/S a E/Z* (u komplexů Λ a Δ) zapnete v panelu zaškrtnutím #ui[R/S, E/Z, Λ/Δ], pro celou vybranou molekulu, nebo jen pro vybrané atomy a vazby. Počítá je RDKit a přejdou i do exportovaných obrázků a do souborů olomolu.
 
-Když spojíte široké konce dvou klínů vazbou, nakreslí se tučně, jak je zvykem (například přemostění u morfinanu nebo přední strana Haworthova vzorce).
+Když spojíte široké konce dvou klínů vazbou, nakreslí se tučně, jak je zvykem (například přemostění u morfinanu nebo přední strana Haworthova vzorce). Tučně můžete nakreslit i kteroukoli jednoduchou vazbu záměrně, třeba vazbu, která ve schématu vzniká, nebo tu, na kterou chcete upozornit: vyberte ji a v řádku #ui[Stereo] v panelu zvolte #ui[tučná vazba] (▬). Tučný může být i popisek atomu: v panelu #ui[Popisek] → B.
 
 == Zvláštní vazby
 
@@ -206,15 +212,16 @@ Klínem nebo šrafovaným klínem dostane koordinační vazba hloubku, s úzkým
 
 #obr("img/lambda-delta.svg", sirka: 18%, popis: [[Co(en)#sub[3]]#super[3+] nakreslený s klíny; vedle kovu napíše #ui[R/S, E/Z, Λ/Δ] (Λ), nebo (Δ)])
 
-Tyto vazby se ukládají do souborů KET a do obrázků, ale ne do souborů molfile, SMILES a podobných (@omezeni).
+Tyto vazby se ukládají do souborů olomolu (.olom), do souborů KET a do obrázků, ale ne do souborů molfile, SMILES a podobných (@omezeni).
 
 == Výběr, přesun, otáčení a mazání
 
 Nástroj výběr #ik("select") (#kl[V], nebo #kl[Esc]) umí toto:
 
 - kliknutí vybere atom, vazbu, šipku nebo text, #kl[Shift]+kliknutí přidá do výběru,
-- tažením po prázdném místě vyberete vše v obdélníku; ve variantách je výběr lasem #ik("lasso") a #kl[Esc] mezi nimi přepíná, když už není co rušit,
-- *dvojklik* vybere celou molekulu, #kl[Shift]+dvojklik ji přidá do výběru a #kl[Ctrl+A] vybere vše,
+- tažením po prázdném místě vyberete vše v obdélníku a to, co se vybere, se rozsvítí ještě předtím, než tlačítko pustíte; ve variantách je výběr lasem #ik("lasso") a #kl[Esc] mezi nimi přepíná, když už není co rušit,
+- *dvojklik* vybere celou molekulu, #kl[Shift]+dvojklik ji přidá do výběru, *trojklik* vybere celý její řádek reakčního schématu (molekuly, plusy a šipky i s tím, co je na nich) a #kl[Ctrl+A] vybere vše,
+- #kl[Ctrl]+kliknutí vybere skupinu, ve které věc je (@objekty),
 - vybrané věci přesunete tažením nebo šipkami na klávesnici (se #kl[Shift] dál),
 - za *kulatý úchyt* nad výběrem výběr otočíte,
 - atom nebo vazba přetažená na jiný atom se s ním *spojí*. Už během tažení se přichytí a ukáže, jak to dopadne; když táhnete dál, zase se pustí. Vyplněný kruh si barvu nechá, pokud zůstane kruhem.
@@ -223,11 +230,22 @@ Mazat můžete gumou #ik("erase") (#kl[E]), kliknutím nebo obdélníkem. Vybran
 
 Každý krok jde vrátit, takže klidně zkoušejte: #kl[Ctrl+Z] je zpět, #kl[Ctrl+Shift+Z] znovu.
 
-== Držet částice pohromadě <pohromade>
+== Jedna sloučenina <pohromade>
 
-Sůl jako K#sub[2]SiF#sub[6] jsou tři samostatné částice (K#super[+], K#super[+] a SiF#sub[6]#super[2−]). Vyberte je všechny a v panelu klikněte na #ui[Držet pohromadě]. Spojí je neviditelné pojítko, takže se posouvají, zarovnávají a skládají do mřížky jako jedna molekula a panel ukáže jeden vzorec (F#sub[6]K#sub[2]Si).
+Sůl jako K#sub[2]SiF#sub[6] jsou tři samostatné částice (K#super[+], K#super[+] a SiF#sub[6]#super[2−]). Vyberte je všechny a v panelu klikněte na #ui[Jedna sloučenina]. Spojí je neviditelné pojítko, takže se posouvají, zarovnávají a skládají do mřížky jako jedna molekula a panel ukáže jeden vzorec (F#sub[6]K#sub[2]Si).
 
-Pojítka uvidíte, když je skupina vybraná, nebo pořád, když v #ui[Nastavení] přepnete #ui[Pojítka] na #ui[zobrazené]. #ui[Rozdělit] částice zase oddělí. Do souborů molfile a SMILES se pojítka nezapisují.
+Pojítka uvidíte, když je sloučenina vybraná, nebo pořád, když v #ui[Nastavení] přepnete #ui[Pojítka] na #ui[zobrazené]. #ui[Oddělit] částice zase rozdělí. Do souborů molfile a SMILES se pojítka nezapisují.
+
+== Skupiny a panel Objekty <objekty>
+
+*Skupina* drží věci pohromadě při výběru a posouvání, aniž by z nich dělala jednu sloučeninu: molekulu s jejím číslem pod ní, dvě poloviny schématu, odpověď k úloze, kterou chcete odsunout stranou. Vyberte dvě a více věcí (molekuly, šipky, plusy, texty) a stiskněte #kl[Ctrl+G]; skupiny jdou seskupit i do větších skupin. #kl[Ctrl+Shift+G] skupinu rozdělí, vždy o jednu úroveň.
+
+Obyčejné kliknutí dál vybírá atom nebo molekulu, takže skupina kreslení nikdy nepřekáží. #kl[Ctrl]+kliknutí vybere skupinu a další #kl[Ctrl]+kliknutí skupinu kolem ní; #kl[Ctrl]+tažení ji posune a #kl[Ctrl]+tažení obdélníku vezme celé skupiny toho, čeho se dotkne. #ui[Zarovnat] posouvá skupiny jako celky a obrázky SVG je pro Inkscape zachovají jako skupiny.
+
+#grid(columns: (1fr, 6cm), gutter: 14pt, align: horizon,
+  [Panel #ui[Objekty] #ik("objects") dole v liště nástrojů vypisuje věci a skupiny kresby. Kliknutí na řádek ho vybere (se #kl[Shift] nebo #kl[Ctrl] přidá), řádek pod myší se v kresbě rozsvítí a šipka před skupinou ji rozbalí. Dvojklikem na skupinu ji pojmenujete. Řádek přetažený na skupinu do ní přejde, přetažený na proužek dole ze všech skupin vyjde. Tlačítka nahoře seskupí a rozdělí vybrané. V nabídce pravého tlačítka je také #ui[Seskupit], #ui[Zrušit seskupení] a #ui[Vybrat její skupinu].],
+  obr("img/objekty.png", popis: [Schéma s LDH z nápovědy jako jedna pojmenovaná skupina]),
+)
 
 == Kopírování a vkládání
 
@@ -244,6 +262,7 @@ Zvolte nástroj text #ik("text") (#kl[T]), klikněte a pište. Co napíšete, z�
 - #ui[Vzorec] udělá vzorec z označené části, nebo bez označení z celého textu. Číslice za písmeny se změní na dolní indexy a náboj na konci (Fe3+, CO32-, [SiF6]2-) na horní index. Rozumí i zápisu CO\_3^2- a e- nebo 2e- jako náboji elektronu. #ui[Prostý text] formátování zruší.
 - Co pravidlo nezvládne, nastavíte ručně: x#sub[2] (#kl[Ctrl+,]), x#super[2] (#kl[Ctrl+.]), *B* (#kl[Ctrl+B]) a _I_ (#kl[Ctrl+I]). Změní označenou část, nebo bez označení to, co napíšete dál.
 - V nabídkách okénka je zarovnání řádků (víceřádkový text pod molekulou nebo na šipce je jinak na střed) a zvláštní znaky: řecká písmena, šipky, °, ±, ‡.
+- #ui[Aa] přepíná celý text mezi bezpatkovým (Arial) a patkovým písmem (Times New Roman) a pole vedle nastaví jeho velikost v bodech. Bez nich má text písmo a velikost podle stylu kresby (@nastaveni). Vybraný text jde celý ztučnit tlačítkem #ui[Tučně] v panelu, třeba číslo sloučeniny.
 
 #kl[Enter] text dokončí, #kl[Shift+Enter] začne nový řádek. Zkopírovaný text se do jiných programů vloží jako obyčejná slova, takže DOI jde vložit rovnou do prohlížeče.
 
@@ -293,11 +312,11 @@ U *rovnovážné šipky* má každá z jejích dvou šipek své oblouky: oblouk 
   [
     Panel ukazuje vlastnosti toho, co je vybrané, a umí je měnit.
 
-    Pro *celou molekulu* ukáže vzorec (s tlačítkem #ui[Info], @info), #ui[Uhlíky], #ui[Číslování IUPAC], #ui[R/S, E/Z, Λ/Δ], #ui[Aromatizovat] a #ui[Kekulé], #ui[Závorky], volné páry, #ui[Nakreslit H], #ui[Barva] a #ui[Zvýraznění]. U více molekul přibude #ui[Držet pohromadě].
+    Pro *celou molekulu* ukáže vzorec (s tlačítkem #ui[Info], @info), #ui[Uhlíky], #ui[Číslování IUPAC], #ui[R/S, E/Z, Λ/Δ], #ui[Aromatizovat] a #ui[Kekulé], #ui[Závorky], volné páry, #ui[Nakreslit H], #ui[Barva] a #ui[Zvýraznění]. U více molekul přibude #ui[Jedna sloučenina].
 
-    Pro *jeden atom nebo část molekuly* se objeví část #ui[Atom]: #ui[Prvek], #ui[Číslo], #ui[Náboj] (− a + o jeden; i δ− a δ+), #ui[Nepárové] elektrony, #ui[Volné páry] a #ui[Vodíky]. Pod volnými páry je napsané, kolik jich atom má.
+    Pro *jeden atom nebo část molekuly* se objeví část #ui[Atom]: #ui[Prvek], #ui[Číslo], #ui[Náboj] (− a + o jeden; i δ− a δ+), #ui[Nepárové] elektrony, #ui[Volné páry], #ui[Popisek] (normální nebo tučný) a #ui[Vodíky]. Pod volnými páry je napsané, kolik jich atom má.
 
-    U *vazby* je to #ui[Řád], #ui[Druh], #ui[Stereo] a u dvojné vazby #ui("2. čára"): #ui[Další] posune druhou čáru dál, doprostřed, na jednu nebo na druhou stranu, a #ui[Auto] ji vrátí programu.
+    U *vazby* je to #ui[Řád], #ui[Druh], #ui[Stereo] (mezi nimi i tučná vazba) a u dvojné vazby #ui("2. čára"): #ui[Další] posune druhou čáru dál, doprostřed, na jednu nebo na druhou stranu, a #ui[Auto] ji vrátí programu.
 
     Dole je vždy #ui[Smazat] a počet vybraných věcí.
   ],
@@ -317,7 +336,7 @@ U *rovnovážné šipky* má každá z jejích dvou šipek své oblouky: oblouk 
 
 == Hledání <hledani>
 
-Do pole #ui[Hledat…] napište část názvu, česky nebo anglicky (`kyselina`, `glucose`, `židlička`). Aminokyselinu najdete i podle kódu, který má na kartě (`Phe` nebo `F`). Když žádná šablona neodpovídá, pole funguje jako #ui[Název / SMILES] (@nazev).
+Do pole #ui[Hledat…] napište část názvu, česky nebo anglicky (`kyselina`, `glucose`, `židlička`). Aminokyselinu najdete i podle kódu, který má na kartě (`Phe` nebo `F`). Když žádná šablona neodpovídá, pole nakreslí SMILES nebo vyhledá název, stejně jako vyhledávací řádek (@nazev).
 
 #grid(columns: (1fr, 8cm), gutter: 14pt,
   [
@@ -364,7 +383,7 @@ Skupina #ui[Komplexy] má obecné tvary koordinačních sloučenin: #ui[Lineárn
 + Položte #ui[Oktaedrický] komplex, M změňte na Si a všechna L na F (vyberte je a do pole #ui[Prvek] napište F).
 + Vyberte Si a v panelu nastavte #ui[Náboj] na #ui[2−], nebo dvakrát stiskněte #kl[−] nad atomem. Si s šesti vazbami je teď v pořádku a červený kroužek zmizí.
 + Chcete-li zápis se závorkami, klikněte nástrojem #ui[Závorky] na ion. Náboj už nese Si, takže ho na závorky nepište, jinak bude v obrázku dvakrát.
-+ Přidejte draselné ionty K#super[+] a celou sůl spojte tlačítkem #ui[Držet pohromadě] (@pohromade).
++ Přidejte draselné ionty K#super[+] a celou sůl spojte tlačítkem #ui[Jedna sloučenina] (@pohromade).
 
 Druhá možnost je bližší vazebné představě: čtyři obyčejné vazby Si–F a dva fluoridy F#super[−] připojené koordinační vazbou #ik("dative") od F k Si. Dativní vazba se Si do vazeb nepočítá, takže Si zůstane neutrální a náboje nesou oba F#super[−].
 
@@ -372,31 +391,33 @@ Druhá možnost je bližší vazebné představě: čtyři obyčejné vazby Si�
 
 Jakýkoli komplex si prohlédnete v prostoru pomocí #ui[Otočit ve 3D] (@otoceni), i čtvercově planární, jako je cisplatina nakreslená jako kříž.
 
-== Struktura podle názvu nebo SMILES <nazev>
+== Vyhledávací řádek: struktury, šablony a akce <nazev>
 
-#grid(columns: (1fr, 6.6cm), gutter: 14pt,
+Pole na pravém konci dolní lišty (kurzor do něj dá #kl[/]) rozumí tomu, co napíšete, několika způsoby a seznam nad ním ukáže, co našel, to nejlepší hned u pole. Šipky #kl[↑] a #kl[↓] vybírají, #kl[Enter] provede, #kl[Esc] odejde.
+
+#grid(columns: (1fr, 7.4cm), gutter: 14pt,
   [
-    Klikněte na #ui[Název / SMILES] v dolní liště, nebo stiskněte #kl[/], a napište:
-
-    - *SMILES* (`CC(=O)Oc1ccccc1C(=O)O`) nebo *InChI*: nakreslí se hned, jak píšete, přímo ve vašem počítači, i bez internetu;
-    - *název* (`aspirin`, `caffeine`) nebo *číslo PubChem* (`CID 2244`): vyhledá se v databázi PubChem. Potřebuje to internet a PubChem zná jen anglické názvy.
-
-    Stiskněte #kl[Enter] a klikněte, kam má molekula přijít.
-
-    Na PubChem se pošle jen to, co jste napsali, nikdy vaše kresba. Tlačítko #ui[Stránka na PubChemu] otevře stránku sloučeniny na PubChemu.
+    - *SMILES* (`CC(=O)Oc1ccccc1C(=O)O`) nebo *InChI* se nakreslí hned, jak píšete, přímo ve vašem počítači, i bez internetu; #kl[Enter] a kliknutí ho položí, kam má přijít.
+    - *Název* (`aspirin`, `caffeine`) nebo *číslo PubChem* (`CID 2244`) se vyhledá v databázi PubChem. Potřebuje to internet a PubChem zná jen anglické názvy. Na PubChem se pošle jen to, co jste napsali, nikdy vaše kresba.
+    - *Prvky* podle značky nebo názvu (`Fe`, `železo`) vyberou nástroj atomu; *šablony* najde podle názvu jako okno #ui[Šablony] a s otazníkem na začátku šablony, které danou část obsahují (`?ester`, `?C=O`, @hledani).
+    - *Nástroje a akce olomolu* podle názvu nebo podle toho, co dělají (`překlopení židličky`, `export SVG`, `newman`, `promítat`), i s klávesou, takže najdete i to, u čeho nevíte, kde je tlačítko.
+    - *Kresby*: otevřené podle názvu a vaše nedávné soubory.
+    - *Odkaz* na olomol, nebo jen jeho konec (`#smiles=CCO`), otevře, co v něm je (@odkazy); hodí se v nainstalované aplikaci, která nemá adresní řádek.
   ],
-  obr("img/nazev-smiles.png"),
+  obr("img/nazev-smiles.png", popis: [SMILES nakreslený už při psaní]),
 )
 
-#grid(columns: (1fr, 6.6cm), gutter: 14pt,
+#grid(columns: (1fr, 7.4cm), gutter: 14pt,
   [
+    SMILES, InChI nebo CID je v seznamu první; u slov je první to, co má olomol, a PubChem až poslední, takže #kl[Enter] nikdy nepošle na PubChem slovo, kterému odpovídá šablona nebo akce.
+
     Když je ve SMILES chyba, program řekne, co je špatně a kde, například #ui[Atom 2 (N) má víc vazeb (4), než může mít neutrální N; s nábojem může mít o jednu víc: [N+].] Když je chybou náboj mimo hranaté závorky (N+ místo [N+]), nabídne opravený SMILES: #ui[Nakreslit místo toho …].
 
-    SMILES nebo InChI zkopírované odjinud stačí vložit na plátno přes #kl[Ctrl+V]; okno k tomu není potřeba.
+    SMILES nebo InChI zkopírované odjinud stačí vložit na plátno přes #kl[Ctrl+V]; vyhledávací řádek k tomu není potřeba.
 
     Halogen s více vazbami se nakreslí tak, jak je napsaný: `Cl(=O)(=O)(=O)[O-]` jako chloristan s dvojnými vazbami Cl=O (ne Cl#super[3+] se čtyřmi O#super[−]) a `Cl=O` jako H–Cl=O. RDKit takové zápisy sám odmítá, proto pro ně neumí InChI ani R/S.
   ],
-  obr("img/smiles-chyba.png"),
+  obr("img/hledani.png", popis: [`židlička`: šablony a akce]),
 )
 
 = Mechanismy <mechanismy>
@@ -623,7 +644,7 @@ Níž #ui[Celé molekuly] nabízí obvyklé nákresy celé molekuly, kdybyste je
 
 Kondenzované, přemostěné a spiro cykly (naftalen, steroidy) mají vlastní číslování, které program neurčuje. Pro ně, a třeba pro přiřazení signálů v NMR, je tu nástroj čísla atomů #ik("atomNumber"), varianta nástroje text. Klikejte na atomy v pořadí, v jakém je chcete očíslovat; další kliknutí číslo odebere.
 
-Číslo jednoho atomu změníte v poli #ui[Číslo] v panelu, všechna najednou smaže #ui[Odebrat vlastní čísla]. Čísla se ukládají do souborů KET, do odkazů a do obrázků.
+Číslo jednoho atomu změníte v poli #ui[Číslo] v panelu, všechna najednou smaže #ui[Odebrat vlastní čísla]. Čísla se ukládají do souborů olomolu, do odkazů a do obrázků.
 
 == Karta Info <info>
 
@@ -698,7 +719,7 @@ Takový obrázek vytvoříte takto:
 + Společnou část vyberte (tažením obdélníku, #kl[Shift]+kliknutím) a v panelu klikněte na modré #ui[Zvýraznění]. Stejně to udělejte s oranžovou pro odlišnost.
 + Skupiny na dusíku obarvěte nástrojem #ik("barva") nebo v panelu přes #ui[Barva].
 
-= Soubory, export a odkazy <soubory>
+= Soubory, karty, export a odkazy <soubory>
 
 Cesta ven z olomolu záleží na tom, co chcete dělat dál:
 
@@ -708,10 +729,13 @@ Cesta ven z olomolu záleží na tom, co chcete dělat dál:
 #table(columns: (auto, 1fr), stroke: none, inset: (x: 5pt, y: 2.5pt),
   fill: (_, y) => if calc.odd(y) { akcent-svetly } else { none },
   table.header([*Chcete…*], [*Použijte*]),
-  [dál pracovat na kresbě později], [#ui[Uložit] (#kl[Ctrl+S]): soubor KET se vším všudy],
+  [dál pracovat na kresbě později], [#ui[Uložit] (#kl[Ctrl+S]): kresba olomolu (.olom) se vším všudy],
   [dát ji do Wordu, PowerPointu nebo Dokumentů Google], [#ui[Kopírovat jako obrázek] (#kl[Ctrl+Shift+C]), pak tam #kl[Ctrl+V]],
-  [vytisknout ji nebo dál upravovat v Inkscapu], [#ui[SVG]],
-  [poslat ji kolegovi nebo studentům], [#ui[Kopírovat odkaz], nebo soubor KET],
+  [vytisknout ji nebo z ní udělat PDF], [#ui[Export] → #ui[PDF / Tisk…]],
+  [dál ji upravovat v Inkscapu], [#ui[SVG]],
+  [poslat ji kolegovi nebo studentům], [#ui[Kopírovat odkaz], nebo soubor .olom],
+  [ukázat ji na přednášce], [#ui[Promítat] #ik("present") (@promitani)],
+  [otevřít ji v programu Ketcher], [#ui[Soubor se strukturou]: KET],
   [otevřít ji v ChemDraw nebo jiném chemickém programu], [#ui[Soubor se strukturou]: Molfile, SDF, SMILES nebo InChI],
   [začít z ní výpočet], [#ui[Soubor se strukturou]: XYZ],
 )
@@ -719,11 +743,32 @@ Cesta ven z olomolu záleží na tom, co chcete dělat dál:
 
 == Uložit a otevřít
 
-#ui[Uložit] #ik("save") (#kl[Ctrl+S]) uloží kresbu jako soubor *KET*. Ten se tu zase otevře se vším: volnými páry, zahnutými šipkami, barvami, zvýrazněním i čísly. Otevře ho i program Ketcher, kde se volné páry a šipky ukážou jako obrázky. Pro vlastní práci je KET nejlepší volba.
+#ui[Uložit] #ik("save") (#kl[Ctrl+S]) uloží kresbu jako *kresbu olomolu*, soubor `.olom`. Ten se tu zase otevře se vším: volnými páry, zahnutými šipkami, barvami, zvýrazněním, čísly, skupinami i stylem kresby. Pro vlastní práci je to nejlepší volba. (Název je zkratka anglického #strong[O]lomol #strong[L]ayout #strong[O]bject #strong[M]odel, tedy model rozvržení objektů olomolu; víc v @data-soubory.)
 
-Při ukládání se program zeptá na název souboru. V Chromu a Edgi vyberete i složku; ve Firefoxu se na název zeptá okno #ui[Uložit jako] a soubor se uloží mezi stažené soubory.
+Jako v textovém editoru zná kresba svůj soubor. V Chromu a Edgi ji #kl[Ctrl+S] zapíše zpět do téhož souboru bez ptaní (prohlížeč se jednou za návštěvu zeptá, zda smí), a #kl[Ctrl+Shift+S] (#ui[Uložit jako]) se zeptá na nový název a složku. Tečka na tlačítku uložení a na kartě kresby znamená změny, které ještě nejsou v souboru. Soubor, který zapsal jiný program (KET, CDXML, molfile), se nikdy nepřepíše: #kl[Ctrl+S] se pak zeptá, kam kresbu uložit jako .olom. Pokud se soubor od otevření změnil (v jiném programu nebo jiné kartě), olomol se před přepsáním zeptá. Firefox a Safari do souborů zapisovat neumějí, takže je stahují: poprvé pod názvem, který zadáte, pak znovu pod týmž, do složky stažených souborů.
 
-#ui[Otevřít] #ik("open") (#kl[Ctrl+O]) přečte KET, molfile, SDF, SMILES, RXN, CDXML a CDX (ChemDraw), CML a XYZ. Kresba (KET, reakce, CDXML) se otevře místo té, kterou máte. Ze souborů ChemDraw zůstanou zkratky (OMe, OTBS, Et) zkratkami, vodíky napsané u atomu zůstanou tak, jak jsou napsané, a místo připojení (vlnovka přes vazbu) se stane R. Reakce ze souboru RXN se srovná jako přes #ui[Zarovnat reakční schéma], činidla na šipku. Soubor jen s molekulami (molfile, SDF, SMILES, XYZ) se vloží do kresby, kterou máte, jako šablona: klikněte, kam má přijít. Soubor XYZ z kvantově chemického programu nemá vazby, takže je program doplní podle vzdáleností atomů, určí řády vazeb a stereochemii a molekulu nakreslí ve 2D.
+#ui[Otevřít] #ik("open") (#kl[Ctrl+O]) přečte kresby olomolu (.olom), KET, molfile, SDF, SMILES, RXN, CDXML a CDX (ChemDraw), CML a XYZ. Obrázek exportovaný z olomolu (SVG nebo PNG) nese kresbu v sobě, takže se otevře zase jako kresba, ne jako obrázek. Jakmile jste už nějaké soubory otevřeli, nabídne #ui[Otevřít] nejdřív *nedávné soubory* a pod nimi #ui[Otevřít soubor z tohoto počítače…]. Soubory jde i přetáhnout do okna a nainstalovaná aplikace (@instalace) otevírá soubory .olom přímo ze správce souborů.
+
+Kresba (.olom, KET, reakce, CDXML) se otevře ve vlastní kartě (@karty). Soubor jen s molekulami (molfile, SDF, SMILES, XYZ) se vloží do kresby, kterou máte, jako šablona: klikněte, kam má přijít, nebo skončí tam, kam jste ho přetáhli. Ze souborů ChemDraw zůstanou zkratky (OMe, OTBS, Et) zkratkami, vodíky napsané u atomu zůstanou tak, jak jsou napsané, a místo připojení (vlnovka přes vazbu) se stane R. Reakce ze souboru RXN se srovná jako přes #ui[Zarovnat reakční schéma], činidla na šipku. Soubor XYZ z kvantově chemického programu nemá vazby, takže je program doplní podle vzdáleností atomů, určí řády vazeb a stereochemii a molekulu nakreslí ve 2D.
+
+== Více kreseb: karty <karty>
+
+#obr("img/karty.png", sirka: 60%, popis: [Tři otevřené kresby: úloha a její řešení otevřené z odkazu a kresba, která tu už byla])
+
+Každá kresba se otevře ve vlastní kartě, s vlastním krokem zpět, souborem i zobrazením, takže úloha a její řešení nebo schéma a molekuly k němu leží vedle sebe. Karty se objeví pod horní lištou, jakmile jsou kresby dvě; název kresby je pak na její kartě.
+
+- Kliknutí na kartu ukáže její kresbu, dvojklik na kartu vpředu ji přejmenuje a kartu přetažením přesunete mezi ostatními.
+- #ik("close") na kartě nebo kliknutí prostředním tlačítkem kresbu zavře; má-li změny, které nejsou v souboru, olomol se nejdřív zeptá. + na konci karet (nebo #ik("newDoc")) začne novou kresbu.
+- Pravé tlačítko na kartě nabídne #ui[Duplikovat kresbu] (kopii v nové kartě, třeba z úlohy pro její řešení), #ui[Přejmenovat] a #ui[Zavřít].
+- V nainstalované aplikaci přepínají #kl[Ctrl+Tab] a #kl[Ctrl+Shift+Tab] na další a předchozí kresbu (v prohlížeči tyto klávesy patří jeho vlastním kartám).
+
+Všechny otevřené kresby se uchovávají a příště jsou zpátky (@ulozeni). Příklad #ui[Úloha a její řešení: karty a Promítat] v nápovědě to všechno ukazuje na jedné úloze.
+
+== Promítání: kresby přes celou obrazovku <promitani>
+
+#ui[Promítat] #ik("present"), poslední tlačítko horní lišty, ukáže otevřené kresby přes celou obrazovku, bez lišt a panelů, každou zvětšenou na celou plochu: přesně pro přednášku nebo seminář. #kl[→], #kl[↓], #kl[Mezerník] nebo #kl[Page Down] (co posílá prezentér) ukáže další kresbu, #kl[←], #kl[↑] nebo #kl[Page Up] předchozí, #kl[Home] a #kl[End] první a poslední. Když pohnete myší, objeví se dole malá lišta s číslem a názvem kresby a tlačítky zpět a dál. #kl[Esc] vás vrátí ke kreslení a každá kresba je, jak byla. Mezitím nejde nic měnit; kolečko myši ale dál zvětšuje.
+
+Dejte každý krok do vlastní karty, napřed úlohu a za ni řešení, a promítání je projde popořadě.
 
 == Export obrázků a souborů
 
@@ -732,14 +777,17 @@ Při ukládání se program zeptá na název souboru. V Chromu a Edgi vyberete i
     Nabídka #ui[Export] v horní liště nabízí:
 
     - #ui[SVG] (#ui[vektorový, pro Inkscape]): čistý vektorový obrázek, ve kterém text zůstane textem. Nejlepší volba pro tisk, plakáty a další úpravy.
-    - #ui[PNG] (#ui[4× rozlišení]): obrázek v rastru s průhledným pozadím, nebo bílým, když zaškrtnete #ui[Bílé pozadí].
-    - #ui[Kopírovat jako obrázek] (#kl[Ctrl+Shift+C]): PNG do schránky, průhledný nebo s #ui[Bílé pozadí].
+    - #ui[PNG] (#ui[4× rozlišení]): obrázek v rastru s průhledným pozadím, nebo bílým, když zaškrtnete #ui[Bílé pozadí]. Nese svou velikost, takže ho Word a PowerPoint vloží tak velký, jak určuje styl kresby.
+    - #ui[Kopírovat jako obrázek] (#kl[Ctrl+Shift+C]): PNG do schránky a vedle něj SVG pro programy, které ho umějí; průhledný nebo s #ui[Bílé pozadí].
+    - #ui[PDF / Tisk…]: kresba sama na stránce, ve velikosti podle svého stylu a menší jen tehdy, když se nevejde, široká na šířku. V okně tisku prohlížeče zvolte #ui[Uložit jako PDF] pro vektorové PDF, nebo tiskárnu.
     - #ui[Kopírovat odkaz]: viz @odkazy.
-    - #ui[Soubor se strukturou]: KET, Molfile, SDF, SMILES, InChI a XYZ (3D souřadnice).
+    - #ui[Soubor se strukturou]: KET (pro Ketcher), Molfile, SDF, SMILES, InChI a XYZ (3D souřadnice). U formátu nabídka napíše, co z kresby neudrží (#ui[bez: zahnuté šipky, barvy…]).
 
     Když je něco vybrané, je zaškrtnuté #ui[Jen výběr] a exportuje se jen výběr. Odškrtnutím exportujete celou kresbu.
 
-    Soubory se strukturou nesou atomy, polohy, náboje, izotopy, radikály a klíny ve standardních formátech. Jejich čtení zpět je vyzkoušené v olomolu, v RDKit a v Indigu, ne v jiných programech. *Volné páry, zahnuté šipky, závorky, částečné vazby a barvy se ale zachovají jen v KET a v obrázcích.*
+    Obrázky SVG a PNG z olomolu nesou neviditelně v sobě i kresbu, takže #ui[Otevřít] nebo přetažení obrázku do okna vrátí samotnou kresbu. Program, který obrázek upravuje, ji může zahodit, a obrázek zkopírovaný do schránky ji nemá.
+
+    Soubory se strukturou nesou atomy, polohy, náboje, izotopy, radikály a klíny ve standardních formátech. Jejich čtení zpět je vyzkoušené v olomolu, v RDKit a v Indigu, ne v jiných programech. *Volné páry, zahnuté šipky, závorky, částečné vazby a barvy se ale zachovají jen ve vlastních souborech olomolu, v odkazech a v obrázcích.* KET jich pro Ketcher udrží nejvíc: zkratky jako jeho skupiny a Haworthovy a Fischerovy projekce i se stereochemií jako klíny.
 
     Soubor *XYZ* obsahuje 3D souřadnice se všemi vodíky. Je to výchozí geometrie pro výpočty (Gaussian, ORCA a podobně), optimalizovaná jen silovým polem, ne kvantovou chemií. Komplex kovu se postaví stejně jako v #ui[Otočit ve 3D], celý optimalizovaný univerzálním silovým polem (UFF) na svém koordinačním mnohostěnu; UFF dává vazby kov–ligand o něco kratší než skutečné (Zn–N v ZnTPP 1,95 Å místo 2,04 Å). Komplex, který #ui[Otočit ve 3D] postavit neumí (ferrocen), se do souboru nezapíše a program napíše proč. Souřadnice se počítají na pozadí: panel ukazuje, že výpočet běží, a vy můžete kreslit dál. Až budou hotové, uložíte je tlačítkem #ui[Uložit soubor XYZ], a to pro kresbu v podobě, v jaké byla při zadání. Jako název souboru se nabídne InChIKey molekuly, takže se soubory z jedné kresby navzájem nepřepíší. Všimněte si upozornění na stereocentra bez nakresleného R/S: soubor pak obsahuje jen jeden z možných stereoizomerů.
   ],
@@ -750,18 +798,20 @@ Při ukládání se program zeptá na název souboru. V Chromu a Edgi vyberete i
 
 Vyberte, co chcete přenést, nebo nic, pak se vezme celá kresba. Stiskněte #kl[Ctrl+Shift+C], nebo zvolte #ui[Export] → #ui[Kopírovat jako obrázek], a pak ve Wordu, PowerPointu nebo Dokumentech Google stiskněte #kl[Ctrl+V].
 
-Nejostřejší je v tištěné práci SVG: Word i PowerPoint ho vloží (Vložení → Obrázky) a při zvětšení se nerozmaže. Pro časopisy ACS přepněte v #ui[Nastavení] styl na #ui[ACS 1996] (vazby 14,4 pt, čáry 0,6 pt, Arial 10 pt).
+Nejostřejší je v tištěné práci SVG: Word i PowerPoint ho vloží (Vložení → Obrázky) a při zvětšení se nerozmaže. Pro časopis zvolte nejdřív jeho styl (#ui[Nastavení] → #ui[Styl]: #ui[ACS], #ui[RSC] nebo vlastní, @nastaveni) a obrázky vyjdou ve velikosti, jakou žádá.
 
 == Odkazy <odkazy>
 
-#ui[Export] → #ui[Kopírovat odkaz] vytvoří odkaz, ve kterém je *celá kresba přímo uložená*, za znakem \#, který prohlížeč na server neposílá. Kdo ho otevře, uvidí vaši kresbu a jeho vlastní se mu vrátí přes #kl[Ctrl+Z]. Dlouhé odkazy některé chatovací programy zkrátí; pak pošlete soubor KET.
+#ui[Export] → #ui[Kopírovat odkaz] vytvoří odkaz, ve kterém je *celá kresba přímo uložená*, za znakem \#, který prohlížeč na server neposílá. Kdo ho otevře, uvidí vaši kresbu a jeho vlastní se mu vrátí přes #kl[Ctrl+Z]. Dlouhé odkazy některé chatovací programy zkrátí; pak pošlete soubor .olom.
+
+*Odkaz se strukturou.* Odkaz může také říct, jakou strukturu nakreslit, napsaný ručně, v pracovním listu nebo chatbotem: `olomol.org/#smiles=CCO` nakreslí ethanol, `#name=caffeine` vyhledá název na PubChemu a fungují i `#inchi=…` a `#cid=2244`. `&title=…` kresbu pojmenuje a víc struktur se otevře každá ve vlastní kartě, popořadě: `#title=Úloha&smiles=C=CC.Br&title=Řešení&smiles=CC(Br)C` je úloha a za ní její řešení, připravené pro #ui[Promítat]. Reakční SMILES (výchozí látky`>`činidla`>`produkty) se nakreslí jako reakce. Nainstalovaná aplikace nemá adresní řádek: takový odkaz vložte do vyhledávacího řádku (@nazev). Chatboti se psát takové odkazy naučí z `olomol.org/llms.txt`.
 
 = Nastavení a klávesové zkratky <nastaveni>
 
 == Vzhled kresby, jazyk a okno
 
 #grid(columns: (1fr, 3.2cm, 3.2cm), column-gutter: 12pt, align: horizon,
-  [Vzhled nejvíc mění, jak se kreslí *náboje*, *volné páry* a *barvy atomů*. Vpravo je tentýž glycin ve výchozím vzhledu a s náboji v kroužku, volnými páry jako čárky (Lewis) a černými atomy. Nastavení platí pro celou kresbu i pro exportované obrázky.],
+  [Vzhled nejvíc mění, jak se kreslí *náboje*, *volné páry* a *barvy atomů*. Vpravo je tentýž glycin ve výchozím vzhledu a s náboji v kroužku, volnými páry jako čárky (Lewis) a černými atomy. Styl, náboje a volné páry patří ke kresbě a ukládají se do jejího souboru; ostatní nastavení platí pro všechny kresby. Všechno se projeví i v exportovaných obrázcích.],
   figure(image("img/styl-vychozi.svg", width: 100%), caption: text(8pt)[výchozí], supplement: none, numbering: none),
   figure(image("img/styl-lewis.svg", width: 100%), caption: text(8pt)[#text(font: "Noto Sans Math")[⊕ ⊖], čárky, černé], supplement: none, numbering: none),
 )
@@ -771,14 +821,15 @@ Nejostřejší je v tištěné práci SVG: Word i PowerPoint ho vloží (Vložen
     #ui[Nastavení] (#ik("settings") vpravo nahoře):
 
     *Kresba*
-    - #ui[Styl]: #ui[Obrazovka], nebo #ui[ACS 1996] (styl ChemDraw pro časopisy ACS; obrázky pak vyjdou v této velikosti).
+    - #ui[Styl] této kresby: #ui[Obrazovka], #ui[ACS] (ACS Document 1996 z ChemDraw: vazby 14,4 pt, čáry 0,6 pt, Arial 10 pt), #ui[RSC] (12,2 pt, 0,5 pt, Arial 7 pt), #ui[Prezentace] (silnější, pro projektor) nebo #ui[Vlastní…] (viz níže). Obrázky a PDF vyjdou ve velikosti podle stylu.
+      - #ui[Náboje]: #ui("+ −"), nebo v kroužku #text(font: "Noto Sans Math")[⊕ ⊖].
+      - #ui[Volné páry]: #ui[Tečky ··], nebo #ui[Čárky (Lewis)].
+      - #ui[Použít pro nové kresby] (je tam, když se styl této kresby liší): v tomto stylu začnou nové kresby i soubory, které styl neříkají.
     - #ui[Barvy atomů]: #ui[Podle prvku], nebo #ui[Černé] (vlastní barvy zůstanou).
     - #ui[Uhlíky]: CH#sub[3], #ui[Jen čára], nebo #ui[Všechny C] pro nové kresby.
-    - #ui[Náboje]: #ui("+ −"), nebo v kroužku #text(font: "Noto Sans Math")[⊕ ⊖].
     - #ui[Aromáty]: #ui[Kroužek], nebo #ui[Čárkovaně] (kroužek čárkovaný).
     - #ui[Koordinace]: #ui[→] (šipka od donoru), nebo #ui[Čára] (obyčejné čáry, jak se komplexy často kreslí); do hloubky jsou to klíny tak jako tak.
-    - #ui[Volné páry]: #ui[Tečky ··], nebo #ui[Čárky (Lewis)].
-    - #ui[Pojítka]: #ui[skryté], nebo #ui[zobrazené] (neviditelná pojítka skupin z #ui[Držet pohromadě], jen na obrazovce).
+    - #ui[Pojítka]: #ui[skryté], nebo #ui[zobrazené] (neviditelná pojítka z #ui[Jedna sloučenina], jen na obrazovce).
     - #ui[Nové šipky]: barva nových zahnutých šipek.
 
     *Okno*
@@ -788,6 +839,11 @@ Nejostřejší je v tištěné práci SVG: Word i PowerPoint ho vloží (Vložen
     - #ui[Ladění]: ladicí režim ukazuje, jak program rozhodl (metody rozvržení, rámečky popisků, kandidáty šipek). Je pro vývojáře, ale když hlásíte chybu v kreslení, může pomoct snímek obrazovky s ním.
   ],
   obr("img/nastaveni.png"),
+)
+
+#grid(columns: (1fr, 8.4cm), gutter: 14pt, align: horizon,
+  [*Vlastní styl.* #ui[Vlastní…] otevře okno #ui[Styl kresby] pro rozměry, které žádá časopis nebo vaše skupina, v bodech: #ui[Délka vazby], #ui[Čáry], #ui[Tučné vazby, klíny], #ui[Rozestup šrafování], #ui[Okraj kolem popisků], #ui[Popisky a texty] a #ui[Písmo], bezpatkové (Arial) nebo patkové (Times). #ui[Vyjít z] vyplní ACS 1996 nebo RSC jako výchozí bod. Molekula vedle se při psaní kreslí ve skutečné velikosti; #ui[Použít] dá kresbě tento styl. Příklad #ui[Vzhled podle časopisu: ACS, RSC nebo vlastní styl] v nápovědě ukazuje jednu kresbu v každém.],
+  obr("img/styl-vlastni.png"),
 )
 
 == Klávesové zkratky <klavesy>
@@ -864,13 +920,23 @@ Přehled ukáže také klávesa #kl[?] nebo #ui[Klávesové zkratky] v nápověd
   ([#kl[Ctrl+C] #kl[Ctrl+X] #kl[Ctrl+V]], [kopírovat, vyjmout, vložit (i SMILES a molfile)]),
   (kl[Ctrl+Shift+C], [kopírovat jako obrázek (PNG), pro Word, PowerPoint, Dokumenty]),
   (kl[Ctrl+A], [vybrat vše]),
+  ([#kl[Ctrl+G] #kl[Ctrl+Shift+G]], [seskupit výběr, rozdělit skupinu (o jednu úroveň)]),
+  ([#kl[Ctrl]+kliknutí], [skupina (znovu: skupina kolem ní); #kl[Ctrl]+tažení ji posune, #kl[Ctrl]+tažení obdélníku vezme celé skupiny]),
   (kl[Del], [smazat výběr]),
   ([Šipky], [posunout výběr (Shift: dál)]),
   ([#kl[Ctrl+S] #kl[Ctrl+O]], [uložit, otevřít]),
+  (kl[Ctrl+Shift+S], [uložit jako jiný soubor]),
+  ([#kl[Ctrl+Tab] #kl[Ctrl+Shift+Tab]], [další kresba, předchozí (v nainstalované aplikaci)]),
   ([#kl[Ctrl]+kolečko], [přiblížit]),
   ([mezerník+tažení], [posunout]),
-  (kl[/], [nakreslit podle názvu, SMILES nebo InChI]),
+  (kl[/], [vyhledávací řádek: název, SMILES, InChI nebo co chcete udělat]),
   (kl[?], [tento přehled]),
+))
+#tabulka([Při promítání], (
+  ([#kl[→] #kl[↓] #kl[Mezerník] #kl[Page Down]], [další kresba]),
+  ([#kl[←] #kl[↑] #kl[Page Up]], [předchozí]),
+  ([#kl[Home] #kl[End]], [první, poslední]),
+  (kl[Esc], [zpět ke kreslení]),
 ))
 
 = Instalace, omezení a hlášení chyb
@@ -899,10 +965,11 @@ olomol je zkušební verze. Tohle zatím neumí, nebo umí jen zčásti:
 - *Nákresy komplexů kovů a molekul s rozšířeným oktetem* z 3D modelu v #ui[Překreslit] jsou experimentální: někdy vypadají zvláštně nebo se vůbec nenabídnou. Export XYZ je jen výchozí geometrie optimalizovaná silovým polem.
 - *Název ze struktury* program vytvořit neumí. Opačný směr, struktura z názvu, jde přes PubChem, tedy s internetem a s anglickými názvy.
 - *Číslování IUPAC* zvládne hlavní řetězec a jednoduché cykly. Kondenzované, přemostěné a spiro cykly je třeba očíslovat ručně nástrojem čísla atomů #ik("atomNumber").
-- *Volné páry, zahnuté šipky, závorky, zvláštní vazby a barvy* nesou jen KET, odkazy a obrázky, ne molfile nebo SMILES.
+- *Volné páry, zahnuté šipky, závorky, zvláštní vazby a barvy* nesou jen vlastní soubory olomolu (.olom), odkazy a obrázky a z větší části i KET, ne molfile nebo SMILES.
 - *Židličky* dávají stereochemii, jen když stojí samy (ne kondenzované ani přemostěné); vaničky ji nedávají vůbec. #ui[Překlopení židličky] a #ui[Otočit židličku] odmítnou kondenzované a přemostěné kruhy a kruhy s dvojnou vazbou.
 - *Kopírování obrázků do schránky* některé prohlížeče nedovolí. Program to oznámí; pak exportujte PNG.
-- *Kresba v prohlížeči* je jen v tomto prohlížeči na tomto počítači a mezi počítači se nesynchronizuje. Přenesete ji souborem KET nebo odkazem.
+- *Kresby v prohlížeči* jsou jen v tomto prohlížeči na tomto počítači a mezi počítači se nesynchronizují. Přenesete je souborem .olom nebo odkazem.
+- *Zápis zpět do souboru* (#kl[Ctrl+S] bez ptaní) umí Chrome a Edge. Firefox a Safari soubor místo toho stáhnou (@soubory).
 
 == Problémy a nápady <problemy>
 
@@ -912,7 +979,7 @@ Budeme rádi za každou zprávu, i za drobnost. Klikněte na brouka #ik("debug")
 
 + Klikněte na #ui[Napsat e-mail]. Otevře se nový e-mail na adresu bugs\@olomol.org s pár otázkami, na které stačí odpovědět: co jste dělali (klidně stručně), co se stalo a co jste čekali. Tabulka v něm už je.
 + Odkaz na kresbu je na e-mail moc dlouhý, takže s kresbou klikněte na #ui[Kopírovat tabulku] a tabulku vložte (#kl[Ctrl+V]) na konec e-mailu.
-+ Pomůže i snímek obrazovky nebo soubor KET.
++ Pomůže i snímek obrazovky nebo soubor kresby .olom.
 
 Odsud se nic neposílá: e-mail uvidíte a odešlete sami. Když se po kliknutí žádný e-mail neotevře (třeba používáte jen webovou poštu), napište na adresu ručně a tabulku vložte stejně. Verzi programu najdete také vlevo dole a v okně #ui[O aplikaci].
 
@@ -924,7 +991,7 @@ Tato příloha je pro ty, kdo chtějí vědět, co je pod kapotou: učitele info
 
 == Celkový pohled
 
-olomol je *statická webová stránka*: HTML, JavaScript a WebAssembly, nic víc. Nepotřebuje server s programem, databázi ani účty. Stačí jakýkoli webový prostor s https (školní server, GitHub Pages) a všechno ostatní běží v prohlížeči uživatele. Vlastní kód má asi 24 000 řádků JavaScriptu.
+olomol je *statická webová stránka*: HTML, JavaScript a WebAssembly, nic víc. Nepotřebuje server s programem, databázi ani účty. Stačí jakýkoli webový prostor s https (školní server, GitHub Pages) a všechno ostatní běží v prohlížeči uživatele. Vlastní kód má asi 33 000 řádků JavaScriptu.
 
 #let vrstva(nazev, popis, barva, sloupce: 1) = grid.cell(colspan: sloupce, fill: barva, inset: (x: 8pt, y: 6pt), {
   text(9pt, weight: "bold", nazev)
@@ -936,18 +1003,18 @@ olomol je *statická webová stránka*: HTML, JavaScript a WebAssembly, nic víc
   {
     set par(justify: false, leading: 0.5em)
     grid(columns: (1fr, 1fr, 1fr), gutter: 4pt, align: left + top,
-      vrstva([Obrazovka · `src/ui`], [lišty, panel, nabídky, dialogy, karta Info (React 19)], akcent.lighten(70%), sloupce: 3),
+      vrstva([Obrazovka · `src/ui`], [lišty, karty, panel, nabídky, dialogy, vyhledávací řádek, karta Info (React 19)], akcent.lighten(70%), sloupce: 3),
       vrstva([Editor · `src/editor`], [nástroje, výběr, zpět a znovu, pohled, myš a klávesy], akcent.lighten(78%)),
       vrstva([Uspořádání · `src/arrange`], [zarovnat, rozmístit, mřížka, reakční schéma], akcent.lighten(78%)),
       vrstva([Rozvržení · `src/layout`], [metody rozvržení, šablony kruhů, kontrola, 3D], akcent.lighten(78%)),
       vrstva([Kresba · `src/model`], [atomy, vazby, reakční a zahnuté šipky, texty, závorky, výplně: prostá data, kopie pro „zpět“ je `structuredClone`], akcent-2.lighten(82%), sloupce: 3),
       vrstva([Chemie · `src/chem`], [vodíky a volné páry, vzorec a hmotnosti, R/S, číslování IUPAC, šablony], akcent.lighten(86%)),
       vrstva([Vykreslení · `src/render`], [scéna: popisky, vazby, elektrony, pravidla šipek; plátno a SVG], akcent.lighten(86%)),
-      vrstva([Soubory · `src/io`], [KET, molfile, převody, odkazy, PubChem], akcent.lighten(86%)),
+      vrstva([Soubory · `src/io`], [.olom, KET, molfile, převody, odkazy, PubChem], akcent.lighten(86%)),
       vrstva([RDKit.js, megane-rdkit], [SMILES, InChI, rozvržení, CIP (R/S, E/Z), kanonické SMILES; 3D struktury (ETKDG, MMFF94s)], rgb("#e8f4ec")),
       vrstva([Indigo (vlastní vlákno)], [RXN, CDXML, CDX, SDF, CML, rozvržení Ketcheru], rgb("#e8f4ec")),
       vrstva([OpenChemLib], [3D struktury tam, kde je RDKit neudělá, silové pole MMFF94s+], rgb("#e8f4ec")),
-      vrstva([Prohlížeč], [localStorage (kresba, nastavení) · service worker (offline) · schránka], rgb("#eef0f4"), sloupce: 3),
+      vrstva([Prohlížeč], [IndexedDB (kresby, dřívější verze, nedávné soubory) · localStorage (nastavení) · service worker (offline) · schránka], rgb("#eef0f4"), sloupce: 3),
     )
   },
   caption: [Vrstvy programu. Horní tři řady jsou vlastní kód (složky v `src/`), zelená řada jsou knihovny ve WebAssembly, které se stahují, až když jsou poprvé potřeba.],
@@ -965,8 +1032,8 @@ olomol je *statická webová stránka*: HTML, JavaScript a WebAssembly, nic víc
   [`src/render`], [Po každé změně se jednou spočítá *scéna*: kde jsou popisky, jak vypadají vazby, kam jdou volné páry a kudy vedou zahnuté šipky. Z ní kreslí plátno, export SVG i hledání toho, co je pod myší. Obrázky v příručce jsou exporty téže scény.],
   [`src/editor`], [Editor a nástroje: výběr, tažení, vazby, kruhy, šablony, historie (200 kroků), klávesy.],
   [`src/arrange`, `src/layout`], [Zarovnání a nové rozvržení: několik metod (RDKit, CoordGen, Indigo, šablony kruhových systémů RDKit, 3D z RDKit nebo OpenChemLib, komplexy kovů silovým polem UFF), každý nákres celé molekuly natočený do mřížky po 30°.],
-  [`src/io`], [Soubory: KET (čtení i zápis), molfile V2000/V3000, převody přes RDKit a Indigo, XYZ, odkazy, PubChem.],
-  [`src/ui`], [Obrazovka v Reactu: lišty, panel, nabídky, dialogy, karta Info.],
+  [`src/io`], [Soubory: vlastní .olom a KET (čtení i zápis), molfile V2000/V3000, převody přes RDKit a Indigo, XYZ, kresba uvnitř obrázků, odkazy, PubChem, tisk.],
+  [`src/ui`], [Obrazovka v Reactu: lišty, karty, panel, nabídky, dialogy, vyhledávací řádek, promítání, karta Info.],
   [`src/i18n`], [Jazyky. Klíčem je anglický text, `cs.js` a `de.js` jsou překladové tabulky; test hlásí chybějící texty.],
 )
 
@@ -978,11 +1045,13 @@ olomol je *statická webová stránka*: HTML, JavaScript a WebAssembly, nic víc
 - *Číslování IUPAC* jde podle doporučení IUPAC 2013 (hlavní řetězec nebo cyklus, nejnižší lokanty, abeceda) a k číslům ukládá i důvod, který panel ukazuje.
 - *Překlopení* prohodí plné a šrafované klíny, takže zrcadlový obraz zůstane stejnou molekulou; i to hlídají testy.
 
-== Data a soubory
+== Data a soubory <data-soubory>
 
-- *Vlastní formát* je KET, tedy JSON programu Ketcher. Molekuly, šipky, „+“ a texty jsou zapsané standardně, takže soubor otevře Ketcher i knihovna Indigo. Volné páry a zahnuté šipky jsou v něm navíc jako obrázky (aby je Ketcher ukázal) a sekce `olomol` v kořeni souboru nese to, co používá jen olomol: barvy, zvýraznění, výplně kruhů, zakotvení šipek k atomům a vazbám. Jiné programy ji přeskočí.
-- *Průběžné ukládání:* kresba (jako KET) a nastavení jsou v `localStorage` prohlížeče.
-- *Odkaz na kresbu:* KET, zkomprimovaný (`deflate-raw`) a zapsaný v base64url za `#d=`. Část adresy za znakem \# prohlížeč serveru neposílá, takže kresba v odkazu nikdy neprojde serverem, kde je olomol uložený.
+- *Vlastní formát* je .olom, z anglického #strong[O]lomol #strong[L]ayout #strong[O]bject #strong[M]odel: kresba tak, jak ji olomol drží, v JSON (UTF-8), takže ji umí přečíst i zapsat kterýkoli program, skript nebo jazykový model. Souřadnice jsou v délkách vazeb, objekty se na sebe odkazují přes id, výchozí hodnoty se nevypisují. Formát něco slibuje: každý olomol otevře každý dřívější soubor .olom; nová dílčí verze (1.0 → 1.1) jen přidává; co čtenář nezná (pole novějšího olomolu, `program:klíč` jiného programu), to si nechá a zapíše zpátky beze změny. Úplný popis je v souboru `docs/olom.md` ve zdrojovém kódu.
+- *KET*, JSON programu Ketcher, se zapisuje pro Ketcher a Indigo (zkratky jako skupiny Ketcheru, projekce jako klíny) a čte, stejně jako dřívější vlastní soubory olomolu před verzí 0.5.0.
+- *Průběžné ukládání:* každá otevřená kresba, její dřívější verze a nedávné soubory jsou v IndexedDB prohlížeče, nastavení v `localStorage`.
+- *Odkaz na kresbu:* soubor .olom, zkomprimovaný (`deflate-raw`) a zapsaný v base64url za `#d=`. Část adresy za znakem \# prohlížeč serveru neposílá, takže kresba v odkazu nikdy neprojde serverem, kde je olomol uložený.
+- *Kresba uvnitř obrázku:* SVG nese soubor .olom v prvku `<metadata>`, PNG v textovém bloku (`olomol-ket`), obojí v base64; nic z toho není vidět.
 
 == Co odchází z počítače
 
