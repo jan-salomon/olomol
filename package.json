@@ -1,0 +1,36 @@
+{
+  "name": "olomol",
+  "version": "0.5.0",
+  "doi": "10.5281/zenodo.24375817",
+  "doiVersion": "0.5.0",
+  "conceptDoi": "10.5281/zenodo.24104909",
+  "description": "Browser-based chemical structure and mechanism drawing for teaching, with RDKit.js and Indigo.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^24.14.1"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/pages.mjs && node scripts/pwa.mjs",
+    "build:locked": "vite build && node scripts/pages.mjs && node scripts/lock.mjs && node scripts/pwa.mjs",
+    "preview": "vite preview",
+    "check": "node scripts/browser-check.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "report:other-programs": "node scripts/other-programs-report.mjs"
+  },
+  "dependencies": {
+    "@rdkit/rdkit": "2026.9.1",
+    "indigo-ketcher": "1.46.0",
+    "megane-rdkit": "0.1.0",
+    "openchemlib": "9.25.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "6.1.2",
+    "playwright": "1.64.1",
+    "vite": "8.3.4"
+  }
+}

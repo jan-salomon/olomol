@@ -1,0 +1,1038 @@
+{
+ "_about": "What olomol must read from each file (scripts/check/11-other-programs.mjs). rdkit: the molecules RDKit's tests expect (Code/GraphMol/FileParsers/cdxml_parser_catch.cpp; rdkitChemDraw: those of its ChemDraw-based reader, where they differ); without why, olomol must read just these. why: where olomol reads otherwise, and molecules: what it reads then. fails: a message, nothing drawn. An RXN is compared with its molecules as RDKit reads each from the file; listed here only where olomol reads otherwise.",
+ "CDXML/Issue3514824.cdxml": {
+  "molecules": [
+   "C1=CC23C4CC(OC2O1)C(C4)C1CC24CCCCC2C2OC3(OC4)OC12"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/anybond.cdxml": {
+  "rdkit": [
+   "C1CCC~CC1"
+  ]
+ },
+ "CDXML/aromatic.cdxml": {
+  "rdkit": [
+   "c1ccccc1"
+  ]
+ },
+ "CDXML/atrop1.cdxml": {
+  "rdkit": [
+   "C[C]1[C][CH]C(Cl)C(C)=C1c1c(C)ccc(Cl)c1C"
+  ],
+  "molecules": [
+   "CC1=C(c2c(C)ccc(Cl)c2C)C(C)CCC1Cl"
+  ],
+  "why": "the ring's carbons have no labels, so they are drawn plain with their hydrogens, as ChemDraw draws them; RDKit takes the file's hydrogen counts (0, 0, 1: made by editing another file) and reads radicals"
+ },
+ "CDXML/bad-bondorder.cdxml": {
+  "fails": true,
+  "why": "broken on purpose: a bond order that is no number (slartibartfast); RDKit's reader finds no molecule either"
+ },
+ "CDXML/bad-bondorder2.cdxml": {
+  "molecules": [
+   "C1=CCCC=C1"
+  ],
+  "why": "a bond of order 5, which there is no such: RDKit finds no molecule, Indigo reads the ring with it as a single bond"
+ },
+ "CDXML/bad-cdxml.cdxml": {
+  "fails": true,
+  "why": "Indigo can't read it (a reference it can't follow), RDKit's reader reads one molecule from it",
+  "rdkit": [
+   "*c1ccccc1"
+  ]
+ },
+ "CDXML/bad-coords.cdxml": {
+  "fails": true,
+  "why": "broken on purpose: coordinates that are no numbers; RDKit finds no molecule either"
+ },
+ "CDXML/bad-id.cdxml": {
+  "fails": true,
+  "why": "broken on purpose: an id that is no number; RDKit finds no molecule either"
+ },
+ "CDXML/beta-cypermethrin-or-abs.cdxml": {
+  "rdkit": [
+   "CC1(C)[C@H](C=C(Cl)Cl)[C@H]1C(=O)O[C@@H](C#N)c1cccc(Oc2ccccc2)c1"
+  ]
+ },
+ "CDXML/beta-cypermethrin-or-as.cdxml": {
+  "molecules": [
+   "CC1(C)[C@H](C=C(Cl)Cl)[C@H]1C(=O)O[C@@H](C#N)c1cccc(Oc2ccccc2)c1"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/beta-cypermethrin.cdxml": {
+  "rdkit": [
+   "CC1(C)[C@H](C=C(Cl)Cl)[C@H]1C(=O)O[C@@H](C#N)c1cccc(Oc2ccccc2)c1"
+  ]
+ },
+ "CDXML/chemdraw_template1.cdxml": {
+  "rdkit": [
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@H]2C[C@H]([C@@H](C)O)OC(=O)C[C@H](O)C[C@@H]3C[C@H](OC(C)=O)C(C)(C)[C@](O)(C[C@@H]4C/C(=C/C(=O)OC)C[C@H](/C=C/C(C)(C)[C@]1(O)O2)O4)O3",
+   "[B]",
+   "*",
+   "[C]",
+   "Cc1ccc2n1[C@@H]1[C@@H]3O[C@]([C@H](C)O)(C=C2)[C@H]1c1ccc(C)n1[C@@H]3C",
+   "Cc1ccc2n1[C@H](C)C(=O)[C@@H]1[C@H]2C(=O)C=Cc2ccc(C)n21",
+   "Cc1ccc2ccc(=O)ccn12",
+   "Cc1cccn1[C@H](C)C=O",
+   "Cc1ccc2ccc([O-])cc[n+]1-2",
+   "Cc1ccc2ccc(=O)ccn12",
+   "Cc1cccn1[C@H](C)C(C#N)O[Si](C)(C)C",
+   "CC1CCC2(O)C3(OC4(O)C[C@]2(C)C2(O)[C@H](OC(=O)c5ccc[nH]5)C(O)(C(C)C)C4(C)C32O)C1O",
+   "C=C(C)[C@H]1CC(=O)CC2=C(C1)[C@H]1C(=O)O[C@H]3C[C@@](C)(O)[C@@H](C2=O)[C@@H]13"
+  ],
+  "rdkitChemDraw": [
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@H]2C[C@H]([C@@H](C)O)OC(=O)C[C@H](O)C[C@@H]3C[C@H](OC(C)=O)C(C)(C)[C@](O)(C[C@@H]4C/C(=C/C(=O)OC)C[C@H](/C=C/C(C)(C)[C@]1(O)O2)O4)O3",
+   "B",
+   "*",
+   "C",
+   "Cc1ccc2n1[C@@H]1[C@@H]3O[C@]([C@H](C)O)(C=C2)[C@H]1c1ccc(C)n1[C@@H]3C",
+   "Cc1ccc2n1[C@H](C)C(=O)[C@@H]1[C@H]2C(=O)C=Cc2ccc(C)n21",
+   "Cc1ccc2ccc(=O)ccn12",
+   "Cc1cccn1[C@H](C)C=O",
+   "Cc1ccc2ccc([O-])cc[n+]1-2",
+   "Cc1ccc2ccc(=O)ccn12",
+   "Cc1cccn1[C@H](C)C(C#N)O[Si](C)(C)C",
+   "CC1CC[C@]2(O)[C@]3(C)C[C@]4(O)O[C@@]2([C@@H]1O)C1(O)C4(C)C(O)(C(C)C)[C@@H](OC(=O)c2ccc[nH]2)[C@]13O",
+   "C=C(C)[C@H]1CC(=O)CC2=C(C1)[C@H]1C(=O)O[C@H]3C[C@@](C)(O)[C@@H](C2=O)[C@@H]13"
+  ],
+  "molecules": [
+   "*",
+   "C=C(C)[C@H]1CC(=O)CC2=C(C1)[C@H]1C(=O)O[C@H]3C[C@@](C)(O)[C@@H](C2=O)[C@@H]13",
+   "CC1CCC2(O)C3(OC4(O)C[C@]2(C)[C@@]2(O)[C@H](OC(=O)c5ccc[nH]5)C(O)(C(C)C)C4(C)C32O)C1O",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@H]2C[C@H]([C@@H](C)O)OC(=O)C[C@H](O)C[C@@H]3C[C@H](OC(C)=O)C(C)(C)[C@](O)(C[C@@H]4C/C(=C/C(=O)OC)C[C@H](/C=C/C(C)(C)[C@]1(O)O2)O4)O3",
+   "Cc1ccc2ccc(=O)ccn12",
+   "Cc1ccc2ccc(=O)ccn12",
+   "Cc1ccc2ccc([O-])cc[n+]1-2",
+   "Cc1ccc2n1[C@@H]1[C@@H]3O[C@]([C@H](C)O)(C=C2)[C@H]1c1ccc(C)n1[C@@H]3C",
+   "Cc1ccc2n1[C@H](C)C(=O)[C@@H]1[C@H]2C(=O)C=Cc2ccc(C)n21",
+   "Cc1cccn1C(C)C(C#N)O[Si](C)(C)C",
+   "Cc1cccn1[C@H](C)C=O",
+   "[B]",
+   "[C]"
+  ],
+  "why": "two molecules otherwise: one stereocentre Indigo finds contradictory (a wedge and a hashed wedge that disagree) is left open, which RDKit reads; ryanodine, drawn wrongly as RDKit's test says, gets one stereocentre more than RDKit's plain reader reads"
+ },
+ "CDXML/chemdraw_template2.cdxml": {
+  "rdkit": [
+   "CCN1CC2(COC)CCC(OC)C34C5CC6C(OC)CC(O)(C(CC23)C14)C5C6O",
+   "*",
+   "C",
+   "[F]",
+   "[B]",
+   "[C]",
+   "[2H]",
+   "CCN1CC2(COC)CCC(OC)C34C5CC6C(OC)CC(O)(C(CC23)C14)C5C6O",
+   "*",
+   "C",
+   "[F]",
+   "[B]",
+   "[C]",
+   "[2H]",
+   "CCN1CC2(COC)CCC(OC)C34C5CC6C(OC)CC(O)(C(CC23)C14)C5C6O",
+   "*",
+   "C",
+   "[F]",
+   "[B]",
+   "[C]",
+   "[2H]",
+   "CCN1CC2(COC)CCC(OC)C34C5CC6C(OC)CC(O)(C(CC23)C14)C5C6O",
+   "*",
+   "C",
+   "[F]",
+   "[B]",
+   "[C]",
+   "[2H]",
+   "CCN1CC2(COC)CCC(OC)C34C5CC6C(OC)CC(O)(C(CC23)C14)C5C6O",
+   "CCN1CC2(COC)CCC(OC)C34C5CC6C(OC)CC(O)(C(CC23)C14)C5C6O",
+   "*",
+   "[B]",
+   "[C]",
+   "[2H]",
+   "C",
+   "[F]",
+   "*",
+   "C",
+   "[F]",
+   "[B]",
+   "[C]",
+   "[2H]",
+   "CCN1CC2(COC)CCC(OC)C34C5CC6C(OC)CC(O)(C(CC23)C14)C5C6O",
+   "*",
+   "C",
+   "[F]",
+   "[B]",
+   "[C]",
+   "[2H]",
+   "CCN1CC2(COC)CCC(OC)C34C5CC6C(OC)CC(O)(C(CC23)C14)C5C6O",
+   "*",
+   "C",
+   "[F]",
+   "[B]",
+   "[C]",
+   "[2H]",
+   "CC1CCC2(O)C3(OC4(O)C[C@]2(C)C2(O)[C@H](O)C(O)(C(C)C)C4(C)C32O)C1O",
+   "CC1=C(C(C)C)[C@@H](O)C2(O)C1(O)C13OC(=O)C[C@@]2(C)C1(O)CCC(C)C3O",
+   "CC1=CC23OC(=O)C[C@@](C)(C2(O)CC1)C1(O)[C@H](O)C2(C(C)C)OC2(C)C31O",
+   "*",
+   "[B]",
+   "[C]",
+   "CC1CCC2C3(C1)OC1C[C@]2(C)C2CC(C(C)C)C1(C)C23",
+   "[2H]",
+   "*",
+   "[B]",
+   "[C]",
+   "C",
+   "CC1CCC2(O)C3(OC4(O)C[C@]2(C)C2(O)[C@H](O)C(O)(C(C)C)C4(C)C32O)C1O",
+   "[2H]"
+  ],
+  "rdkitChemDraw": [
+   "*",
+   "C",
+   "F",
+   "B",
+   "C",
+   "[2H]",
+   "*",
+   "C",
+   "F",
+   "B",
+   "C",
+   "[2H]",
+   "*",
+   "C",
+   "F",
+   "B",
+   "C",
+   "[2H]",
+   "*",
+   "C",
+   "F",
+   "B",
+   "C",
+   "[2H]",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@]34C1C(C[C@H]23)[C@@]1(O)CC(OC)[C@H]2C[C@@H]4[C@@H]1[C@H]2O",
+   "*",
+   "B",
+   "C",
+   "[2H]",
+   "C",
+   "F",
+   "*",
+   "C",
+   "F",
+   "B",
+   "C",
+   "[2H]",
+   "*",
+   "C",
+   "F",
+   "B",
+   "C",
+   "[2H]",
+   "*",
+   "C",
+   "F",
+   "B",
+   "C",
+   "[2H]",
+   "CC1CC[C@]2(O)[C@]3(C)C[C@]4(O)O[C@@]2([C@@H]1O)C1(O)C4(C)C(O)(C(C)C)[C@@H](O)[C@]13O",
+   "CC1=C(C(C)C)[C@@H](O)[C@@]2(O)[C@@]3(C)CC(=O)O[C@@]4([C@H](O)C(C)CC[C@]34O)[C@@]12O",
+   "CC1=C[C@@]23OC(=O)C[C@@](C)([C@@]2(O)CC1)[C@]1(O)[C@H](O)C2(C(C)C)OC2(C)[C@@]31O",
+   "*",
+   "B",
+   "C",
+   "CC1CC[C@@H]2[C@]3(C)C[C@@H]4O[C@@]2(C1)C1[C@@H]3CC(C(C)C)C14C",
+   "[2H]",
+   "*",
+   "B",
+   "C",
+   "C",
+   "CC1CC[C@]2(O)[C@]3(C)C[C@]4(O)O[C@@]2([C@@H]1O)C1(O)C4(C)C(O)(C(C)C)[C@@H](O)[C@]13O",
+   "[2H]"
+  ],
+  "molecules": [
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "CC1=C(C(C)C)[C@@H](O)[C@@]2(O)C1(O)C13OC(=O)C[C@@]2(C)C1(O)CCC(C)C3O",
+   "CC1=CC23OC(=O)C[C@@](C)(C2(O)CC1)[C@@]1(O)[C@@H](O)C2(C(C)C)OC2(C)C31O",
+   "CC1CCC2(O)C3(OC4(O)C[C@]2(C)[C@@]2(O)[C@H](O)C(O)(C(C)C)C4(C)C32O)C1O",
+   "CC1CCC2(O)C3(OC4(O)C[C@]2(C)[C@@]2(O)[C@H](O)C(O)(C(C)C)C4(C)C32O)C1O",
+   "CC1CCC2C3(C1)OC1C[C@]2(C)[C@H]2CC(C(C)C)[C@@]1(C)C23",
+   "CCN1CC2(COC)CCC(OC)C34C5CC6C(OC)CC(O)(C(CC23)C14)C5C6O",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@]34C1[C@H](C[C@H]23)[C@@]1(O)C[C@H](OC)[C@H]2C[C@@H]4[C@@H]1[C@H]2O",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@]34C1[C@H](C[C@H]23)[C@@]1(O)C[C@H](OC)[C@H]2C[C@@H]4[C@@H]1[C@H]2O",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@]34C1[C@H](C[C@H]23)[C@@]1(O)C[C@H](OC)[C@H]2C[C@@H]4[C@@H]1[C@H]2O",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@]34C1[C@H](C[C@H]23)[C@@]1(O)C[C@H](OC)[C@H]2C[C@@H]4[C@@H]1[C@H]2O",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@]34C1[C@H](C[C@H]23)[C@@]1(O)C[C@H](OC)[C@H]2C[C@@H]4[C@@H]1[C@H]2O",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@]34C1[C@H](C[C@H]23)[C@@]1(O)C[C@H](OC)[C@H]2C[C@@H]4[C@@H]1[C@H]2O",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@]34C1[C@H](C[C@H]23)[C@@]1(O)C[C@H](OC)[C@H]2C[C@@H]4[C@@H]1[C@H]2O",
+   "[2H]",
+   "[2H]",
+   "[2H]",
+   "[2H]",
+   "[2H]",
+   "[2H]",
+   "[2H]",
+   "[2H]",
+   "[2H]",
+   "[2H]",
+   "[B]",
+   "[B]",
+   "[B]",
+   "[B]",
+   "[B]",
+   "[B]",
+   "[B]",
+   "[B]",
+   "[B]",
+   "[B]",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[F]",
+   "[F]",
+   "[F]",
+   "[F]",
+   "[F]",
+   "[F]",
+   "[F]",
+   "[F]"
+  ],
+  "why": "the labels E, which ChemDraw itself couldn't read, stay labels (RDKit's plain reader makes them carbons), and olomol reads stereocentres from wedges that RDKit's plain reader leaves open (its ChemDraw-based reader reads some of them too)"
+ },
+ "CDXML/chemdraw_template3.cdxml": {
+  "rdkit": [
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@H]2C[C@H]([C@@H](C)O)OC(=O)C[C@H](O)C[C@@H]3C[C@H](OC(C)=O)C(C)(C)[C@](O)(C[C@@H]4C/C(=C/C(=O)OC)C[C@H](/C=C/C(C)(C)[C@]1(O)O2)O4)O3",
+   "[B]",
+   "*",
+   "[C]",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@H]2C[C@H]([C@@H](C)O)OC(=O)C[C@H](O)C[C@@H]3C[C@H](OC(C)=O)C(C)(C)[C@](O)(C[C@@H]4C/C(=C/C(=O)OC)C[C@H](/C=C/C(C)(C)[C@]1(O)O2)O4)O3",
+   "[B]",
+   "*",
+   "[C]",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@@H](C[C@@H](O)[C@@H](C)O)O[C@@]1(O)C(C)(C)/C=C/C=O",
+   "*",
+   "[C]",
+   "C=C(C[C@H]([O])C[C@]1(O)O[C@H](C[C@@H](O)CC(=O)O)C[C@H](OC(C)=O)C1(C)C)C[Si](C)(C)C",
+   "*.CC[Si](CC)CC",
+   "CC[Si](C)(CC)CC",
+   "CC[Si](C)(CC)CC",
+   "CC",
+   "CC",
+   "*",
+   "C=C(C[C@H]([O])C[C@]1(O)O[C@H](C[C@@H](O)CC(=O)O)C[C@H](OC(C)=O)C1(C)C)C[Si](C)(C)C",
+   "*.CC[Si](CC)CC",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@@H](C[C@@H](O)[C@@H](C)O)O[C@@]1(O)C(C)(C)/C=C/C=O",
+   "[C]"
+  ],
+  "rdkitChemDraw": [
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@H]2C[C@H]([C@@H](C)O)OC(=O)C[C@H](O)C[C@@H]3C[C@H](OC(C)=O)C(C)(C)[C@](O)(C[C@@H]4C/C(=C/C(=O)OC)C[C@H](/C=C/C(C)(C)[C@]1(O)O2)O4)O3",
+   "B",
+   "*",
+   "C",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@H]2C[C@H]([C@@H](C)O)OC(=O)C[C@H](O)C[C@@H]3C[C@H](OC(C)=O)C(C)(C)[C@](O)(C[C@@H]4C/C(=C/C(=O)OC)C[C@H](/C=C/C(C)(C)[C@]1(O)O2)O4)O3",
+   "B",
+   "*",
+   "C",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@@H](C[C@@H](O)[C@@H](C)O)O[C@@]1(O)C(C)(C)/C=C/C=O",
+   "*",
+   "C",
+   "C=C(C[C@H](O)C[C@]1(O)O[C@H](C[C@@H](O)CC(=O)O)C[C@H](OC(C)=O)C1(C)C)C[Si](C)(C)C",
+   "*.CC[SiH](CC)CC",
+   "CC[Si](C)(CC)CC",
+   "CC[Si](C)(CC)CC",
+   "CC",
+   "CC",
+   "*",
+   "C=C(C[C@H](O)C[C@]1(O)O[C@H](C[C@@H](O)CC(=O)O)C[C@H](OC(C)=O)C1(C)C)C[Si](C)(C)C",
+   "*.CC[SiH](CC)CC",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@@H](C[C@@H](O)[C@@H](C)O)O[C@@]1(O)C(C)(C)/C=C/C=O",
+   "C"
+  ],
+  "molecules": [
+   "*",
+   "*",
+   "*",
+   "*",
+   "*[Si](CC)(CC)CC",
+   "*[Si](CC)(CC)CC",
+   "C=C(C[C@H]([O])C[C@]1(O)O[C@H](C[C@@H](O)CC(=O)O)C[C@H](OC(C)=O)C1(C)C)C[Si](C)(C)C",
+   "C=C(C[C@H]([O])C[C@]1(O)O[C@H](C[C@@H](O)CC(=O)O)C[C@H](OC(C)=O)C1(C)C)C[Si](C)(C)C",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@@H](C[C@@H](O)[C@@H](C)O)O[C@@]1(O)C(C)(C)/C=C/C=O",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@@H](C[C@@H](O)[C@@H](C)O)O[C@@]1(O)C(C)(C)/C=C/C=O",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@H]2C[C@H]([C@@H](C)O)OC(=O)C[C@H](O)C[C@@H]3C[C@H](OC(C)=O)C(C)(C)[C@](O)(C[C@@H]4C/C(=C/C(=O)OC)C[C@H](/C=C/C(C)(C)[C@]1(O)O2)O4)O3",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@H]2C[C@H]([C@@H](C)O)OC(=O)C[C@H](O)C[C@@H]3C[C@H](OC(C)=O)C(C)(C)[C@](O)(C[C@@H]4C/C(=C/C(=O)OC)C[C@H](/C=C/C(C)(C)[C@]1(O)O2)O4)O3",
+   "CC[Si](CC)CC",
+   "CC[Si](CC)CC",
+   "[B]",
+   "[B]",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[C]"
+  ],
+  "why": "the floating protecting groups (TES, not bonded to anything) have no attachment point (*) in olomol: Indigo leaves it out; two TES on ChemDraw's attachment squiggle are TES on an R (RDKit: a methyl and an ethane)"
+ },
+ "CDXML/chemdraw_template4.cdxml": {
+  "molecules": [
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "C#Cc1cccc(OC)c1OCOC",
+   "C=C1C2CCC3C4(C)C(CCC5(C)C(=O)O[C@H](O)C54)[C@H](O)C3(C2)[C@H]1O",
+   "C=C[C@]12CN(CC)C[C@](COC)(CC[C@@H]1OC)[C@H]2CCc1cccc(OC)c1OCOC",
+   "CC(=O)[O][Hg][O]C(C)=O",
+   "CCC/C=C/C=C/C(=O)O[C@H]1/C(=C/C(=O)OC)C[C@H]2C[C@H]([C@@H](C)O)OC(=O)C[C@H](O)C[C@@H]3C[C@H](OC(C)=O)C(C)(C)[C@](O)(C[C@@H]4C/C(=C/C(=O)OC)C[C@H](/C=C/C(C)(C)[C@]1(O)O2)O4)O3",
+   "CCCCCCC(=O)CCCCCC/C=C/C[C@H](O)[C@@H](O)[C@](N)(CO)C(=O)O",
+   "CCN1C[C@]2(C(=O)OC)CC[C@H](O[Si](C)(C)C(C)(C)C)[C@](C(=O)OC)(C1)C2=O",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@@]3(C1)[C@@H]1C[C@@H]4C(=O)C=C(CC[C@H]23)[C@H]1C4(OC)OC",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@@]3(C1)[C@@H]1C[C@H]4[C@H](O)[C@@H]1C(=CC[C@H]23)C[C@@H]4OC",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@]3(C1)[C@@H]2CC[C@@]12C=C[C@@H](C[C@@H]31)C(OC)(OC)C2=O",
+   "CCN1C[C@]2(COC)CC[C@H](OC)[C@]34C1[C@H](C[C@H]23)[C@@]1(O)C[C@H](OC)[C@H]2C[C@@H]4[C@@H]1[C@H]2O",
+   "COC(=O)[C@H]1ON2CC[C@H]3OC(=O)[C@@H]1[C@H]32",
+   "COc1cc(O[Si](C)(C)C(C)(C)C)cc(C2C3=CC(=O)CC[C@@H]3[C@H]2c2ccccc2)c1",
+   "C[C@H](N)C(=O)N[C@@H]1[C@H]2C(=C(O)C[C@@H](O)[C@@H]2O)C(=O)C[C@]1(C)C(Cl)Cl",
+   "[2H]",
+   "[2H]",
+   "[2H]",
+   "[B]",
+   "[B]",
+   "[B]",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[F]"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/chemdraw_template5.cdxml": {
+  "molecules": [
+   "*",
+   "*C(=O)C(C(*)=O)[C@H]1[C@H](C=C)C[C@H](C)C[C@@H]1C",
+   "*C([C@](*)(C)[Y])[C@](*)(C)[Y]",
+   "*C([C@](*)(C)[Y])[C@](*)(C)[Y]",
+   "*C/C=N/OC",
+   "C=CS(=O)(=O)c1ccccc1",
+   "CC(C)C(C(=O)[O][Na])[C@@H](C)CO",
+   "CC(C)[C@@H](C[CH]S(=O)(=O)c1ccccc1)[C@@H](C)CO",
+   "CCBr",
+   "CCBr",
+   "CCBr",
+   "CCBr",
+   "CCBr",
+   "CCBr",
+   "CCOP(=O)(CC)CC",
+   "CCOP(=O)(CC)OCC",
+   "CCOP(CC)CC",
+   "CCOP(CC)OCC",
+   "CCOP(OCC)OCC",
+   "CCP(=O)(CC)CC",
+   "COC[C@@H]1C[C@H](C)C[C@H](C)[C@@H]1C(=O)N[C@@H](c1cc(Cl)ccn1)C(C)(C)C",
+   "C[C@H]1C[C@@H](C)[C@@H](C(=O)N[C@@H](c2cc(Cl)ccn2)C(C)(C)C)[C@@H](C)C1",
+   "Cc1cc(C)c(C(=O)O)c(C)c1",
+   "[2H]*NC(=O)[C@@H]1[C@H](C)C[C@H](C)C[C@@H]1C",
+   "[C]",
+   "[C]",
+   "[C]"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/chemdraw_template6.cdxml": {
+  "molecules": [
+   "C=C",
+   "C=C",
+   "CC",
+   "CC(=O)OC(C)(C)C(C)S(=O)(=O)c1ccccc1",
+   "CC(=O)[O-]",
+   "CC(C)OOC(C)C",
+   "CC(C)[O][Ti]([CH3])([CH3])[O]C(C)C",
+   "CC(C)[O][Ti]([CH3])[O]C(C)C",
+   "CC(C)[O][Ti]([O]C(C)C)([O]C(C)C)[O]C(C)C",
+   "CC(C)[O][Ti]1([O]C(C)C)[CH2][CH2]1",
+   "CC1(O)CC1",
+   "CC1([O][Mg][Br])CC1",
+   "CC=C(C)C",
+   "CCC(C)(C)OC(C)=O",
+   "CCC(C)(C)OC(C)=O",
+   "COC(C)=O",
+   "COC(C)=O",
+   "C[CH2][Mg][Br]",
+   "C[CH2][Mg][Br]",
+   "C[CH2][Ti-]1([O]C(C)C)([O]C(C)C)[CH2]CC(C)([O+](C)[Mg][Br])[O]1",
+   "C[CH2][Ti-]1([O]C(C)C)([O]C(C)C)[CH2]CC(C)=[O+]1",
+   "C[CH2][Ti]([CH2]C)([O]C(C)C)[O]C(C)C",
+   "C[CH2][Ti]([O]C(C)C)([O]C(C)C)[O]C1(C)CC1",
+   "C[CH2][Ti][CH2]CC(C)=O",
+   "C[O][Mg][Br]",
+   "[H+]",
+   "[H-]C(C)C(C)(C)OC(C)=O",
+   "[I][Sm][I]",
+   "[I][Sm][I]"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/chemdraw_template7.cdxml": {
+  "molecules": [
+   "*",
+   "*",
+   "C=C(C)CCC(=O)[C@]1(C)C[C@@H](O[Si](C)(C)C(C)(C)C)O[C@@H]2C(C(C)C)=C(C)C3=[C](CCOCc4ccc(OC)cc4)[Ti]([O]C(C)C)([O]C(C)C)[O][C@]321",
+   "C=C(C)CCC(=O)[C@]1(C)C[C@@H](O[Si](C)(C)C(C)(C)C)O[C@H](/C(=C(/C)C#CCCOCc2ccc(OC)cc2)C(C)C)C1=O",
+   "C=C(C)CCC(=O)[C@]1(C)C[C@@H](O[Si](C)(C)C(C)(C)C)O[C@H](/C(=C(/C)[C]2=[C](CCOCc3ccc(OC)cc3)[Ti]2([O]C(C)C)[O]C(C)C)C(C)C)C1=O",
+   "C=C(C)CCC1(O)C(CCOCc2ccc(OC)cc2)=C2C(C)=C(C(C)C)[C@@H]3O[C@H](O[Si](C)(C)C(C)(C)C)C[C@@]1(C)[C@@]23O",
+   "C=C(C)CCC12[O][Ti]([O]C(C)C)([O]C(C)C)[O][C@]34C(=C1CCOCc1ccc(OC)cc1)C(C)=C(C(C)C)[C@@H]3O[C@H](O[Si](C)(C)C(C)(C)C)C[C@]24C",
+   "C=C(CC(CC=O)OC(=O)C(C)(C)C)C12CCC(C)C3=C(OC)[O][Sm][O][C@@H](CC1)C32",
+   "C=C(CC(CC=O)OC(=O)C(C)(C)C)C12CC[CH][O][Sm]<-[O]=C(OC)C(=C1)C(C)CC2",
+   "C=C(CC(CC=O)OC(=O)C(C)(C)C)[C@]1(CCC=O)C=C(C(=O)OC)[C@H](C)CC1",
+   "C=C1CC(OC(=O)C(C)(C)C)CC2=[O][Sm][O]C(OC)=C23[C@H](C)CC[C@]12CC[C@H]([O][Sm])[C@@H]32",
+   "C=C1CC(OC(=O)C(C)(C)C)C[C@@H](O)[C@]2(C(=O)OC)[C@H](C)CC[C@]13CC[C@H](O)[C@H]32",
+   "C=CC",
+   "CC(C)[O][Ti]([CH3])[O]C(C)C",
+   "CC(C)[O][Ti]([O]C(C)C)([CH](C)C)[CH](C)C",
+   "CC(C)[O][Ti]1([O]C(C)C)[CH2][CH]1C",
+   "CCC"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/chemdraw_template8.cdxml": {
+  "molecules": [
+   "C=C[C@@H]1C[C@H](C)C[C@H](C)[C@H]1C(C(=O)Cl)C(=O)Cl",
+   "C=C[C@@H]1C[C@H](C)C[C@H](C)[C@H]1C(C(=O)O)C(=O)O",
+   "C=C[C@@H]1C[C@H](C)C[C@H](C)[C@H]1C(C(=O)OS(=O)(=O)C(F)(F)F)C(=O)N(C=C)O[C@@H]1C(C(=O)OC)=C[C@H]2OC3(CCCCC3)O[C@H]2[C@H]1O[Si](C)(C)C(C)(C)C",
+   "C=C[C@@H]1C[C@H](C)C[C@H](C)[C@H]1C(C(=O)OS(=O)(=O)C(F)(F)F)C(=O)OS(=O)(=O)C(F)(F)F",
+   "C=C[C@@H]1C[C@H](C)C[C@H](C)[C@H]1c1c(O)ccn(O[C@@H]2C(C(=O)OC)=C[C@H]3OC4(CCCCC4)O[C@H]3[C@H]2O[Si](C)(C)C(C)(C)C)c1=O",
+   "COC(=O)C1=C[C@H]2OC3(CCCCC3)O[C@H]2[C@@H](O[Si](C)(C)C(C)(C)C)[C@@H]1ON=CC[Si](C)(C)C",
+   "COC(=O)C1=C[C@H]2OC3(CCCCC3)O[C@H]2[C@@H](O[Si](C)(C)C(C)(C)C)[C@@H]1ON=CC[Si](C)(C)C"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/chemdraw_template9.cdxml": {
+  "molecules": [
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "*",
+   "C1=COCCC1",
+   "C1CCOC1",
+   "C=C(OCC)[C@@]1(O)C=Cc2ccc(C)n2[C@@H]2C(=O)[C@H](C)n3c(C)ccc3[C@@H]21",
+   "C=C(OCC)[C@@]12C=Cc3ccc(C)n3[C@H]3C1c1ccc(C)n1[C@@H](C)[C@]3(O)O2",
+   "C=C(OCC)[C@@]12C=Cc3ccc(C)n3[C@H]3C1c1ccc(C)n1[C@H](C)[C@]3(O)O2",
+   "C=C(OCC)[C@@]12C=Cc3ccc(C)n3[C@H]3C1c1ccc(C)n1[C@H](C)[C@]3(O)O2",
+   "C=C(OCC)[C@@]12C=Cc3ccc(C)n3[C@H]3[C@@H]1c1ccc(C)n1[C@@H](C)[C@]3(OC(=S)Oc1ccccc1)O2",
+   "C=C(OCC)[C@@]12C=Cc3ccc(C)n3[C@H]3[C@@H]1c1ccc(C)n1[C@H](C)[C@]3(OC(=S)Oc1ccccc1)O2",
+   "C=C(OCC)[C@]12C=Cc3ccc(C)n3[C@@H]3[C@@H](O1)[C@@H](C)n1c(C)ccc1[C@@H]32",
+   "C=CC(C)(C)C(=O)CCCC=O",
+   "C=CC(C)(C)C(=O)CCC[C@H](O)C/C=C/C",
+   "C=CC(C)(C)C(O)CCCCO",
+   "C=CC(C)(C)C1=CCC[C@@H](C/C=C/C)O1",
+   "C=CC(C)(C)C1=CCC[C@@H](C/C=C/C)O1",
+   "C=CC(C)(C)[C@]1(OC)O[C@H](C/C=C/C)C/C(=C\\C(=O)OC)C1=O",
+   "C=CC(C)(C)[C@]1(OC)O[C@H](C/C=C/C)CCC1=O",
+   "C=CC(C)(C)[C@]1(OC)O[C@H](C/C=C/C)CCC1O",
+   "C=CC(C)[C@@]1(O)C[C@@H](C)CC[C@@H]1C(C)C",
+   "C=CS(=O)(=O)c1ccccc1",
+   "CC(=O)OI1(OC(C)=O)(OC(C)=O)OC(=O)c2ccccc21",
+   "CC(=O)[C@]12C=Cc3ccc(C)n3[C@@H]3[C@@H](O1)[C@@H](C)n1c(C)ccc1[C@@H]32",
+   "CC(=O)[C@]12C=Cc3ccc(C)n3[C@@H]3[C@@H](O1)[C@@H](C)n1c(C)ccc1[C@@H]32",
+   "CC(C)(C)[Si](OCC#CCC(=O)CC/C=C\\c1ccccc1)(c1ccccc1)c1ccccc1",
+   "CC(C)(C)[Si](OCC1C2=CC(=O)CC[C@@H]2[C@H]1c1ccccc1)(c1ccccc1)c1ccccc1",
+   "CC(C)(C)[Si](OCC=C=CC(=O)CC/C=C\\c1ccccc1)(c1ccccc1)c1ccccc1",
+   "CC(C)=CCBr",
+   "CC(C)=C[CH2][Zn][Br]",
+   "CC1=[O+][C@H](C)CCC1O",
+   "CN1C[C@@H]2CC3=C[C@@H](C(=O)CC3)[C@H]3C=C(CCC3=O)C[C@H]1CN2",
+   "CN1C[C@@H]2CC3=C[C@H](C(=O)CC3)[C@@H]3C=C(CCC3=O)C[C@H]1CN2",
+   "CO",
+   "CO",
+   "CO",
+   "CO/C=C/C(=O)/C=C/c1ccc(C)n1C(=O)OC(C)(C)C",
+   "CO/C=C/C(C)=O",
+   "COB1OC(c2ccccc2)(c2ccccc2)[C@H]2CCCN12",
+   "COC(=O)C=O",
+   "COC1=CCC2=C[C@@H]1c1cc(ccc1OC)C[C@H]1C(=O)N[C@@H](C2)C(=O)N1C",
+   "COC1=CCC2=C[C@@H]1c1cc(ccc1OC)C[C@H]1CN[C@@H](C2)CN1C",
+   "COc1ccc2cc1-c1cc(ccc1OC)C[C@H]1C(=O)N[C@@H](C2)C(=O)N1C",
+   "COc1ccc2cc1[C@H]1C=C(CCC13OCCO3)C[C@H]1CN(C)[C@H](CN1)C2",
+   "C[C@@H]1CCC2OC2(C)O1",
+   "C[C@H]1C[C@@H](C=O)[C@H](CCS(=O)(=O)c2ccccc2)[C@@H](C)C1",
+   "C[C@H]1C[C@@H](CO)C(C(=O)[O][Na])[C@@H](C)C1",
+   "C[C@H]1C[C@@H](CO)[C@H](C[CH]S(=O)(=O)c2ccccc2)[C@@H](C)C1",
+   "C[C@H]1C[C@H]2COC(=O)[C@H]2[C@@H](C)C1",
+   "C[O][Na]",
+   "Cc1ccc(C=O)n1C(=O)OC(C)(C)C",
+   "Cc1ccc2ccc(=O)ccn12",
+   "Cc1ccc2ccc(=O)ccn12",
+   "Cc1ccc2n1[C@@H](C)[C@@](C#N)(O[Si](C)(C)C)[C@@H]1[C@H]2C(=O)C=Cc2ccc(C)n21",
+   "Cc1ccc2n1[C@@H](C)[C@@](C#N)(O[Si](C)(C)C)[C@@H]1[C@H]2C(=O)C=Cc2ccc(C)n21",
+   "Cc1ccc2n1[C@@H]1[C@@H]3O[C@]([C@H](C)O)(C=C2)[C@H]1c1ccc(C)n1[C@@H]3C",
+   "Cc1ccc2n1[C@@H]1[C@H]3O[C@]([C@H](C)O)(C=C2)[C@H]1c1ccc(C)n1[C@@H]3C",
+   "Cc1ccc2n1[C@H]1[C@@H]3O[C@@]([C@H](C)O)(C=C2)[C@@H]1c1ccc(C)n1[C@H]3C",
+   "Cc1ccccc1",
+   "Cc1cccn1C(C)C(C#N)O[Si](C)(C)C",
+   "Cc1cccn1[C@@H](C)[C@@](C#N)(O[Si](C)(C)C)[C@@H]1C(I)C(=O)C=Cc2ccc(C)n21",
+   "Cl",
+   "Cl",
+   "O=C([O-])c1ccccc1C(=O)OO",
+   "O=C([O-])c1ccccc1C(=O)OO",
+   "O=C1CCC(=O)N1I",
+   "O=CCCCCO",
+   "O=[C]O[O][NaH]",
+   "OC1CCCCO1",
+   "OCCO",
+   "S=C(Cl)Oc1ccccc1",
+   "[C]",
+   "[C]",
+   "[C]",
+   "[Li][C](=C)OCC",
+   "[Mg+2]",
+   "[Zn]"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading (the reagent label NaHMDS, LiCl, an alternative group in the file, stays a label)"
+ },
+ "CDXML/chirality1.cdxml": {
+  "rdkit": [
+   "C[C@H](N)C[C@H](C)N"
+  ]
+ },
+ "CDXML/cistrans1.cdxml": {
+  "rdkit": [
+   "F/C(I)=C(\\Cl)Br"
+  ]
+ },
+ "CDXML/deuterium-atom.cdxml": {
+  "rdkit": [
+   "[2H]"
+  ]
+ },
+ "CDXML/deuterium.cdxml": {
+  "rdkit": [
+   "[2H]c1c([2H])c([2H])c([2H])c([2H])c1[2H]"
+  ]
+ },
+ "CDXML/element-list.cdxml": {
+  "rdkit": [
+   "[C]CC"
+  ],
+  "molecules": [
+   "*CC"
+  ],
+  "why": "an atom list (C, N, O or S): olomol keeps it as a label, RDKit's plain reader makes it a carbon"
+ },
+ "CDXML/explicit-hydrogens.cdxml": {
+  "molecules": [
+   "*c1ccccc1",
+   "*c1ccccc1",
+   "*c1ccccc1"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/floating-protecting-group.cdxml": {
+  "rdkit": [
+   "*",
+   "C=C(C[C@H]([O])C[C@]1(O)O[C@H](C[C@@H](O)CC(=O)O)C[C@H](OC(C)=O)C1(C)C)C[Si](C)(C)C",
+   "*.CC[Si](CC)CC"
+  ],
+  "rdkitChemDraw": [
+   "*",
+   "C=C(C[C@H](O)C[C@]1(O)O[C@H](C[C@@H](O)CC(=O)O)C[C@H](OC(C)=O)C1(C)C)C[Si](C)(C)C",
+   "*.CC[SiH](CC)CC"
+  ],
+  "molecules": [
+   "*",
+   "C=C(C[C@H]([O])C[C@]1(O)O[C@H](C[C@@H](O)CC(=O)O)C[C@H](OC(C)=O)C1(C)C)C[Si](C)(C)C",
+   "CC[Si](CC)CC"
+  ],
+  "why": "the floating protecting group (TES, not bonded to anything) has no attachment point (*) in olomol: Indigo leaves it out"
+ },
+ "CDXML/fusion-chiral.cdxml": {
+  "rdkit": [
+   "C[C@@H](O)[C@@H](C)O"
+  ]
+ },
+ "CDXML/github7467-grouped-fragments.cdxml": {
+  "molecules": [
+   "CO1[SiH2]O(C)[SiH2]O(C)[SiH2]O(C)[SiH2]1",
+   "CO1[SiH2]O(C)[SiH2]O(C)[SiH2]O(C)[SiH2]1"
+  ],
+  "why": "RDKit's test only counts two molecules (unsanitized: the oxygens have three bonds as drawn); olomol reads them as drawn"
+ },
+ "CDXML/github7467-ungrouped-fragments.cdxml": {
+  "molecules": [
+   "CO1[SiH2]O(C)[SiH2]O(C)[SiH2]O(C)[SiH2]1",
+   "CO1[SiH2]O(C)[SiH2]O(C)[SiH2]O(C)[SiH2]1"
+  ],
+  "why": "as github7467-grouped-fragments: two molecules, the oxygens with three bonds as drawn"
+ },
+ "CDXML/github7501-dative.cdxml": {
+  "rdkit": [
+   "C[CH2](C)->[Os]12<-[CH3]CC[NH]->1CC=[NH]->2"
+  ],
+  "molecules": [
+   "CCC",
+   "CCCNCC=N",
+   "[Os]"
+  ],
+  "why": "the dative bonds to the osmium are dative bonds in olomol too, but molfiles (as compared here) don't hold them, so its ligands are apart"
+ },
+ "CDXML/malformed.cdxml": {
+  "fails": true,
+  "why": "broken on purpose: not well-formed XML; RDKit refuses it too"
+ },
+ "CDXML/protecting-groups.cdxml": {
+  "rdkit": [
+   "CC[Si](C)(CC)CC",
+   "CC"
+  ],
+  "molecules": [
+   "*[Si](CC)(CC)CC"
+  ],
+  "why": "ChemDraw's attachment point (a squiggle across the bond's end, which ChemDraw saves as a two-carbon molecule of its own) is an R in olomol, the TES a label on it; RDKit reads the squiggle as an ethane and the bond's end as a methyl"
+ },
+ "CDXML/protecting-groups2.cdxml": {
+  "rdkit": [
+   "CC[Si](C)(CC)CC",
+   "CC"
+  ],
+  "molecules": [
+   "*[Si](CC)(CC)CC"
+  ],
+  "why": "ChemDraw's attachment point (a squiggle across the bond's end, which ChemDraw saves as a two-carbon molecule of its own) is an R in olomol, the TES a label on it; RDKit reads the squiggle as an ethane and the bond's end as a methyl"
+ },
+ "CDXML/queries/CCOC_Chn.cdxml": {
+  "molecules": [
+   "CCOC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/CCOC_Rng.cdxml": {
+  "molecules": [
+   "CCOC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/furan_da.cdxml": {
+  "molecules": [
+   "C1CCOC1"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/furan_sa.cdxml": {
+  "molecules": [
+   "C1CCOC1"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/furan_sd.cdxml": {
+  "molecules": [
+   "C1CCOC1"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qatom_MH.cdxml": {
+  "molecules": [
+   "*CC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qatom_R1.cdxml": {
+  "molecules": [
+   "*CC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qatom_notlist.cdxml": {
+  "molecules": [
+   "*CC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qbond_hydrogen.cdxml": {
+  "molecules": [
+   "[O]",
+   "[O]"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qecp_rgroup.cdxml": {
+  "molecules": [
+   "*C",
+   "C"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qlinknode_1_3.cdxml": {
+  "fails": true,
+  "why": "a link node (a repeated part of a query): Indigo can't read it, RDKit can"
+ },
+ "CDXML/queries/qrestrict_freesites_1.cdxml": {
+  "molecules": [
+   "*CC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qrestrict_implicit_hs.cdxml": {
+  "molecules": [
+   "*CC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qrestrict_ringbond_asdrawn.cdxml": {
+  "molecules": [
+   "*CC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qrestrict_ringbond_simple.cdxml": {
+  "molecules": [
+   "*CC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qrestrict_ringbond_spiro.cdxml": {
+  "molecules": [
+   "C1CCNCC1"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qrestrict_rxnstereo_inversion.cdxml": {
+  "molecules": [
+   "CCC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qrestrict_sub_exact_2.cdxml": {
+  "molecules": [
+   "*CC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qrestrict_sub_upto_2.cdxml": {
+  "molecules": [
+   "*CC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qrestrict_unsat_present.cdxml": {
+  "molecules": [
+   "*CC"
+  ],
+  "why": "a query (RDKit reads it as SMARTS): olomol draws its atoms and bonds as drawn, the query details left out"
+ },
+ "CDXML/queries/qvarattach.cdxml": {
+  "fails": true,
+  "why": "a variable attachment (a query's bond to any of several atoms): Indigo can't read it, RDKit can"
+ },
+ "CDXML/query-any-labels.cdxml": {
+  "rdkit": [
+   "C1CCC~CC1"
+  ],
+  "molecules": [
+   "*C",
+   "*C",
+   "*C",
+   "*C"
+  ],
+  "why": "query labels (any atom, any heavy atom): olomol keeps each as a label"
+ },
+ "CDXML/query-atoms.cdxml": {
+  "rdkit": [
+   "*c1ccccc1",
+   "*c1ccccc1",
+   "*c1ccccc1"
+  ]
+ },
+ "CDXML/reaction-with-boc.cdxml": {
+  "rdkit": [
+   "CC(C)(C)OC(=O)C1CCCCCC1[*:1]",
+   "c1ccc([*:1])cc1",
+   "C1CC1",
+   "C1CCC1"
+  ]
+ },
+ "CDXML/reaction-with-grouped-templates.cdxml": {
+  "molecules": [
+   "C1=CCC=C1",
+   "C1=CCC=C1",
+   "C1CCCCC1"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/ring-stereo1.cdx": {
+  "molecules": [
+   "C1CC[C@H]2CCCC[C@H]2C1"
+  ],
+  "why": "the binary CDX of ring-stereo1.cdxml (RDKit reads CDX only with ChemDraw's own reader): as that one"
+ },
+ "CDXML/ring-stereo1.cdxml": {
+  "rdkit": [
+   "C1CC[C@H]2CCCC[C@H]2C1"
+  ]
+ },
+ "CDXML/rxn1.cdxml": {
+  "rdkit": [
+   "Cl[c:1]1[cH:4][cH:3][cH:2][cH:6][cH:5]1",
+   "OC(O)B[c:7]1[cH:8][cH:9][cH:10][cH:11][cH:12]1",
+   "[cH:1]1[cH:4][cH:3][cH:2][c:6](-[c:7]2[cH:8][cH:9][cH:10][cH:11][cH:12]2)[cH:5]1"
+  ]
+ },
+ "CDXML/rxn2.cdxml": {
+  "molecules": [
+   "Clc1ccccc1",
+   "OC(O)Bc1ccccc1",
+   "c1ccc(-c2ccccc2)cc1"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/sgroups-and-marvin-metal.cdxml": {
+  "molecules": [
+   "CC(=O)Oc1ccccc1C(=O)O",
+   "[Na+]"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/sgroups_and_remove_atoms_4.cdxml": {
+  "molecules": [
+   "CCN(C)CC"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/sgroups_and_remove_atoms_5.cdxml": {
+  "molecules": [
+   "CCOCNCC(O)CC(=O)CC"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/sgroups_and_remove_atoms_6.cdxml": {
+  "molecules": [
+   "CCOCNCC(O)CC(=O)CC"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/stereo.cdxml": {
+  "rdkit": [
+   "C[C@@H](Cl)[C@H](N)O.C[C@@H](F)[C@H](N)O.C[C@H](Br)[C@@H](N)O.C[C@H](I)[C@@H](N)O"
+  ]
+ },
+ "CDXML/stereo1.cdxml": {
+  "rdkit": [
+   "C[C@H](I)[C@@H](N)O"
+  ]
+ },
+ "CDXML/stereo2.cdxml": {
+  "rdkit": [
+   "C[C@@H](I)[C@H](N)O"
+  ]
+ },
+ "CDXML/stereo3.cdxml": {
+  "rdkit": [
+   "C[C@@H](Cl)[C@H](N)O"
+  ]
+ },
+ "CDXML/stereo4.cdxml": {
+  "rdkit": [
+   "C[C@H](Br)[C@@H](N)O"
+  ]
+ },
+ "CDXML/stereo5.cdxml": {
+  "rdkit": [
+   "Cc1ccc2n1[C@@H]1[C@@H]3O[C@]([C@H](C)O)(C=C2)[C@H]1c1ccc(C)n1[C@@H]3C"
+  ]
+ },
+ "CDXML/stereo6.cdxml": {
+  "molecules": [
+   "CCC(Br)[C@@H](O)[C@H](C)F"
+  ],
+  "why": "RDKit's tests don't list its molecules: olomol's reading"
+ },
+ "CDXML/wavy-single.cdxml": {
+  "rdkit": [
+   "CCCC"
+  ]
+ },
+ "CDXML/wavy.cdxml": {
+  "rdkit": [
+   "Cc1cccc(C)c1NC(=O)N=C1CCCN1C",
+   "Cc1cccc(C)c1NC(=O)/N=C1\\CCCN1C"
+  ]
+ },
+ "ChemReactions/bogus_github290.rxn": {
+  "fails": true,
+  "why": "broken on purpose (RDKit's issue 290): Indigo can't read it"
+ },
+ "ChemReactions/github1950_1.rxn": {
+  "molecules": [
+   "*CCl",
+   "*COC",
+   "CO"
+  ],
+  "why": "a query: an atom list ([C,N], kept as a label) on an \"any\" bond, which olomol draws as a single bond, its carbon with its hydrogens (RDKit: none on a query's atoms)"
+ },
+ "ChemReactions/github1950_2.rxn": {
+  "molecules": [
+   "*CCl",
+   "*COC",
+   "CO"
+  ],
+  "why": "as github1950_1: an atom list ([C,N], a label) on an \"any\" bond, drawn single, its carbon with its hydrogens"
+ },
+ "ChemReactions/v3k_with_agents.rxn": {
+  "molecules": [
+   "C=O",
+   "Cl",
+   "N",
+   "NC=O",
+   "O",
+   "[NaH]"
+  ],
+  "why": "the product's C\u2013N is an \"any\" bond: olomol draws it as a single bond and the amide gets its hydrogens (RDKit keeps those of the atoms apart, NH3 and CH2=O)"
+ }
+}

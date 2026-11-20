@@ -1,0 +1,30 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.5.0-dev",
+ "atoms": [
+  {"id": 1, "element": "C", "x": 1.1904, "y": -0.866},
+  {"id": 2, "element": "C", "x": 1.6905, "y": 0},
+  {"id": 3, "element": "C", "x": 2.1905, "y": 0.866},
+  {"id": 4, "element": "C", "x": 0.8244, "y": 0.5},
+  {"id": 5, "element": "Br", "x": 2.5565, "y": -0.5, "lonePairs": "auto"},
+  {"id": 10, "element": "O", "x": 5.955, "y": 0, "lonePairs": "auto"}
+ ],
+ "bonds": [
+  {"id": 6, "atoms": [1, 2]},
+  {"id": 7, "atoms": [2, 3]},
+  {"id": 8, "atoms": [2, 4]},
+  {"id": 9, "atoms": [2, 5]}
+ ],
+ "reactionArrows": [
+  {"id": 12, "from": [6.9928, 0], "to": [9.3928, 0]}
+ ],
+ "plusSigns": [
+  {"id": 11, "x": 4.0649, "y": 0}
+ ],
+ "texts": [
+  {"id": 13, "x": 9.9928, "y": -0.3, "text": "?", "size": 1.6},
+  {"id": 14, "x": 0.8244, "y": 3.466, "text": "Exercise 1", "bold": true},
+  {"id": 15, "x": 0.8244, "y": 2.666, "text": "Draw the mechanism and the product."}
+ ]
+}

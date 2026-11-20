@@ -1,0 +1,23 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.5.0-dev",
+ "reactionArrows": [
+  {"id": 1, "from": [4.46, 0.25], "to": [6.66, 0.25]}
+ ],
+ "plusSigns": [
+  {"id": 2, "x": 2.13, "y": 0.25},
+  {"id": 3, "x": 9.19, "y": 0.25},
+  {"id": 4, "x": 11.55, "y": 0.25}
+ ],
+ "texts": [
+  {"id": 5, "x": 0, "y": 0, "text": "Fe^{2+}"},
+  {"id": 6, "x": 2.68, "y": 0, "text": "H_{2}O_{2}"},
+  {"id": 7, "x": 7.06, "y": 0, "text": "Fe^{3+}"},
+  {"id": 8, "x": 9.74, "y": 0, "text": "HO^{•}"},
+  {"id": 9, "x": 12.1, "y": 0, "text": "OH^{−}"},
+  {"id": 10, "x": 5.032, "y": 0.71, "text": "pH 3", "onArrow": {"arrow": 1, "slot": "above"}},
+  {"id": 11, "x": 4.932, "y": -0.468, "text": "25 °C", "onArrow": {"arrow": 1, "slot": "below"}},
+  {"id": 12, "x": 0, "y": -1.6, "text": "~{the} *{Fenton} ~{reaction: HO^{•} oxidises almost anything}"}
+ ]
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE CDXML SYSTEM "http://www.cambridgesoft.com/xml/cdxml.dtd" >
+<CDXML BondLength="14.4">
+<page id="1">
+<!-- a lone C that ChemDraw says has no hydrogens -->
+<fragment id="2"><n id="3" p="100 100" NumHydrogens="0"><t p="96 104"><s font="3" size="10" face="96">C</s></t></n></fragment>
+<!-- a label ChemDraw couldn't read as atoms, with the Si it found inside -->
+<fragment id="10"><n id="11" p="200 100"/><n id="12" p="214.4 100" NodeType="Unspecified" Warning="An atom in this label has an invalid valence."><fragment id="13"><n id="14" p="214.4 100" Element="14" NumHydrogens="0"><t><s>Si</s></t></n><n id="15" p="200 100" NodeType="ExternalConnectionPoint"/><b id="16" B="15" E="14"/></fragment><t p="210 104"><s font="3" size="10" face="96">SiR3</s></t></n><b id="17" B="11" E="12"/></fragment>
+<!-- an OH, a 13CH3 and a D: hydrogens as olomol works them out, the isotopes kept -->
+<fragment id="20"><n id="21" p="300 100"/><n id="22" p="314.4 100" Element="8" NumHydrogens="1"><t><s>OH</s></t></n><n id="23" p="292.8 112.5" Element="6" Isotope="13" NumHydrogens="3"><t><s>CH3</s></t></n><n id="24" p="292.8 87.5" Element="1" Isotope="2" NumHydrogens="0"><t><s>D</s></t></n><b id="25" B="21" E="22"/><b id="26" B="21" E="23"/><b id="27" B="21" E="24"/></fragment>
+<!-- a lone D that ChemDraw says has no hydrogens: found by its place (Indigo keeps no mark on hydrogen) -->
+<fragment id="30"><n id="31" p="400 100" Element="1" Isotope="2" NumHydrogens="0"><t><s>D</s></t></n></fragment>
+</page>
+</CDXML>

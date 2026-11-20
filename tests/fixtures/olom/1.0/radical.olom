@@ -1,0 +1,49 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.5.0",
+ "style": "screen",
+ "atoms": [
+  {"id": 1, "element": "Cl", "x": 0.3843, "y": 0, "lonePairs": "auto"},
+  {"id": 2, "element": "Cl", "x": 1.3843, "y": 0, "lonePairs": "auto"},
+  {"id": 4, "element": "Cl", "x": 6.353, "y": 0, "multiplicity": 2, "lonePairs": "auto"},
+  {"id": 5, "element": "Cl", "x": 0.3843, "y": -3.2, "multiplicity": 2, "lonePairs": "auto"},
+  {"id": 6, "element": "C", "x": 4.6708, "y": -3.2},
+  {"id": 7, "element": "H", "x": 3.6708, "y": -3.2},
+  {"id": 9, "element": "Cl", "x": 10.8974, "y": -3.2, "lonePairs": "auto"},
+  {"id": 10, "element": "H", "x": 9.8974, "y": -3.2},
+  {"id": 12, "element": "C", "x": 14.3039, "y": -3.2, "multiplicity": 2},
+  {"id": 13, "element": "Cl", "x": 0.3843, "y": -6.4, "multiplicity": 2, "lonePairs": "auto"},
+  {"id": 14, "element": "C", "x": 2.7843, "y": -6.4, "multiplicity": 2},
+  {"id": 15, "element": "C", "x": 10.5474, "y": -6.4},
+  {"id": 16, "element": "Cl", "x": 11.5474, "y": -6.4, "lonePairs": "auto"}
+ ],
+ "bonds": [
+  {"id": 3, "atoms": [1, 2]},
+  {"id": 8, "atoms": [7, 6]},
+  {"id": 11, "atoms": [10, 9]},
+  {"id": 17, "atoms": [15, 16]}
+ ],
+ "reactionArrows": [
+  {"id": 18, "from": [2.7686, 0], "to": [4.9686, 0]},
+  {"id": 19, "from": [6.4952, -3.2], "to": [8.6952, -3.2]},
+  {"id": 20, "from": [6.4952, -6.4], "to": [8.6952, -6.4]}
+ ],
+ "plusSigns": [
+  {"id": 21, "x": 2.1186, "y": -3.2},
+  {"id": 22, "x": 12.6317, "y": -3.2}
+ ],
+ "texts": [
+  {"id": 23, "x": 3.6046, "y": 0.46, "text": "hν", "onArrow": {"arrow": 18, "slot": "above"}},
+  {"id": 24, "x": 5.4407, "y": -0.179, "text": "2", "onMolecule": {"atom": 4, "slot": "left"}}
+ ],
+ "electronArrows": [
+  {"id": 25, "electrons": 1, "from": {"bond": 3}, "to": {"atom": 1}, "color": "#d0021b", "curve": [[0.8843, -0.11], [0.8843, -0.3211], [0.7256, -0.5911], [0.62, -0.4083]], "tip": [0.535, -0.2611]},
+  {"id": 26, "electrons": 1, "from": {"bond": 3}, "to": {"atom": 2}, "color": "#d0021b", "curve": [[0.8843, -0.11], [0.8843, -0.3211], [1.043, -0.5911], [1.1486, -0.4083]], "tip": [1.2336, -0.2611]},
+  {"id": 27, "electrons": 1, "from": {"atom": 5, "radical": true}, "to": {"atom": 7, "newBond": 5}, "color": "#d0021b", "curve": [[0.9186, -3.2], [1.1508, -2.7979], [1.5498, -2.2641], [1.8483, -2.6198]], "tip": [1.9575, -2.75]},
+  {"id": 28, "electrons": 1, "from": {"bond": 8}, "to": {"atom": 5, "newBond": 7}, "color": "#d0021b", "curve": [[4.1708, -3.09], [3.7857, -2.4229], [2.9118, -2.2799], [2.2448, -2.665]], "tip": [2.0975, -2.75]},
+  {"id": 29, "electrons": 1, "from": {"bond": 8}, "to": {"atom": 6}, "color": "#d0021b", "curve": [[4.1708, -3.09], [4.1708, -2.8789], [4.3295, -2.6089], [4.4351, -2.7917]], "tip": [4.5201, -2.9389]},
+  {"id": 30, "electrons": 1, "from": {"atom": 13, "radical": true}, "to": {"atom": 14, "newBond": 13}, "color": "#d0021b", "curve": [[0.9186, -6.4], [1.0309, -6.2056], [1.2607, -6.0178], [1.405, -6.1898]], "tip": [1.5143, -6.32]},
+  {"id": 31, "electrons": 1, "from": {"atom": 14, "radical": true}, "to": {"atom": 13, "newBond": 14}, "color": "#d0021b", "curve": [[2.3121, -6.4], [2.1877, -6.1845], [1.9236, -5.9991], [1.7636, -6.1898]], "tip": [1.6543, -6.32]}
+ ]
+}

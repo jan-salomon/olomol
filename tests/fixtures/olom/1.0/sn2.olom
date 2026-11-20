@@ -1,0 +1,58 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.5.0",
+ "style": "screen",
+ "atoms": [
+  {"id": 1, "element": "O", "x": 0.6222, "y": 0, "charge": -1, "lonePairs": "auto"},
+  {"id": 2, "element": "C", "x": 4.7334, "y": -1.2986},
+  {"id": 3, "element": "C", "x": 5.2335, "y": -0.4327, "showRS": true},
+  {"id": 4, "element": "C", "x": 4.7342, "y": 0.4327},
+  {"id": 5, "element": "C", "x": 5.2344, "y": 1.2986},
+  {"id": 6, "element": "Br", "x": 6.2331, "y": -0.4321, "lonePairs": "auto"},
+  {"id": 11, "element": "C", "x": 12.8536, "y": -0.0137},
+  {"id": 12, "element": "C", "x": 12.2379, "y": -0.8017},
+  {"id": 13, "element": "C", "x": 11.2575, "y": -0.9863},
+  {"id": 14, "element": "C", "x": 13.4693, "y": -0.8017},
+  {"id": 15, "element": "H", "x": 12.8536, "y": 0.9863},
+  {"id": 16, "element": "Br", "x": 14.0036, "y": -0.0137, "partialCharge": -1},
+  {"id": 17, "element": "O", "x": 11.7036, "y": -0.0137, "partialCharge": -1},
+  {"id": 24, "element": "C", "x": 19.3649, "y": -1.2986},
+  {"id": 25, "element": "C", "x": 19.8651, "y": -0.4327, "showRS": true},
+  {"id": 26, "element": "C", "x": 19.3658, "y": 0.4327},
+  {"id": 27, "element": "C", "x": 19.866, "y": 1.2986},
+  {"id": 28, "element": "O", "x": 20.8646, "y": -0.4321, "lonePairs": "auto"},
+  {"id": 33, "element": "Br", "x": 24.5868, "y": 0, "charge": -1, "lonePairs": "auto"}
+ ],
+ "bonds": [
+  {"id": 7, "atoms": [3, 2], "stereo": "wedge"},
+  {"id": 8, "atoms": [3, 6]},
+  {"id": 9, "atoms": [3, 4]},
+  {"id": 10, "atoms": [4, 5]},
+  {"id": 18, "atoms": [17, 11], "kind": "partial", "depth": 0.2587},
+  {"id": 19, "atoms": [11, 16], "kind": "partial", "depth": -0.0002},
+  {"id": 20, "atoms": [11, 15], "depth": 0.1292},
+  {"id": 21, "atoms": [11, 14], "stereo": "hash", "depth": 0.5475},
+  {"id": 22, "atoms": [11, 12], "stereo": "wedge", "depth": -0.289},
+  {"id": 23, "atoms": [12, 13], "depth": -0.7414},
+  {"id": 29, "atoms": [25, 24], "stereo": "hash"},
+  {"id": 30, "atoms": [25, 28]},
+  {"id": 31, "atoms": [25, 26]},
+  {"id": 32, "atoms": [26, 27]}
+ ],
+ "reactionArrows": [
+  {"id": 34, "from": [7.6331, 0], "to": [9.4331, 0]},
+  {"id": 35, "from": [15.7405, 0], "to": [17.5405, 0]}
+ ],
+ "plusSigns": [
+  {"id": 36, "x": 2.5589, "y": 0},
+  {"id": 37, "x": 22.8368, "y": 0}
+ ],
+ "electronArrows": [
+  {"id": 38, "from": {"atom": 1}, "to": {"atom": 3}, "color": "#d0021b", "curve": [[1.05, 0], [2.2174, -0.674], [3.603, -0.8696], [4.9051, -0.5207]], "tip": [5.0693, -0.4767]},
+  {"id": 39, "from": {"bond": 8}, "to": {"atom": 6}, "color": "#d0021b", "curve": [[5.7334, -0.5424], [5.7335, -0.7532], [5.892, -1.023], [5.9974, -0.8404]], "tip": [6.0824, -0.6932]}
+ ],
+ "brackets": [
+  {"id": 40, "corners": [[10.0831, 1.5368], [15.0905, -1.66]], "superscript": "‡", "atoms": [11, 17, 16, 15, 14, 12, 13]}
+ ]
+}

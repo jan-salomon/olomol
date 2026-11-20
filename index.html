@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>olomol: chemical structures and mechanisms</title>
+    <!-- (what a search result says under the title: under about 155 characters, or it is cut off; the about
+         page's says what is on that page, so that the two results don't say the same) -->
+    <meta name="description" content="Draw chemical structures, reactions and curved-arrow mechanisms in the browser: lone pairs, chairs, structures from names. Free, no account, works offline." />
+    <!-- the icon: browsers take the SVG; Google's search results want a square of 48 px or a multiple of it,
+         so also favicon.ico (16, 32 and 48 px) and a PNG of 192 -->
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="favicon.ico" sizes="48x48" />
+    <link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png" />
+    <!-- the site's name in search results ("olomol", not "olomol.org"): Google reads it from the home page -->
+    <script type="application/ld+json">
+      { "@context": "https://schema.org", "@type": "WebSite", "name": "olomol", "alternateName": "olomol.org", "url": "https://olomol.org/" }
+    </script>
+    <!-- what a link to the site shows when pasted into Reddit, e-mail or a chat (Open Graph), and the
+         page that says what olomol is (public/about.html); absolute addresses, as previews need them:
+         the public site's, to change if it moves -->
+    <link rel="canonical" href="https://olomol.org/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="olomol" />
+    <meta property="og:title" content="olomol: drawing chemical structures, reactions and mechanisms" />
+    <meta property="og:description" content="A free drawing program for chemistry teaching: structures, reactions and curved-arrow mechanisms, in the browser, nothing to install." />
+    <meta property="og:url" content="https://olomol.org/" />
+    <meta property="og:image" content="https://olomol.org/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The olomol logo above a Friedel–Crafts acylation mechanism drawn with curved arrows and resonance structures" />
+    <meta property="og:locale" content="en_GB" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- installing as an app (scripts/pwa.mjs writes the service worker); with use-credentials it loads behind a server's password too -->
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="theme-color" content="#f7f8fb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#13151b" media="(prefers-color-scheme: dark)" />
+    <script>
+      // An address that is no file of the site gets this page too (on Cloudflare: "single-page-application"),
+      // and answers 200: not to be indexed, so that search engines don't count it as a copy of the app (a "soft
+      // 404"); Google reads a robots tag added here once it has run the page
+      if (location.hostname === 'olomol.org' && !/^\/(index\.html)?$/.test(location.pathname)) {
+        document.head.append(Object.assign(document.createElement('meta'), { name: 'robots', content: 'noindex' }));
+      }
+      // the theme picked in Settings, before anything is drawn
+      try {
+        const theme = localStorage.getItem('olomol-theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch {
+        // the system's
+      }
+      // The built site keeps its files in the browser (sw.js, written by
+      // scripts/pwa.mjs): it opens without waiting, works offline and can be
+      // installed as an app. The browser's offer to install it (Chrome,
+      // Edge) waits here for the app's Install button (src/ui/install.js).
+      if (%PROD% && 'serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
+      addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        window.installOffer = event;
+        dispatchEvent(new Event('installoffer'));
+      });
+    </script>
+    <style>
+      /* while the app loads (React replaces it); shown only if that takes a moment */
+      .splash { position: fixed; inset: 0; display: grid; place-content: center; justify-items: center; gap: 16px; margin: 0; background: #f7f8fb; color: #1c1f26; font: 650 20px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+      @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .splash { background: #13151b; color: #e7e9f0; } }
+      :root[data-theme='dark'] .splash { background: #13151b; color: #e7e9f0; }
+      .splash > * { animation: splash-in 0.3s 0.4s both; }
+      .splash b { display: flex; align-items: center; gap: 10px; }
+      .splash b span { width: 24px; height: 24px; background: url(icons/icon.svg) center / contain no-repeat; }
+      .splash i { width: 160px; height: 4px; border-radius: 2px; background: rgba(16, 53, 169, 0.14); overflow: hidden; }
+      .splash i::after { content: ''; display: block; width: 40%; height: 100%; border-radius: 2px; background: linear-gradient(90deg, #1035a9, #2e6fdb); animation: splash-run 1.2s ease-in-out infinite; }
+      @keyframes splash-in { from { opacity: 0; } }
+      @keyframes splash-run { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+    </style>
+  </head>
+  <body>
+    <div id="root"><div class="splash" role="progressbar" aria-label="olomol"><b><span></span>olomol</b><i></i></div></div>
+    <!-- for a browser without JavaScript, and for programs that read the page without running it (search
+         engines and AI crawlers that don't run scripts: this is all they see of the app); the about page
+         (public/about.html) says the same at length, in three languages -->
+    <noscript>
+      <style>.splash { display: none; } .noscript { max-width: 680px; margin: 0 auto; padding: 40px 16px; font: 17px/1.6 system-ui, sans-serif; } .noscript h1 { font-size: 24px; line-height: 1.25; }</style>
+      <div class="noscript">
+        <h1>olomol: drawing chemical structures, reactions and mechanisms</h1>
+        <p>olomol is a free program for drawing chemical structures, reactions and curved-arrow mechanisms, made for chemistry education and for anyone who draws chemistry: lectures and slides, handouts, exercises, exams, theses and publications. It runs entirely in the web browser: nothing to install, no account, the drawings stay on your computer, and once opened it works offline. In Czech, English and German. <strong>It needs JavaScript.</strong></p>
+        <ul>
+          <li>Electron-pushing mechanisms: lone pairs, unpaired electrons, curved arrows and fishhooks tied to atoms and bonds</li>
+          <li>Reaction schemes, resonance structures, transition states, brackets, equilibria; orbitals with phases</li>
+          <li>Chairs read with their stereochemistry, the ring flip; Newman, Fischer and Haworth projections from the templates as real molecules</li>
+          <li>Formula, masses, R/S and E/Z, SMILES and InChI; structures from a name, SMILES, InChI or PubChem</li>
+          <li>Clean layouts to choose from; a molecule turned in 3D and drawn as seen; metal complexes</li>
+          <li>Export to SVG, PNG, molfile, SDF, SMILES, InChI, KET and XYZ</li>
+        </ul>
+        <p><a href="about.html?lang=en">What olomol is and what it does, with videos</a> (<a href="cs/about.html">česky</a>, <a href="de/about.html">deutsch</a>) · <a href="changelog.html?lang=en">What's new</a> · <a href="docs/en/manual.pdf">Manual (PDF)</a> · <a href="docs/en/quick-start.pdf">Quick start (PDF)</a></p>
+        <p>Made by Jan Salomon at the Department of Physical Chemistry, Palacký University Olomouc. Free to use under the MIT License. To cite: Salomon, J. olomol: drawing chemical structures, reactions and mechanisms [Computer software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.24104909">https://doi.org/10.5281/zenodo.24104909</a></p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

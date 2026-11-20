@@ -1,0 +1,5 @@
+# olomol: everything may be indexed. (Cloudflare may put its own lines above these.)
+User-agent: *
+Allow: /
+
+Sitemap: https://olomol.org/sitemap.xml

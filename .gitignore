@@ -1,0 +1,5 @@
+node_modules/
+dist/
+# local browser-check output
+test-output/
+*.log

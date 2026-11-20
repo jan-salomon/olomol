@@ -1,0 +1,38 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.5.0-dev",
+ "atoms": [
+  {"id": 1, "element": "C", "x": 1.2718, "y": -0.275, "showCarbon": true},
+  {"id": 2, "element": "O", "x": 2.2218, "y": -0.825, "charge": -1, "lonePairs": "auto"},
+  {"id": 3, "element": "O", "x": 0.3218, "y": -0.825, "charge": -1, "lonePairs": "auto"},
+  {"id": 4, "element": "O", "x": 1.2718, "y": 0.825, "lonePairs": "auto"},
+  {"id": 8, "element": "C", "x": 8.1003, "y": -0.275, "showCarbon": true},
+  {"id": 9, "element": "O", "x": 9.0503, "y": -0.825, "charge": -1, "lonePairs": "auto"},
+  {"id": 10, "element": "O", "x": 7.1503, "y": -0.825, "lonePairs": "auto"},
+  {"id": 11, "element": "O", "x": 8.1003, "y": 0.825, "charge": -1, "lonePairs": "auto"},
+  {"id": 15, "element": "C", "x": 14.9288, "y": -0.275, "showCarbon": true},
+  {"id": 16, "element": "O", "x": 15.8788, "y": -0.825, "lonePairs": "auto"},
+  {"id": 17, "element": "O", "x": 13.9788, "y": -0.825, "charge": -1, "lonePairs": "auto"},
+  {"id": 18, "element": "O", "x": 14.9288, "y": 0.825, "charge": -1, "lonePairs": "auto"}
+ ],
+ "bonds": [
+  {"id": 5, "atoms": [1, 4], "order": 2},
+  {"id": 6, "atoms": [1, 3]},
+  {"id": 7, "atoms": [1, 2]},
+  {"id": 12, "atoms": [8, 11]},
+  {"id": 13, "atoms": [8, 10], "order": 2},
+  {"id": 14, "atoms": [8, 9]},
+  {"id": 19, "atoms": [15, 18]},
+  {"id": 20, "atoms": [15, 17]},
+  {"id": 21, "atoms": [15, 16], "order": 2}
+ ],
+ "reactionArrows": [
+  {"id": 22, "kind": "resonance", "from": [3.9285, 0], "to": [5.7285, 0]},
+  {"id": 23, "kind": "resonance", "from": [10.7571, 0], "to": [12.5571, 0]}
+ ],
+ "electronArrows": [
+  {"id": 24, "from": {"atom": 3}, "to": {"bond": 6}, "color": "#d0021b", "curve": [[0.1011, -0.4427], [0.1011, -0.1401], [0.5049, -0.0458], [0.6565, -0.3077]], "tip": [0.7417, -0.4548]},
+  {"id": 25, "from": {"bond": 5}, "to": {"atom": 4}, "color": "#d0021b", "curve": [[1.4718, 0.275], [1.6724, 0.275], [1.8712, 0.4789], [1.6975, 0.5792]], "tip": [1.5503, 0.6642]}
+ ]
+}

@@ -1,0 +1,75 @@
+# olomol
+
+> olomol is a free program for drawing chemical structures, reactions and curved-arrow (electron-pushing) mechanisms. It runs entirely in the web browser at https://olomol.org/: nothing to install, no account, drawings stay on the user's computer, and once opened it works offline. It is made for chemistry education and for anyone who draws chemistry (lectures and slides, handouts, exercises, exams, theses, publications). Interface in Czech, English and German.
+
+olomol is made by Jan Salomon at the Department of Physical Chemistry, Palacký University Olomouc, Czech Republic. It is free to use under the MIT License. It is built on RDKit, Indigo (EPAM Systems), megane-rdkit and OpenChemLib; its own file format is .olom (JSON); it also opens and exports KET, Ketcher's format.
+
+What it does:
+
+- Mechanisms: lone pairs and unpaired electrons counted from the chemistry; Lewis symbols of single atoms; curved arrows and fishhooks tied to atoms, bonds and lone pairs, which follow when the drawing moves; a fishhook (or, with Shift, a curved arrow) dropped between two atoms makes the new bond.
+- Orbitals: p, hybrid and s orbitals with their phases and overlap lines, for frontier-orbital pictures (HOMO and LUMO of a Diels–Alder reaction).
+- Reactions: reaction, equilibrium, resonance and retrosynthesis arrows with conditions and reagents; side arcs (NAD⁺ in, NADH out); resonance structures, transition states, brackets, charges, δ+ and δ−.
+- Conformations: chairs read as the stereoisomer they show; a flat ring or Haworth projection turned into a chair; the ring flip; Newman projections as real molecules with a dihedral to set.
+- Chemistry: molecular formula, molar and exact mass, elemental analysis, HRMS ions, R/S and E/Z, IUPAC numbering, SMILES, InChI, a PubChem link. Redrawing, flips and 3D views are checked by RDKit so the molecule and its R/S don't change unnoticed.
+- Templates: rings, functional groups, chairs, Newman, Fischer and Haworth projections, complexes, amino acids, sugars, nucleobases, reagents and solvents; a structure from a name, SMILES, InChI or PubChem number.
+- Layout and 3D: Redraw offers several clean drawings to choose from; Turn in 3D turns a molecule or a metal complex with the mouse and draws it as seen, keeping R/S, E/Z and Λ/Δ; a 3D stick model; metal complexes laid out by a force field.
+- Files: saves KET; opens KET, molfile, SDF, RXN, CML, SMILES, XYZ and ChemDraw files (CDXML, CDX); exports molfile, SDF, SMILES, InChI, XYZ and SVG and PNG pictures; a picture into Word, PowerPoint or Google Docs with Ctrl+Shift+C; a link that carries the whole drawing.
+
+What it is not: not a tutor (it doesn't name compounds or complete mechanisms for students), not a quantum-chemistry or modelling program, and it needs JavaScript and WebAssembly.
+
+How to cite: Salomon, J. olomol: drawing chemical structures, reactions and mechanisms [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.24104909 (the concept DOI, all versions; the app's About window gives the citation of the version in use, also as BibTeX, RIS and CSL JSON).
+
+## Opening a structure in olomol from a link
+
+To show someone a molecule or a reaction, give a link to olomol with the structure in it: it opens drawn, ready to edit, export or save. Write the structure itself into the link as plain text (no base64, no compression). olomol draws it (2D coordinates, layout) and checks it with RDKit, saying what is wrong if it can't be read.
+
+    https://olomol.org/#smiles=CC(=O)Oc1ccccc1C(=O)O&title=Aspirin
+
+The keys, after # and joined by &:
+
+- smiles: a molecule; several in one drawing joined by "." ; a reaction as reaction SMILES, reactants>agents>products (the agents go over the arrow), e.g. CC(=O)O.OCC>[H+]>CC(=O)OCC.O
+- inchi: an InChI (InChI=1S/…)
+- name: an English name, looked up on PubChem when the link is opened (needs internet; give smiles when you know it)
+- cid: a PubChem compound number
+- title: the drawing's name; the first title names the first structure, the second the second, and so on
+
+Several structures: repeat the keys; each opens in a tab of its own, in order (an exercise, then its solution; olomol's Show button presents them full screen, one after another).
+
+Writing the link:
+
+- Put the keys after #, not ?: the part after # stays in the browser and never reaches a server. (? works too.)
+- In SMILES, write # (a triple bond) as %23, % (a two-digit ring closure, %12) as %25, a space as %20. Everything else as it is: + - = ( ) [ ] / \ @ . > are read as written. olomol also reads an unencoded # and + correctly; + is never read as a space, except in name and title.
+- Give the link as a bare URL on its own line (or in <…>), so a chat program doesn't cut it at a parenthesis.
+- Keep links under about 2000 characters. Don't add coordinates: olomol lays the structure out itself.
+
+Examples:
+
+- Ethyne: https://olomol.org/#smiles=C%23C&title=Ethyne
+- Sodium acetate: https://olomol.org/#smiles=CC(=O)[O-].[Na+]
+- (R)-ibuprofen: https://olomol.org/#smiles=C[C@@H](C(=O)O)c1ccc(CC(C)C)cc1
+- Fischer esterification: https://olomol.org/#smiles=CC(=O)O.OCC>[H+]>CC(=O)OCC.O&title=Fischer%20esterification
+- An exercise and its solution: https://olomol.org/#title=Exercise&smiles=C=CC.Br&title=Solution&smiles=CC(Br)C
+- By name: https://olomol.org/#name=caffeine
+
+Curved arrows (mechanisms) can't be written into a link yet: draw the structures by link, and the arrows in olomol.
+
+## Pages
+
+- [About olomol, with videos (English)](https://olomol.org/about.html): what it is and what it does
+- [O olomolu (česky)](https://olomol.org/cs/about.html): the same in Czech
+- [Über olomol (deutsch)](https://olomol.org/de/about.html): the same in German
+- [What's new](https://olomol.org/changelog.html): the changes in each version (also [Czech](https://olomol.org/cs/changelog.html) and [German](https://olomol.org/de/changelog.html))
+- [The app](https://olomol.org/): open it and draw; the ? button at the bottom right opens Help with examples
+
+## Docs
+
+- [Manual (PDF, English)](https://olomol.org/docs/en/manual.pdf)
+- [Quick start (PDF, English)](https://olomol.org/docs/en/quick-start.pdf)
+- [Příručka (PDF, česky)](https://olomol.org/docs/manual.pdf)
+- [Rychlý start (PDF, česky)](https://olomol.org/docs/rychly-start.pdf)
+
+## Optional
+
+- [Zenodo record](https://doi.org/10.5281/zenodo.24104909): each version's built site archived with its own DOI
+- [Wikidata item](https://www.wikidata.org/wiki/Q142111790): olomol in Wikidata (Q142111790)
+- Problems and ideas: bugs@olomol.org

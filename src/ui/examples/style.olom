@@ -1,0 +1,32 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.5.0-dev",
+ "atoms": [
+  {"id": 1, "element": "C", "x": 2.25, "y": -0.866},
+  {"id": 2, "element": "O", "x": 1.25, "y": -0.866, "bold": true},
+  {"id": 3, "element": "C", "x": 0.75, "y": 0},
+  {"id": 4, "element": "O", "x": 1.25, "y": 0.866},
+  {"id": 5, "element": "C", "x": -0.25, "y": 0},
+  {"id": 6, "element": "C", "x": -0.75, "y": 0.866},
+  {"id": 7, "element": "C", "x": -1.75, "y": 0.866},
+  {"id": 8, "element": "C", "x": -2.25, "y": 0},
+  {"id": 9, "element": "C", "x": -1.75, "y": -0.866},
+  {"id": 10, "element": "C", "x": -0.75, "y": -0.866}
+ ],
+ "bonds": [
+  {"id": 11, "atoms": [1, 2]},
+  {"id": 12, "atoms": [2, 3], "bold": true},
+  {"id": 13, "atoms": [3, 4], "order": 2},
+  {"id": 14, "atoms": [3, 5]},
+  {"id": 15, "atoms": [5, 6], "order": 2},
+  {"id": 16, "atoms": [6, 7]},
+  {"id": 17, "atoms": [7, 8], "order": 2},
+  {"id": 18, "atoms": [8, 9]},
+  {"id": 19, "atoms": [9, 10], "order": 2},
+  {"id": 20, "atoms": [10, 5]}
+ ],
+ "texts": [
+  {"id": 21, "x": -2.65, "y": -2.466, "text": "Scheme 1. The new C–O bond in bold.", "size": 1.15, "font": "serif"}
+ ]
+}

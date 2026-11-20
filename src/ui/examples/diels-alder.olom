@@ -1,0 +1,67 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.5.0-dev",
+ "atoms": [
+  {"id": 1, "element": "C", "x": 2.1668, "y": 1, "showMethyl": false},
+  {"id": 2, "element": "C", "x": 3.0328, "y": 0.5},
+  {"id": 3, "element": "C", "x": 3.0328, "y": -0.5},
+  {"id": 4, "element": "C", "x": 2.1668, "y": -1, "showMethyl": false},
+  {"id": 8, "element": "C", "x": 0.8008, "y": -0.5, "showMethyl": false},
+  {"id": 9, "element": "C", "x": 0.8008, "y": 0.5, "showMethyl": false},
+  {"id": 11, "element": "C", "x": 8.7648, "y": 0.5},
+  {"id": 12, "element": "C", "x": 7.8988, "y": 1},
+  {"id": 13, "element": "C", "x": 7.0328, "y": 0.5},
+  {"id": 14, "element": "C", "x": 7.0328, "y": -0.5},
+  {"id": 15, "element": "C", "x": 7.8988, "y": -1},
+  {"id": 16, "element": "C", "x": 8.7649, "y": -0.5},
+  {"id": 23, "element": "Br", "x": 16.2719, "y": 1, "lonePairs": "auto"},
+  {"id": 24, "element": "C", "x": 15.4058, "y": 0.4999},
+  {"id": 25, "element": "C", "x": 15.4057, "y": -0.5001},
+  {"id": 26, "element": "Br", "x": 16.2717, "y": -1, "lonePairs": "auto"},
+  {"id": 27, "element": "C", "x": 14.5396, "y": -1.0001},
+  {"id": 28, "element": "C", "x": 13.6737, "y": -0.5001},
+  {"id": 29, "element": "C", "x": 13.6737, "y": 0.4999},
+  {"id": 30, "element": "C", "x": 14.5398, "y": 0.9999},
+  {"id": 39, "element": "Br", "x": 11.0737, "y": 0.6305, "lonePairs": "auto", "onArrow": {"arrow": 43, "slot": "above", "sign": "+"}},
+  {"id": 40, "element": "Br", "x": 12.0737, "y": 0.6305, "lonePairs": "auto", "onArrow": {"arrow": 43, "slot": "above", "sign": "+"}}
+ ],
+ "bonds": [
+  {"id": 5, "atoms": [1, 2], "order": 2},
+  {"id": 6, "atoms": [2, 3]},
+  {"id": 7, "atoms": [3, 4], "order": 2},
+  {"id": 10, "atoms": [8, 9], "order": 2},
+  {"id": 17, "atoms": [11, 16], "order": 2},
+  {"id": 18, "atoms": [16, 15]},
+  {"id": 19, "atoms": [15, 14]},
+  {"id": 20, "atoms": [14, 13]},
+  {"id": 21, "atoms": [13, 12]},
+  {"id": 22, "atoms": [12, 11]},
+  {"id": 31, "atoms": [24, 23], "stereo": "wedge"},
+  {"id": 32, "atoms": [24, 30]},
+  {"id": 33, "atoms": [30, 29]},
+  {"id": 34, "atoms": [29, 28]},
+  {"id": 35, "atoms": [28, 27]},
+  {"id": 36, "atoms": [27, 25]},
+  {"id": 37, "atoms": [25, 26], "stereo": "hash"},
+  {"id": 38, "atoms": [25, 24]},
+  {"id": 41, "atoms": [39, 40]}
+ ],
+ "reactionArrows": [
+  {"id": 42, "from": [3.7328, 0], "to": [6.3328, 0]},
+  {"id": 43, "from": [9.4649, 0], "to": [12.9737, 0]}
+ ],
+ "texts": [
+  {"id": 44, "x": 4.8658, "y": 0.46, "text": "Δ", "onArrow": {"arrow": 42, "slot": "above"}},
+  {"id": 45, "x": 7.7599, "y": -2.1624, "text": "1", "bold": true, "onMolecule": {"atom": 11, "slot": "below", "drop": 0.3044}},
+  {"id": 46, "x": 15.0258, "y": -2.1624, "text": "2", "bold": true, "onMolecule": {"atom": 23, "slot": "below"}}
+ ],
+ "electronArrows": [
+  {"id": 48, "from": {"bond": 7}, "to": {"atom": 8}, "color": "#d0021b", "curve": [[2.4548, -0.4989], [2.1873, -0.0355], [1.5586, -0.0625], [1.0952, -0.33]], "tip": [0.948, -0.415]},
+  {"id": 49, "from": {"bond": 10}, "to": {"atom": 1}, "color": "#d0021b", "curve": [[1.0008, 0], [1.524, 0], [2.1668, 0.1368], [2.1668, 0.66]], "tip": [2.1668, 0.83]},
+  {"id": 50, "from": {"bond": 5}, "to": {"bond": 6}, "color": "#d0021b", "curve": [[2.4548, 0.4989], [2.3257, 0.2752], [2.4945, 0], [2.7528, 0]], "tip": [2.9228, 0]}
+ ],
+ "ringFills": [
+  {"id": 47, "atoms": [11, 16, 15, 14, 13, 12], "color": "#b5dcff"}
+ ]
+}

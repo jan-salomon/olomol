@@ -1,0 +1,621 @@
+<!doctype html>
+<!-- What olomol is, for those who haven't opened it yet: a page that people,
+     search engines and link previews (Reddit, e-mail, chats) can read
+     without running the app. In Czech, English and German: each text here
+     in all three (lang="…"), and scripts/pages.mjs makes a page of each,
+     as of changelog.html: about.html in English, cs/about.html and
+     de/about.html (also on the dev server). A link without a language
+     (about.html) is the English page, unless ?lang= or the language picked
+     in the app says another (not the browser's language: to search engines
+     about.html is the English page). Elements with lang="…" in the head (the
+     title, descriptions, link preview) are kept for their language only.
+     The pictures and videos (about/) are recorded from a dev server by
+     scripts driving the pointer (scripts/about-videos/; a drawn pointer:
+     recordings show none); the
+     preview picture (og.png, 1200×630) is the app's export of the
+     Friedel–Crafts example. The videos load and play only when in view,
+     and not by themselves for those who asked their system for less motion
+     (nor without JavaScript: then they have their controls).
+     The addresses in the head (og:url, og:image, canonical, the JSON-LD)
+     are the public site's: change them if it moves.
+     This is the link to give people, and one they can keep: who went on
+     to olomol from here lands in the app on a later visit (see the first
+     script). ?stay shows the page all the same. -->
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // A kept link opens olomol: who has gone on to the app from here goes straight there on a new visit.
+  // Not after Back or a reload, not coming from another page of the site, not with ?stay; people and
+  // crawlers new to it get the page. (Else the English page may go on to another language: the next script.)
+  (() => {
+    const site = new URL(document.documentElement.dataset.root ?? './', location.href).href;
+    let read = null;
+    try {
+      read = localStorage.getItem('olomol-about-read');
+    } catch {
+      // no storage: the page
+    }
+    const visit = performance.getEntriesByType('navigation')[0]?.type;
+    if (read && visit === 'navigate' && !document.referrer.startsWith(site) && !new URLSearchParams(location.search).has('stay')) {
+      window.olomolLeaving = true;
+      location.replace(site);
+    }
+  })();
+</script>
+<!-- (the English page on to the language asked for: scripts/pages.mjs puts its script here) -->
+<script data-to-language></script>
+<!-- The title in a search result: the name last, since Google cuts off a leading "olomol:" (it shows the
+     site's name above it) and the rest began in lower case. The description: what is on this page, under
+     about 155 characters (the app's says what olomol does, so that the two results don't say the same) -->
+<title lang="cs">Kreslení chemických struktur, reakcí a mechanismů – olomol</title>
+<title lang="en">Drawing chemical structures, reactions and mechanisms – olomol</title>
+<title lang="de">Chemische Strukturen, Reaktionen und Mechanismen zeichnen – olomol</title>
+<meta name="description" lang="cs" content="Co olomol nakreslí, v krátkých videích: mechanismus, reakční schéma, molekuly otočené ve 3D, židličky. K tomu příručky, časté otázky a jak olomol citovat.">
+<meta name="description" lang="en" content="What olomol draws, in short videos: a mechanism, a reaction scheme, molecules turned in 3D, chairs. With the manuals, common questions and how to cite it.">
+<meta name="description" lang="de" content="Was olomol zeichnet, in kurzen Videos: ein Mechanismus, ein Reaktionsschema, in 3D gedrehte Moleküle, Sesselformen. Dazu Handbücher, häufige Fragen und Zitierhinweise.">
+<!-- (a large picture in search results may be shown) -->
+<meta name="robots" content="max-image-preview:large">
+<link rel="canonical" href="https://olomol.org/about.html">
+<!-- how to cite it: the concept DOI on Zenodo (all versions); citation_* for Google Scholar -->
+<link rel="cite-as" href="https://doi.org/10.5281/zenodo.24104909">
+<meta name="citation_title" content="olomol: drawing chemical structures, reactions and mechanisms">
+<meta name="citation_author" content="Salomon, Jan">
+<meta name="citation_author_institution" content="Department of Physical Chemistry, Palacký University Olomouc">
+<meta name="citation_publication_date" content="2026/11/10">
+<meta name="citation_publisher" content="Zenodo">
+<meta name="citation_doi" content="10.5281/zenodo.24104909">
+<!-- the icon (as the app's: favicon.ico and the PNG for search results) -->
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="olomol">
+<meta property="og:title" lang="cs" content="olomol: kreslení chemických struktur, reakcí a mechanismů">
+<meta property="og:title" lang="en" content="olomol: drawing chemical structures, reactions and mechanisms">
+<meta property="og:title" lang="de" content="olomol: chemische Strukturen, Reaktionen und Mechanismen zeichnen">
+<meta property="og:description" lang="cs" content="Kreslicí program zdarma pro výuku chemie: struktury, reakce a mechanismy se zahnutými šipkami, v prohlížeči a bez instalace.">
+<meta property="og:description" lang="en" content="A free drawing program for chemistry teaching: structures, reactions and curved-arrow mechanisms, in the browser, nothing to install.">
+<meta property="og:description" lang="de" content="Ein kostenloses Zeichenprogramm für die Chemielehre: Strukturen, Reaktionen und Mechanismen mit gebogenen Pfeilen, im Browser, ohne Installation.">
+<meta property="og:url" content="https://olomol.org/about.html">
+<meta property="og:image" content="https://olomol.org/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" lang="cs" content="Logo olomolu nad mechanismem Friedelovy–Craftsovy acylace se zahnutými šipkami a rezonančními strukturami">
+<meta property="og:image:alt" lang="en" content="The olomol logo above a Friedel–Crafts acylation mechanism drawn with curved arrows and resonance structures">
+<meta property="og:image:alt" lang="de" content="Das olomol-Logo über dem Mechanismus einer Friedel-Crafts-Acylierung mit gebogenen Pfeilen und Grenzstrukturen">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="cs_CZ">
+<meta property="og:locale:alternate" content="de_DE">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "olomol",
+  "alternateName": "olomol: drawing chemical structures, reactions and mechanisms",
+  "url": "https://olomol.org/",
+  "identifier": { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.24104909", "url": "https://doi.org/10.5281/zenodo.24104909" },
+  "sameAs": ["https://doi.org/10.5281/zenodo.24104909", "https://www.wikidata.org/wiki/Q142111790"],
+  "license": "https://opensource.org/license/mit",
+  "softwareHelp": "https://olomol.org/docs/en/manual.pdf",
+  "releaseNotes": "https://olomol.org/changelog.html",
+  "description": "A free program for drawing chemical structures, reactions and electron-pushing mechanisms. It runs entirely in the web browser, needs no installation or account, keeps drawings on the user's computer and works offline.",
+  "applicationCategory": "EducationalApplication",
+  "applicationSubCategory": "Chemical structure editor",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires JavaScript and WebAssembly",
+  "inLanguage": ["cs", "en", "de"],
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+  "image": "https://olomol.org/about/drawing.webp",
+  "screenshot": "https://olomol.org/about/app.webp",
+  "author": {
+    "@type": "Person",
+    "name": "Jan Salomon",
+    "affiliation": { "@type": "Organization", "name": "Department of Physical Chemistry", "parentOrganization": { "@type": "CollegeOrUniversity", "name": "Palacký University Olomouc" } }
+  },
+  "featureList": [
+    "Electron-pushing mechanisms: lone pairs, unpaired electrons, curved arrows and fishhooks tied to atoms and bonds, arrows forming new bonds between radicals",
+    "Orbitals with phases and overlap lines for frontier-orbital pictures",
+    "Conformations: chairs read with their stereochemistry, a flat ring or Haworth projection turned into a chair, the ring flip, a chair turned a third of the way round, Newman projections as real molecules",
+    "Resonance structures, transition states, brackets, equilibria lying to one side",
+    "Formula, masses, elemental analysis, R/S and E/Z, IUPAC numbering, SMILES and InChI",
+    "Templates: rings, functional groups, chairs, Newman, Fischer and Haworth projections, complexes, amino acids, sugars",
+    "Structures from a name, SMILES or InChI",
+    "Several clean layouts to choose from, for a whole molecule or a selected part",
+    "Turning a molecule in 3D and drawing it as seen, with its stereochemistry and conformation kept; a 3D stick model",
+    "Metal complexes worked out by a force field, with Λ and Δ",
+    "Export to SVG, PNG, molfile, SDF, SMILES, InChI, KET and XYZ"
+  ]
+}
+</script>
+<!-- the picture for this page's search result (about/drawing.webp: the E2 of the first video as olomol exports
+     it, large enough to read when small; the whole window, about/app.webp, was a white blur there) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "primaryImageOfPage": { "@type": "ImageObject", "url": "https://olomol.org/about/drawing.webp", "width": 1200, "height": 800 }
+}
+</script>
+<style>
+  :root {
+    --accent: #1035a9;
+    --accent-2: #2e6fdb;
+    --accent-soft: rgba(16, 53, 169, 0.08);
+    --text: #1c1f26;
+    --muted: #687082;
+    --canvas: #f7f8fb;
+    --panel: #ffffff;
+    --edge: rgba(20, 25, 45, 0.09);
+    --shadow: 0 10px 34px rgba(25, 30, 60, 0.1), 0 2px 6px rgba(25, 30, 60, 0.05);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #8fb0ff;
+      --accent-2: #6f97f5;
+      --accent-soft: rgba(143, 176, 255, 0.1);
+      --text: #e7e9f0;
+      --muted: #a0a6b6;
+      --canvas: #13151b;
+      --panel: #1b1e26;
+      --edge: rgba(255, 255, 255, 0.08);
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 32px 16px 64px; }
+  a { color: var(--accent); }
+  header { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 26px; }
+  header img { width: 64px; height: 64px; border-radius: 15px; box-shadow: var(--shadow); }
+  h1 { margin: 0; font-size: 34px; line-height: 1.1; letter-spacing: -0.5px; }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 17px; }
+  .end { margin-left: auto; }
+  .languages { display: flex; gap: 2px; padding: 2px; border-radius: 999px; background: var(--accent-soft); }
+  .languages a {
+    border-radius: 999px; padding: 3px 10px; color: var(--text); text-decoration: none; font-size: 13px;
+  }
+  .languages a[aria-current="page"] { background: var(--panel); color: var(--accent); font-weight: 650; box-shadow: 0 1px 4px rgba(25, 30, 60, 0.15); }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 0 0 26px; }
+  .open {
+    display: inline-block; padding: 11px 24px; border-radius: 999px; color: #fff; text-decoration: none;
+    font-weight: 650; font-size: 17px; background: linear-gradient(135deg, #1035a9, #2e6fdb);
+    box-shadow: 0 6px 18px rgba(16, 53, 169, 0.3);
+  }
+  .open:hover { filter: brightness(1.08); }
+  .actions .link { font-weight: 600; text-decoration: none; }
+  .actions .link:hover { text-decoration: underline; }
+  .facts { color: var(--muted); font-size: 14px; }
+  figure { margin: 0 0 26px; }
+  figure img, figure video {
+    display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 14px;
+    border: 1px solid var(--edge); box-shadow: var(--shadow); background: #fff;
+  }
+  figcaption { margin-top: 8px; color: var(--muted); font-size: 16px; line-height: 1.5; }
+  section {
+    background: var(--panel);
+    border: 1px solid var(--edge);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 20px 24px 12px;
+    margin-bottom: 18px;
+  }
+  h2 { margin: 0 0 8px; font-size: 22px; }
+  h3 { margin: 14px 0 4px; font-size: 16px; color: var(--accent); }
+  p { margin: 0 0 12px; }
+  ul { margin: 0 0 10px; padding-left: 20px; }
+  li { margin: 3px 0; }
+  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  .pair figure { margin-bottom: 18px; }
+  kbd {
+    font: 13px ui-monospace, monospace; padding: 1px 5px; border-radius: 5px;
+    border: 1px solid var(--edge); background: var(--accent-soft);
+  }
+  footer { margin-top: 28px; color: var(--muted); font-size: 14px; text-align: center; }
+  @media (max-width: 680px) {
+    .features, .pair { grid-template-columns: 1fr; }
+    .end { margin-left: 0; }
+    section { padding: 16px 16px 8px; }
+    h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="icons/icon.svg" alt="">
+    <div>
+      <h1>olomol</h1>
+      <p>
+        <span lang="cs">Kreslení chemických struktur, reakcí a mechanismů, zdarma v prohlížeči</span>
+        <span lang="en">Drawing chemical structures, reactions and mechanisms, free in your browser</span>
+        <span lang="de">Chemische Strukturen, Reaktionen und Mechanismen zeichnen, kostenlos im Browser</span>
+      </p>
+    </div>
+    <div class="end">
+      <div class="languages" role="group" aria-label="Language">
+        <a href="?lang=cs" data-lang="cs" hreflang="cs">Čeština</a>
+        <a href="?lang=en" data-lang="en" hreflang="en">English</a>
+        <a href="?lang=de" data-lang="de" hreflang="de">Deutsch</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="actions">
+    <a class="open" href="./"><span lang="cs">Otevřít olomol</span><span lang="en">Open olomol</span><span lang="de">olomol öffnen</span></a>
+    <a class="link" href="changelog.html"><span lang="cs">Co je nového</span><span lang="en">What's new</span><span lang="de">Was ist neu</span></a>
+    <span class="facts">
+      <span lang="cs">Bez instalace a bez účtu · funguje i offline · česky, anglicky a německy</span>
+      <span lang="en">No installation, no account · works offline · Czech, English and German</span>
+      <span lang="de">Ohne Installation und ohne Konto · auch offline · Tschechisch, Englisch und Deutsch</span>
+    </span>
+  </div>
+
+  <figure>
+    <video src="about/mechanism.mp4" poster="about/mechanism.webp" width="1280" height="720" controls muted loop playsinline preload="none"
+      aria-label="An E2 elimination drawn in olomol: 2-bromopropane and methoxide typed by name, a hydrogen and lone pairs added, three curved arrows dragged, one arrow dragged over to the other side, methoxide moved closer while the arrows follow, and all three arrows selected and coloured red"></video>
+    <figcaption>
+      <span lang="cs">Eliminace E2 od prázdného plátna: 2-brompropan a methoxid napsané názvem, vodík a volné páry, tři zahnuté šipky tažené od elektronů tam, kam jdou, jedna přetažená na druhou stranu. Když se methoxid posune blíž, šipky si cestu najdou znovu. Nakonec se všechny tři vyberou se Shiftem a obarví červeně.</span>
+      <span lang="en">An E2 elimination from an empty canvas: 2-bromopropane and methoxide typed by name, a hydrogen and lone pairs added, three curved arrows dragged from the electrons to where they go, and one of them dragged over to the other side. When the methoxide is moved closer, the arrows find their way again. Last, all three are selected with Shift and coloured red.</span>
+      <span lang="de">Eine E2-Eliminierung auf leerer Zeichenfläche: 2-Brompropan und Methanolat per Namen eingegeben, ein H-Atom und freie Elektronenpaare ergänzt, drei gebogene Pfeile von den Elektronen zu ihrem Ziel gezogen, einer davon auf die andere Seite verlegt. Rückt das Methanolat näher, finden die Pfeile ihren Weg neu. Zum Schluss werden alle drei mit Umschalt ausgewählt und rot gefärbt.</span>
+    </figcaption>
+  </figure>
+
+  <section>
+    <h2><span lang="cs">Co je olomol</span><span lang="en">What olomol is</span><span lang="de">Was olomol ist</span></h2>
+    <div lang="cs">
+      <p>olomol je program zdarma na kreslení chemických struktur, reakcí a mechanismů se zahnutými šipkami. Je pro výuku chemie i pro každého, kdo chemii kreslí: na přednášky a prezentace, do skript, cvičení, písemek, závěrečných prací i publikací.</p>
+      <p>Běží celý ve webovém prohlížeči. Nic se neinstaluje a není potřeba žádný účet. Kresby zůstávají ve vašem počítači: v prohlížeči a v souborech, kam si určíte. Na PubChem jde jen název nebo molekula, které tam sami vyhledáte. Jednou otevřený olomol funguje i bez internetu a jde nainstalovat jako aplikace.</p>
+      <p>olomol vzniká na Katedře fyzikální chemie Univerzity Palackého v Olomouci. Mluví česky, anglicky a německy.</p>
+    </div>
+    <div lang="en">
+      <p>olomol is a free program for drawing chemical structures, reactions and curved-arrow mechanisms. It is made for chemistry education and for anyone who draws chemistry: lectures and slides, handouts, exercises, exams, theses and publications.</p>
+      <p>It runs entirely in the web browser. Nothing is installed and no account is needed. Drawings stay on your computer: in the browser and in files wherever you choose. Only a name or a molecule you look up on PubChem yourself is sent there. Once opened, olomol also works offline, and it can be installed as an app.</p>
+      <p>olomol is made at the Department of Physical Chemistry, Palacký University Olomouc, Czech Republic. It speaks Czech, English and German.</p>
+    </div>
+    <div lang="de">
+      <p>olomol ist ein kostenloses Programm zum Zeichnen chemischer Strukturen, Reaktionen und Mechanismen mit gebogenen Pfeilen. Es ist für die Chemielehre gemacht und für alle, die Chemie zeichnen: für Vorlesungen und Folien, Skripte, Übungen, Klausuren, Abschlussarbeiten und Veröffentlichungen.</p>
+      <p>Es läuft vollständig im Webbrowser, ohne Installation und ohne Konto. Zeichnungen bleiben auf dem eigenen Rechner: im Browser und in selbst gewählten Dateien. Nur ein Name oder Molekül, das man selbst auf PubChem sucht, wird dorthin geschickt. Einmal geöffnet, funktioniert olomol auch offline und lässt sich als App installieren.</p>
+      <p>olomol entsteht am Lehrstuhl für Physikalische Chemie der Palacký-Universität Olomouc (Tschechien). Die Oberfläche gibt es auf Tschechisch, Englisch und Deutsch.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span lang="cs">Co umí</span><span lang="en">What it does</span><span lang="de">Was es kann</span></h2>
+    <div lang="cs" class="features">
+      <div>
+        <h3>Mechanismy</h3>
+        <ul>
+          <li>Volné elektronové páry a nepárové elektrony, spočítané z chemie; atom bez vazeb jako Lewisův symbol, až se čtyřmi nepárovými elektrony.</li>
+          <li>Zahnuté šipky a půlšipky přichycené k atomům, vazbám a párům; půlšipka puštěná mezi dva atomy vytvoří novou vazbu (zahnutá šipka také, se Shiftem), takže se radikály spojí jako v učebnici. Když se kresba pohne, šipky jdou s ní.</li>
+          <li>Orbitaly p, hybridní a s s fázemi a čarami překryvu, třeba HOMO a LUMO Dielsovy–Alderovy reakce.</li>
+          <li>Rezonanční struktury, tranzitní stavy, závorky, náboje i δ+ a δ−; rovnováha posunutá na jednu stranu, přeškrtnutá šipka pro reakci, která neproběhne.</li>
+        </ul>
+        <h3>Konformace</h3>
+        <ul>
+          <li>Židličky, které znají svou stereochemii: ze šablony i nakreslená ručně se židlička čte jako stereoizomer, který ukazuje.</li>
+          <li>Plochý kruh nebo Haworthova projekce se jedním kliknutím změní na židličku, každá skupina axiálně nebo ekvatoriálně podle svého klínu; překlopení z ní udělá druhou židličku a pro podklady nakreslí obě s ⇌; otočení židličky ji pootočí o třetinu otáčky a skupiny zůstanou axiální či ekvatoriální.</li>
+          <li>Newmanovy projekce jsou skutečné molekuly: eliminaci E2 nakreslíte šipkami rovnou v projekci, torzní úhel nastavíte v panelu.</li>
+        </ul>
+        <h3>Chemie, kterou zná</h3>
+        <ul>
+          <li>Sumární vzorec, molární a přesná hmotnost, elementární analýza, ionty pro HRMS.</li>
+          <li>R/S a E/Z, číslování podle IUPAC i s důvody, SMILES, InChI a odkaz na PubChem.</li>
+          <li>Každé překreslení, překlopení a pohled ve 3D kontroluje RDKit, takže se molekula ani její R/S za vašimi zády nezmění; když ji změní vaše úprava, program upozorní a označí atom, který nesedí.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Kreslení</h3>
+        <ul>
+          <li>Vazby včetně klínů, šrafovaných klínů, vlnovek, koordinačních a vodíkových vazeb; řetězce a kruhy.</li>
+          <li>Zkratky (Ph, Boc, OMe), které jdou rozkreslit a zase zkrátit; izotopy (13C, D).</li>
+          <li>Texty se vzorci (H₂SO₄, Fe³⁺); reakční, rovnovážné, rezonanční a retrosyntetické šipky s podmínkami a činidly nad a pod šipkou.</li>
+        </ul>
+        <h3>Šablony a struktury z názvů</h3>
+        <ul>
+          <li>Kruhy, funkční skupiny, židličkové konformace, Newmanovy, Fischerovy a Haworthovy projekce, komplexy, aminokyseliny, cukry, nukleové báze, činidla a rozpouštědla.</li>
+          <li>Hledání podle části: <kbd>?ester</kbd> najde šablony s esterem.</li>
+          <li>Struktura z názvu, SMILES nebo InChI (názvy přes PubChem).</li>
+        </ul>
+        <h3>Rozvržení a 3D</h3>
+        <ul>
+          <li><em>Překreslit</em> nabídne několik úhledných kreseb na výběr, celé molekuly i jen vybrané části.</li>
+          <li><em>Otočit ve 3D</em>: molekulu nebo komplex otočíte myší a nakreslíte tak, jak je vidíte, s klíny, které zachovají R/S, E/Z i Λ/Δ; nakreslená konformace zůstane (axiální skupina axiální) a tyčinkový model ukáže skutečný tvar se všemi vodíky.</li>
+          <li>Komplexy kovů počítá silové pole: porfyriny jsou rovné, chelaty sedí, kde mají, a Λ a Δ program pojmenuje.</li>
+          <li>Zarovnání, rovnoměrné rozmístění, mřížka a reakční schéma do řádku.</li>
+        </ul>
+        <h3>Soubory</h3>
+        <ul>
+          <li>Ukládá KET (otevře ho i Ketcher); exportuje molfile, SDF, SMILES, InChI a XYZ (3D), obrázky SVG a PNG.</li>
+          <li>Obrázek do Wordu, PowerPointu a Google Docs přes <kbd>Ctrl+Shift+C</kbd>; odkaz, který nese celou kresbu.</li>
+        </ul>
+      </div>
+    </div>
+    <div lang="en" class="features">
+      <div>
+        <h3>Mechanisms</h3>
+        <ul>
+          <li>Lone pairs and unpaired electrons, counted from the chemistry; an atom without bonds as a Lewis symbol, with up to four unpaired electrons.</li>
+          <li>Curved arrows and fishhooks tied to atoms, bonds and lone pairs; a fishhook dropped between two atoms makes the new bond (a curved arrow too, with Shift), so radicals combine as in textbooks. When the drawing moves, the arrows go with it.</li>
+          <li>p, hybrid and s orbitals with their phases and overlap lines, such as the HOMO and LUMO of a Diels–Alder reaction.</li>
+          <li>Resonance structures, transition states, brackets, charges and δ+ and δ−; an equilibrium lying to one side, a crossed arrow for a reaction that doesn't go.</li>
+        </ul>
+        <h3>Conformations</h3>
+        <ul>
+          <li>Chairs that know their stereochemistry: from a template or drawn by hand, a chair is read as the stereoisomer it shows.</li>
+          <li>A flat ring or a Haworth projection becomes a chair with one click, each group axial or equatorial as its wedge says; the ring flip makes it the other chair and, for a handout, draws both with ⇌; Turn a chair turns it a third of the way round, the groups staying axial or equatorial.</li>
+          <li>Newman projections are real molecules: draw an E2 with curved arrows right in the projection, set the dihedral in the panel.</li>
+        </ul>
+        <h3>Chemistry it knows</h3>
+        <ul>
+          <li>Molecular formula, molar and exact mass, elemental analysis, ions for HRMS.</li>
+          <li>R/S and E/Z, IUPAC numbering with the reasons, SMILES, InChI and a PubChem link.</li>
+          <li>Every redrawing, flip and 3D view is checked by RDKit, so the molecule and its R/S never change behind your back; when an edit of yours changes it, it warns you and marks the atom that doesn't fit.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Drawing</h3>
+        <ul>
+          <li>Bonds including wedges, hashed wedges, wavy, dative and hydrogen bonds; chains and rings.</li>
+          <li>Abbreviations (Ph, Boc, OMe) that can be drawn out and abbreviated again; isotopes (13C, D).</li>
+          <li>Texts with formulas (H₂SO₄, Fe³⁺); reaction, equilibrium, resonance and retrosynthesis arrows with conditions and reagents above and below.</li>
+        </ul>
+        <h3>Templates and structures from names</h3>
+        <ul>
+          <li>Rings, functional groups, chairs, Newman, Fischer and Haworth projections, complexes, amino acids, sugars, nucleobases, reagents and solvents.</li>
+          <li>Search by a part: <kbd>?ester</kbd> lists the templates with an ester.</li>
+          <li>A structure from its name, SMILES or InChI (names are looked up in PubChem).</li>
+        </ul>
+        <h3>Layout and 3D</h3>
+        <ul>
+          <li><em>Redraw</em> offers several clean drawings to choose from, of whole molecules or only a selected part.</li>
+          <li><em>Turn in 3D</em>: turn a molecule or a complex with the mouse and draw it as you see it, with wedges that keep its R/S, E/Z and Λ/Δ; the conformation drawn stays (an axial group axial), and a stick model shows the real shape with every hydrogen.</li>
+          <li>Metal complexes are worked out by a force field: porphyrins flat, chelates where they belong, Λ and Δ named.</li>
+          <li>Align, space evenly, a grid and a reaction scheme in one row.</li>
+        </ul>
+        <h3>Files</h3>
+        <ul>
+          <li>Saves KET (Ketcher opens it too); exports molfile, SDF, SMILES, InChI and XYZ (3D), and SVG and PNG pictures.</li>
+          <li>A picture into Word, PowerPoint and Google Docs with <kbd>Ctrl+Shift+C</kbd>; a link that carries the whole drawing.</li>
+        </ul>
+      </div>
+    </div>
+    <div lang="de" class="features">
+      <div>
+        <h3>Mechanismen</h3>
+        <ul>
+          <li>Freie Elektronenpaare und ungepaarte Elektronen, aus der Chemie gezählt; ein Atom ohne Bindungen als Lewis-Symbol, mit bis zu vier ungepaarten Elektronen.</li>
+          <li>Gebogene Pfeile und Halbpfeile, an Atome, Bindungen und Elektronenpaare gebunden; ein zwischen zwei Atome gezogener Halbpfeil bildet die neue Bindung (ein gebogener Pfeil ebenso, mit Umschalt), sodass Radikale wie im Lehrbuch rekombinieren. Wird die Zeichnung verschoben, wandern die Pfeile mit.</li>
+          <li>p-, Hybrid- und s-Orbitale mit Phasen und Überlappungslinien, etwa HOMO und LUMO einer Diels-Alder-Reaktion.</li>
+          <li>Grenzstrukturen, Übergangszustände, Klammern, Ladungen sowie δ+ und δ−; ein Gleichgewicht, das auf einer Seite liegt, ein durchgestrichener Pfeil für eine Reaktion, die nicht abläuft.</li>
+        </ul>
+        <h3>Konformationen</h3>
+        <ul>
+          <li>Sesselformen, die ihre Stereochemie kennen: aus der Vorlage oder von Hand gezeichnet, wird ein Sessel als das Stereoisomer gelesen, das er zeigt.</li>
+          <li>Ein flacher Ring oder eine Haworth-Projektion wird mit einem Klick zum Sessel, jede Gruppe axial oder äquatorial, wie ihr Keil es sagt; die Ringinversion macht daraus den anderen Sessel und zeichnet für ein Handout beide mit ⇌; Sessel drehen dreht ihn um ein Drittel, die Gruppen bleiben axial oder äquatorial.</li>
+          <li>Newman-Projektionen sind echte Moleküle: eine E2-Eliminierung mit gebogenen Pfeilen direkt in der Projektion, der Diederwinkel im Panel einstellbar.</li>
+        </ul>
+        <h3>Chemie</h3>
+        <ul>
+          <li>Summenformel, molare und exakte Masse, Elementaranalyse, HRMS-Ionen.</li>
+          <li>R/S und E/Z, IUPAC-Nummerierung mit Begründung, SMILES, InChI und ein Link zu PubChem.</li>
+          <li>Jedes Neuzeichnen, Umklappen und jede 3D-Ansicht prüft RDKit, sodass sich das Molekül und sein R/S nie unbemerkt ändern; verändert eine eigene Bearbeitung es, gibt es einen Hinweis, und das unpassende Atom wird markiert.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Zeichnen</h3>
+        <ul>
+          <li>Bindungen einschließlich Keilen, gestrichelten Keilen, Wellenlinien, Koordinationsbindungen und Wasserstoffbrücken; Ketten und Ringe.</li>
+          <li>Kürzel (Ph, Boc, OMe), die sich ausschreiben und wieder abkürzen lassen; Isotope (13C, D).</li>
+          <li>Texte mit Formeln (H₂SO₄, Fe³⁺); Reaktions-, Gleichgewichts-, Mesomerie- und Retrosynthesepfeile mit Bedingungen und Reagenzien über und unter dem Pfeil.</li>
+        </ul>
+        <h3>Vorlagen und Strukturen aus Namen</h3>
+        <ul>
+          <li>Ringe, funktionelle Gruppen, Sesselkonformationen, Newman-, Fischer- und Haworth-Projektionen, Komplexe, Aminosäuren, Zucker, Nukleobasen, Reagenzien und Lösungsmittel.</li>
+          <li>Suche nach einem Teil: <kbd>?ester</kbd> listet die Vorlagen mit einer Estergruppe.</li>
+          <li>Strukturen aus Name, SMILES oder InChI (Namenssuche über PubChem).</li>
+        </ul>
+        <h3>Layout und 3D</h3>
+        <ul>
+          <li><em>Neu zeichnen</em> schlägt mehrere saubere Darstellungen vor, für ganze Moleküle oder nur einen ausgewählten Teil.</li>
+          <li><em>In 3D drehen</em>: Molekül oder Komplex mit der Maus drehen und so übernehmen, wie es zu sehen ist, mit Keilen, die R/S, E/Z und Λ/Δ erhalten; die gezeichnete Konformation bleibt (eine axiale Gruppe axial), und ein Stabmodell zeigt die wirkliche Gestalt mit allen H-Atomen.</li>
+          <li>Metallkomplexe berechnet ein Kraftfeld: Porphyrine sind eben, Chelatliganden sitzen, wo sie hingehören, und Λ und Δ werden benannt.</li>
+          <li>Ausrichten, gleichmäßig verteilen, Raster und Reaktionsschema in einer Reihe.</li>
+        </ul>
+        <h3>Dateien</h3>
+        <ul>
+          <li>Speichert KET (auch in Ketcher lesbar); Export als Molfile, SDF, SMILES, InChI und XYZ (3D), Bilder als SVG und PNG.</li>
+          <li>Bild nach Word, PowerPoint und Google Docs mit <kbd>Strg+Umschalt+C</kbd>; ein Link, der die ganze Zeichnung enthält.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <figure>
+    <video src="about/scheme.mp4" poster="about/scheme.webp" width="1280" height="720" controls muted loop playsinline preload="none"
+      aria-label="An enzyme reaction from the citric acid cycle: a reaction arrow drawn between L-malate and oxaloacetate, NAD+ going in and NADH + H+ coming out on its side arcs, malate dehydrogenase put under the arrow, and the names dragged under the molecules"></video>
+    <figcaption>
+      <span lang="cs">Enzymová reakce z citrátového cyklu: šipka, NAD⁺ dovnitř a NADH + H⁺ ven po bočních obloucích, malátdehydrogenasa pod šipkou a názvy pod molekulami. Co se k šipce nebo molekule přichytí, s ní drží, když se posune.</span>
+      <span lang="en">An enzyme reaction from the citric acid cycle: the arrow, NAD⁺ in and NADH + H⁺ out on its side arcs, malate dehydrogenase under it, and the names under the molecules. What snaps onto an arrow or a molecule stays with it when it moves.</span>
+      <span lang="de">Eine Enzymreaktion aus dem Citratzyklus: der Pfeil, NAD⁺ hinein und NADH + H⁺ heraus auf seinen Seitenbögen, die Malat-Dehydrogenase darunter und die Namen unter den Molekülen. Was an einem Pfeil oder Molekül einrastet, bleibt beim Verschieben dabei.</span>
+    </figcaption>
+  </figure>
+  <figure>
+    <video src="about/cleanup.mp4" poster="about/cleanup.webp" width="1280" height="720" controls muted loop playsinline preload="none"
+      aria-label="Cocaine built in steps: tropane turned in 3D to the textbook view, a carboxylic acid from Templates with a methyl on it, benzoic acid by name joined to the tropane through an O, and only the benzoyl part redrawn while the tropane stays as it was turned"></video>
+    <figcaption>
+      <span lang="cs"><em>Otočit ve 3D</em> a <em>Překreslit</em>: kokain z tropanu otočeného do učebnicového pohledu, s methylesterem a benzoátem. Překreslí se jen benzoylová část; tropan zůstane tak, jak byl otočen.</span>
+      <span lang="en"><em>Turn in 3D</em> and <em>Redraw</em>: cocaine from tropane, turned to the textbook view, with a methyl ester and a benzoate added. Only the benzoyl part is redrawn; the tropane stays as it was turned.</span>
+      <span lang="de"><em>In 3D drehen</em> und <em>Neu zeichnen</em>: Cocain aus Tropan, in die Lehrbuchansicht gedreht, mit Methylester und Benzoat. Neu gezeichnet wird nur der Benzoylteil; das Tropan bleibt, wie es gedreht wurde.</span>
+    </figcaption>
+  </figure>
+  <figure>
+    <video src="about/turn3d.mp4" poster="about/turn3d.webp" width="1280" height="720" controls muted loop playsinline preload="none"
+      aria-label="A cobalt(III) complex: ethylenediamine, two ammonia and two chloride ligands joined to the metal with dative bonds, turned in 3D and drawn as an octahedron with the chlorides top and bottom and the rest in one plane"></video>
+    <figcaption>
+      <span lang="cs"><em>Otočit ve 3D</em> u komplexu: ethylendiamin, dva amoniaky a dva chloridy, ke kobaltu připojené koordinačními vazbami, otočené ve 3D a nakreslené jako oktaedr: chloridy nahoře a dole, ostatní v jedné rovině.</span>
+      <span lang="en"><em>Turn in 3D</em> for a complex: ethylenediamine, two ammonia and two chloride ligands joined to cobalt with dative bonds, turned in 3D and drawn as an octahedron: the chlorides top and bottom, the rest in one plane.</span>
+      <span lang="de"><em>In 3D drehen</em> bei einem Komplex: Ethylendiamin, zwei Ammoniak- und zwei Chloridliganden über Koordinationsbindungen an Cobalt gebunden, in 3D gedreht und als Oktaeder gezeichnet: die Chloride oben und unten, der Rest in einer Ebene.</span>
+    </figcaption>
+  </figure>
+  <figure>
+    <video src="about/chairs.mp4" poster="about/chairs.webp" width="1280" height="720" controls muted loop playsinline preload="none"
+      aria-label="β-D-glucose's Haworth projection from Templates, its anomeric OH highlighted blue and its ring oxygen purple, made a chair with the ring flip tool; in Turn in 3D the stick model is turned edge-on, every OH lying out to the side; then the chair is flipped and turned in 3D again, the OH groups now standing up and down"></video>
+    <figcaption>
+      <span lang="cs"><em>Překlopení židličky</em> a <em>Otočit ve 3D</em>: Haworthova projekce β-D-glukosy ze <em>Šablon</em> se jedním kliknutím změní na židličku a zvýraznění zůstanou. V tyčinkovém modelu, viděném z boku, míří všechny skupiny OH do stran. Po překlopení na druhou židličku stojí nahoru a dolů: 3D model je židlička tak, jak je nakreslená.</span>
+      <span lang="en"><em>Ring flip</em> and <em>Turn in 3D</em>: β-D-glucose's Haworth projection from <em>Templates</em> becomes a chair in one click, its highlights kept. In the stick model, seen edge-on, every OH points out to the side. Flipped to the other chair, they stand up and down: the 3D model is the chair as drawn.</span>
+      <span lang="de"><em>Ringinversion</em> und <em>In 3D drehen</em>: Die Haworth-Projektion der β-D-Glucose aus den <em>Vorlagen</em> wird mit einem Klick zum Sessel, die Hervorhebungen bleiben. Im Stabmodell, von der Seite gesehen, zeigen alle OH-Gruppen zur Seite. Nach der Inversion zum anderen Sessel stehen sie nach oben und unten: Das 3D-Modell ist der Sessel, wie er gezeichnet ist.</span>
+    </figcaption>
+  </figure>
+
+  <div class="pair">
+    <figure>
+      <img src="about/app.webp" width="1440" height="820" loading="lazy" alt="The olomol window with a Friedel–Crafts acylation: curved arrows from a bond and from lone pairs, resonance structures of the intermediate in brackets">
+      <figcaption>
+        <span lang="cs">Friedelova–Craftsova acylace: šipky se samy vyhýbají kresbě, rezonanční struktury jsou v závorkách.</span>
+        <span lang="en">A Friedel–Crafts acylation: the arrows find their own way round the drawing; the resonance structures are in brackets.</span>
+        <span lang="de">Eine Friedel-Crafts-Acylierung: Die Pfeile weichen der Zeichnung von selbst aus; die Grenzstrukturen stehen in Klammern.</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="about/help.webp" width="1440" height="820" loading="lazy" alt="The Help window: example drawings by topic, one of them open with a tip on how its curved arrow is drawn">
+      <figcaption>
+        <span lang="cs"><em>Nápověda</em>: hotové příklady podle témat. Ukažte myší na část kresby a dozvíte se, jak se kreslí.</span>
+        <span lang="en"><em>Help</em>: finished examples by topic. Point at a part of a drawing to see how it is drawn.</span>
+        <span lang="de"><em>Hilfe</em>: fertige Beispiele nach Themen. Fährt man mit der Maus über einen Teil, erklärt ein Hinweis, wie er gezeichnet wurde.</span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <section>
+    <h2><span lang="cs">Jak začít</span><span lang="en">Getting started</span><span lang="de">Erste Schritte</span></h2>
+    <div lang="cs">
+      <p><a href="./">Otevřete olomol</a> a začněte kreslit. Kulaté tlačítko <kbd>?</kbd> vpravo dole otevře nápovědu s příklady. Návody v PDF: <a href="docs/rychly-start.pdf">Rychlý start</a> a <a href="docs/manual.pdf">Příručka</a>.</p>
+    </div>
+    <div lang="en">
+      <p><a href="./">Open olomol</a> and start drawing. The round <kbd>?</kbd> button at the bottom right opens Help with the examples. Guides in PDF: the <a href="docs/en/quick-start.pdf">Quick start</a> and the <a href="docs/en/manual.pdf">Manual</a>.</p>
+    </div>
+    <div lang="de">
+      <p><a href="./">olomol öffnen</a> und loszeichnen. Die runde Schaltfläche <kbd>?</kbd> unten rechts öffnet die Hilfe mit den Beispielen. Anleitungen als PDF (auf Englisch): <a href="docs/en/quick-start.pdf">Quick start</a> und <a href="docs/en/manual.pdf">Manual</a>.</p>
+    </div>
+  </section>
+
+  <!-- Questions people ask, each an <h3> and one <p>: scripts/pages.mjs also writes them as FAQPage JSON-LD
+       on each language's page, for search engines and AI answers -->
+  <section id="faq">
+    <h2><span lang="cs">Otázky</span><span lang="en">Questions</span><span lang="de">Fragen</span></h2>
+    <div lang="cs">
+      <h3>Je olomol zdarma?</h3>
+      <p>Ano. olomol je zdarma k použití pod <a href="LICENSE.txt">licencí MIT</a>, pro výuku, studium, výzkum i publikace. Nepotřebuje účet, nemá placenou verzi ani reklamy.</p>
+      <h3>Musím ho instalovat? Potřebuje internet?</h3>
+      <p>Nic se neinstaluje: běží v Chromu, Edgi nebo Firefoxu na Windows, Macu i Linuxu. Jednou otevřený funguje i bez internetu a v Chromu nebo Edgi jde nainstalovat jako aplikace.</p>
+      <h3>Kde jsou moje kresby uložené?</h3>
+      <p>Ve vašem počítači. Rozpracovanou kresbu si pamatuje prohlížeč a soubory ukládáte, kam chcete. Nikam se nic neposílá, jen název nebo molekula, kterou sami vyhledáte v PubChemu.</p>
+      <h3>Jaké soubory otevře a uloží?</h3>
+      <p>Otevře KET, molfile, SDF, SMILES, RXN, CML, XYZ a soubory z ChemDraw (CDXML, CDX). Ukládá KET, který otevře i Ketcher, a exportuje molfile, SDF, SMILES, InChI a XYZ, obrázky jako SVG a PNG. <kbd>Ctrl+Shift+C</kbd> vloží obrázek rovnou do Wordu, PowerPointu nebo Dokumentů Google.</p>
+      <h3>Spolupracuje s ChemDraw?</h3>
+      <p>Soubory z ChemDraw (CDXML, CDX) olomol otevře i se zkratkami. Do ChemDraw přenesete struktury jako molfile nebo SDF a obrázky jako SVG.</p>
+      <h3>Smím obrázky použít v seminárkách, domácích úkolech, závěrečných pracích a článcích?</h3>
+      <p>Ano, jsou vaše a nemají vodoznak. Pokud vám olomol pomohl, budu rád za citaci.</p>
+      <h3>Jak olomol citovat?</h3>
+      <p>Salomon, J. <em>olomol: drawing chemical structures, reactions and mechanisms</em> [počítačový program]. Zenodo. <a href="https://doi.org/10.5281/zenodo.24104909">https://doi.org/10.5281/zenodo.24104909</a>. Doplňte verzi, kterou jste použili; okno <em>O aplikaci</em> dá citaci jako text, BibTeX, RIS i CSL JSON.</p>
+    </div>
+    <div lang="en">
+      <h3>Is olomol free?</h3>
+      <p>Yes. olomol is free to use under the <a href="LICENSE.txt">MIT License</a>, for teaching, study, research and publications alike. There is no account, no paid version and no advertising.</p>
+      <h3>Do I have to install it? Does it need the internet?</h3>
+      <p>Nothing is installed: it runs in Chrome, Edge or Firefox on Windows, Mac or Linux. Once opened, it works offline too, and Chrome or Edge can install it as an app.</p>
+      <h3>Where are my drawings kept?</h3>
+      <p>On your computer. The browser keeps the drawing you are working on, and you save files wherever you choose. Nothing is sent anywhere, except a name or a molecule you look up on PubChem yourself.</p>
+      <h3>Which files does it open and save?</h3>
+      <p>It opens KET, molfile, SDF, SMILES, RXN, CML, XYZ and ChemDraw files (CDXML, CDX). It saves KET, which Ketcher opens too, and exports molfile, SDF, SMILES, InChI and XYZ, and pictures as SVG and PNG. <kbd>Ctrl+Shift+C</kbd> copies a picture straight into Word, PowerPoint or Google Docs.</p>
+      <h3>Does it work with ChemDraw?</h3>
+      <p>olomol opens ChemDraw's files (CDXML, CDX) with their abbreviations kept. Structures go to ChemDraw as a molfile or SDF, and pictures as SVG.</p>
+      <h3>May I use the pictures in homework, theses and papers?</h3>
+      <p>Yes, they are yours, with no watermark. If olomol helped, I'd be glad of a citation.</p>
+      <h3>How do I cite olomol?</h3>
+      <p>Salomon, J. <em>olomol: drawing chemical structures, reactions and mechanisms</em> [Computer software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.24104909">https://doi.org/10.5281/zenodo.24104909</a>. Add the version you used; the <em>About</em> window gives the citation as text, BibTeX, RIS and CSL JSON.</p>
+    </div>
+    <div lang="de">
+      <h3>Ist olomol kostenlos?</h3>
+      <p>Ja. olomol ist kostenlos nutzbar unter der <a href="LICENSE.txt">MIT-Lizenz</a>, in Lehre, Studium und Forschung ebenso wie für Veröffentlichungen. Es braucht kein Konto, und es gibt weder eine Bezahlversion noch Werbung.</p>
+      <h3>Muss ich etwas installieren? Brauche ich Internet?</h3>
+      <p>Nein: olomol läuft in Chrome, Edge oder Firefox unter Windows, macOS und Linux. Einmal geöffnet, funktioniert es auch offline, und in Chrome oder Edge lässt es sich als App installieren.</p>
+      <h3>Wo werden meine Zeichnungen gespeichert?</h3>
+      <p>Auf Ihrem Rechner. Die aktuelle Zeichnung merkt sich der Browser, Dateien speichern Sie, wo Sie möchten. Verschickt wird nichts, außer einem Namen oder Molekül, das Sie selbst auf PubChem suchen.</p>
+      <h3>Welche Dateien öffnet und speichert olomol?</h3>
+      <p>Es öffnet KET, Molfile, SDF, SMILES, RXN, CML, XYZ und ChemDraw-Dateien (CDXML, CDX). Es speichert KET, das auch Ketcher öffnet, und exportiert Molfile, SDF, SMILES, InChI und XYZ, Bilder als SVG und PNG. Mit <kbd>Strg+Umschalt+C</kbd> kommt ein Bild direkt in Word, PowerPoint oder Google Docs.</p>
+      <h3>Arbeitet olomol mit ChemDraw zusammen?</h3>
+      <p>ChemDraw-Dateien (CDXML, CDX) öffnet olomol samt Abkürzungen. Nach ChemDraw gehen Strukturen als Molfile oder SDF, Bilder als SVG.</p>
+      <h3>Darf ich die Bilder in Hausarbeiten, Abschlussarbeiten und Veröffentlichungen verwenden?</h3>
+      <p>Ja, sie gehören Ihnen, ohne Wasserzeichen. Wenn olomol geholfen hat, freue ich mich über eine Zitierung.</p>
+      <h3>Wie zitiere ich olomol?</h3>
+      <p>Salomon, J. <em>olomol: drawing chemical structures, reactions and mechanisms</em> [Software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.24104909">https://doi.org/10.5281/zenodo.24104909</a>. Ergänzen Sie die verwendete Version; das Fenster <em>Über olomol</em> gibt das Zitat als Text, BibTeX, RIS und CSL JSON aus.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span lang="cs">Autor a poděkování</span><span lang="en">Who makes it</span><span lang="de">Wer es macht</span></h2>
+    <div lang="cs">
+      <p>olomol píše Jan Salomon na Katedře fyzikální chemie Univerzity Palackého v Olomouci, s podstatnou pomocí Clauda (Anthropic). Problémy a nápady posílejte tlačítkem s broukem vpravo nahoře v aplikaci, nebo na <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>.</p>
+      <p>Překlady jsou vítány. Chcete-li olomol ve svém jazyce, napište na <a href="mailto:bugs@olomol.org?subject=olomol%20translation">bugs@olomol.org</a>: texty aplikace jsou jeden seznam asi tisíce krátkých vět a k překladu není třeba programovat.</p>
+      <p>olomol je zdarma k použití pod <a href="LICENSE.txt">licencí MIT</a>.</p>
+      <p>Stojí na <a href="https://www.rdkit.org">RDKit</a> (BSD-3-Clause), <a href="https://lifescience.opensource.epam.com/indigo/">Indigu</a> od EPAM Systems (Apache 2.0), <a href="https://github.com/hodakamori/megane-rdkit">megane-rdkit</a> (BSD-3-Clause; 3D struktury) a <a href="https://github.com/cheminfo/openchemlib-js">OpenChemLib</a> (BSD-3-Clause). Jeho formát KET je formát <a href="https://github.com/epam/ketcher">Ketcheru</a>. <a href="THIRD_PARTY_LICENSES/README.md">Licence knihoven</a>.</p>
+    </div>
+    <div lang="en">
+      <p>olomol is written by Jan Salomon at the Department of Physical Chemistry, Palacký University Olomouc, with substantial help from Claude (Anthropic). Send problems and ideas with the bug button at the top right of the app, or to <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>.</p>
+      <p>Translations are welcome. If you would like olomol in your language, write to <a href="mailto:bugs@olomol.org?subject=olomol%20translation">bugs@olomol.org</a>: the app’s texts are one list of about a thousand short phrases, and translating them needs no programming.</p>
+      <p>olomol is free to use under the <a href="LICENSE.txt">MIT License</a>.</p>
+      <p>It is built on <a href="https://www.rdkit.org">RDKit</a> (BSD-3-Clause), <a href="https://lifescience.opensource.epam.com/indigo/">Indigo</a> by EPAM Systems (Apache 2.0), <a href="https://github.com/hodakamori/megane-rdkit">megane-rdkit</a> (BSD-3-Clause; 3D structures) and <a href="https://github.com/cheminfo/openchemlib-js">OpenChemLib</a> (BSD-3-Clause). Its KET format is the one of <a href="https://github.com/epam/ketcher">Ketcher</a>. <a href="THIRD_PARTY_LICENSES/README.md">The libraries' licences</a>.</p>
+    </div>
+    <div lang="de">
+      <p>olomol wird von Jan Salomon am Lehrstuhl für Physikalische Chemie der Palacký-Universität Olomouc entwickelt, mit wesentlicher Hilfe von Claude (Anthropic). Probleme und Ideen bitte über die Schaltfläche mit dem Käfer oben rechts in der App oder an <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>.</p>
+      <p>Übersetzungen sind willkommen. Wenn Sie olomol in Ihrer Sprache möchten, schreiben Sie an <a href="mailto:bugs@olomol.org?subject=olomol%20translation">bugs@olomol.org</a>: Die Texte der App sind eine Liste von etwa tausend kurzen Sätzen, und zum Übersetzen muss man nicht programmieren.</p>
+      <p>olomol ist kostenlos nutzbar unter der <a href="LICENSE.txt">MIT-Lizenz</a>.</p>
+      <p>Grundlage sind <a href="https://www.rdkit.org">RDKit</a> (BSD-3-Clause), <a href="https://lifescience.opensource.epam.com/indigo/">Indigo</a> von EPAM Systems (Apache 2.0), <a href="https://github.com/hodakamori/megane-rdkit">megane-rdkit</a> (BSD-3-Clause; 3D-Strukturen) und <a href="https://github.com/cheminfo/openchemlib-js">OpenChemLib</a> (BSD-3-Clause). Das Dateiformat KET stammt von <a href="https://github.com/epam/ketcher">Ketcher</a>. <a href="THIRD_PARTY_LICENSES/README.md">Lizenzen der Bibliotheken</a>.</p>
+    </div>
+  </section>
+
+  <footer>
+    <a href="./"><span lang="cs">Otevřít olomol</span><span lang="en">Open olomol</span><span lang="de">olomol öffnen</span></a>
+    · <a href="changelog.html"><span lang="cs">Co je nového</span><span lang="en">What's new</span><span lang="de">Was ist neu</span></a>
+  </footer>
+</main>
+<script>
+  // the videos: loaded and played from the start when they come into view, paused out of it, without
+  // controls; with less motion asked for (or without JavaScript), they keep their controls and wait
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  for (const video of document.querySelectorAll('video')) {
+    if (still) continue;
+    video.controls = false;
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        if (!video.dataset.seen) video.currentTime = 0;
+        video.dataset.seen = '1';
+        video.play().catch(() => {});
+      } else video.pause();
+    }, { threshold: 0.5 }).observe(video);
+  }
+  // on to the app: remembered, for the script at the top
+  const read = () => {
+    try {
+      localStorage.setItem('olomol-about-read', '1');
+    } catch {
+      // not available: the page each time
+    }
+  };
+  for (const link of document.querySelectorAll('a[href="./"], a[href="../"]')) for (const kind of ['click', 'auxclick']) link.addEventListener(kind, read);
+</script>
+</body>
+</html>

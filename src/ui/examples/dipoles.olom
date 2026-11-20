@@ -1,0 +1,33 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.5.0-dev",
+ "atoms": [
+  {"id": 1, "element": "H", "x": 0, "y": 0, "partialCharge": 1},
+  {"id": 2, "element": "Cl", "x": 1, "y": 0, "partialCharge": -1},
+  {"id": 4, "element": "O", "x": 4, "y": 0.3, "partialCharge": -1},
+  {"id": 5, "element": "H", "x": 4.8, "y": -0.3, "partialCharge": 1},
+  {"id": 6, "element": "H", "x": 3.2, "y": -0.3, "partialCharge": 1},
+  {"id": 9, "element": "C", "x": 8, "y": 0, "partialCharge": 1, "showCarbon": true},
+  {"id": 10, "element": "O", "x": 9, "y": 0, "partialCharge": -1},
+  {"id": 11, "element": "O", "x": 7, "y": 0, "partialCharge": -1}
+ ],
+ "bonds": [
+  {"id": 3, "atoms": [1, 2]},
+  {"id": 7, "atoms": [4, 6]},
+  {"id": 8, "atoms": [4, 5]},
+  {"id": 12, "atoms": [9, 11], "order": 2},
+  {"id": 13, "atoms": [9, 10], "order": 2}
+ ],
+ "reactionArrows": [
+  {"id": 14, "kind": "dipole", "from": [0, -0.75], "to": [1, -0.75]},
+  {"id": 15, "kind": "dipole", "from": [4, -1.05], "to": [4, -0.3]},
+  {"id": 16, "kind": "dipole", "from": [7.85, -0.75], "to": [7.1, -0.75]},
+  {"id": 17, "kind": "dipole", "from": [8.15, -0.75], "to": [8.9, -0.75]}
+ ],
+ "texts": [
+  {"id": 18, "x": -0.5014, "y": -1.6085, "text": "μ = 1.1 D", "onMolecule": {"atom": 1, "slot": "below", "drop": 0.55}},
+  {"id": 19, "x": 2.8285, "y": -1.9085, "text": "μ = 1.85 D", "onMolecule": {"atom": 4, "slot": "below", "drop": 0.55}},
+  {"id": 20, "x": 7.426, "y": -1.6085, "text": "μ = 0", "onMolecule": {"atom": 9, "slot": "below", "drop": 0.55}}
+ ]
+}

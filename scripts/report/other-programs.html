@@ -1,0 +1,198 @@
+<title>olomol Import Bench</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: a summary band, a filter row, then one card per file: three views side by side (the file, olomol, RDKit), what was compared underneath. olomol's own colours. */
+:root {
+  --bg: #f7f8fb;
+  --card: #ffffff;
+  --paper: #ffffff;
+  --text: #1c1f26;
+  --muted: #687082;
+  --edge: rgba(20, 25, 45, 0.11);
+  --accent: #1035a9;
+  --accent-soft: rgba(16, 53, 169, 0.09);
+  --good: #12805c;
+  --good-soft: rgba(18, 128, 92, 0.11);
+  --warn: #a15c00;
+  --warn-soft: rgba(196, 120, 0, 0.13);
+  --bad: #c8104f;
+  --bad-soft: rgba(224, 17, 95, 0.11);
+  --ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14161c; --card: #1d2028; --text: #e7e9f0; --muted: #a0a6b6; --edge: rgba(230, 235, 255, 0.12);
+    --accent: #8fa8ff; --accent-soft: rgba(143, 168, 255, 0.14); --good: #4fd1a1; --good-soft: rgba(79, 209, 161, 0.14);
+    --warn: #f0b45a; --warn-soft: rgba(240, 180, 90, 0.15); --bad: #ff6f9c; --bad-soft: rgba(255, 111, 156, 0.15); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14161c; --card: #1d2028; --text: #e7e9f0; --muted: #a0a6b6; --edge: rgba(230, 235, 255, 0.12);
+  --accent: #8fa8ff; --accent-soft: rgba(143, 168, 255, 0.14); --good: #4fd1a1; --good-soft: rgba(79, 209, 161, 0.14);
+  --warn: #f0b45a; --warn-soft: rgba(240, 180, 90, 0.15); --bad: #ff6f9c; --bad-soft: rgba(255, 111, 156, 0.15); color-scheme: dark;
+}
+body { background: var(--bg); color: var(--text); font-family: var(--ui); font-size: 14px; line-height: 1.45; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-block: 28px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 22px; }
+h1 { font-size: 26px; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 .mark { color: var(--accent); }
+.lede { margin: 6px 0 0; color: var(--muted); max-width: 70ch; }
+.meta { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 8px; }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.tile { background: var(--card); border: 1px solid var(--edge); border-radius: 10px; padding: 12px 14px; display: grid; gap: 2px; text-align: left; font: inherit; color: inherit; cursor: pointer; }
+.tile:hover { border-color: var(--accent); }
+.tile[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.tile:focus-visible, .search:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tile .n { font-size: 24px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.tile .what { color: var(--muted); font-size: 12.5px; }
+.tile.good .n { color: var(--good); } .tile.warn .n { color: var(--warn); } .tile.bad .n { color: var(--bad); } .tile.plain .n { color: var(--accent); }
+.tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.search { flex: 1 1 260px; min-width: 0; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--edge); background: var(--card); color: var(--text); font: inherit; }
+.count { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.cards { display: grid; gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--edge); border-radius: 12px; padding: 14px 16px; display: grid; gap: 10px; min-width: 0; }
+.head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.name { font-family: var(--mono); font-size: 13.5px; font-weight: 600; word-break: break-all; }
+.pill { font-size: 11.5px; font-weight: 600; letter-spacing: 0.02em; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.good { background: var(--good-soft); color: var(--good); } .pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.bad { background: var(--bad-soft); color: var(--bad); } .pill.plain { background: var(--accent-soft); color: var(--accent); }
+.why { color: var(--muted); max-width: 95ch; }
+.views { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+.view { display: grid; gap: 4px; align-content: start; min-width: 0; }
+.view h3 { margin: 0; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; }
+.pane { background: var(--paper); border: 1px solid var(--edge); border-radius: 8px; min-height: 140px; max-height: 420px; display: grid; place-items: center; overflow: auto; }
+.pane img { max-width: 100%; max-height: 410px; display: block; }
+.pane a { display: block; }
+.pane .none { color: #687082; font-size: 13px; padding: 16px; text-align: center; }
+.error { font-family: var(--mono); font-size: 12px; color: var(--bad); padding: 12px; word-break: break-word; }
+details { border-top: 1px solid var(--edge); padding-top: 8px; }
+summary { cursor: pointer; color: var(--accent); font-size: 13px; }
+.lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 8px; }
+.lists h4 { margin: 0 0 4px; font-size: 12px; color: var(--muted); font-weight: 600; }
+.lists ol { margin: 0; padding-left: 20px; font-family: var(--mono); font-size: 12px; word-break: break-all; display: grid; gap: 2px; }
+.lists li.off { color: var(--bad); }
+.checks { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 3px; font-size: 12.5px; }
+.checks li::before { content: "✓ "; color: var(--good); font-weight: 700; }
+.checks li.no::before { content: "✗ "; color: var(--bad); }
+.empty { color: var(--muted); padding: 24px; text-align: center; }
+@media (prefers-reduced-motion: no-preference) { .tile { transition: border-color 0.12s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1><span class="mark">olomol</span> reading other programs' files</h1>
+    <p class="lede">Every test file from RDKit's own tests (ChemDraw's CDXML and CDX, reactions as RXN), opened in olomol as a user opens a file. Each card shows the file as it draws itself, as olomol drew it, and the molecules RDKit's tests expect. Green: olomol reads what RDKit reads. Amber: it reads otherwise, and the card says why. Grey: RDKit's tests say nothing about the file, so the check only makes sure olomol keeps reading it as it did when that was written down.</p>
+    <div class="meta" id="meta"></div>
+  </header>
+  <div class="summary" id="summary" role="group" aria-label="Filter by result"></div>
+  <div class="tools">
+    <input class="search" id="search" type="search" placeholder="Find a file or a molecule (SMILES)" aria-label="Find a file or a molecule">
+    <span class="count" id="count"></span>
+  </div>
+  <div class="cards" id="cards"></div>
+</div>
+
+<script>
+const REPORT = /*DATA*/null;
+const { build, entries } = REPORT;
+const kindOf = (e) => (!e.ok ? 'failing' : e.against === 'fails' ? 'fails' : e.against !== 'olomol' ? 'rdkit' : e.reference ? 'differs' : 'own');
+const PILL = {
+  rdkit: ['good', 'Matches RDKit'],
+  differs: ['warn', 'Differs from RDKit'],
+  own: ['plain', 'No reference'],
+  fails: ['plain', 'Not opened'],
+  failing: ['bad', 'Not as it should be'],
+};
+const FILTERS = [
+  ['all', 'plain', 'files', () => true],
+  ['rdkit', 'good', 'read as RDKit reads them', (e) => kindOf(e) === 'rdkit'],
+  ['differs', 'warn', 'differ from RDKit, with the reason', (e) => kindOf(e) === 'differs'],
+  ['own', 'plain', "no reference in RDKit's tests: as olomol read them before", (e) => kindOf(e) === 'own'],
+  ['fails', 'plain', 'not opened, as they should not be', (e) => kindOf(e) === 'fails'],
+  ['failing', 'bad', 'not as they should be', (e) => kindOf(e) === 'failing'],
+];
+let filter = 'all';
+try { filter = localStorage.getItem('bench-filter') || 'all'; } catch {}
+const $ = (id) => document.getElementById(id);
+const el = (tag, attrs = {}, ...children) => {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') node.className = v;
+    else if (v !== null && v !== undefined && v !== false) node.setAttribute(k, v);
+  }
+  for (const child of children.flat()) if (child !== null && child !== undefined && child !== false) node.append(child instanceof Node ? child : document.createTextNode(String(child)));
+  return node;
+};
+
+$('meta').textContent = `${build.passed} of ${build.files} files as they should be · read on ${new Date(build.at).toLocaleString()} from ${build.url}`;
+
+function renderSummary() {
+  const box = $('summary');
+  box.replaceChildren(...FILTERS.map(([key, tone, what, test]) => {
+    const n = entries.filter(test).length;
+    const tile = el('button', { class: `tile ${tone}`, type: 'button', 'aria-pressed': String(filter === key) }, el('span', { class: 'n' }, n), el('span', { class: 'what' }, what));
+    tile.addEventListener('click', () => {
+      filter = key;
+      try { localStorage.setItem('bench-filter', key); } catch {}
+      renderSummary();
+      renderCards();
+    });
+    return tile;
+  }));
+}
+
+function view(title, src, fallback) {
+  const pane = el('div', { class: 'pane' });
+  if (src) pane.append(el('a', { href: src, target: '_blank', rel: 'noopener', title: 'Open the picture on its own' }, el('img', { src, alt: title, loading: 'lazy' })));
+  else pane.append(fallback);
+  return el('div', { class: 'view' }, el('h3', {}, title), pane);
+}
+
+function card(e) {
+  const [tone, label] = PILL[kindOf(e)];
+  const kind = { rxn: 'RXN', query: 'CDXML query', cdx: 'CDX', cdxml: 'CDXML' }[e.kind];
+  const fileView = e.kind === 'rxn' ? 'The file (RDKit draws its molecules)' : e.kind === 'cdx' ? 'The file' : 'The file (as ChemDraw saved it)';
+  const views = [
+    view(fileView, e.images.file, el('div', { class: 'none' }, e.kind === 'cdx' ? 'A binary CDX: its drawing is the CDXML of the same name.' : e.images.fileError ?? 'No picture.')),
+    view('olomol', e.images.olomol, e.error ? el('div', { class: 'error' }, e.error) : el('div', { class: 'none' }, 'Nothing drawn.')),
+  ];
+  if (e.images.rdkit) views.push(view(`RDKit's tests expect${e.rdkitCount > 12 ? ` (12 of ${e.rdkitCount})` : ''}`, e.images.rdkit));
+  const wanted = new Map();
+  for (const s of e.wanted ?? []) wanted.set(s, (wanted.get(s) ?? 0) + 1);
+  const list = (items, other) => {
+    const left = new Map(other);
+    return el('ol', {}, (items ?? []).map((s) => {
+      const n = left.get(s) ?? 0;
+      if (n) left.set(s, n - 1);
+      return el('li', { class: n ? '' : 'off' }, s);
+    }));
+  };
+  const got = new Map();
+  for (const s of e.molecules ?? []) got.set(s, (got.get(s) ?? 0) + 1);
+  const wantTitle = { rdkit: "RDKit's tests expect", 'rdkit-file': 'RDKit reads from the file', olomol: 'olomol should read', fails: 'Should not open' }[e.against];
+  const details = el('details', {},
+    el('summary', {}, `What was compared: ${(e.molecules ?? []).length} molecules read, ${e.checks.length + 1} checks`),
+    el('div', { class: 'lists' },
+      el('div', {}, el('h4', {}, 'olomol read'), e.molecules ? list(e.molecules, wanted) : el('div', { class: 'error' }, e.error)),
+      e.against !== 'fails' ? el('div', {}, el('h4', {}, wantTitle), list(e.wanted, got)) : null),
+    el('ul', { class: 'checks' },
+      el('li', { class: (e.against === 'fails' ? true : !e.console.length) ? '' : 'no' }, e.console.length ? `Console: ${e.console.join(' | ')}` : 'No errors in the console'),
+      e.checks.map((c) => el('li', { class: c.ok ? '' : 'no' }, c.label))));
+  return el('article', { class: 'card', id: e.file.replace(/[^A-Za-z0-9-]/g, '-') },
+    el('div', { class: 'head' }, el('span', { class: 'name' }, e.file), el('span', { class: `pill ${tone}` }, label), el('span', { class: 'pill plain' }, kind)),
+    e.why ? el('div', { class: 'why' }, e.why) : null,
+    el('div', { class: 'views' }, views),
+    details);
+}
+
+function renderCards() {
+  const q = $('search').value.trim().toLowerCase();
+  const test = FILTERS.find(([key]) => key === filter)?.[3] ?? (() => true);
+  const shown = entries.filter(test).filter((e) => !q || e.file.toLowerCase().includes(q) || (e.molecules ?? []).some((s) => s.toLowerCase().includes(q)) || (e.why ?? '').toLowerCase().includes(q));
+  $('count').textContent = `${shown.length} of ${entries.length} files`;
+  $('cards').replaceChildren(...(shown.length ? shown.map(card) : [el('div', { class: 'empty' }, 'No file matches. Clear the search or pick another tile above.')]));
+}
+$('search').addEventListener('input', renderCards);
+renderSummary();
+renderCards();
+</script>

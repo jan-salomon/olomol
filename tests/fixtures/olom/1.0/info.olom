@@ -1,0 +1,39 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.5.0",
+ "style": "screen",
+ "atoms": [
+  {"id": 1, "element": "C", "x": 2.1651, "y": -0.2501},
+  {"id": 2, "element": "C", "x": 1.299, "y": 0.2499},
+  {"id": 3, "element": "O", "x": 0.433, "y": -0.2501},
+  {"id": 4, "element": "C", "x": -0.433, "y": 0.25},
+  {"id": 5, "element": "C", "x": -1.299, "y": -0.25},
+  {"id": 6, "element": "C", "x": -1.299, "y": -1.25},
+  {"id": 7, "element": "O", "x": -2.165, "y": -1.75},
+  {"id": 8, "element": "O", "x": -0.433, "y": -1.75},
+  {"id": 9, "element": "C", "x": -2.1651, "y": 0.25},
+  {"id": 10, "element": "C", "x": -2.1651, "y": 1.25},
+  {"id": 11, "element": "C", "x": -1.299, "y": 1.75},
+  {"id": 12, "element": "C", "x": -0.433, "y": 1.25},
+  {"id": 13, "element": "O", "x": 1.299, "y": 1.2499}
+ ],
+ "bonds": [
+  {"id": 14, "atoms": [1, 2]},
+  {"id": 15, "atoms": [2, 13], "order": 2},
+  {"id": 16, "atoms": [2, 3]},
+  {"id": 17, "atoms": [3, 4]},
+  {"id": 18, "atoms": [4, 12], "order": 2},
+  {"id": 19, "atoms": [12, 11]},
+  {"id": 20, "atoms": [11, 10], "order": 2},
+  {"id": 21, "atoms": [10, 9]},
+  {"id": 22, "atoms": [9, 5], "order": 2},
+  {"id": 23, "atoms": [5, 6]},
+  {"id": 24, "atoms": [6, 8], "order": 2},
+  {"id": 25, "atoms": [6, 7]},
+  {"id": 26, "atoms": [5, 4]}
+ ],
+ "texts": [
+  {"id": 27, "x": 3.7651, "y": 1.15, "text": "*{C_{9}H_{8}O_{4}}\nM = 180.16 g/mol\nexact mass 180.0423\nCC(=O)Oc1ccccc1C(=O)O", "align": "left"}
+ ]
+}

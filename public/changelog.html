@@ -1,0 +1,1182 @@
+<!doctype html>
+<!-- What changed in each version, newest on top, in Czech, English and
+     German: each text here in all three (lang="…"), and scripts/pages.mjs
+     makes a page of each, as of about.html: changelog.html in English,
+     cs/changelog.html and de/changelog.html (also on the dev server). A
+     link without a language is the English page, unless ?lang= or the
+     language picked in the app says another (not the browser's language,
+     as on the about page). Linked from the help
+     menu (the round "?" at the bottom right) with #v<version>. The dates
+     (data-date) are written in each page's language there. A new version: a new <section> at the top, with the
+     same version number as package.json, its text in each of the three
+     languages (lang="…"), and the "newest" mark moved to it. -->
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- (the English page on to the language asked for: scripts/pages.mjs puts its script here) -->
+<script data-to-language></script>
+<!-- (the title with the name in it, not first: Google cuts off a leading "olomol:", as on the about page) -->
+<title lang="cs">Co je nového v olomolu</title>
+<title lang="en">What's new in olomol</title>
+<title lang="de">Was ist neu in olomol</title>
+<meta name="description" lang="cs" content="Co je nového v olomolu, programu zdarma na kreslení chemických struktur, reakcí a mechanismů: změny v jednotlivých verzích, nejnovější nahoře.">
+<meta name="description" lang="en" content="What's new in olomol, the free program for drawing chemical structures, reactions and mechanisms: the changes in each version, newest on top.">
+<meta name="description" lang="de" content="Was ist neu in olomol, dem kostenlosen Programm zum Zeichnen chemischer Strukturen, Reaktionen und Mechanismen: die Änderungen der einzelnen Versionen, die neueste zuerst.">
+<link rel="canonical" href="https://olomol.org/changelog.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="olomol">
+<meta property="og:title" lang="cs" content="olomol: co je nového">
+<meta property="og:title" lang="en" content="olomol: what's new">
+<meta property="og:title" lang="de" content="olomol: was ist neu">
+<meta property="og:url" content="https://olomol.org/changelog.html">
+<meta property="og:image" content="https://olomol.org/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+<style>
+  :root {
+    --accent: #1035a9;
+    --accent-2: #2e6fdb;
+    --accent-soft: rgba(16, 53, 169, 0.08);
+    --text: #1c1f26;
+    --muted: #687082;
+    --canvas: #f7f8fb;
+    --panel: #ffffff;
+    --edge: rgba(20, 25, 45, 0.09);
+    --shadow: 0 10px 34px rgba(25, 30, 60, 0.1), 0 2px 6px rgba(25, 30, 60, 0.05);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #8fb0ff;
+      --accent-2: #6f97f5;
+      --accent-soft: rgba(143, 176, 255, 0.1);
+      --text: #e7e9f0;
+      --muted: #a0a6b6;
+      --canvas: #13151b;
+      --panel: #1b1e26;
+      --edge: rgba(255, 255, 255, 0.08);
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--text);
+    font: 15px/1.55 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  header { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 28px; }
+  header img { width: 52px; height: 52px; border-radius: 12px; box-shadow: var(--shadow); }
+  h1 { margin: 0; font-size: 26px; line-height: 1.2; }
+  header p { margin: 2px 0 0; color: var(--muted); }
+  .end { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .end a { color: var(--accent); text-decoration: none; font-weight: 600; white-space: nowrap; }
+  .end a:hover { text-decoration: underline; }
+  .languages { display: flex; gap: 2px; padding: 2px; border-radius: 999px; background: var(--accent-soft); }
+  .languages a {
+    border-radius: 999px; padding: 3px 10px; color: var(--text); text-decoration: none; font-size: 13px;
+  }
+  .languages a[aria-current="page"] { background: var(--panel); color: var(--accent); font-weight: 650; box-shadow: 0 1px 4px rgba(25, 30, 60, 0.15); }
+  section {
+    background: var(--panel);
+    border: 1px solid var(--edge);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 20px 24px 14px;
+    margin-bottom: 18px;
+    scroll-margin-top: 16px;
+  }
+  section:target { border-color: var(--accent-2); }
+  h2 { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin: 0 0 6px; font-size: 21px; }
+  h2 .date { font-size: 14px; font-weight: 500; color: var(--muted); }
+  /* a main release's band: pictures of what it brought */
+  .band { display: block; width: 100%; height: auto; margin: 10px 0 14px; border-radius: 12px; }
+  .newest {
+    font-size: 12px; font-weight: 650; color: #fff; padding: 2px 9px; border-radius: 999px;
+    background: linear-gradient(135deg, #1035a9, #2e6fdb);
+  }
+  .summary { margin: 0 0 10px; color: var(--muted); }
+  h3 { margin: 16px 0 4px; font-size: 15px; color: var(--accent); }
+  ul { margin: 0 0 6px; padding-left: 20px; }
+  li { margin: 3px 0; }
+  li ul { margin-top: 3px; }
+  code { font: 13px ui-monospace, monospace; overflow-wrap: anywhere; }
+  kbd {
+    font: 12px ui-monospace, monospace; padding: 1px 5px; border-radius: 5px;
+    border: 1px solid var(--edge); background: var(--accent-soft);
+  }
+  @media (max-width: 520px) {
+    .band { height: 96px; object-fit: cover; } /* (its middle) */
+    .end { margin-left: 0; align-items: flex-start; }
+    section { padding: 16px 16px 10px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="icons/icon.svg" alt="">
+    <div>
+      <h1><span lang="cs">Co je nového v olomolu</span><span lang="en">What's new in olomol</span><span lang="de">Was ist neu in olomol</span></h1>
+      <p><span lang="cs">Změny v jednotlivých verzích, nejnovější nahoře.</span><span lang="en">The changes in each version, newest on top.</span><span lang="de">Änderungen der einzelnen Versionen, die neueste zuerst.</span></p>
+    </div>
+    <div class="end">
+      <div class="languages" role="group" aria-label="Language">
+        <a href="?lang=cs" data-lang="cs" hreflang="cs">Čeština</a>
+        <a href="?lang=en" data-lang="en" hreflang="en">English</a>
+        <a href="?lang=de" data-lang="de" hreflang="de">Deutsch</a>
+      </div>
+      <a href="./"><span lang="cs">Zpět ke kreslení</span><span lang="en">Back to drawing</span><span lang="de">Zurück zum Zeichnen</span></a>
+    </div>
+  </header>
+
+  <section id="v0.5.0">
+    <h2>0.5.0 <span class="date" data-date="2026-11-19">19 November 2026</span> <span class="newest"><span lang="cs">nejnovější</span><span lang="en">newest</span><span lang="de">neueste</span></span></h2>
+    <img class="band" src="changelog/banner-0.5.0.svg" width="1200" height="200" loading="lazy" alt="Drawings open in tabs, one molecule in three journal styles at their true sizes, an exercise shown full screen, and the search bar finding templates with C=O">
+    <div lang="cs">
+      <p class="summary">Práce se soubory jako v běžném editoru: vlastní formát .olom, karty, nedávné soubory, PDF, hledání ve spodní liště, promítání a nabídka pravého tlačítka. K tomu styly kresby pro časopisy (ACS, RSC i vlastní).</p>
+      <h3>Nové</h3>
+      <ul>
+        <li><strong>Ukládání:</strong> <kbd>Ctrl</kbd>+<kbd>S</kbd> uloží kresbu zpět do jejího souboru bez ptaní (Chrome, Edge), <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> je <em>Uložit jako</em>. Kresby se ukládají ve vlastním formátu olomolu, .olom; soubory KET se dál otevírají i exportují (pro Ketcher se zkratkami jako jeho skupinami a stereochemií Haworthových a Fischerových projekcí jako klíny), ale soubory jiných programů se nepřepisují.</li>
+        <li><strong>Karty:</strong> víc kreseb najednou, každá se svým zpět a souborem; při příštím otevření jsou všechny zpět. <em>Duplikovat kresbu</em> (pravým tlačítkem na kartě) udělá kopii, třeba z úlohy pro její řešení. Kresba otevřená v jednom okně olomolu zůstane v něm, takže se dvě okna nikdy nepřepíšou.</li>
+        <li><strong>Otevírání:</strong> soubory jde přetáhnout do okna, <em>Otevřít</em> nabízí nedávné soubory a nainstalovaná aplikace otevírá soubory ze správce souborů.</li>
+        <li><strong>Hledání</strong> ve spodní liště (<kbd>/</kbd>): struktury podle názvu, SMILES nebo InChI, prvky, šablony i nástroje a akce olomolu.</li>
+        <li><em>Export</em> → <em>PDF / Tisk…</em>: kresba sama na stránce, jako vektorové PDF.</li>
+        <li>Dřívější verze kresby: kliknutím na <em>Uchováno</em> v horní liště nebo z nabídky <em>Otevřít</em>.</li>
+        <li><strong>Promítání</strong> (tlačítko vpravo v horní liště): otevřené kresby přes celou obrazovku, bez lišt; <kbd>→</kbd> a <kbd>←</kbd> (nebo prezentér) přecházejí mezi nimi, třeba z úlohy na řešení, <kbd>Esc</kbd> vrátí zpět.</li>
+        <li><strong>Pravé tlačítko</strong> na plátně: vyjmout, kopírovat, vložit, smazat, <em>Překreslit</em>, <em>Otočit ve 3D</em>, překlopit, vazbu vodorovně nebo svisle a další, podle toho, na co klikáte.</li>
+        <li>Obrázky SVG a PNG exportované z olomolu nesou kresbu: otevřou se znovu jako kresba (<kbd>Ctrl</kbd>+<kbd>O</kbd> nebo přetažením).</li>
+        <li><strong>Odkazy se strukturou:</strong> <code>olomol.org/#smiles=CCO</code> (nebo <code>#name=caffeine</code>) otevře strukturu nakreslenou, víc struktur ve vlastních kartách; odkaz jde vložit i do hledání. Chatboti se z <code>llms.txt</code> dozví, jak takové odkazy psát.</li>
+        <li><strong>Styly:</strong> <em>Nastavení</em> → <em>Styl</em> nabízí vedle Obrazovky a ACS i RSC, <em>Prezentace</em> a <em>Vlastní…</em> (délka vazby, čáry, velikost a písmo popisků v bodech). Styl si kresba nese ve svém souboru; <em>Použít pro nové kresby</em> určí, v jakém stylu nové kresby začínají. Ke stylu patří i náboje v kroužcích (⊕ ⊖) a volné páry jako čárky.</li>
+        <li>Tučná vazba a tučný popisek atomu (v panelu výběru) a vlastní písmo a velikost textu (<em>Aa</em> a pt v liště nad textem).</li>
+        <li>Při tažení obdélníku je vidět, co se vybere, než ho pustíte.</li>
+        <li><strong>Trojklik</strong> vybere celý řádek reakčního schématu: jeho molekuly, + a šipky i s tím, co je na nich.</li>
+        <li><strong>Skupiny:</strong> <kbd>Ctrl</kbd>+<kbd>G</kbd> seskupí výběr, i skupiny do větší skupiny; <kbd>Ctrl</kbd>+kliknutí vybere skupinu (znovu: skupinu kolem ní), obyčejné kliknutí dál vybírá atomy a molekuly; <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd> skupinu rozdělí. Totéž v panelu <em>Objekty</em> vlevo dole (seznam věcí a skupin kresby; skupiny se v něm dají pojmenovat a věci mezi nimi přetahovat) a v nabídce pravého tlačítka; zarovnání posouvá skupiny jako celky a SVG je nese jako skupiny.</li>
+        <li>Karbokation bez napsaného C: <em>Uhlíky</em> → <em>čára</em> nakreslí nabitý uhlík jen jako + v rohu (u karbaniontu −), <em>Všechny C</em> jako C+.</li>
+        <li>Tři nové ukázky v nápovědě, pod <em>Soubory a karty</em>: úloha a řešení v kartách, ukládání a dřívější verze, styl časopisu.</li>
+      </ul>
+      <h3>Změněno</h3>
+      <ul>
+        <li>Tlačítka horní lišty jsou ve skupinách. V úzkém okně se to, co se nevejde, schová pod <em>⋯</em> na konci lišty.</li>
+        <li>Nápověda nad spodní lištou má jeden řádek; vše, co nástroj umí, ukáže popisek jeho tlačítka.</li>
+        <li>Se dvěma a více kresbami je název jen na kartách; dvojklik na kartu ji přejmenuje. Nové karty přibývají na konec.</li>
+        <li><em>Držet pohromadě</em> se jmenuje <em>Jedna sloučenina</em> (a <em>Rozdělit</em> <em>Oddělit</em>), aby se nepletlo se skupinami.</li>
+        <li>Exportované obrázky PNG nesou své rozlišení, takže je Word a PowerPoint vloží ve velikosti podle stylu kresby, ne čtyřikrát větší; <em>Kopírovat jako obrázek</em> dává do schránky i SVG.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">Working with files as in any editor: olomol’s own .olom format, tabs, recent files, PDF, a search bar at the bottom, a presentation mode and a right-click menu. And drawing styles for journals (ACS, RSC or your own).</p>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Saving:</strong> <kbd>Ctrl</kbd>+<kbd>S</kbd> saves the drawing back into its file without asking (Chrome, Edge), <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> is <em>Save as</em>. Drawings are saved in olomol’s own format, .olom; KET files still open and export (for Ketcher, with abbreviations as its groups and the stereo of Haworth and Fischer projections as wedges), but other programs’ files are never written over.</li>
+        <li><strong>Tabs:</strong> several drawings at once, each with its own undo and file; all of them are back the next time you open olomol. <em>Duplicate drawing</em> (right-click a tab) makes a copy, say of an exercise for its solution. A drawing open in one olomol window stays in it, so two windows never write over each other.</li>
+        <li><strong>Opening:</strong> drop files onto the window, <em>Open</em> lists recent files, and the installed app opens files from the file manager.</li>
+        <li><strong>Search</strong> in the bottom bar (<kbd>/</kbd>): structures by name, SMILES or InChI, elements, templates, and olomol’s tools and actions.</li>
+        <li><em>Export</em> → <em>PDF / Print…</em>: the drawing alone on a page, as a vector PDF.</li>
+        <li>Earlier versions of a drawing: click <em>Autosaved</em> in the top bar, or from the <em>Open</em> menu.</li>
+        <li><strong>Show</strong> (the button on the right of the top bar): the open drawings full screen, without the bars; <kbd>→</kbd> and <kbd>←</kbd> (or a clicker) step through them, from an exercise to its solution, <kbd>Esc</kbd> goes back.</li>
+        <li><strong>Right-click</strong> on the canvas: cut, copy, paste, delete, <em>Redraw</em>, <em>Turn in 3D</em>, flips, a bond horizontal or vertical and more, depending on what you click.</li>
+        <li>SVG and PNG pictures exported from olomol carry the drawing: they open again as the drawing (<kbd>Ctrl</kbd>+<kbd>O</kbd> or dropped on the window).</li>
+        <li><strong>Links with a structure:</strong> <code>olomol.org/#smiles=CCO</code> (or <code>#name=caffeine</code>) opens it drawn, several in tabs of their own; a link can be pasted into the search bar too. Chatbots learn how to write them from <code>llms.txt</code>.</li>
+        <li><strong>Styles:</strong> <em>Settings</em> → <em>Style</em> has RSC, <em>Slides</em> and <em>Custom…</em> (bond length, lines, label size and font in points) beside Screen and ACS. A drawing keeps its style in its file; <em>Use for new drawings</em> sets the style new drawings start in. Circled charges (⊕ ⊖) and lone pairs as bars belong to the style too.</li>
+        <li>Bold bonds and bold atom labels (in the selection’s panel), and a text’s own font and size (<em>Aa</em> and pt in the bar over the text).</li>
+        <li>While a box is dragged, what it will select is lit before you let go.</li>
+        <li>A <strong>triple click</strong> selects a whole row of a reaction scheme: its molecules, + signs and arrows with what is on them.</li>
+        <li><strong>Groups:</strong> <kbd>Ctrl</kbd>+<kbd>G</kbd> groups the selection, groups into larger groups too; <kbd>Ctrl</kbd>+click selects a group (again: the group round it), while a plain click still selects atoms and molecules; <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd> takes a group apart. The same from the <em>Objects</em> panel at the bottom left (a list of the drawing’s things and groups, where groups can be named and things dragged between them) and the right-click menu; Align moves groups as wholes, and SVG pictures keep them as groups.</li>
+        <li>A carbocation without its C written: <em>Carbons</em> → <em>line</em> draws a charged carbon as only the + at the corner (− for a carbanion), <em>All C</em> as C+.</li>
+        <li>Three new examples in the help, under <em>Files and tabs</em>: an exercise and its solution in tabs, saving and earlier versions, a journal’s style.</li>
+      </ul>
+      <h3>Changed</h3>
+      <ul>
+        <li>The top bar’s buttons are in groups. In a narrow window, what doesn’t fit goes under <em>⋯</em> at the end of the bar.</li>
+        <li>The hint above the bottom bar is one line; a tool button’s tooltip says all the tool does.</li>
+        <li>With two drawings or more, the name is on the tabs only; double-click a tab to rename it. New tabs go at the end.</li>
+        <li><em>Keep together</em> is now <em>One compound</em> (and <em>Keep apart</em> <em>Separate</em>), so as not to be taken for grouping.</li>
+        <li>Exported PNG pictures carry their resolution, so Word and PowerPoint place them at the size the drawing’s style gives, not four times larger; <em>Copy as picture</em> also puts an SVG on the clipboard.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Arbeiten mit Dateien wie in jedem Editor: das eigene Format .olom, Tabs, zuletzt verwendete Dateien, PDF, eine Suchleiste unten, ein Vorführmodus und ein Rechtsklick-Menü. Dazu Zeichenstile für Zeitschriften (ACS, RSC oder ein eigener).</p>
+      <h3>Neu</h3>
+      <ul>
+        <li><strong>Speichern:</strong> <kbd>Strg</kbd>+<kbd>S</kbd> speichert die Zeichnung ohne Nachfrage in ihre Datei (Chrome, Edge), <kbd>Strg</kbd>+<kbd>Umschalt</kbd>+<kbd>S</kbd> ist <em>Speichern unter</em>. Zeichnungen werden im eigenen Format von olomol gespeichert, .olom; KET-Dateien lassen sich weiter öffnen und exportieren (für Ketcher mit Abkürzungen als seinen Gruppen und der Stereochemie von Haworth- und Fischer-Projektionen als Keilen), aber Dateien anderer Programme werden nie überschrieben.</li>
+        <li><strong>Tabs:</strong> mehrere Zeichnungen gleichzeitig, jede mit eigenem Rückgängig und eigener Datei; beim nächsten Öffnen von olomol sind alle wieder da. <em>Zeichnung duplizieren</em> (Rechtsklick auf einen Tab) macht eine Kopie, etwa einer Aufgabe für ihre Lösung. Eine in einem olomol-Fenster geöffnete Zeichnung bleibt dort, sodass sich zwei Fenster nie überschreiben.</li>
+        <li><strong>Öffnen:</strong> Dateien aufs Fenster ziehen, <em>Öffnen</em> listet zuletzt verwendete Dateien, und die installierte App öffnet Dateien aus dem Dateimanager.</li>
+        <li><strong>Suche</strong> in der unteren Leiste (<kbd>/</kbd>): Strukturen nach Name, SMILES oder InChI, Elemente, Vorlagen sowie Werkzeuge und Aktionen von olomol.</li>
+        <li><em>Export</em> → <em>PDF / Drucken…</em>: nur die Zeichnung auf einer Seite, als Vektor-PDF.</li>
+        <li>Frühere Versionen einer Zeichnung: Klick auf <em>Gesichert</em> in der oberen Leiste oder im Menü <em>Öffnen</em>.</li>
+        <li><strong>Vorführen</strong> (die Schaltfläche rechts in der oberen Leiste): die offenen Zeichnungen im Vollbild, ohne Leisten; <kbd>→</kbd> und <kbd>←</kbd> (oder ein Presenter) blättern durch sie, von der Aufgabe zur Lösung, <kbd>Esc</kbd> führt zurück.</li>
+        <li><strong>Rechtsklick</strong> auf die Zeichenfläche: Ausschneiden, Kopieren, Einfügen, Löschen, <em>Neu zeichnen</em>, <em>In 3D drehen</em>, Spiegeln, eine Bindung waagrecht oder senkrecht und mehr, je nachdem, worauf Sie klicken.</li>
+        <li>Aus olomol exportierte SVG- und PNG-Bilder tragen die Zeichnung in sich: Sie öffnen sich wieder als Zeichnung (<kbd>Strg</kbd>+<kbd>O</kbd> oder aufs Fenster gezogen).</li>
+        <li><strong>Links mit einer Struktur:</strong> <code>olomol.org/#smiles=CCO</code> (oder <code>#name=caffeine</code>) öffnet sie gezeichnet, mehrere in eigenen Tabs; ein Link lässt sich auch in die Suche einfügen. Chatbots erfahren aus <code>llms.txt</code>, wie man solche Links schreibt.</li>
+        <li><strong>Stile:</strong> <em>Einstellungen</em> → <em>Stil</em> bietet neben Bildschirm und ACS auch RSC, <em>Folien</em> und <em>Eigener…</em> (Bindungslänge, Linien, Größe und Schrift der Beschriftungen in Punkt). Eine Zeichnung behält ihren Stil in ihrer Datei; <em>Für neue Zeichnungen verwenden</em> legt fest, in welchem Stil neue Zeichnungen beginnen. Ladungen im Kreis (⊕ ⊖) und freie Paare als Striche gehören ebenfalls zum Stil.</li>
+        <li>Fette Bindungen und fette Atombeschriftungen (im Panel der Auswahl) sowie eigene Schrift und Größe eines Textes (<em>Aa</em> und pt in der Leiste über dem Text).</li>
+        <li>Beim Ziehen eines Rahmens ist zu sehen, was ausgewählt wird, bevor Sie loslassen.</li>
+        <li>Ein <strong>Dreifachklick</strong> wählt eine ganze Zeile eines Reaktionsschemas: ihre Moleküle, Pluszeichen und Pfeile samt dem, was darauf steht.</li>
+        <li><strong>Gruppen:</strong> <kbd>Strg</kbd>+<kbd>G</kbd> gruppiert die Auswahl, auch Gruppen zu größeren; <kbd>Strg</kbd>+Klick wählt eine Gruppe (noch einmal: die Gruppe darum), ein einfacher Klick wählt weiter Atome und Moleküle; <kbd>Strg</kbd>+<kbd>Umschalt</kbd>+<kbd>G</kbd> löst eine Gruppe auf. Dasselbe im Panel <em>Objekte</em> unten links (eine Liste der Dinge und Gruppen der Zeichnung, in der sich Gruppen benennen und Dinge zwischen ihnen ziehen lassen) und im Rechtsklick-Menü; Ausrichten verschiebt Gruppen als Ganzes, und SVG-Bilder behalten sie als Gruppen.</li>
+        <li>Ein Carbokation ohne geschriebenes C: <em>C-Atome</em> → <em>Strich</em> zeichnet ein geladenes C-Atom nur als + an der Ecke (− bei einem Carbanion), <em>Alle C</em> als C+.</li>
+        <li>Drei neue Beispiele in der Hilfe, unter <em>Dateien und Tabs</em>: Aufgabe und Lösung in Tabs, Speichern und frühere Versionen, der Stil einer Zeitschrift.</li>
+      </ul>
+      <h3>Geändert</h3>
+      <ul>
+        <li>Die Schaltflächen der oberen Leiste sind in Gruppen. In einem schmalen Fenster kommt, was nicht passt, unter <em>⋯</em> am Ende der Leiste.</li>
+        <li>Der Hinweis über der unteren Leiste ist jetzt einzeilig; der Tooltip einer Werkzeugschaltfläche beschreibt alles, was das Werkzeug kann.</li>
+        <li>Ab zwei Zeichnungen steht der Name nur auf den Tabs; ein Doppelklick auf einen Tab benennt ihn um. Neue Tabs kommen ans Ende.</li>
+        <li><em>Zusammenhalten</em> heißt jetzt <em>Eine Verbindung</em> (und <em>Trennen</em> bleibt <em>Trennen</em>), damit es nicht mit Gruppen verwechselt wird.</li>
+        <li>Exportierte PNG-Bilder tragen ihre Auflösung, sodass Word und PowerPoint sie in der Größe einfügen, die der Stil der Zeichnung vorgibt, nicht viermal so groß; <em>Als Bild kopieren</em> legt auch ein SVG in die Zwischenablage.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.4.5">
+    <h2>0.4.5 <span class="date" data-date="2026-11-19">19 November 2026</span></h2>
+    <div lang="cs">
+      <p class="summary">Soubory jiných programů: koordinační a vodíkové vazby, polymery s n, ručně zadané vodíky a formátování textů zůstanou. Export předem řekne, co formát neumí uložit.</p>
+      <h3>Nové</h3>
+      <ul>
+        <li>Nabídka <em>Export</em> u každého formátu řekne, co z kresby neumí uložit (zahnuté šipky, texty, závorky, barvy…), a zpráva po exportu to zopakuje.</li>
+      </ul>
+      <h3>Opraveno</h3>
+      <ul>
+        <li>Reakce v souborech jiných programů (Molfile, RXN, SMILES) je vždy jen jedna a celá: molekula mimo linku šipky nechybí, rezonanční, dipólová, rovnítková a přeškrtnutá šipka nejsou reakce a schéma o víc krocích se uloží jako molekuly (Export to řekne).</li>
+        <li>Reakční SMILES vložený do kresby si nechá stereochemii; SDF a RXN olomol zapisuje i čte sám (dusík se třemi nepárovými elektrony zůstane N).</li>
+        <li>Popisky z ChemDraw s horním indexem (H⁺, NAD⁺) se při otevření neztratí; InChI kresby se symbolem R řekne, proč nejde, místo prázdného souboru.</li>
+        <li>Molfile zachová koordinační a vodíkové vazby; při čtení už z nich nejsou obyčejné vazby (cisplatina s NH₂).</li>
+        <li>Závorky s n (opakující se jednotka polymeru) z ChemDraw, Ketcheru a molfilů zůstanou a do molfilu, SDF i KET se zapíšou tak, aby je jiné programy znaly.</li>
+        <li>Počet vodíků zadaný ručně se při čtení SDF, RXN a souborů z Ketcheru neztratí (karben CH₂ už není CH₄).</li>
+        <li>Texty z ChemDraw a Ketcheru si nechají horní a dolní indexy, tučné písmo a kurzívu (m², cm⁻¹, <i>t</i>-BuOK).</li>
+        <li>Samotný CH₄, NH₃ nebo H₂O z ChemDraw je atom, ne popisek; D, T a R# v molfilu V3000 se čtou jako ve V2000.</li>
+        <li>Změna těsně před zavřením nebo obnovením stránky se uloží; když prohlížeč nic neukládá (anonymní okno), zeptá se před zavřením.</li>
+        <li>Ctrl+V s obrázkem ve schránce řekne, že není co vložit, místo aby znovu vložil poslední kopii.</li>
+        <li><em>Rozkreslit</em> a <em>Zkratkou</em> nechají zahnuté šipky na zkratce a na její vazbě (odstupující OTs v S<sub>N</sub>2) a text u ní.</li>
+        <li>Popisek, který by narazil do sousedního atomu, se napíše na druhou stranu: HO vedle nakresleného H, HOH₂C nad OH.</li>
+        <li>Značky R/S se nepostaví na vazbu ani popisek a nevlezou do kruhu, kde by patřily k jinému atomu (glukosa v židličkové konformaci).</li>
+        <li><em>Překreslit</em> nechá nakreslenému vodíku stranu, kterou měl, i když jeho uhlík není stereocentrum (axiální H v židličce, anti k Br při E2): klínek nebo čárkovanou vazbu.</li>
+        <li>Dvě rybářské šipky z jedné vazby (homolýza) jsou zrcadlový pár, na volné straně vazby.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">Other programs' files: dative and hydrogen bonds, polymers with n, hydrogens set by hand and text formatting are kept. Export says beforehand what a format can't hold.</p>
+      <h3>New</h3>
+      <ul>
+        <li>The <em>Export</em> menu says under each format what of the drawing it can't hold (curved arrows, texts, brackets, colours…), and the message after the export says it again.</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>Other programs' files (Molfile, RXN, SMILES) hold one whole reaction: a molecule off the arrow's line is kept, resonance, dipole, equals and crossed arrows are no reaction, and a scheme of several steps is written as its molecules (Export says so).</li>
+        <li>A reaction SMILES pasted keeps its stereo; olomol writes and reads SDF and RXN itself (a nitrogen with three unpaired electrons stays N).</li>
+        <li>ChemDraw captions with a superscript (H⁺, NAD⁺) are no longer lost when opened; InChI of a drawing with an R says why it can't be made, instead of an empty file.</li>
+        <li>Molfiles keep dative and hydrogen bonds; read back, they are no longer ordinary bonds (cisplatin with NH₂).</li>
+        <li>Brackets with n (a polymer's repeating unit) from ChemDraw, Ketcher and molfiles are kept, and written to molfiles, SDF and KET so that other programs know them.</li>
+        <li>Hydrogens set by hand are no longer lost when reading SDF, RXN and Ketcher's files (a carbene CH₂ stays CH₂).</li>
+        <li>Texts from ChemDraw and Ketcher keep their sub- and superscripts, bold and italic (m², cm⁻¹, <i>t</i>-BuOK).</li>
+        <li>A lone CH₄, NH₃ or H₂O from ChemDraw is an atom, not a label; D, T and R# in a V3000 molfile are read as in V2000.</li>
+        <li>A change made just before the page is closed or reloaded is kept; where the browser keeps nothing (a private window), it asks before closing.</li>
+        <li>Ctrl+V with a picture on the clipboard says there is nothing to paste, instead of pasting the last copy again.</li>
+        <li><em>Draw out</em> and <em>Abbreviate</em> keep curved arrows on a label and on its bond (OTs leaving in an S<sub>N</sub>2) and the text on it.</li>
+        <li>A label that would run into a nearby atom is written the other way round: HO beside a drawn H, HOH₂C above an OH.</li>
+        <li>R/S marks stay off bonds and labels, and out of a ring where they would read as another atom's (glucose as a chair).</li>
+        <li><em>Redraw</em> keeps the side of a drawn H even where its carbon is no stereocentre (a chair's axial H, anti to the Br in an E2): a wedge or a hashed wedge.</li>
+        <li>The two fishhooks out of one bond (homolysis) are a mirror pair, on the open side of the bond.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Dateien anderer Programme: dative und Wasserstoffbrücken, Polymere mit n, von Hand gesetzte Wasserstoffe und Textformatierung bleiben erhalten. Der Export sagt vorher, was ein Format nicht aufnehmen kann.</p>
+      <h3>Neu</h3>
+      <ul>
+        <li>Das Menü <em>Export</em> nennt unter jedem Format, was es von der Zeichnung nicht aufnehmen kann (gebogene Pfeile, Texte, Klammern, Farben…), und die Meldung nach dem Export wiederholt es.</li>
+      </ul>
+      <h3>Behoben</h3>
+      <ul>
+        <li>Dateien anderer Programme (Molfile, RXN, SMILES) enthalten eine ganze Reaktion: Ein Molekül neben der Pfeillinie bleibt erhalten, Resonanz-, Dipol-, Gleichheits- und durchgestrichene Pfeile sind keine Reaktion, und ein Schema aus mehreren Schritten wird als seine Moleküle geschrieben (Export sagt es).</li>
+        <li>Ein eingefügtes Reaktions-SMILES behält seine Stereochemie; SDF und RXN schreibt und liest olomol selbst (ein Stickstoff mit drei ungepaarten Elektronen bleibt N).</li>
+        <li>ChemDraw-Beschriftungen mit Hochstellung (H⁺, NAD⁺) gehen beim Öffnen nicht mehr verloren; das InChI einer Zeichnung mit einem R sagt, warum es nicht geht, statt einer leeren Datei.</li>
+        <li>Molfiles behalten dative Bindungen und Wasserstoffbrücken: Beim erneuten Einlesen werden daraus keine gewöhnlichen Bindungen mehr (Cisplatin mit NH₂).</li>
+        <li>Klammern mit n (die Wiederholungseinheit eines Polymers) aus ChemDraw, Ketcher und Molfiles bleiben erhalten und werden so in Molfiles, SDF und KET geschrieben, dass andere Programme sie kennen.</li>
+        <li>Von Hand gesetzte Wasserstoffe gehen beim Lesen von SDF, RXN und Ketcher-Dateien nicht mehr verloren (ein Carben CH₂ bleibt CH₂).</li>
+        <li>Texte aus ChemDraw und Ketcher behalten Hoch- und Tiefstellung, Fett- und Kursivschrift (m², cm⁻¹, <i>t</i>-BuOK).</li>
+        <li>Ein einzelnes CH₄, NH₃ oder H₂O aus ChemDraw ist ein Atom, keine Beschriftung; D, T und R# in einem V3000-Molfile werden wie in V2000 gelesen.</li>
+        <li>Eine Änderung kurz vor dem Schließen oder Neuladen der Seite bleibt erhalten; wo der Browser nichts speichert (ein privates Fenster), fragt er vor dem Schließen.</li>
+        <li>Strg+V mit einem Bild in der Zwischenablage sagt, dass es nichts einzufügen gibt, statt die letzte Kopie noch einmal einzufügen.</li>
+        <li><em>Ausschreiben</em> und <em>Abkürzen</em> behalten gebogene Pfeile an einer Abkürzung und an ihrer Bindung (abgehendes OTs in einer S<sub>N</sub>2) und den Text daran.</li>
+        <li>Eine Beschriftung, die ein benachbartes Atom verdecken würde, wird umgekehrt geschrieben: HO neben einem gezeichneten H, HOH₂C über einem OH.</li>
+        <li>R/S-Angaben stehen nicht auf Bindungen oder Beschriftungen und nicht im Ring, wo sie zu einem anderen Atom zu gehören scheinen (Glucose in Sesselkonformation).</li>
+        <li><em>Neu zeichnen</em> behält die Seite eines gezeichneten H, auch wenn sein Kohlenstoff kein Stereozentrum ist (das axiale H im Sessel, anti zum Br bei der E2): ein Keil oder ein gestrichelter Keil.</li>
+        <li>Die zwei Fischhaken aus einer Bindung (Homolyse) sind ein Spiegelpaar, auf der freien Seite der Bindung.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.4.4">
+    <h2>0.4.4 <span class="date" data-date="2026-11-14">14 November 2026</span></h2>
+    <div lang="cs">
+      <p class="summary">Náhled vkládané šipky nebo + na správném místě, zahnuté šipky mimo čáry trojných vazeb, a jedna věc z různých míst dělá totéž: tlačítka, klávesy a panel, zarovnání se závorkami, otáčení závorek a textů.</p>
+      <h3>Opraveno</h3>
+      <ul>
+        <li>Průhledný náhled vkládané samotné šipky nebo znaménka + stojí tam, kam je klik položí, ne kus vlevo.</li>
+        <li>Zahnuté šipky se vyhýbají i krajním čarám dvojných a trojných vazeb, hrot šipky k atomu také (ležel na čáře trojné vazby).</li>
+        <li><em>Zarovnat reakční schéma</em> nechá závorky s rezonančními strukturami pohromadě a srovná i reakci uvnitř nich (i když je vybraná jen závorka): rezonanční šipka už neskončí před závorkou a za první molekulou nezůstane velká mezera.</li>
+        <li>Tlačítko závorek v levém panelu (i klávesa K) dá závorky kolem vybraných molekul, stejně jako tlačítko <em>Závorky</em> v panelu výběru.</li>
+        <li>Zapnuté δ− nebo δ+ v panelu výběru se dalším kliknutím vypne, jako u nástroje δ (dřív šlo δ odstranit jen přes náboj).</li>
+        <li>Přetažení atomu na jiný atom už nevyprázdní stránku, když na jeho vazbě začíná zahnutá šipka; šipky, orbitaly a závorky přejdou na atom, na který dopadl.</li>
+        <li>Export, kopie obrázku a tisk jen výběru fungují i se zahnutou šipkou vybranou bez jejích molekul.</li>
+        <li><em>Skrýt nakreslené H</em> nechá H, z jehož vazby vede zahnutá šipka (E2).</li>
+        <li><em>Rozkreslit</em> a <em>Zkratkou</em> nechají molekule její místo na reakční šipce, číslo pod ní a závorky.</li>
+        <li>Dvojklik na jednu z rezonančních struktur v závorce už nevybere i závorku kolem obou; laso vybírá závorky jako obdélník.</li>
+        <li><em>Zarovnat</em> funguje i pro věci uvnitř závorky, a závorka v závorce se zarovná, ať byla nakreslená dřív nebo později.</li>
+        <li><em>Zarovnat reakční schéma</em> nechá + mezi molekulami spojenými zahnutou šipkou (HO⁻ + CH₃Br v S<sub>N</sub>2).</li>
+        <li><em>Uhlíky</em> → <em>čára</em> skryje i CH₃ na koncích, když je v Nastavení zapnuté <em>Všechny C</em>.</li>
+        <li>Kliknutá vazba a klávesa 1 dá klín, jako vazba pod ukazatelem; 1, 2, 3 udělají z vodíkové, koordinační nebo částečné vazby obyčejnou.</li>
+        <li>Tlačítka náboje, nepárového elektronu a vazeb v levém panelu, prvky ve spodní liště, klávesy prvků a tečka působí na vybranou část molekuly, jako jejich klávesy a panel.</li>
+        <li>Náboj z nástroje nebo klávesou smaže staré δ (vracelo se) a jde až do ±8 jako v panelu; δ na nabitém atomu náboj nahradí.</li>
+        <li>Del s ukazatelem na boční šipce smaže tu šipku, ne celou reakční šipku; vybraná boční šipka zůstane vybraná.</li>
+        <li>Šipky na klávesnici posunou číslo sloučeniny nebo činidlo z jeho místa, jako tažení (dřív se nic nepohnulo).</li>
+        <li>V panelu: <em>Volné páry</em> se rozsvítí i pro celou molekulu, aromatická vazba nemá řád ani posun 2. čáry, klín na čárkované vazbě udělá obyčejný klín, tučný text jde v poli upravit, zadaná délka šipky s boční šipkou platí, <em>Jinak</em> projde všechny možnosti.</li>
+        <li>Závorky nakreslené obdélníkem zůstanou při otočení, překlopení přes vazbu, srovnání vazby vodorovně nebo svisle a <em>Překreslit</em> rovně kolem obsahu; texty se otáčí kolem středu a převrácení je nechá, kde jsou.</li>
+        <li>Převrácená Fischerova nebo Haworthova projekce řekne, že je zrcadlovým obrazem, a HO psané vlevo je pak OH vpravo.</li>
+        <li>Zkopírovaná závorka kolem molekuly obsahuje i atomy přikreslené později; vazba Newmanovy projekce viděná zepředu zůstane jednoduchá i z nástroje vazby.</li>
+        <li>Náboj uprostřed kruhu je v kroužku, když jsou náboje v kroužcích; <em>Zobrazit vše</em> počítá se zahnutými šipkami.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">The preview of a pasted arrow or + in the right place, curved arrows off triple bonds' lines, and one thing done from different places does the same: buttons, keys and the panel, aligning with brackets, turning brackets and texts.</p>
+      <h3>Fixed</h3>
+      <ul>
+        <li>The see-through preview of a lone arrow or + being pasted stands where the click puts it, not off to the left.</li>
+        <li>Curved arrows keep clear of the outer lines of double and triple bonds too, and so does a head pointing at an atom (it lay on a triple bond's line).</li>
+        <li><em>Align reaction scheme</em> keeps brackets round resonance forms together and lines up the reaction inside them, also with only the bracket selected: the resonance arrow no longer ends up in front of the bracket, and no wide gap is left after the first molecule.</li>
+        <li>The brackets button on the left (and the K key) puts brackets round the selected molecules, as the selection panel's <em>Brackets</em> does.</li>
+        <li>Clicking the δ− or δ+ that is on in the selection panel takes it off, as with the δ tool (before, a δ could only be removed by way of the charge).</li>
+        <li>Dropping an atom onto another no longer empties the page when a curved arrow starts on one of its bonds; arrows, orbitals and brackets go over to the atom it joins.</li>
+        <li>Exporting, copying as a picture and printing only the selection work with a curved arrow selected without its molecules.</li>
+        <li><em>Hide drawn H</em> keeps an H whose bond a curved arrow starts from (an E2).</li>
+        <li><em>Draw out</em> and <em>Abbreviate</em> keep a molecule's place on a reaction arrow, the number under it and its brackets.</li>
+        <li>A double click on one resonance form in a bracket no longer selects the bracket round both; the lasso selects brackets as a box does.</li>
+        <li><em>Align</em> works on things inside a bracket, and a bracket in a bracket aligns whichever was drawn first.</li>
+        <li><em>Align reaction scheme</em> keeps a + between molecules joined by a curved arrow (HO⁻ + CH₃Br in an S<sub>N</sub>2).</li>
+        <li><em>Carbons</em> → <em>line</em> takes the CH₃ off the chain ends too when Settings has <em>All C</em>.</li>
+        <li>A clicked bond takes 1 to a wedge, as a bond under the pointer does; 1, 2, 3 make a hydrogen, dative or partial bond a plain one.</li>
+        <li>The charge, unpaired electron and bond buttons on the left, the elements in the bottom bar, the element keys and . act on the selected part of a molecule, as their keys and the panel do.</li>
+        <li>A charge from the tool or a key takes an old δ off (it came back) and goes up to ±8 as in the panel; a δ on a charged atom replaces the charge.</li>
+        <li>Del with the pointer on a side arc deletes that arc, not the whole reaction arrow; a selected side arc stays selected.</li>
+        <li>The arrow keys move a compound number or a reagent off its place, as a drag does (nothing moved before).</li>
+        <li>In the panel: <em>Lone pairs</em> lights up for a whole molecule, an aromatic bond shows no order and no 2nd line to move, a wedge on a dashed bond makes a plain wedge, a bold text can be edited in its field, a typed length of an arrow with a side arc stays, <em>Other way</em> goes round all the ways.</li>
+        <li>Brackets drawn as a box stay upright round what is in them when it is turned, turned over a bond, made horizontal or vertical, or redrawn; texts turn about their middle, and Flip leaves them where they are.</li>
+        <li>A flipped Fischer or Haworth projection says it is the mirror image, and an HO written on the left becomes OH on the right.</li>
+        <li>A copied bracket made round a molecule includes the atoms drawn on later; a Newman projection's bond seen end on stays single with the bond tool too.</li>
+        <li>A charge in a ring's middle is circled when charges are; <em>Fit</em> counts curved arrows in.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Die Vorschau eines eingefügten Pfeils oder Pluszeichens an der richtigen Stelle, gebogene Pfeile nicht mehr auf den Strichen von Dreifachbindungen, und dieselbe Sache von verschiedenen Stellen aus wirkt gleich: Schaltflächen, Tasten und Panel, Ausrichten mit Klammern, Drehen von Klammern und Texten.</p>
+      <h3>Behoben</h3>
+      <ul>
+        <li>Die durchscheinende Vorschau eines eingefügten einzelnen Pfeils oder Pluszeichens steht dort, wo der Klick ihn ablegt, nicht ein Stück links davon.</li>
+        <li>Gebogene Pfeile weichen auch den äußeren Strichen von Doppel- und Dreifachbindungen aus, ebenso eine Pfeilspitze an einem Atom (sie lag auf einem Strich der Dreifachbindung).</li>
+        <li><em>Reaktionsschema ausrichten</em> hält Klammern um Resonanzstrukturen zusammen und richtet auch die Reaktion darin aus, selbst wenn nur die Klammer ausgewählt ist: Der Resonanzpfeil landet nicht mehr vor der Klammer, und hinter dem ersten Molekül bleibt keine große Lücke.</li>
+        <li>Die Klammer-Schaltfläche links (und die Taste K) setzt Klammern um die ausgewählten Moleküle, wie <em>Klammern</em> im Auswahl-Panel.</li>
+        <li>Ein Klick auf das eingeschaltete δ− oder δ+ im Auswahl-Panel entfernt es wieder, wie beim δ-Werkzeug (bisher ging das nur über die Ladung).</li>
+        <li>Zieht man ein Atom auf ein anderes, wird die Seite nicht mehr leer, wenn an einer seiner Bindungen ein gebogener Pfeil beginnt; Pfeile, Orbitale und Klammern gehen auf das Atom über, mit dem es sich verbindet.</li>
+        <li>Export, Kopieren als Bild und Drucken nur der Auswahl funktionieren auch mit einem gebogenen Pfeil, der ohne seine Moleküle ausgewählt ist.</li>
+        <li><em>Gezeichnete H ausblenden</em> lässt ein H stehen, von dessen Bindung ein gebogener Pfeil ausgeht (E2).</li>
+        <li><em>Ausschreiben</em> und <em>Abkürzen</em> lassen einem Molekül seinen Platz am Reaktionspfeil, die Nummer darunter und seine Klammern.</li>
+        <li>Ein Doppelklick auf eine Resonanzstruktur in einer Klammer wählt nicht mehr die Klammer um beide; das Lasso wählt Klammern wie ein Rahmen.</li>
+        <li><em>Ausrichten</em> funktioniert auch für Dinge in einer Klammer, und eine Klammer in einer Klammer richtet sich aus, gleich welche zuerst gezeichnet wurde.</li>
+        <li><em>Reaktionsschema ausrichten</em> lässt ein + zwischen Molekülen, die ein gebogener Pfeil verbindet (HO⁻ + CH₃Br in einer S<sub>N</sub>2).</li>
+        <li><em>C-Atome</em> → <em>Strich</em> nimmt auch das CH₃ an den Kettenenden weg, wenn in den Einstellungen <em>Alle C</em> gilt.</li>
+        <li>Eine angeklickte Bindung wird mit 1 zum Keil, wie eine Bindung unter dem Zeiger; 1, 2, 3 machen aus einer Wasserstoff-, Koordinations- oder Partialbindung eine gewöhnliche.</li>
+        <li>Die Schaltflächen für Ladung, ungepaartes Elektron und Bindungen links, die Elemente in der unteren Leiste, die Elementtasten und . wirken auf den ausgewählten Teil eines Moleküls, wie ihre Tasten und das Panel.</li>
+        <li>Eine Ladung aus dem Werkzeug oder per Taste nimmt ein altes δ weg (es kam zurück) und geht bis ±8 wie im Panel; ein δ auf einem geladenen Atom ersetzt die Ladung.</li>
+        <li>Entf mit dem Zeiger auf einem Seitenbogen löscht diesen Bogen, nicht den ganzen Reaktionspfeil; ein ausgewählter Seitenbogen bleibt ausgewählt.</li>
+        <li>Die Pfeiltasten schieben eine Verbindungsnummer oder ein Reagenz von seinem Platz, wie Ziehen (vorher bewegte sich nichts).</li>
+        <li>Im Panel: <em>Freie Paare</em> leuchtet auch für ein ganzes Molekül, eine aromatische Bindung zeigt keine Ordnung und keinen zweiten Strich zum Verschieben, ein Keil auf einer gestrichelten Bindung ergibt einen gewöhnlichen Keil, ein fetter Text lässt sich im Feld bearbeiten, die eingegebene Länge eines Pfeils mit Seitenbogen bleibt, <em>Andere Variante</em> geht alle Möglichkeiten durch.</li>
+        <li>Als Rahmen gezeichnete Klammern bleiben beim Drehen, Umklappen über eine Bindung, Waagrecht- oder Senkrechtstellen einer Bindung und <em>Neu zeichnen</em> gerade um ihren Inhalt; Texte drehen sich um ihre Mitte, und Spiegeln lässt sie, wo sie sind.</li>
+        <li>Eine gespiegelte Fischer- oder Haworth-Projektion sagt, dass sie das Spiegelbild ist, und ein links geschriebenes HO wird rechts zu OH.</li>
+        <li>Eine kopierte Klammer um ein Molekül umfasst auch später angezeichnete Atome; die von vorn gesehene Bindung einer Newman-Projektion bleibt auch mit dem Bindungswerkzeug einfach.</li>
+        <li>Eine Ladung in der Mitte eines Rings steht im Kreis, wenn Ladungen das tun; <em>Alles zeigen</em> bezieht gebogene Pfeile ein.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.4.3">
+    <h2>0.4.3 <span class="date" data-date="2026-11-13">13 November 2026</span></h2>
+    <div lang="cs">
+      <p class="summary">Spolehlivé R/S židliček a Haworthových projekcí, klávesy pro celý výběr, zkratky pro části výběru a stránka o olomolu s častými otázkami.</p>
+      <h3>Změněno</h3>
+      <ul>
+        <li>S výběrem mění <kbd>+</kbd> a <kbd>−</kbd> náboj všech jeho atomů a <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> řád všech jeho vazeb.</li>
+        <li><em>Zkratkou</em> zkrátí i skupiny uvnitř výběru, který jako celek zkratku nemá (CH<sub>2</sub>N(CH<sub>3</sub>)<sub>2</sub> → CH<sub>2</sub>NMe<sub>2</sub>), i samotnou vybranou skupinu CH<sub>3</sub> na Me; <em>Rozkreslit</em> a <em>Zkratkou</em> zachovají barvu a zvýraznění.</li>
+        <li>Činidla a podmínky u otočené nebo svislé šipky stojí pod sebou, těsně u šipky, jako u vodorovné.</li>
+        <li>Stránka o olomolu odpovídá na časté otázky a má vlastní stránku v každém jazyce, stejně jako <em>Co je nového</em>. olomol se cituje jedním DOI pro všechny verze.</li>
+      </ul>
+      <h3>Opraveno</h3>
+      <ul>
+        <li>Židličky: uhlík kruhu se dvěma skupinami na hrotu židličky a axiální skupina s nakresleným vodíkem se četly s opačným R/S (cis a trans prohozené), i ve SMILES, InChI a v souborech.</li>
+        <li>Haworthovy projekce, kde má uhlík nakreslené obě skupiny (OH i H), se četly bez R/S, a nakreslené nakřivo i s nesprávným. Teď se prostřední uhlíky kruhu čtou a žádný uhlík špatně.</li>
+        <li><em>Překlopení židličky</em> funguje i na plochém kruhu s klínem na vazbě v kruhu (tramadol) a na hrotu s uhlíkem se dvěma skupinami.</li>
+        <li><em>Zarovnat reakční schéma</em> nechá molekulu v řadě, i když z ní vede zahnutá šipka k činidlu na šipce.</li>
+        <li>Znaménko + nebo − před činidlem na šipce stojí v jeho výšce a před jeho počtem.</li>
+        <li><kbd>:</kbd> s výběrem ukáže jeho volné páry, jak slibuje popisek tlačítka.</li>
+        <li>Popisky u ukázkových kreseb stojí u ukazatele.</li>
+        <li>Samotný radikálový atom ze SMILES (<code>[Cl]</code>) má svůj nepárový elektron.</li>
+        <li><em>Zobrazit vše</em> ukáže kresbu i s dlouhou poznámkou o více řádcích, místo aby ji oddálilo do nečitelna.</li>
+        <li>Text na šipce nebo pod molekulou se po dvojkliku upravuje tam, kde je nakreslený, ne kus vedle; lišta nad textem nezajede pod panel vpravo.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">Reliable R/S for chairs and Haworth projections, keys for a whole selection, abbreviations for parts of a selection, and an about page with common questions.</p>
+      <h3>Changed</h3>
+      <ul>
+        <li>With a selection, <kbd>+</kbd> and <kbd>−</kbd> change the charge of all its atoms, <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> the order of all its bonds.</li>
+        <li><em>Abbreviate</em> also shortens groups inside a selection that has no abbreviation as a whole (CH<sub>2</sub>N(CH<sub>3</sub>)<sub>2</sub> → CH<sub>2</sub>NMe<sub>2</sub>), and a CH<sub>3</sub> selected on its own to Me; <em>Draw out</em> and <em>Abbreviate</em> keep colour and highlight.</li>
+        <li>Reagents and conditions beside a turned or upright arrow stand one under the other, close to the arrow, as on a horizontal one.</li>
+        <li>The about page answers common questions and, like <em>What’s new</em>, has a page in each language. olomol is cited by one DOI for all versions.</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>Chairs: a ring carbon with two groups on a tip of the chair, and an axial group with its H drawn, were read with the wrong R/S (cis and trans swapped), in SMILES, InChI and files too.</li>
+        <li>Haworth projections with both groups of a carbon drawn (OH and H) were read without R/S, and drawn a little askew with the wrong one. Now the ring’s middle carbons are read, and none wrongly.</li>
+        <li><em>Ring flip</em> works on a flat ring with a wedge on a ring bond (tramadol), and with a carbon with two groups on a tip.</li>
+        <li><em>Align reaction scheme</em> keeps a molecule in the row when a curved arrow goes from it to a reagent on an arrow.</li>
+        <li>The + or − in front of a reagent on an arrow stands level with it and in front of its count.</li>
+        <li><kbd>:</kbd> with a selection shows its lone pairs, as the button’s tooltip says.</li>
+        <li>The tips on the example drawings stand beside the pointer.</li>
+        <li>A lone radical atom from a SMILES (<code>[Cl]</code>) has its unpaired electron.</li>
+        <li><em>Fit everything</em> shows a drawing with a long note of several lines, instead of zooming out until nothing can be read.</li>
+        <li>A text on an arrow or under a molecule, double-clicked, is edited where it is drawn, not a little to the side; the text tools over it no longer run under the panel on the right.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Verlässliches R/S für Sessel und Haworth-Projektionen, Tasten für die ganze Auswahl, Kürzel für Teile einer Auswahl und eine Seite über olomol mit häufigen Fragen.</p>
+      <h3>Geändert</h3>
+      <ul>
+        <li>Mit einer Auswahl ändern <kbd>+</kbd> und <kbd>−</kbd> die Ladung aller ihrer Atome, <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> die Ordnung aller ihrer Bindungen.</li>
+        <li><em>Abkürzen</em> kürzt auch Gruppen innerhalb einer Auswahl, die als Ganzes kein Kürzel hat (CH<sub>2</sub>N(CH<sub>3</sub>)<sub>2</sub> → CH<sub>2</sub>NMe<sub>2</sub>), und eine allein ausgewählte CH<sub>3</sub>-Gruppe zu Me; <em>Ausschreiben</em> und <em>Abkürzen</em> behalten Farbe und Hervorhebung.</li>
+        <li>Reagenzien und Bedingungen an einem gedrehten oder senkrechten Pfeil stehen untereinander, dicht am Pfeil, wie an einem waagerechten.</li>
+        <li>Die Seite über olomol beantwortet häufige Fragen und hat wie <em>Was ist neu</em> eine Seite in jeder Sprache. olomol wird mit einer DOI für alle Versionen zitiert.</li>
+      </ul>
+      <h3>Behoben</h3>
+      <ul>
+        <li>Sessel: Ein Ringkohlenstoff mit zwei Gruppen an einer Spitze des Sessels und eine axiale Gruppe mit gezeichnetem H wurden mit dem falschen R/S gelesen (cis und trans vertauscht), auch in SMILES, InChI und Dateien.</li>
+        <li>Haworth-Projektionen, in denen an einem Kohlenstoff beide Gruppen gezeichnet sind (OH und H), wurden ohne R/S gelesen, leicht schief gezeichnet sogar mit dem falschen. Jetzt werden die mittleren Kohlenstoffe des Rings gelesen und keiner falsch.</li>
+        <li><em>Ringinversion</em> funktioniert auch an einem flachen Ring mit Keil an einer Ringbindung (Tramadol) und mit einem Kohlenstoff mit zwei Gruppen an einer Spitze.</li>
+        <li><em>Reaktionsschema ausrichten</em> lässt ein Molekül in der Reihe, auch wenn ein gebogener Pfeil von ihm zu einem Reagenz auf einem Pfeil führt.</li>
+        <li>Das + oder − vor einem Reagenz auf einem Pfeil steht auf seiner Höhe und vor seinem Koeffizienten.</li>
+        <li><kbd>:</kbd> mit einer Auswahl zeigt ihre freien Elektronenpaare, wie der Tooltip der Schaltfläche verspricht.</li>
+        <li>Die Hinweise zu den Beispielzeichnungen stehen neben dem Zeiger.</li>
+        <li>Ein einzelnes Radikalatom aus einem SMILES (<code>[Cl]</code>) hat sein ungepaartes Elektron.</li>
+        <li><em>Alles zeigen</em> zeigt eine Zeichnung mit einer langen, mehrzeiligen Notiz, statt so weit herauszuzoomen, dass nichts mehr lesbar ist.</li>
+        <li>Ein Text auf einem Pfeil oder unter einem Molekül wird nach einem Doppelklick dort bearbeitet, wo er steht, nicht ein Stück daneben; die Textleiste darüber verschwindet nicht mehr unter dem Panel rechts.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.4.2">
+    <h2>0.4.2 <span class="date" data-date="2026-11-10">10 November 2026</span></h2>
+    <div lang="cs">
+      <p class="summary">Citace s DOI v okně O aplikaci, správné načítání souborů z ChemDraw a reakcí z RXN, nová adresa pro problémy a nápady a úplné licence knihoven.</p>
+      <h3>Přidáno</h3>
+      <ul>
+        <li><em>Jak citovat</em> v okně <em>O aplikaci olomol</em>: citace verze, kterou používáte, s jejím DOI na Zenodu, ke zkopírování jako text, BibTeX, RIS nebo CSL JSON nebo ke stažení jako soubor .bib, .ris nebo .json pro správce citací.</li>
+      </ul>
+      <h3>Opraveno</h3>
+      <ul>
+        <li>Soubory z ChemDraw (CDXML, CDX) se otevřou všechny, i ty se stereochemií, která nesedí. Zkratky (OMe, OTBS, Et) zůstanou zkratkami (i v souborech z Ketcheru), popisky, kterým nerozuměl ani ChemDraw, zůstanou, jak jsou napsané (SiR<sub>3</sub>), atom s popiskem má tolik vodíků, kolik říká popisek (samotné C zůstane C), a místo připojení (vlnovka přes konec vazby) se stane R.</li>
+        <li>Reakce ze souborů RXN a z reakčních SMILES: plus a šipka už nezasahují do popisků, činidla se postaví na šipku a šipka je jen tak dlouhá, jak potřebují.</li>
+        <li>Skupiny R (R1), seznamy atomů ([C,N]) a dvojné vazby s neurčenou E/Z (i v KET z Ketcheru) se načtou jako takové, už ne jako uhlíky.</li>
+        <li>Export přes Indigo (CDXML, RXN, SDF): texty zůstanou zachované a kresba s obecným popiskem nebo s klíny, které si odporují, se už vyexportuje.</li>
+      </ul>
+      <h3>Změněno</h3>
+      <ul>
+        <li>Problémy a nápady posílejte nově na <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>; tuto adresu teď používá e-mail z tlačítka s broukem, okno <em>O aplikaci</em> i příručky.</li>
+        <li>Licence všech knihoven, na kterých olomol stojí, jsou úplné, i těch zabudovaných v RDKitu a Indigu (InChI, FreeType, zlib a další). Okno <em>O aplikaci</em> na ně odkazuje.</li>
+        <li>Okno <em>O aplikaci olomol</em> je kratší a přehlednější, po částech; klávesy a myš popisuje okno <em>Klávesové zkratky</em>, na které odkazuje.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">A citation with its DOI in the About window, files from ChemDraw and reactions from RXN files read properly, a new address for problems and ideas, and the libraries’ licences complete.</p>
+      <h3>Added</h3>
+      <ul>
+        <li><em>How to cite</em> in the <em>About olomol</em> window: the citation of the version you use, with its DOI on Zenodo, to copy as text, BibTeX, RIS or CSL JSON or to download as a .bib, .ris or .json file for a reference manager.</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>Files from ChemDraw (CDXML, CDX) all open, also those whose stereochemistry doesn’t add up. Abbreviations (OMe, OTBS, Et) stay abbreviations (in Ketcher’s files too), labels ChemDraw itself couldn’t read stay as written (SiR<sub>3</sub>), an atom with a label has the hydrogens its label says (a lone C stays C), and ChemDraw’s attachment point (the squiggle across a bond’s end) becomes an R.</li>
+        <li>Reactions from RXN files and reaction SMILES: the plus and the arrow no longer run into labels, the reagents go onto the arrow, and the arrow is only as long as they need.</li>
+        <li>R groups (R1), atom lists ([C,N]) and double bonds with their E/Z left open (in KET from Ketcher too) are read as such, no longer as carbons.</li>
+        <li>Export through Indigo (CDXML, RXN, SDF): texts are kept, and a drawing with a group label or with wedges that contradict each other now exports.</li>
+      </ul>
+      <h3>Changed</h3>
+      <ul>
+        <li>Problems and ideas now go to <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>: the bug button’s e-mail, the <em>About</em> window and the manuals all use it.</li>
+        <li>The licences of every library olomol is built on are complete, including those built into RDKit and Indigo (InChI, FreeType, zlib and others). The <em>About</em> window links to them.</li>
+        <li>The <em>About olomol</em> window is shorter and easier to read, in parts; the keys and the mouse are in the <em>Keyboard shortcuts</em> window, which it links to.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Ein Zitat mit DOI im Fenster „Über olomol“, richtig gelesene Dateien aus ChemDraw und Reaktionen aus RXN-Dateien, eine neue Adresse für Probleme und Ideen und vollständige Lizenzen der Bibliotheken.</p>
+      <h3>Neu</h3>
+      <ul>
+        <li><em>Zitieren</em> im Fenster <em>Über olomol</em>: das Zitat der verwendeten Version mit ihrer DOI auf Zenodo, zum Kopieren als Text, BibTeX, RIS oder CSL JSON oder zum Herunterladen als .bib-, .ris- oder .json-Datei für ein Literaturverwaltungsprogramm.</li>
+      </ul>
+      <h3>Behoben</h3>
+      <ul>
+        <li>Dateien aus ChemDraw (CDXML, CDX) öffnen sich alle, auch solche mit widersprüchlicher Stereochemie. Kürzel (OMe, OTBS, Et) bleiben Kürzel (auch in Dateien aus Ketcher), Beschriftungen, die schon ChemDraw nicht deuten konnte, bleiben, wie sie geschrieben sind (SiR<sub>3</sub>), ein beschriftetes Atom hat so viele Wasserstoffe, wie die Beschriftung angibt (ein einzelnes C bleibt C), und ChemDraws Verknüpfungspunkt (die Wellenlinie quer über dem Bindungsende) wird zu R.</li>
+        <li>Reaktionen aus RXN-Dateien und Reaktions-SMILES: Plus und Pfeil stoßen nicht mehr an Beschriftungen, die Reagenzien stehen auf dem Pfeil, und der Pfeil ist nur so lang wie nötig.</li>
+        <li>R-Gruppen (R1), Atomlisten ([C,N]) und Doppelbindungen mit offener E/Z (auch in KET aus Ketcher) werden als solche gelesen, nicht mehr als Kohlenstoffe.</li>
+        <li>Export über Indigo (CDXML, RXN, SDF): Texte bleiben erhalten, und Zeichnungen mit einer allgemeinen Beschriftung oder mit Keilen, die sich widersprechen, lassen sich jetzt exportieren.</li>
+      </ul>
+      <h3>Geändert</h3>
+      <ul>
+        <li>Probleme und Ideen bitte jetzt an <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>: Diese Adresse verwenden die E-Mail der Käfer-Schaltfläche, das Fenster <em>Über olomol</em> und die Handbücher.</li>
+        <li>Die Lizenzen aller Bibliotheken, auf denen olomol aufbaut, sind vollständig, auch die der in RDKit und Indigo eingebauten (InChI, FreeType, zlib und weitere). Das Fenster <em>Über olomol</em> verlinkt sie.</li>
+        <li>Das Fenster <em>Über olomol</em> ist kürzer und übersichtlicher gegliedert; Tasten und Maus erklärt das Fenster <em>Tastenkürzel</em>, auf das es verweist.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.4.1">
+    <h2>0.4.1 <span class="date" data-date="2026-11-09">9 November 2026</span></h2>
+    <div lang="cs">
+      <p class="summary">Opravy po vydání 0.4.0, šablony v seznamu, nabité skupiny jako zkratky, barva i pro opačnou fázi orbitalů a licence MIT.</p>
+      <h3>Opraveno</h3>
+      <ul>
+        <li><em>Překreslit</em>: molekula s dvojnou vazbou, jejíž E nebo Z kresba nechává otevřené (substituent v ose dvojné vazby, třeba když skupinu odtáhnete daleko), nedostala žádný nákres a okno tvrdilo, že všechny metody daly současný nákres. Nákresy teď konfiguraci nechají otevřenou vlnovkou vedle dvojné vazby, jako má vložený SMILES. Když by každý nákres molekulu změnil, okno to řekne.</li>
+        <li>Čárkovaná čára překryvu k orbitalu s (vodík při hyperkonjugaci) se ho dotkne na straně, kde je druhý orbital; dřív vždy začínala vpravo od atomu, i když vedla doleva.</li>
+        <li>Čárkovaná čára překryvu zůstane mezi laloky, mezi kterými jste ji natáhli, třeba od vazby C–H k dolnímu laloku orbitalu p; dřív vždy spojila dva laloky, které byly nejblíž u sebe.</li>
+        <li><em>Rozkreslit</em>: skupina jako CHO, OMe nebo Et leží v mřížce po 30°; dřív byla vazba C=O aldehydu o 2° nakřivo.</li>
+      </ul>
+      <h3>Změněno</h3>
+      <ul>
+        <li><strong>Licence:</strong> olomol je pod licencí MIT, smí se používat, šířit i upravovat. Okno <em>O aplikaci</em> odkazuje na její text.</li>
+        <li><strong>Orbitaly:</strong> i lalok opačné fáze může mít barvu. Nástroj barvy obarví lalok, na který kliknete; v panelu přepínač nad barvami, <em>stínovaný</em> nebo <em>opačná fáze</em>, určí, který lalok barvy obarví.</li>
+        <li><strong>Šablony:</strong> skupiny jsou v seznamu vlevo, nad nimi hledání, a velké skupiny se dělí na podskupiny (kruhy: aromatické, heteroaromatické…). Konformace a projekce jsou jedna skupina, rozdělená podle toho, jak se kreslí: židličky a vaničky, Newmanovy, Haworthovy a Fischerovy projekce. Adamantan je nakreslený naplocho a u adamantanové klece je zadní vazba přerušená tam, kde ji kříží vazba vpředu.</li>
+        <li><strong>Nabité skupiny jako zkratky:</strong> SO<sub>3</sub><sup>−</sup>, CO<sub>2</sub><sup>−</sup> (COO<sup>−</sup>), OPO<sub>3</sub><sup>2−</sup>, OPO<sub>3</sub>H<sup>−</sup> a PO<sub>3</sub><sup>2−</sup> znamenají sulfonát, karboxylát nebo fosfát s nábojem tam, kde patří. <em>Zkratkou</em> zapíše vybraný sulfonát nebo karboxylát jako zkratku a <em>Rozkreslit</em> ho vrátí.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">Fixes after the 0.4.0 release, Templates in a list, charged groups as abbreviations, a colour for an orbital's other phase, and the MIT License.</p>
+      <h3>Fixed</h3>
+      <ul>
+        <li><em>Redraw</em>: a molecule with a double bond whose E or Z the drawing leaves open (a substituent in line with the double bond, as when a group is dragged far off) got no drawings, and the window said every engine gave the current drawing. The drawings now keep it open with a wavy bond beside the double bond, as a pasted SMILES has. When every drawing would change the molecule, the window says so.</li>
+        <li>A dashed overlap line to an s orbital (a hydrogen in hyperconjugation) meets it on the side facing the other orbital; before, it always started on the right of the atom, even when it ran to the left.</li>
+        <li>A dashed overlap line stays between the lobes you dragged it between, say from a C–H bond to the lower lobe of a p orbital; before, it always joined the two lobes nearest each other.</li>
+        <li><em>Draw out</em>: a group like CHO, OMe or Et lies on the 30° grid; before, an aldehyde's C=O was 2° askew.</li>
+      </ul>
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Licence:</strong> olomol is under the MIT License, to use, share and change. The <em>About</em> window links to its text.</li>
+        <li><strong>Orbitals:</strong> the lobe of the other phase can have a colour too. The paint tool colours the lobe you click; in the panel, a toggle above the colours, <em>shaded</em> or <em>other phase</em>, chooses which lobe they paint.</li>
+        <li><strong>Templates:</strong> the groups are a list on the left with the search above it, and the large ones are split into subgroups (rings: aromatic, heteroaromatic…). Conformations and projections are one group, by how they are drawn: chairs and boats, Newman, Haworth and Fischer projections. Adamantane is drawn flat, and the adamantane cage has its bond behind broken where a bond in front crosses it.</li>
+        <li><strong>Charged groups as abbreviations:</strong> SO<sub>3</sub><sup>−</sup>, CO<sub>2</sub><sup>−</sup> (COO<sup>−</sup>), OPO<sub>3</sub><sup>2−</sup>, OPO<sub>3</sub>H<sup>−</sup> and PO<sub>3</sub><sup>2−</sup> stand for a sulfonate, carboxylate or phosphate with the charge where it belongs. <em>Abbreviate</em> writes a selected sulfonate or carboxylate as one, and <em>Draw out</em> brings it back.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Korrekturen nach dem Release 0.4.0, Vorlagen in einer Liste, geladene Gruppen als Kürzel, eine Farbe auch für die andere Phase eines Orbitals und die MIT-Lizenz.</p>
+      <h3>Behoben</h3>
+      <ul>
+        <li><em>Neu zeichnen</em>: Ein Molekül mit einer Doppelbindung, deren E oder Z die Zeichnung offenlässt (ein Substituent in der Achse der Doppelbindung, etwa wenn eine Gruppe weit weggezogen wurde), bekam keine Zeichnung, und das Fenster meldete, alle Verfahren hätten die aktuelle Zeichnung ergeben. Jetzt lassen die Zeichnungen die Konfiguration mit einer Wellenlinie neben der Doppelbindung offen, wie bei einem eingefügten SMILES. Würde jede Zeichnung das Molekül verändern, sagt das Fenster das.</li>
+        <li>Eine gestrichelte Überlappungslinie zu einem s-Orbital (ein Wasserstoff bei Hyperkonjugation) trifft es auf der Seite, die dem anderen Orbital zugewandt ist; bisher begann sie immer rechts vom Atom, auch wenn sie nach links lief.</li>
+        <li>Eine gestrichelte Überlappungslinie bleibt zwischen den Orbitallappen, zwischen denen Sie sie gezogen haben, etwa von einer C–H-Bindung zum unteren Lappen eines p-Orbitals; bisher verband sie immer die beiden Lappen, die einander am nächsten waren.</li>
+        <li><em>Ausschreiben</em>: Eine Gruppe wie CHO, OMe oder Et liegt im 30°-Raster; bisher stand die C=O-Bindung eines Aldehyds 2° schief.</li>
+      </ul>
+      <h3>Geändert</h3>
+      <ul>
+        <li><strong>Lizenz:</strong> olomol steht unter der MIT-Lizenz und darf genutzt, weitergegeben und verändert werden. Das Fenster <em>Über olomol</em> verlinkt ihren Text.</li>
+        <li><strong>Orbitale:</strong> Auch der Lappen der anderen Phase kann eine Farbe haben. Das Farbwerkzeug färbt den angeklickten Lappen; im Panel wählt ein Umschalter über den Farben, <em>schattiert</em> oder <em>andere Phase</em>, welchen Lappen die Farben färben.</li>
+        <li><strong>Vorlagen:</strong> Die Gruppen stehen in einer Liste links, darüber die Suche, und die großen sind in Untergruppen geteilt (Ringe: Aromaten, Heteroaromaten …). Konformationen und Projektionen sind eine Gruppe, geordnet danach, wie sie gezeichnet werden: Sessel und Wannen, Newman-, Haworth- und Fischer-Projektionen. Adamantan ist flach gezeichnet, und beim Adamantan-Käfig ist die hintere Bindung unterbrochen, wo eine vordere sie kreuzt.</li>
+        <li><strong>Geladene Gruppen als Kürzel:</strong> SO<sub>3</sub><sup>−</sup>, CO<sub>2</sub><sup>−</sup> (COO<sup>−</sup>), OPO<sub>3</sub><sup>2−</sup>, OPO<sub>3</sub>H<sup>−</sup> und PO<sub>3</sub><sup>2−</sup> stehen für ein Sulfonat, Carboxylat oder Phosphat mit der Ladung dort, wo sie hingehört. <em>Abkürzen</em> schreibt ein ausgewähltes Sulfonat oder Carboxylat als Kürzel, <em>Ausschreiben</em> holt es zurück.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.4.0">
+    <h2>0.4.0 <span class="date" data-date="2026-11-08">8 November 2026</span></h2>
+    <img class="band" src="changelog/banner-0.4.0.svg" width="1200" height="200" loading="lazy" alt="Methylcyclohexane's two chairs in equilibrium, the orbitals of a Diels–Alder reaction, fishhook arrows of a radical reaction, and the stick model of glucose">
+    <div lang="cs">
+      <p class="summary">Konformace (překlopení židličky, Newmanovy projekce jako molekuly, židličky se stereochemií), orbitaly a šipky pro radikálové mechanismy, tyčinkový model ve 3D, komplexy počítané fyzikou a přehlednější okno.</p>
+      <h3>Nové</h3>
+      <ul>
+        <li><strong>Překlopení židličky</strong> (tlačítko v horní liště): klikněte na židličku a změní se na druhou, axiální skupiny na ekvatoriální a naopak; každá skupina zůstane nahoře, nebo dole, takže cis/trans i R/S zůstanou. Překlopení se přehraje přes vaničku (vypnout jde v <em>Nastavení</em> → <em>Animace</em>), se <kbd>Shift</kbd> se druhá židlička nakreslí vedle s rovnovážnou šipkou. Překlopit jde i cyklohexan v Newmanově projekci. Plochý šestičlenný kruh (i Haworthova projekce) se kliknutím změní na židličku ze šablon (cukr ⁴C₁): skupiny přijdou do axiálních a ekvatoriálních poloh podle svých klínů, ty bez určené strany přijdou do ekvatoriální polohy, na stereocentru s vlnovkou. <em>Otočit židličku</em> vedle něj otočí židličku o třetinu otáčky (<kbd>Shift</kbd>: na druhou stranu) a každá skupina zůstane axiální nebo ekvatoriální.</li>
+        <li><strong>Newmanovy projekce jsou molekuly:</strong> přední uhlík je bod uprostřed, zadní kruh a skupiny kolem nich jsou obyčejné atomy. Zahnuté šipky, náboje i R/S na nich fungují, takže eliminaci E2 nakreslíte rovnou v projekci; panel mění skupiny a torzní úhel. V <em>Šablonách</em> → <em>Konformace</em> přibyl cyklohexan v Newmanově projekci.</li>
+        <li><strong>Židličky mají stereochemii:</strong> židlička ze šablon i nakreslená ručně se čte jako molekula, kterou ukazuje, takže SMILES, <em>Info</em>, PubChem i soubory dostanou nakreslený stereoizomer; rozpoznaná židlička se pod ukazatelem zvýrazní zelenomodře. <em>Otočit ve 3D</em> drží nakreslenou konformaci: axiální skupina zůstane axiální, Newmanova projekce si ponechá torzní úhel a dien nakreslený s-cis zůstane s-cis.</li>
+        <li><strong>Orbitaly</strong> na atomech pro mechanismy: orbital p, hybridní a s, s fází a laloky velkými podle koeficientů. Zahnutá šipka může začít nebo skončit na laloku a čárkovaná čára ukáže překryv, třeba HOMO a LUMO v Dielsově–Alderově reakci. Ukázka je mezi příklady v nápovědě.</li>
+        <li><strong>Šipky:</strong> během kreslení půlšipky, nebo zahnuté šipky se <kbd>Shift</kbd>, vedou slabé čáry k atomům, se kterými by elektrony mohly vytvořit novou vazbu, a šipka puštěná na tečku uprostřed skončí mezi nimi, takže odtržení vodíku radikálem i spojení dvou radikálů vypadají jako v učebnici. Rovnovážná šipka může ležet na jedné straně (<em>Rovnováha</em> v panelu) a vedlejší oblouk na ní se napojí na půlšipku na své straně a jde jejím směrem (nahoře tam, dole zpět); mezi reakčními šipkami přibyla přeškrtnutá šipka (reakce neproběhne) a rovnítko (táž látka nakreslená jinak).</li>
+        <li><strong>Lewisovy symboly</strong> atomů: až čtyři nepárové elektrony, každý na své straně, jak je Lewisův symbol obsazuje (·N̈·, ·Ċ·), i dva elektrony singletu u sebe; řádek <em>Nepárové</em> v panelu. Nepárový elektron je vpravo od atomu, kde je místo, a půlšipka z atomu začne u něj.</li>
+        <li><strong>Tyčinkový model</strong> v <em>Otočit ve 3D</em> (<kbd>S</kbd>): model jako kuličky a tyčinky, se všemi vodíky, v barvách a zvýrazněních kresby; zkratky (Ph, OBz) rozkreslené, <kbd>G</kbd> je ukáže jako jednu kuličku, <kbd>H</kbd> nakreslí přidané vodíky malé. Model jde uložit jako obrázek.</li>
+        <li><strong>Komplexy kovů ve 3D</strong> se počítají jako celek silovým polem, takže porfyriny jsou rovné a chelaty sedí, jak mají, v <em>Otočit ve 3D</em> i v souborech XYZ. Oktaedrické komplexy s chelaty dostanou Λ nebo Δ vedle kovu (<em>R/S, E/Z, Λ/Δ</em>).</li>
+      </ul>
+      <h3>Změněno</h3>
+      <ul>
+        <li>Vpravo nahoře je brouk pro nahlášení problému jedním kliknutím a <em>Nastavení</em>, v něm i vzhled a ladicí režim. V záhlaví nápovědy jsou příručky, <em>Co je nového</em>, klávesové zkratky a <em>O aplikaci</em>; vlevo dole verze s datem vydání, <em>Co je nového</em> a <em>O aplikaci</em>.</li>
+        <li>Kreslení: řetězec přirůstá napříč stránkou a kliknutí se <kbd>Shift</kbd> dá novou vazbu na druhou stranu (i cik-cak nástroje řetězec). Náboje jsou jedno tlačítko s +, −, δ+ a δ−; varianty nástroje se otevřou, když necháte myš na jeho tlačítku; <kbd>D</kbd> střídá koordinační, vodíkovou a částečnou vazbu. Druhou čáru dvojné vazby posune <em>Další</em> v panelu.</li>
+        <li>Okno <em>Otočit ve 3D</em> je větší a při přepínání pohledů se nehýbe. Čárkovaný styl aromátů kreslí čárkovaný kroužek.</li>
+        <li>Značka prvku se v panelu bere, jak je napsaná, nebo malými písmeny: CO už není kobalt.</li>
+        <li>Některé příklady v nápovědě jsou překreslené, radikálová chlorace methanu má i terminaci a přibyly dva příklady se židličkami: plochý kruh, ze kterého se stane židlička (menthol), a E2 na židličce.</li>
+        <li>Soubor molfile, SDF nebo SMILES se otevře do kresby, kterou máte, a umístí se jako šablona, stejně jako XYZ; soubor KET se otevře jako kresba. <em>Export</em> zatím nenabízí RXN a CDXML, dokud nebudou vyzkoušené v programech, které je čtou.</li>
+        <li><em>Překreslit</em> srovná každý nákres celé molekuly se stránkou: natočí ho nejvýš o 15°, aby většina vazeb ležela v násobcích 30° (pohled na 3D model si nechá svůj), a stejně se srovná molekula vložená jako SMILES; „narovnané“ varianty RDKit a CoordGen proto odpadly. Nákresy z 3D modelu nabízí jen pro klece a přemostěné kruhy, komplexy kovů, molekuly s rozšířeným oktetem a přechodné stavy S<sub>N</sub>2; jakoukoli molekulu ukáže ve 3D <em>Otočit ve 3D</em>. <em>Překreslit</em> také nabízí víc dobrých nákresů: některé dřív zahazoval kvůli klínu, který se četl obráceně. Nákresy v okně se už nepřeskupují, když přijde pomalejší nákres: ten se přidá za ostatní.</li>
+        <li>Když má nákres struktury ze SMILES, z PubChem nebo ze souboru XYZ atomy přes sebe nebo křížící se vazby, vezme se místo něj nejúhlednější z rychlých nákresů, které nabízí <em>Překreslit</em>.</li>
+      </ul>
+      <h3>Opraveno</h3>
+      <ul>
+        <li>Komplexy kovů nakreslené z 3D modelu (<em>Překreslit</em>, <em>Otočit ve 3D</em>) mají vazby ke kovu zase dlouhé (1,8 délky vazby), takže popisky kolem kovu mají místo; chelát se kvůli tomu zvětší (nejvýš 1,6×). Soubor XYZ dostane skutečnou geometrii. <em>Otočit ve 3D</em> zase kreslí vazby viděné skoro zepředu dost dlouhé na čtení, jako <em>Překreslit</em> (kromě přechodného stavu, jehož částečné vazby se při otáčení zkracují).</li>
+        <li>Názvy napsané pod molekuly zůstanou u svých molekul v mřížce i v <em>Zarovnat reakční schéma</em>.</li>
+        <li>Aromatický kroužek leží v rovině kruhu, i v pootočeném nebo nepravidelném kruhu.</li>
+        <li>Ručně nakreslené vodíky ve 3D už nedávají špatné délky vazeb.</li>
+        <li>Zkratka na koordinační vazbě (PPh₃) se v souborech, SMILES, InChI a <em>Info</em> počítá celá.</li>
+        <li>Zkratka jako Ph už nedostane druhou vazbu; taková ze starší kresby má červený kroužek.</li>
+        <li><em>Překlopit přes vazbu</em> obracelo stereocentrum na konci klínu: maltosa se stala cellobiosou.</li>
+        <li>Vložený SMILES někdy změnil molekulu: artemisininu se ztratilo stereocentrum u peroxidového můstku a některým makrolidům se v kruhu obrátil dien. Teď se v takovém případě vezme jiný nákres. Dvojná vazba, které SMILES neurčuje E ani Z, dostane vedle sebe vlnovku (dřív se E nebo Z vzalo z nákresu) a <em>Překreslit</em> ji zachová. Stejně se načte dvojná vazba označená v molfilu „E nebo Z“.</li>
+        <li>Soubor XYZ komplexu kovu měl rozbitou geometrii; <em>Překreslit</em> židličky nabídne všechny nákresy; ve 3D zůstane axiální vodík axiální.</li>
+        <li>V <em>Otočit ve 3D</em> se přechodový stav otáčí jako těleso v prostoru a kyselina sírová a podobné molekuly mají v tyčinkovém modelu všechny vodíky. <em>Nakreslit H</em> na židličce dá každý vodík axiálně, nebo ekvatoriálně jako šablona.</li>
+        <li>Cyklohexen nakreslený ve tvaru židličky (produkt E2) má své R/S v souborech, SMILES, <em>Info</em> i v <em>Překreslit</em>.</li>
+        <li>Na české klávesnici zvýší <kbd>+</kbd> nad atomem náboj (je na klávese 1). Přehled klávesových zkratek (<kbd>?</kbd>) má i klávesy <em>Otočit ve 3D</em> a psaní textu. <kbd>Esc</kbd> zavře varianty nástroje a nástroj nechá; kliknutí mimo nápovědu ji zavře, místo aby pod ní kreslilo. Tlačítko <em>Vzorec</em> píše e- jako e⁻.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">Conformations (the ring flip, Newman projections as molecules, chairs with stereochemistry), orbitals and arrows for radical mechanisms, a stick model in 3D, complexes worked out by physics, and a tidier window.</p>
+      <h3>New</h3>
+      <ul>
+        <li><strong>Ring flip</strong> (a button in the top bar): click a chair and it becomes the other chair, axial groups equatorial and the other way round; each group stays up or down, so cis/trans and R/S stay. The flip plays through a boat (<em>Settings</em> → <em>Animations</em> turns it off); with <kbd>Shift</kbd> the other chair is drawn beside it with an equilibrium arrow. Cyclohexane in a Newman projection flips too. A flat six-membered ring (a Haworth projection too) clicked becomes the templates' chair (a sugar ⁴C₁): its groups go axial or equatorial by their wedges, those whose side isn't drawn go equatorial, with a wavy bond on a stereocentre. <em>Turn a chair</em>, next to it, turns a chair a third of the way round (<kbd>Shift</kbd>: the other way), each group staying axial or equatorial.</li>
+        <li><strong>Newman projections are molecules:</strong> the front carbon is the point in the middle, the back one the circle, and the groups round them are ordinary atoms. Curved arrows, charges and R/S work on them, so an E2 can be drawn right in the projection; the panel changes the groups and the dihedral angle. <em>Templates</em> → <em>Conformations</em> has cyclohexane in a Newman projection.</li>
+        <li><strong>Chairs carry stereochemistry:</strong> a chair, from the templates or drawn by hand, is read as the molecule it shows, so SMILES, <em>Info</em>, PubChem and files get the stereoisomer drawn; a chair recognised turns green-teal under the pointer. <em>Turn in 3D</em> keeps the conformation drawn: an axial group stays axial, a Newman projection keeps its dihedral angle, a diene drawn s-cis stays s-cis.</li>
+        <li><strong>Orbitals</strong> on atoms for mechanisms: p, hybrid and s orbitals, with a phase and lobes sized by the coefficients. A curved arrow can start or end on a lobe, and a dashed line shows an overlap, such as the HOMO and LUMO of a Diels–Alder reaction. Help's examples show them.</li>
+        <li><strong>Arrows:</strong> while you draw a fishhook, or a curved arrow with <kbd>Shift</kbd>, faint lines lead to the atoms the electrons could make a new bond with, and an arrow dropped on the dot in the middle ends between them, so hydrogen abstraction and two radicals combining look as they do in textbooks. An equilibrium arrow can lie to one side (<em>Favours</em> in the panel), a side arc on it meets the harpoon on its side and goes its way (above, forward; below, back), and the reaction arrows have a crossed arrow (the reaction does not go) and an equals sign (the same compound drawn another way).</li>
+        <li><strong>Lewis symbols</strong> of atoms: up to four unpaired electrons, each on a side of its own as a Lewis symbol fills them (·N̈·, ·Ċ·), and a singlet's two side by side; <em>Unpaired</em> in the panel. An unpaired electron sits to the right of its atom where there is room, and a fishhook from the atom starts at it.</li>
+        <li><strong>Stick model</strong> in <em>Turn in 3D</em> (<kbd>S</kbd>): the model as balls and sticks, with every hydrogen, in the drawing's colours and highlights; shorthands (Ph, OBz) drawn out, <kbd>G</kbd> shows each as one ball, <kbd>H</kbd> the hydrogens it adds small. It can be saved as a picture.</li>
+        <li><strong>Metal complexes in 3D</strong> are worked out as a whole by a force field, so porphyrins are flat and chelates sit as they should, in <em>Turn in 3D</em> and in XYZ files. Octahedral complexes with chelates get Λ or Δ beside the metal (<em>R/S, E/Z, Λ/Δ</em>).</li>
+      </ul>
+      <h3>Changed</h3>
+      <ul>
+        <li>The top right has the bug, for reporting a problem in one click, and <em>Settings</em>, with the theme and debug mode in it. Help's header has the manuals, <em>What's new</em>, the keyboard shortcuts and <em>About</em>; the bottom left corner the version with its date, <em>What's new</em> and <em>About</em>.</li>
+        <li>Drawing: a chain grows across the page, and a click with <kbd>Shift</kbd> puts a new bond on the other side (the chain tool's zigzag too). The charges are one button with +, −, δ+ and δ−; a tool's variants open when the pointer rests on its button; <kbd>D</kbd> goes through the dative, hydrogen and partial bond. <em>Next</em> in the panel moves a double bond's second line on.</li>
+        <li>The <em>Turn in 3D</em> window is larger and stays still as you switch views. The dashed aromatic style draws a dashed circle.</li>
+        <li>An element symbol in the panel is taken as written or in small letters: CO is no longer cobalt.</li>
+        <li>Some examples in Help are redrawn, the radical chlorination of methane has its termination step, and two new ones are on chairs: a flat ring becoming a chair (menthol) and E2 on a chair.</li>
+        <li>A molfile, SDF or SMILES file opened goes into the drawing you have, placed like a template, as an XYZ file does; a KET file opens as the drawing. <em>Export</em> no longer offers RXN and CDXML until they are tried in the programs that read them.</li>
+        <li><em>Redraw</em> lines every drawing of a whole molecule up with the page: turned by up to 15° so that most bonds lie at multiples of 30° (a view of a 3D model keeps its own), and a molecule pasted as SMILES is lined up the same way, so the "straightened" variants of RDKit and CoordGen are gone. Drawings from a 3D model are offered only for cages and bridged rings, metal complexes, molecules with an expanded octet and S<sub>N</sub>2 transition states; <em>Turn in 3D</em> shows any molecule in 3D. <em>Redraw</em> also offers more good drawings: some it used to drop for a wedge that read the wrong way. The drawings in its window no longer change places when a slower one arrives: it is added after the others.</li>
+        <li>When the drawing of a structure from a SMILES, from PubChem or from an XYZ file has atoms on top of each other or crossing bonds, the tidiest of <em>Redraw</em>'s quick layouts is taken instead.</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>Metal complexes drawn from their 3D model (<em>Redraw</em>, <em>Turn in 3D</em>) have long bonds to the metal again (1.8 bond lengths), so the labels round the metal have room; a chelate is made larger to reach (at most 1.6×). An XYZ file gets the real geometry. <em>Turn in 3D</em> again draws bonds seen nearly end on long enough to read, as <em>Redraw</em> does (but for a transition state, whose partial bonds shorten as it turns).</li>
+        <li>Names typed under molecules stay with them, in a grid and in <em>Align reaction scheme</em>.</li>
+        <li>The aromatic circle lies in the ring's plane, in a ring turned away or drawn out of shape too.</li>
+        <li>Hydrogens drawn by hand no longer give wrong bond lengths in 3D.</li>
+        <li>A shorthand on a coordination bond (PPh₃) counts in full in files, SMILES, InChI and <em>Info</em>.</li>
+        <li>An abbreviation such as Ph can no longer get a second bond; one in an older drawing is ringed red.</li>
+        <li><em>Flip over a bond</em> turned the stereocentre at the end of a wedge the other way: maltose became cellobiose.</li>
+        <li>A pasted SMILES sometimes changed the molecule: artemisinin lost the stereocentre at its peroxide bridge, and some macrolides got a diene in the ring the wrong way round. Now another drawing is taken then. A double bond whose E or Z the SMILES leaves open gets a wavy bond beside it (before, the drawing decided E or Z), and <em>Redraw</em> keeps it. A double bond marked "either" in a molfile comes in the same way.</li>
+        <li>A metal complex's XYZ file had a broken geometry; <em>Redraw</em> of a chair offers every drawing; in 3D an axial hydrogen stays axial.</li>
+        <li>In <em>Turn in 3D</em> a transition state turns as a thing in space, and sulfuric acid and the like have all their hydrogens in the stick model. <em>Draw the H</em> on a chair puts each hydrogen axial or equatorial, as the templates do.</li>
+        <li>A cyclohexene drawn in a chair's shape (an E2 product) keeps its R/S in files, SMILES, <em>Info</em> and <em>Redraw</em>.</li>
+        <li>On a Czech keyboard <kbd>+</kbd> over an atom raises its charge (it is on the 1 key). The keyboard shortcuts (<kbd>?</kbd>) list <em>Turn in 3D</em>'s keys and those for writing text. <kbd>Esc</kbd> closes a tool's variants and leaves the tool; a click outside Help closes it instead of drawing under it. The <em>Formula</em> button writes e- as e⁻.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Konformationen (Ringinversion, Newman-Projektionen als Moleküle, Stereochemie aus der Sesselform), Orbitale und Pfeile für Radikalmechanismen, ein Stabmodell in 3D, physikalisch berechnete Komplexe und ein aufgeräumteres Fenster.</p>
+      <h3>Neu</h3>
+      <ul>
+        <li><strong>Ringinversion</strong> (Schaltfläche in der oberen Leiste): Ein Klick auf einen Sessel macht daraus den anderen, axiale Gruppen werden äquatorial und umgekehrt; jede Gruppe bleibt oben bzw. unten, cis/trans und R/S bleiben also erhalten. Die Inversion läuft über die Wannenform ab (abschaltbar unter <em>Einstellungen</em> → <em>Animationen</em>); mit <kbd>Umschalt</kbd> erscheint der andere Sessel daneben, mit Gleichgewichtspfeil. Auch Cyclohexan in der Newman-Projektion lässt sich invertieren. Ein flacher Sechsring (auch eine Haworth-Projektion) wird angeklickt zum Sessel der Vorlagen (ein Zucker ⁴C₁): Seine Gruppen kommen nach ihren Keilen axial oder äquatorial, solche ohne gezeichnete Seite kommen äquatorial, an einem Stereozentrum mit Wellenlinie. <em>Sessel drehen</em> daneben dreht einen Sessel um ein Drittel (<kbd>Umschalt</kbd>: andersherum), jede Gruppe bleibt axial oder äquatorial.</li>
+        <li><strong>Newman-Projektionen sind Moleküle:</strong> Das vordere C-Atom ist der Punkt in der Mitte, das hintere der Kreis, die Gruppen daran sind gewöhnliche Atome. Gebogene Pfeile, Ladungen und R/S funktionieren, eine E2-Eliminierung lässt sich also direkt in der Projektion zeichnen; im Panel lassen sich Gruppen und Diederwinkel ändern. Unter <em>Vorlagen</em> → <em>Konformationen</em> gibt es Cyclohexan in der Newman-Projektion.</li>
+        <li><strong>Stereochemie aus der Sesselform:</strong> Ein Sessel aus den Vorlagen oder von Hand gezeichnet wird als das Molekül gelesen, das er darstellt; SMILES, <em>Info</em>, PubChem und Dateien erhalten das gezeichnete Stereoisomer, ein erkannter Sessel wird unter dem Mauszeiger blaugrün. <em>In 3D drehen</em> behält die gezeichnete Konformation: Eine axiale Gruppe bleibt axial, eine Newman-Projektion behält ihren Diederwinkel, ein s-cis gezeichnetes Dien bleibt s-cis.</li>
+        <li><strong>Orbitale</strong> an Atomen für Mechanismen: p-, Hybrid- und s-Orbitale, mit Phase und nach den Koeffizienten bemessenen Orbitallappen. Ein gebogener Pfeil kann an einem Lappen beginnen oder enden, eine gestrichelte Linie zeigt die Überlappung, etwa von HOMO und LUMO einer Diels-Alder-Reaktion. Ein Beispiel steht in der Hilfe.</li>
+        <li><strong>Pfeile:</strong> Beim Zeichnen eines Halbpfeils, oder eines gebogenen Pfeils mit <kbd>Umschalt</kbd>, führen schwache Linien zu den Atomen, mit denen die Elektronen eine neue Bindung bilden könnten; ein auf den Punkt in der Mitte gezogener Pfeil endet zwischen ihnen, sodass H-Abstraktion und Radikalrekombination wie im Lehrbuch aussehen. Ein Gleichgewichtspfeil kann auf einer Seite liegen (<em>Gleichgewicht</em> im Panel), ein Seitenbogen daran trifft den Halbpfeil auf seiner Seite und folgt dessen Richtung (oben hin, unten zurück), und bei den Reaktionspfeilen gibt es einen durchgestrichenen Pfeil (die Reaktion läuft nicht ab) und ein Gleichheitszeichen (dieselbe Verbindung anders gezeichnet).</li>
+        <li><strong>Lewis-Symbole</strong> von Atomen: bis zu vier ungepaarte Elektronen, jedes auf einer eigenen Seite, wie ein Lewis-Symbol sie besetzt (·N̈·, ·Ċ·), und die zwei eines Singuletts nebeneinander; <em>Ungepaart</em> im Panel. Ein ungepaartes Elektron sitzt rechts vom Atom, wo Platz ist, und ein Halbpfeil vom Atom beginnt an ihm.</li>
+        <li><strong>Stabmodell</strong> in <em>In 3D drehen</em> (<kbd>S</kbd>): das Modell als Kugeln und Stäbe, mit allen H-Atomen, in den Farben und Hervorhebungen der Zeichnung; Kürzel (Ph, OBz) ausgeschrieben, <kbd>G</kbd> zeigt jedes als eine Kugel, <kbd>H</kbd> die ergänzten H-Atome klein. Es lässt sich als Bild speichern.</li>
+        <li><strong>Metallkomplexe in 3D</strong> werden als Ganzes mit einem Kraftfeld berechnet: Porphyrine sind eben, Chelatliganden sitzen, wie sie sollen, in <em>In 3D drehen</em> und in XYZ-Dateien. Oktaedrische Chelatkomplexe erhalten Λ oder Δ neben dem Metall (<em>R/S, E/Z, Λ/Δ</em>).</li>
+      </ul>
+      <h3>Geändert</h3>
+      <ul>
+        <li>Oben rechts sind der Käfer, um ein Problem mit einem Klick zu melden, und die <em>Einstellungen</em>, mit Design und Debug-Modus darin. Im Kopf der Hilfe stehen die Anleitungen, <em>Was ist neu?</em>, die Tastenkürzel und <em>Über olomol</em>; unten links die Version mit Datum, <em>Was ist neu?</em> und <em>Über olomol</em>.</li>
+        <li>Zeichnen: Eine Kette wächst quer über die Seite, und ein Klick mit <kbd>Umschalt</kbd> setzt eine neue Bindung auf die andere Seite (auch das Zickzack des Kettenwerkzeugs). Die Ladungen sind eine Schaltfläche mit +, −, δ+ und δ−; die Varianten eines Werkzeugs öffnen sich, wenn der Mauszeiger auf seiner Schaltfläche ruht; <kbd>D</kbd> wechselt zwischen dativer Bindung, Wasserstoffbrücke und Partialbindung. <em>Weiter</em> im Panel versetzt den zweiten Strich einer Doppelbindung.</li>
+        <li>Das Fenster <em>In 3D drehen</em> ist größer und bleibt beim Umschalten der Ansichten ruhig. Der gestrichelte Aromatenstil zeichnet einen gestrichelten Kreis.</li>
+        <li>Ein Elementsymbol im Panel wird so genommen, wie es geschrieben ist, oder in Kleinbuchstaben: CO ist kein Cobalt mehr.</li>
+        <li>Einige Beispiele der Hilfe sind überarbeitet, die radikalische Chlorierung von Methan zeigt auch den Kettenabbruch, und zwei neue zeigen Sessel: ein flacher Ring wird zum Sessel (Menthol) und E2 am Sessel.</li>
+        <li>Eine geöffnete Molfile-, SDF- oder SMILES-Datei kommt in die vorhandene Zeichnung und wird wie eine Vorlage platziert, wie eine XYZ-Datei; eine KET-Datei öffnet sich als Zeichnung. <em>Export</em> bietet RXN und CDXML nicht mehr an, bis sie in den Programmen erprobt sind, die sie lesen.</li>
+        <li><em>Neu zeichnen</em> richtet jede Zeichnung eines ganzen Moleküls an der Seite aus: um höchstens 15° gedreht, sodass die meisten Bindungen in Vielfachen von 30° liegen (eine Ansicht eines 3D-Modells behält ihre eigene), und ein als SMILES eingefügtes Molekül wird ebenso ausgerichtet; die „begradigten“ Varianten von RDKit und CoordGen entfallen daher. Zeichnungen aus einem 3D-Modell gibt es nur noch für Käfige und überbrückte Ringe, Metallkomplexe, Moleküle mit erweitertem Oktett und S<sub>N</sub>2-Übergangszustände; jedes Molekül in 3D zeigt <em>In 3D drehen</em>. <em>Neu zeichnen</em> bietet außerdem mehr gute Zeichnungen an: Manche verwarf es früher wegen eines Keils, der sich falsch herum las. Die Zeichnungen im Fenster wechseln nicht mehr die Plätze, wenn eine langsamere dazukommt: Sie wird hinten angefügt.</li>
+        <li>Hat die Zeichnung einer Struktur aus SMILES, aus PubChem oder aus einer XYZ-Datei übereinanderliegende Atome oder sich kreuzende Bindungen, wird stattdessen die sauberste der schnellen Zeichnungen von <em>Neu zeichnen</em> genommen.</li>
+      </ul>
+      <h3>Behoben</h3>
+      <ul>
+        <li>Metallkomplexe, die aus ihrem 3D-Modell gezeichnet werden (<em>Neu zeichnen</em>, <em>In 3D drehen</em>), haben wieder lange Bindungen zum Metall (1,8 Bindungslängen), sodass die Beschriftungen um das Metall Platz haben; ein Chelat wird dafür vergrößert (höchstens 1,6×). Eine XYZ-Datei erhält die echte Geometrie. <em>In 3D drehen</em> zeichnet fast von vorn gesehene Bindungen wieder lang genug zum Lesen, wie <em>Neu zeichnen</em> (außer bei einem Übergangszustand, dessen partielle Bindungen sich beim Drehen verkürzen).</li>
+        <li>Unter Moleküle geschriebene Namen bleiben bei ihnen, im Raster und in <em>Reaktionsschema ausrichten</em>.</li>
+        <li>Der Aromatenkreis liegt in der Ringebene, auch in einem gedrehten oder unregelmäßig gezeichneten Ring.</li>
+        <li>Von Hand gezeichnete H-Atome ergeben in 3D keine falschen Bindungslängen mehr.</li>
+        <li>Ein Kürzel an einer Koordinationsbindung (PPh₃) zählt in Dateien, SMILES, InChI und <em>Info</em> vollständig.</li>
+        <li>Ein Kürzel wie Ph bekommt keine zweite Bindung mehr; eines in einer älteren Zeichnung bekommt einen roten Ring.</li>
+        <li><em>Um eine Bindung klappen</em> kehrte das Stereozentrum am Ende eines Keils um: Aus Maltose wurde Cellobiose.</li>
+        <li>Ein eingefügtes SMILES änderte manchmal das Molekül: Artemisinin verlor das Stereozentrum an der Peroxidbrücke, und bei manchen Makroliden kehrte sich ein Dien im Ring um. Jetzt wird dann eine andere Zeichnung genommen. Eine Doppelbindung, deren E oder Z das SMILES offen lässt, bekommt daneben eine Wellenlinie (früher entschied die Zeichnung über E oder Z), und <em>Neu zeichnen</em> behält sie. Eine im Molfile als „E oder Z“ markierte Doppelbindung kommt genauso herein.</li>
+        <li>Die XYZ-Datei eines Metallkomplexes hatte eine verzerrte Geometrie; <em>Neu zeichnen</em> bietet für Sessel alle Zeichnungen an; in 3D bleibt ein axiales H-Atom axial.</li>
+        <li>In <em>In 3D drehen</em> dreht sich ein Übergangszustand als Körper im Raum, und Schwefelsäure und Ähnliches haben im Stabmodell alle H-Atome. <em>H zeichnen</em> an einem Sessel setzt jedes H axial oder äquatorial, wie die Vorlagen.</li>
+        <li>Ein in Sesselform gezeichnetes Cyclohexen (ein E2-Produkt) behält sein R/S in Dateien, SMILES, <em>Info</em> und <em>Neu zeichnen</em>.</li>
+        <li>Auf einer tschechischen Tastatur erhöht <kbd>+</kbd> über einem Atom die Ladung (es liegt auf der Taste 1). Die Tastenkürzel (<kbd>?</kbd>) nennen auch die Tasten von <em>In 3D drehen</em> und zum Schreiben von Text. <kbd>Esc</kbd> schließt die Varianten eines Werkzeugs und lässt das Werkzeug; ein Klick außerhalb der Hilfe schließt sie, statt darunter zu zeichnen. Die Schaltfläche <em>Formel</em> schreibt e- als e⁻.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.3.0">
+    <h2>0.3.0 <span class="date" data-date="2026-11-02">2 November 2026</span></h2>
+    <img class="band" src="changelog/banner-0.3.0.svg" width="1200" height="200" loading="lazy" alt="A complex with wedged coordination bonds, an enzyme reaction with NADH and NAD+ on side arcs, and an SN2 reaction through its transition state">
+    <div lang="cs">
+      <p class="summary">Otáčení molekul ve 3D, překreslení vybrané části molekuly, nová nápověda s příklady k ukázání myší, hledání v šablonách podle části, pohodlnější texty, klíny u koordinačních vazeb a boční oblouky u reakčních šipek.</p>
+      <h3>Nové</h3>
+      <ul>
+        <li><strong>Otočit ve 3D</strong> (kostka vedle <em>Překreslit</em>): vybranou molekulu otáčíte myší nebo šipkami a vidíte ji přesně tak, jak se nakreslí, se zadní částí bledší. <em>Použít tento pohled</em> ji tak nakreslí, s klíny, které zachovají R/S a E/Z. 3D model se kontroluje, aby odpovídal nakreslené stereochemii. Upozorní, když by pohled ztratil R/S nebo E/Z, a pohled přesto můžete použít. Komplexy mají každý ligand ve správném tvaru a chelatační ligandy (EDTA) obtočené kolem kovu; kde se dvě vazby kříží, ta vzadu je přerušená. <em>Překreslit</em> navíc kreslí tranzitní stav S<sub>N</sub>2 jako v učebnicích (trigonální bipyramida).</li>
+        <li><strong>Překreslit</strong> (dřív <em>Rozvržení</em>): když je vybraná jen část molekuly, nabídne překreslit jen ji a zbytek zůstane přesně tam, kde je. Tyto nákresy mají vlastní oddíl nad nákresy celých molekul. Nákresy jsou seřazené podle křížení, překryvů a nepravidelných vazeb a úhlů: nejlepší jsou první, horší čekají pod <em>Ukázat všechny nákresy</em>. 3D nákresy velkých molekul (taxol) se počítají na pozadí, stránka mezitím nezamrzne, a díky souběžným výpočtům jsou hotové rychleji.</li>
+        <li><strong>Nápověda</strong> (kulaté tlačítko <kbd>?</kbd> vpravo dole) se otevře hned: dvacet pět hotových kreseb s náhledy, od mechanismů přes cukry a komplexy po texty a export, s výběrem podle štítků. Ukažte myší na kteroukoli část a dozvíte se, jak se kreslí; její tlačítko se rozsvítí. Pod kresbou je, co ukázat nejde (<em>Překreslit</em>, <em>Šablony</em>, <em>Zarovnat</em>). Každý příklad jde otevřít jako vlastní kresbu. V záhlaví okna jsou rychlý start, příručka, co je nového, klávesové zkratky a nahlášení problému. Na prázdném plátně se střídají čtyři příklady.</li>
+        <li><strong>Hledání v šablonách podle části:</strong> ?oh, ?Ts nebo ?ester vypíše šablony s touto skupinou, ?ala najde alanin podle kódu; na velikosti písmen nezáleží. Hledat jdou i prvky, zkratky a části zapsané jako SMILES (?S, ?boc, ?C=O). Aminokyseliny mají kódy na kartách a bez otazníku je kód najde jako první (Phe, F).</li>
+        <li><strong>Texty:</strong> okénko nad textem má v jednom řádku <em>Vzorec</em>, <em>Prostý text</em>, dolní a horní index, tučné písmo a kurzívu (i jen pro část textu), zarovnání řádků a nabídku znaků (řecká písmena, šipky, ° ± ‡). <em>Vzorec</em> zvládne i H₂[SiF₆]²⁻ a zápis CO_3^2-. Zkopírovaný text se do jiných programů vloží jako obyčejná slova (třeba DOI do prohlížeče). Víceřádkový text u molekuly nebo na šipce se sám vycentruje.</li>
+        <li><strong>Koordinační vazby s klínem</strong> nebo šrafovaným klínem, pro komplexy v prostoru (Λ a Δ), bez hlášení o počtu vazeb. 3D pohledy zachovají uspořádání, jak je nakreslené. V nastavení jdou koordinační vazby kreslit jako čáry místo šipek.</li>
+        <li><strong>Boční oblouky u reakčních šipek</strong> (NAD⁺ → NADH): nástrojem reakční šipka táhněte od středu šipky ven, nebo z plátna k ní. Na konec oblouku patří text nebo molekula, šipka se sama prodlouží. V panelu šipku otočíte nebo překlopíte oblouky na druhou stranu.</li>
+        <li><strong>PubChem:</strong> když kresba nechává část stereochemie otevřenou nebo PubChem přesně takovou sloučeninu nemá (jiná stereochemie, izotopy), <em>Stránka na PubChemu</em> ukáže stránku s kartami podobných sloučenin (obrázek, název, CID) a napíše, v čem se liší. Karty mají názvy místo databázových kódů.</li>
+        <li><strong>Značka automatického ukládání</strong> vedle názvu kresby: <em>Uchováno</em> znamená, že kresba je v tomto prohlížeči a až se vrátíte, bude tu. Značka varuje, když prohlížeč nic neuchová (anonymní okno, plné úložiště) a když mezitím svou kresbu uchovala jiná karta s olomolem: příště se vrátí ta naposledy změněná.</li>
+        <li>Izotopy: do pole <em>Prvek</em> napište 13C, 18O, D nebo T; vzorec a hmotnosti s nimi počítají.</li>
+        <li>Rychlý start a příručka i v angličtině.</li>
+        <li><strong>Stránka o programu</strong> (odkaz v okně s informacemi o aplikaci): co olomol je a co umí, se čtyřmi krátkými videi.</li>
+      </ul>
+      <h3>Změněno</h3>
+      <ul>
+        <li>Soubor XYZ se počítá na pozadí: můžete kreslit dál a po dokončení ho uložíte tlačítkem <em>Uložit soubor XYZ</em>. Jako název se nabídne InChIKey a panel upozorní na stereocentra bez nakresleného R/S.</li>
+        <li><strong>3D model</strong> pro <em>Otočit ve 3D</em>, <em>Překreslit</em> a soubory XYZ teď počítá RDKit: u taxolu trvá jeden pokus zhruba 2 sekundy místo 8. Výsledek je v každém prohlížeči stejný, jen u velkých molekul se může trochu lišit.</li>
+        <li><strong>Zkratky</strong> a obecné skupiny se přesunuly z periodické tabulky do <em>Šablon</em> (záložka <em>Zkratky</em>). Funkční skupiny mají na kartě tlačítko se zkratkou (Ph u fenylu), které skupinu vloží jako jeden atom. <em>Šablony</em> otevře i <kbd>Shift+T</kbd>.</li>
+        <li><strong>Kruhy a funkční skupiny:</strong> tažené od atomu míří za ukazatelem po 15°. Kruh připojený k atomu dostane vlastní atomy, takže tři kliknutí benzenem na P v P=O dají Ph₃P=O a žádné kruhy se nespojí. Se <kbd>Shift</kbd> se první atom skupiny stane kliknutým atomem (COOH na koncovém uhlíku pentanu dá kyselinu pentanovou) a tažený kruh projde atomem (spiro).</li>
+        <li><em>Zkratkou</em> zvládne více skupin i celé molekuly: fenyly v PPh₃ se změní na tři Ph a molekula jako PPh₃, NEt₃, Et₂O nebo AcOH na jednu zkratku. Takto napsaná zkratka se ve vzorcích, v <em>Info</em>, na PubChemu i v souborech počítá jako celá molekula. Písmena ve zkratkách, která jsou atomy, mají barvu svého prvku (P v PPh₃, O v OBz).</li>
+        <li>Nepárový elektron a půlšipka jsou teď varianty tlačítek volných párů a zahnuté šipky (trojúhelníček v rohu tlačítka) a půlšipka má skutečný háček.</li>
+        <li><strong>Vodorovně / svisle</strong> je teď nástroj v horní liště: po kliknutí na vazbu se otočí výběr, pokud je vazba v něm, jinak celá molekula; další klik otočí o čtvrt otáčky dál. S jednou vybranou vazbou se její molekula otočí hned.</li>
+        <li>Klávesa <kbd>1</kbd> nad jednoduchou vazbou projde klín, šrafovaný klín, oba z druhého konce a obyčejnou vazbu; <kbd>Shift+1</kbd> jde zpátky. <kbd>Esc</kbd>, když už není co rušit, přepíná mezi výběrem obdélníkem a lasem. <kbd>R</kbd> stisknuté znovu vybere další kruh.</li>
+        <li><kbd>Shift</kbd>+dvojklik přidá molekulu do výběru. <em>Zobrazit vše</em> s výběrem přiblíží výběr, až vyplní okno.</li>
+        <li>Volné páry jsou o něco dál od písmen, vazba, která by procházela nábojem, se o něj zastaví, a náboj bez volného rohu se postaví přímo vedle značky, nad ni nebo pod ni. <em>Zarovnat</em> a <em>Zarovnat reakční schéma</em> se řídí atomy a jejich značkami, takže Cl⁻ a H₂O stojí v jedné rovině s Cl a O.</li>
+        <li><strong>Rychlejší:</strong> při první návštěvě na školní síti se první SMILES nakreslí asi za 2 sekundy místo 4,5, velké kresby se táhnou plynule a panel se u velkého výběru nezpomalí.</li>
+        <li><kbd>Esc</kbd> v textu ho zachová, místo aby ho zahodil. Nová kresba začíná na 100 %. olomol začíná ve světlém motivu; tmavý nebo systémový vyberete v nastavení. Obrázky mají ve výchozím stavu průhledné pozadí a bílé si program po zaškrtnutí zapamatuje. Náboj v panelu má tlačítka − a +, takže nastavíte jakýkoli.</li>
+      </ul>
+      <h3>Odstraněno</h3>
+      <ul>
+        <li>Tlačítko <em>Naklonit dozadu</em>. Komplex nebo molekulu v perspektivě nově zobrazíte pomocí <em>Otočit ve 3D</em>.</li>
+      </ul>
+      <h3>Opraveno</h3>
+      <ul>
+        <li>Export výběru se zkratkami (Ph, Boc) už neskončí chybou a klávesy jako Delete a Ctrl+Z už nemění kresbu za otevřeným oknem.</li>
+        <li><em>Zkratkou</em> a <em>Rozkreslit</em> zachovají klín u skupiny na stereocentru, takže stereochemie zůstane (třeba OBz u kokainu, který se tak na PubChemu zase najde).</li>
+        <li>Klik nástrojem řetězec na vazbu ji už nepoškodí. Překlopení prohodí i stranu druhé čáry dvojné vazby.</li>
+        <li>Soubory XYZ: oniové kationty se načtou správně a osamocený ion už nezastaví export.</li>
+        <li>Soubory SMILES: tečky v názvech zůstanou v názvech a kruhy se neuzavírají přes tečku.</li>
+        <li>Stahování výpočetního jádra, které selhalo, se zkusí znovu a chybové hlášky už nejsou napůl anglicky.</li>
+        <li>Výchozí název kresby se nepřekládá, náboj ani δ nesedí na druhé čáře dvojné vazby a závorky sedí i po smazání atomu v nich.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">Turning molecules in 3D, redrawing a selected part of a molecule, a new Help with examples to point at, searching templates by a part, easier texts, wedged coordination bonds and side arcs on reaction arrows.</p>
+      <h3>New</h3>
+      <ul>
+        <li><strong>Turn in 3D</strong> (the cube next to <em>Redraw</em>): turn the selected molecule with the mouse or the arrow keys and see it exactly as it will be drawn, its back paler. <em>Use this view</em> draws it so, with wedges that keep its R/S and E/Z. The 3D model is checked against the drawn stereochemistry. It warns when a view would lose R/S or E/Z, and the view can still be used. Complexes have each ligand in its proper shape and chelating ligands (EDTA) wrapped round the metal; where two bonds cross, the one behind is broken. <em>Redraw</em> also draws an S<sub>N</sub>2 transition state as textbooks do (a trigonal bipyramid).</li>
+        <li><strong>Redraw</strong> (formerly <em>Layout</em>): with only part of a molecule selected, it offers to redraw just that part, the rest staying exactly where it is. These drawings have a section of their own above those of whole molecules. Drawings are ranked by crossings, overlaps and uneven bonds and angles: the best come first, the worse ones wait behind <em>Show all drawings</em>. 3D drawings of large molecules (taxol) are worked out in the background, so the page doesn't freeze, and side by side, so they are ready sooner.</li>
+        <li><strong>Help</strong> (the round <kbd>?</kbd> button at the bottom right) opens at once: twenty-five finished drawings with pictures, from mechanisms through sugars and complexes to texts and export, to pick from by their tags. Point at any part to see how it is drawn; its button lights up. Under a drawing is what can't be pointed at (<em>Redraw</em>, <em>Templates</em>, <em>Align</em>). Any example opens as your own drawing. The window's header has the quick start, the manual, what's new, the keyboard shortcuts and reporting a problem. Four examples take turns on the empty canvas.</li>
+        <li><strong>Searching templates by a part:</strong> ?oh, ?Ts or ?ester lists the templates with that group, ?ala finds alanine by its code; capitals don't matter. Elements, abbreviations and parts written as SMILES work too (?S, ?boc, ?C=O). Amino acids have their codes on their cards, and without the question mark a code finds them first (Phe, F).</li>
+        <li><strong>Texts:</strong> the window over a text has <em>Formula</em>, <em>Plain</em>, subscript and superscript, bold and italic (also for part of a text), line alignment and a characters menu (Greek letters, arrows, ° ± ‡) in one row. <em>Formula</em> also handles H₂[SiF₆]²⁻ and CO_3^2-. A copied text pastes into other programs as plain words (a DOI into the browser, say). A multi-line text on a molecule or an arrow is centred by itself.</li>
+        <li><strong>Wedged coordination bonds</strong>, plain or hashed, for complexes in space (Λ and Δ), without a warning about the number of bonds. The 3D views keep the arrangement as drawn. Settings can draw coordination bonds as lines instead of arrows.</li>
+        <li><strong>Side arcs on reaction arrows</strong> (NAD⁺ → NADH): with the reaction arrow tool, drag from an arrow's middle outwards, or from the canvas to it. A text or a molecule goes at the arc's end, and the arrow grows to fit. The arrow's panel turns it round or flips its arcs to the other side.</li>
+        <li><strong>PubChem:</strong> when a drawing leaves part of its stereochemistry open, or PubChem doesn't have exactly that compound (other stereochemistry, isotopes), <em>PubChem page</em> shows a page of cards of similar compounds (picture, name, CID) and says what differs. The cards have names instead of database codes.</li>
+        <li><strong>An autosave mark</strong> beside the drawing's name: <em>Autosaved</em> means the drawing is in this browser and will be here when you come back. It warns when the browser can't autosave (a private window, full storage) and when another tab with olomol has autosaved its drawing since: next time the one changed last comes back.</li>
+        <li>Isotopes: type 13C, 18O, D or T into the <em>Element</em> field; the formula and masses count them.</li>
+        <li>The quick start and the manual in English.</li>
+        <li><strong>An about page</strong> (linked from the window about the app): what olomol is and does, with four short videos.</li>
+      </ul>
+      <h3>Changed</h3>
+      <ul>
+        <li>XYZ files are worked out in the background: keep drawing, and when one is ready, save it with <em>Save XYZ file</em>. Its InChIKey is suggested as the name, and the panel warns about stereocentres with no R/S drawn.</li>
+        <li>The <strong>3D model</strong> for <em>Turn in 3D</em>, <em>Redraw</em> and XYZ files now comes from RDKit: one try at taxol takes about 2 seconds instead of 8. The result is the same in every browser, though large molecules can differ a little.</li>
+        <li><strong>Abbreviations</strong> and group labels moved from the periodic table to <em>Templates</em> (the <em>Abbreviations</em> tab). A functional group's card has a chip with its abbreviation (Ph on Phenyl) that puts the group in as one atom. <kbd>Shift+T</kbd> also opens <em>Templates</em>.</li>
+        <li><strong>Rings and functional groups:</strong> dragged from an atom, they point at the pointer in 15° steps. A ring hung on an atom gets atoms of its own, so three clicks of benzene on the P of P=O give Ph₃P=O with no rings fused. With <kbd>Shift</kbd>, a group's first atom becomes the clicked atom (COOH on pentane's end carbon gives pentanoic acid) and a dragged ring goes through the atom (spiro).</li>
+        <li><em>Abbreviate</em> handles several groups and whole molecules: the phenyls of PPh₃ become three Ph, and a molecule such as PPh₃, NEt₃, Et₂O or AcOH becomes one label. A label typed that way counts as its molecule in formulas, <em>Info</em>, PubChem and files. In labels, letters that are atoms take their element's colour (the P of PPh₃, the O of OBz).</li>
+        <li>The unpaired electron and the fishhook arrow are now variants of the lone pair and curved arrow buttons (the triangle in the button's corner), and a fishhook has a real barb.</li>
+        <li><strong>Horizontal / vertical</strong> is now a tool in the top bar: click a bond and the selection turns if the bond is in it, else the whole molecule; another click turns it a quarter further. With one bond selected, its molecule turns at once.</li>
+        <li>Key <kbd>1</kbd> over a single bond goes through wedge, hashed wedge, both from the other end, and plain; <kbd>Shift+1</kbd> goes back. <kbd>Esc</kbd>, with nothing left to cancel, switches between box and lasso selection. <kbd>R</kbd> pressed again gives the next ring.</li>
+        <li><kbd>Shift</kbd>+double-click adds a molecule to the selection. <em>Show everything</em> with a selection zooms until it fills the window.</li>
+        <li>Lone pairs sit a little further from their letters, a bond that would run through a charge stops at it, and a charge with no free corner goes straight beside, over or under its symbol. <em>Align</em> and <em>Align reaction scheme</em> go by atoms and their symbols, so Cl⁻ and H₂O sit level with Cl and O.</li>
+        <li><strong>Faster:</strong> on a first visit over a school line, the first SMILES is drawn in about 2 seconds instead of 4.5; large drawings drag smoothly, and the panel no longer slows down with a large selection.</li>
+        <li><kbd>Esc</kbd> in a text keeps it instead of dropping it. A new drawing starts at 100 %. olomol starts in the light theme; dark or the system's is in Settings. Pictures are see-through by default, and a white background is remembered once ticked. The panel's charge has − and + buttons, for any charge.</li>
+      </ul>
+      <h3>Removed</h3>
+      <ul>
+        <li><em>Tilt back</em>: the button is gone. <em>Turn in 3D</em> shows a complex or a molecule in perspective.</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>Exporting a selection with abbreviations (Ph, Boc) no longer fails, and keys such as Delete and Ctrl+Z no longer change the drawing behind an open window.</li>
+        <li><em>Abbreviate</em> and <em>Draw out</em> keep the wedge of a group on a stereocentre, so the stereochemistry stays (cocaine's OBz, say, which PubChem finds again).</li>
+        <li>A click of the chain tool on a bond no longer breaks it. Flipping also swaps the side of a double bond's second line.</li>
+        <li>XYZ files: onium cations read back correctly, and a lone ion no longer stops an export.</li>
+        <li>SMILES files: dots stay in names, and rings no longer close across a dot.</li>
+        <li>A failed engine download is tried again, and error messages are no longer half in English.</li>
+        <li>The drawing's default name is no longer translated, a charge or δ no longer sits on a double bond's second line, and brackets keep fitting when an atom in them is deleted.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Moleküle in 3D drehen, Teile eines Moleküls neu zeichnen, eine neue Hilfe mit Beispielen, Vorlagensuche nach Teilstrukturen, bequemere Textbearbeitung, Koordinationsbindungen mit Keil und Seitenbögen an Reaktionspfeilen.</p>
+      <h3>Neu</h3>
+      <ul>
+        <li><strong>In 3D drehen</strong> (Würfel neben <em>Neu zeichnen</em>): Das ausgewählte Molekül lässt sich mit der Maus oder den Pfeiltasten drehen. Die Vorschau zeigt es genau so, wie es gezeichnet wird; was weiter hinten liegt, erscheint blasser. <em>Diese Ansicht übernehmen</em> zeichnet es in dieser Lage, mit Keilen, die R/S und E/Z erhalten. olomol prüft das 3D-Modell gegen die gezeichnete Stereochemie und warnt, wenn eine Ansicht R/S oder E/Z verlieren würde; übernehmen können Sie sie trotzdem. In Komplexen behält jeder Ligand seine Geometrie, Chelatliganden wie EDTA umschließen das Metall, und wo sich zwei Bindungen kreuzen, ist die hintere unterbrochen. <em>Neu zeichnen</em> stellt außerdem den Übergangszustand einer S<sub>N</sub>2-Reaktion wie im Lehrbuch als trigonale Bipyramide dar.</li>
+        <li><strong>Neu zeichnen</strong> (bisher <em>Layout</em>): Ist nur ein Teil eines Moleküls ausgewählt, bietet olomol an, nur diesen Teil neu zu zeichnen; der Rest bleibt, wo er ist. Diese Vorschläge stehen in einem eigenen Abschnitt über denen für ganze Moleküle. Sortiert wird nach Kreuzungen, Überlappungen und ungleichmäßigen Bindungslängen und Winkeln: die besten zuerst, die übrigen unter <em>Alle Zeichnungen zeigen</em>. 3D-Zeichnungen großer Moleküle wie Taxol entstehen im Hintergrund und parallel; die Seite bleibt bedienbar, und die Ergebnisse liegen schneller vor.</li>
+        <li><strong>Hilfe</strong> (runde Schaltfläche <kbd>?</kbd> unten rechts) öffnet sich sofort: 25 fertige Zeichnungen mit Vorschaubildern, von Mechanismen über Zucker und Komplexe bis zu Texten und Export, nach Schlagwörtern filterbar. Fahren Sie mit der Maus über einen Teil, erklärt ein Hinweis, wie er gezeichnet wurde, und die zugehörige Schaltfläche leuchtet auf. Schritte, die sich so nicht zeigen lassen (<em>Neu zeichnen</em>, <em>Vorlagen</em>, <em>Ausrichten</em>), stehen unter der Zeichnung. Jedes Beispiel lässt sich als eigene Zeichnung öffnen. Oben im Fenster finden Sie Kurzanleitung, Handbuch, <em>Was ist neu</em>, Tastenkürzel und die Problemmeldung. Auf der leeren Zeichenfläche erscheinen abwechselnd vier Beispiele.</li>
+        <li><strong>Vorlagensuche nach Teilstrukturen:</strong> ?oh, ?Ts oder ?ester listet alle Vorlagen mit dieser Gruppe auf, ?ala findet Alanin über seinen Code; Groß- und Kleinschreibung spielen keine Rolle. Auch nach Elementen, Kürzeln und als SMILES geschriebenen Teilen lässt sich suchen (?S, ?boc, ?C=O). Aminosäuren tragen ihren Code auf der Karte und stehen bei der Suche danach auch ohne Fragezeichen an erster Stelle (Phe, F).</li>
+        <li><strong>Texte:</strong> Über dem Text steht eine Leiste mit <em>Formel</em>, <em>Normal</em>, Tief- und Hochstellung, Fett und Kursiv (auch für einzelne Wörter), Zeilenausrichtung und einem Zeichenmenü (griechische Buchstaben, Pfeile, ° ± ‡). <em>Formel</em> versteht auch H₂[SiF₆]²⁻ und die Schreibweise CO_3^2-. Kopierter Text wird in anderen Programmen als reiner Text eingefügt, etwa eine DOI in den Browser. Mehrzeilige Texte an Molekülen und Pfeilen werden automatisch zentriert.</li>
+        <li><strong>Koordinationsbindungen mit Keil</strong> oder gestricheltem Keil für räumliche Komplexe (Λ und Δ), ohne Warnung wegen zu vieler Bindungen. Die 3D-Ansichten behalten die gezeichnete Anordnung bei. In den Einstellungen lassen sich Koordinationsbindungen als Linien statt als Pfeile darstellen.</li>
+        <li><strong>Seitenbögen an Reaktionspfeilen</strong> (NAD⁺ → NADH): Mit dem Werkzeug <em>Reaktionspfeil</em> ziehen Sie von der Pfeilmitte nach außen oder von der Zeichenfläche zur Pfeilmitte. Ans Ende des Bogens gehört ein Text oder ein Molekül; der Pfeil verlängert sich dabei von selbst. Im Panel des Pfeils lässt er sich umdrehen, und die Bögen lassen sich auf die andere Seite klappen.</li>
+        <li><strong>PubChem:</strong> Lässt eine Zeichnung einen Teil der Stereochemie offen oder kennt PubChem genau diese Verbindung nicht (andere Stereochemie, Isotope), zeigt <em>PubChem-Seite</em> eine Übersicht ähnlicher Verbindungen mit Bild, Name und CID und nennt den Unterschied. Die Karten tragen Namen statt Datenbankkennungen.</li>
+        <li><strong>Anzeige der automatischen Sicherung</strong> neben dem Namen der Zeichnung: <em>Gesichert</em> heißt, die Zeichnung liegt in diesem Browser und ist beim nächsten Besuch wieder da. Die Anzeige warnt, wenn der Browser nichts speichern kann (privates Fenster, voller Speicher) oder wenn ein anderer Tab mit olomol inzwischen seine eigene Zeichnung gesichert hat: Beim nächsten Öffnen kommt dann die zuletzt geänderte zurück.</li>
+        <li>Isotope geben Sie im Feld <em>Element</em> ein (13C, 18O, D oder T); Formel und Massen rechnen damit.</li>
+        <li>Kurzanleitung und Handbuch gibt es jetzt auch auf Englisch.</li>
+        <li><strong>Infoseite</strong> (verlinkt im Fenster mit den Informationen zur App): was olomol ist und kann, mit vier kurzen Videos.</li>
+      </ul>
+      <h3>Geändert</h3>
+      <ul>
+        <li>XYZ-Dateien berechnet olomol im Hintergrund: Sie können weiterzeichnen und die Datei, sobald sie fertig ist, mit <em>XYZ-Datei speichern</em> sichern. Als Dateiname wird der InChIKey vorgeschlagen, und das Panel weist auf Stereozentren ohne gezeichnetes R/S hin.</li>
+        <li>Das <strong>3D-Modell</strong> für <em>In 3D drehen</em>, <em>Neu zeichnen</em> und XYZ-Dateien berechnet jetzt RDKit: Ein Versuch bei Taxol dauert etwa 2 Sekunden statt 8. Das Ergebnis ist in jedem Browser gleich; nur bei großen Molekülen kann es leicht abweichen.</li>
+        <li><strong>Kürzel</strong> und Platzhalter sind aus dem Periodensystem in die <em>Vorlagen</em> umgezogen (Reiter <em>Kürzel</em>). Karten funktioneller Gruppen tragen eine Schaltfläche mit dem Kürzel (Ph bei Phenyl), die die Gruppe als ein einziges Atom einfügt. Auch <kbd>Umschalt+T</kbd> öffnet die <em>Vorlagen</em>.</li>
+        <li><strong>Ringe und funktionelle Gruppen</strong>, die Sie von einem Atom aus ziehen, zeigen in 15°-Schritten zum Mauszeiger. Ein an ein Atom gehängter Ring bekommt eigene Atome: Drei Klicks mit Benzol auf das P von P=O ergeben Ph₃P=O, ohne dass Ringe anelliert werden. Mit <kbd>Umschalt</kbd> wird das angeklickte Atom zum ersten Atom der Gruppe (COOH auf dem endständigen C-Atom von Pentan ergibt Pentansäure), und ein gezogener Ring läuft durch das Atom hindurch (Spiroverbindung).</li>
+        <li><em>Abkürzen</em> funktioniert jetzt auch für mehrere Gruppen und ganze Moleküle: Aus den Phenylgruppen von PPh₃ werden drei Ph, aus einem Molekül wie PPh₃, NEt₃, Et₂O oder AcOH ein einziges Kürzel. Ein so eingegebenes Kürzel zählt in Formeln, unter <em>Info</em>, auf PubChem und in Dateien als vollständiges Molekül. Buchstaben in Kürzeln, die für Atome stehen, erscheinen in der Farbe ihres Elements (das P in PPh₃, das O in OBz).</li>
+        <li>Ungepaartes Elektron und Halbpfeil sind jetzt Varianten der Schaltflächen für freie Elektronenpaare und gebogene Pfeile (Dreieck in der Ecke der Schaltfläche). Halbpfeile enden in einem richtigen Haken.</li>
+        <li><strong>Waagerecht / senkrecht</strong> ist jetzt ein Werkzeug in der oberen Leiste: Ein Klick auf eine Bindung dreht die Auswahl, wenn die Bindung dazugehört, sonst das ganze Molekül; jeder weitere Klick dreht um 90° weiter. Ist genau eine Bindung ausgewählt, dreht sich ihr Molekül sofort.</li>
+        <li>Die Taste <kbd>1</kbd> schaltet über einer Einfachbindung der Reihe nach durch: Keil, gestrichelter Keil, beide vom anderen Ende aus, Einfachbindung; <kbd>Umschalt+1</kbd> geht rückwärts. <kbd>Esc</kbd> wechselt, wenn nichts mehr abzubrechen ist, zwischen Rechteck- und Lasso-Auswahl. Erneutes Drücken von <kbd>R</kbd> wählt den nächsten Ring.</li>
+        <li><kbd>Umschalt</kbd>+Doppelklick nimmt ein Molekül zur Auswahl hinzu. <em>Alles zeigen</em> vergrößert eine Auswahl, bis sie das Fenster füllt.</li>
+        <li>Freie Elektronenpaare haben etwas mehr Abstand zum Atomsymbol. Bindungen enden vor einer Ladung, statt hindurchzulaufen, und eine Ladung ohne freie Ecke steht direkt neben, über oder unter dem Symbol. <em>Ausrichten</em> und <em>Reaktionsschema ausrichten</em> orientieren sich an den Atomsymbolen, sodass Cl⁻ und H₂O auf einer Höhe mit Cl und O stehen.</li>
+        <li><strong>Schneller:</strong> Beim ersten Besuch über ein Schulnetz ist das erste SMILES nach etwa 2 Sekunden gezeichnet statt nach 4,5. Große Zeichnungen lassen sich flüssig verschieben, und das Panel bleibt auch bei großer Auswahl flott.</li>
+        <li><kbd>Esc</kbd> im Textfeld übernimmt den Text, statt ihn zu verwerfen. Neue Zeichnungen beginnen bei 100 %. olomol startet im hellen Modus; den dunklen oder den des Systems wählen Sie in den Einstellungen. Bilder haben standardmäßig einen transparenten Hintergrund; ist <em>Weißer Hintergrund</em> angehakt, bleibt das gespeichert. Die Ladung im Panel hat Schaltflächen für − und +, damit lässt sich jede Ladung einstellen.</li>
+      </ul>
+      <h3>Entfernt</h3>
+      <ul>
+        <li>Die Schaltfläche <em>Nach hinten kippen</em> gibt es nicht mehr. Komplexe und Moleküle stellen Sie jetzt mit <em>In 3D drehen</em> perspektivisch dar.</li>
+      </ul>
+      <h3>Behoben</h3>
+      <ul>
+        <li>Der Export einer Auswahl mit Kürzeln (Ph, Boc) bricht nicht mehr mit einem Fehler ab, und Tasten wie Entf oder Strg+Z verändern nicht mehr die Zeichnung hinter einem geöffneten Fenster.</li>
+        <li><em>Abkürzen</em> und <em>Ausschreiben</em> erhalten den Keil einer Gruppe an einem Stereozentrum, die Stereochemie bleibt also erhalten (etwa beim OBz von Cocain, das PubChem dadurch wieder findet).</li>
+        <li>Ein Klick mit dem Werkzeug <em>Kette</em> auf eine Bindung beschädigt diese nicht mehr. Beim Spiegeln wechselt auch die zweite Linie einer Doppelbindung die Seite.</li>
+        <li>XYZ-Dateien: Onium-Kationen werden richtig eingelesen, und ein einzelnes Ion bricht den Export nicht mehr ab.</li>
+        <li>SMILES-Dateien: Punkte in Namen bleiben erhalten, und Ringschlüsse reichen nicht mehr über einen Punkt hinweg.</li>
+        <li>Schlägt das Herunterladen einer Chemie-Bibliothek fehl, versucht olomol es beim nächsten Mal erneut. Fehlermeldungen sind nicht mehr halb auf Englisch.</li>
+        <li>Der vorgegebene Name einer neuen Zeichnung wird nicht mehr übersetzt, Ladungen und δ sitzen nicht mehr auf der zweiten Linie einer Doppelbindung, und Klammern passen sich an, wenn ein Atom darin gelöscht wird.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.2.2">
+    <h2>0.2.2 <span class="date" data-date="2026-10-29">29 October 2026</span></h2>
+    <div lang="cs">
+      <p class="summary">Soubory KET znovu otevře Ketcher.</p>
+      <h3>Opraveno</h3>
+      <ul>
+        <li>Soubor KET uložený v olomolu otevře program Ketcher (dřív hlásil, že soubor nedokáže přečíst). Ketcher kontroluje soubor podle svého schématu a vadilo mu, kde byla část s tím, co používá jen olomol (barvy, volné páry, zahnuté šipky, závorky). Teď je na místě, které schéma dovoluje. Soubory uložené dřív se v olomolu otevřou jako předtím.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">Ketcher opens KET files again.</p>
+      <h3>Fixed</h3>
+      <ul>
+        <li>A KET file saved in olomol opens in Ketcher (it used to say it couldn't read the file). Ketcher checks a file against its schema and objected to where the part with what only olomol uses (colours, lone pairs, curved arrows, brackets) was. Now it is where the schema allows it. Files saved earlier open in olomol as before.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">KET-Dateien lassen sich wieder in Ketcher öffnen.</p>
+      <h3>Behoben</h3>
+      <ul>
+        <li>Von olomol gespeicherte KET-Dateien öffnen sich wieder in Ketcher; bisher meldete Ketcher, die Datei sei nicht lesbar. Ketcher prüft Dateien gegen sein Schema, und der Abschnitt mit den olomol-eigenen Angaben (Farben, freie Elektronenpaare, gebogene Pfeile, Klammern) stand an einer Stelle, die das Schema nicht vorsieht. Jetzt steht er dort, wo das Schema ihn erlaubt. Ältere Dateien öffnet olomol weiterhin wie gewohnt.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.2.1">
+    <h2>0.2.1 <span class="date" data-date="2026-10-29">29 October 2026</span></h2>
+    <div lang="cs">
+      <p class="summary">Opravy souborů XYZ (3D souřadnice), tento přehled změn a vyplněný e-mail pro nahlášení problému.</p>
+      <h3>Nové</h3>
+      <ul>
+        <li>Tento přehled změn, v nápovědě (kulaté tlačítko <kbd>?</kbd> vpravo dole) pod <em>Co je nového</em>.</li>
+        <li>E-mail z okna pro nahlášení problému (obálka vpravo nahoře) už obsahuje tabulku s verzí, prohlížečem a systémem. Jen odkaz na kresbu je na e-mail moc dlouhý: ten zkopírujete tlačítkem <em>Kopírovat tabulku</em>.</li>
+      </ul>
+      <h3>Opraveno</h3>
+      <ul>
+        <li>Export do XYZ zachová nakreslenou stereochemii (R/S, E/Z). U stísněných kruhových systémů (třeba u spirouhlíku hinckdentinu A) mohl vzniknout jiný diastereomer. Každá 3D struktura se teď kontroluje, a když se správná nenajde, export se zastaví se zprávou místo zápisu chybné molekuly.</li>
+        <li>Export do XYZ funguje i pro molekuly s borem nebo s acyliovým kationtem (C≡O⁺), pro které silové pole MMFF94 nemá typy atomů. Zapíšou se bez minimalizace; řádek komentáře v souboru to uvádí.</li>
+        <li>Import XYZ dá radikál tam, kam patří: fenylový radikál má radikál na uhlíku bez vodíku (dřív se načetl jako CH radikál), benzylový na CH₂.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">Fixes to XYZ files (3D coordinates), this list of changes, and a filled-in e-mail for reporting a problem.</p>
+      <h3>New</h3>
+      <ul>
+        <li>This list of changes, in the help menu (the round <kbd>?</kbd> button at the bottom right) under <em>What's new</em>.</li>
+        <li>The e-mail from the report window (the envelope at the top right) now has a table with the version, browser and system. Only the link to the drawing is too long for an e-mail: <em>Copy the table</em> copies it.</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>XYZ export keeps the drawn stereochemistry (R/S, E/Z). In crowded ring systems (such as the spiro carbon of hinckdentine A) another diastereomer could come out. Every 3D structure is now checked, and if the right one isn't found, the export stops with a message instead of writing a wrong molecule.</li>
+        <li>XYZ export also works for molecules with boron or an acylium cation (C≡O⁺), for which the MMFF94 force field has no atom types. They are written without minimisation; the file's comment line says so.</li>
+        <li>XYZ import puts a radical where it belongs: a phenyl radical on the carbon without a hydrogen (it used to load as a CH radical), a benzyl one on the CH₂.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Korrekturen an XYZ-Dateien (3D-Koordinaten), diese Übersicht der Änderungen und eine vorausgefüllte E-Mail für Problemmeldungen.</p>
+      <h3>Neu</h3>
+      <ul>
+        <li>Diese Übersicht der Änderungen, zu finden in der Hilfe (runde Schaltfläche <kbd>?</kbd> unten rechts) unter <em>Was ist neu</em>.</li>
+        <li>Die E-Mail aus dem Fenster für Problemmeldungen (Briefumschlag oben rechts) enthält jetzt eine Tabelle mit Version, Browser und Betriebssystem. Nur der Link zur Zeichnung ist für eine E-Mail zu lang; <em>Tabelle kopieren</em> kopiert ihn mit.</li>
+      </ul>
+      <h3>Behoben</h3>
+      <ul>
+        <li>Der XYZ-Export erhält die gezeichnete Stereochemie (R/S, E/Z). Bei gespannten Ringsystemen, etwa am Spiro-C-Atom von Hinckdentin A, konnte zuvor ein anderes Diastereomer entstehen. olomol prüft jetzt jede 3D-Struktur; passt keine, bricht der Export mit einer Meldung ab, statt ein falsches Molekül zu schreiben.</li>
+        <li>Der XYZ-Export funktioniert jetzt auch für Moleküle mit Bor oder einem Acylium-Kation (C≡O⁺), für die das Kraftfeld MMFF94 keine Atomtypen kennt. Sie werden ohne Minimierung geschrieben; die Kommentarzeile der Datei weist darauf hin.</li>
+        <li>Der XYZ-Import setzt Radikale an die richtige Stelle: beim Phenylradikal an das C-Atom ohne H (bisher als CH-Radikal gelesen), beim Benzylradikal an die CH₂-Gruppe.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.2.0">
+    <h2>0.2.0 <span class="date" data-date="2026-10-28">28 October 2026</span></h2>
+    <img class="band" src="changelog/banner-0.2.0.svg" width="1200" height="200" loading="lazy" alt="A reaction scheme with compound numbers and the conditions over the arrow (aspirin), and a retrosynthesis">
+    <div lang="cs">
+      <p class="summary">Kotvy pro texty a molekuly u molekul i u reakčních šipek, vícekroková šipka a nové šablony.</p>
+      <h3>Nové</h3>
+      <ul>
+        <li><strong>Kotvy u molekul:</strong> každá molekula má čtyři místa pro text (pod, nad, vlevo, vpravo). Text k ní přetáhněte, přichytí se a pak se pohybuje a zarovnává s molekulou. Číslo sloučeniny patří pod molekulu, počet molů (2 NaOH) vlevo. Víc textů na jedné kotvě zůstane v pořadí, v jakém jste je tam dali; pořadí změníte přetažením.</li>
+        <li><strong>Místa u reakčních šipek:</strong> nad šipku a pod ni přetáhnete text (podmínky) i celou molekulu (činidlo); pohybují se se šipkou a pořadí změníte přetažením. Před molekulu na šipce dáte v panelu + nebo − (přidává se, odchází). Dvojklik na šipku ji vybere i se vším, co na ní je.</li>
+        <li><strong>Vícekroková šipka</strong> (dvě šipky nad sebou, jeden objekt), pro „v n krocích“.</li>
+        <li><strong>Šablony:</strong> adamantan jako klec (vedle plochého).</li>
+        <li>S vybraným prvkem položí klik na prázdné plátno samotný atom (O: voda).</li>
+        <li>Vyplněný kruh jde kliknout: klik vybere kruh, dvojklik celou molekulu, tažením ji posunete.</li>
+      </ul>
+      <h3>Změněno</h3>
+      <ul>
+        <li>Nástroj <em>Číslo sloučeniny</em> je pryč: tučný text na kotvě pod molekulou dělá totéž a dá se libovolně upravit.</li>
+        <li><em>Zarovnat</em> se řídí kotvami: text na kotvě jde se svou molekulou, volné texty se zarovnávají samy, takže jde zarovnat i víc textů a molekul najednou. <em>Zarovnat reakční schéma</em> prodlouží šipku podle toho, co na ní je.</li>
+        <li>Mřížka bere molekuly po řádcích zleva doprava, jak je vidíte.</li>
+        <li>Židličky (i u cukrů) mají špičky ve stejné výšce jako horní a dolní roh.</li>
+        <li>Zvýraznění různých barev: menší značka je vždy navrchu.</li>
+        <li>Druhy šipek v panelu mají stejné symboly jako v liště.</li>
+      </ul>
+      <h3>Opraveno</h3>
+      <ul>
+        <li>Psaní po <kbd>Shift+Enter</kbd> už nepřidává s každým písmenem nový řádek.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">Anchors for texts and molecules on molecules and on reaction arrows, a multistep arrow and new templates.</p>
+      <h3>New</h3>
+      <ul>
+        <li><strong>Anchors on molecules:</strong> every molecule has four places for text (below, above, left, right). Drag a text to it: it snaps there and then moves and aligns with the molecule. A compound number goes below, a count (2 NaOH) on the left. Several texts on one anchor keep the order you put them there in; drag to change it.</li>
+        <li><strong>Places on reaction arrows:</strong> drag a text (conditions) or a whole molecule (a reagent) above or below an arrow; they move with the arrow, and dragging changes their order. The panel puts + or − before a molecule on an arrow (added, taken away). A double click on an arrow selects it with everything on it.</li>
+        <li><strong>Multistep arrow</strong> (two arrows one over the other, one object), for "in n steps".</li>
+        <li><strong>Templates:</strong> adamantane as a cage (besides the flat one).</li>
+        <li>With an element chosen, a click on the empty canvas puts down the atom alone (O: water).</li>
+        <li>A filled ring can be clicked: a click selects the ring, a double click the whole molecule, dragging moves it.</li>
+      </ul>
+      <h3>Changed</h3>
+      <ul>
+        <li>The <em>Compound number</em> tool is gone: a bold text on the anchor below a molecule does the same and can be edited freely.</li>
+        <li><em>Align</em> goes by the anchors: a text on an anchor goes with its molecule, free texts are aligned themselves, so several texts and molecules can be aligned at once. <em>Align reaction scheme</em> makes an arrow as long as what is on it.</li>
+        <li>The grid takes molecules row by row from left to right, as you see them.</li>
+        <li>Chairs (sugars' too) have their tips level with the top and bottom corners.</li>
+        <li>Highlights of different colours: the smaller mark is always on top.</li>
+        <li>The arrow kinds in the panel have the same symbols as in the bar.</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>Typing after <kbd>Shift+Enter</kbd> no longer adds a new line with every letter.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Anker für Texte und Moleküle an Molekülen und Reaktionspfeilen, ein Mehrstufenpfeil und neue Vorlagen.</p>
+      <h3>Neu</h3>
+      <ul>
+        <li><strong>Anker an Molekülen:</strong> Jedes Molekül hat vier Plätze für Text (unten, oben, links, rechts). Ein dorthin gezogener Text rastet ein und bewegt sich fortan mit dem Molekül, auch beim Ausrichten. Verbindungsnummern gehören nach unten, stöchiometrische Koeffizienten (2 NaOH) nach links. Mehrere Texte an einem Anker behalten ihre Reihenfolge; durch Ziehen lässt sie sich ändern.</li>
+        <li><strong>Plätze an Reaktionspfeilen:</strong> Texte (Reaktionsbedingungen) und ganze Moleküle (Reagenzien) lassen sich über oder unter einen Pfeil ziehen und bewegen sich mit ihm; durch Ziehen ändert sich die Reihenfolge. Im Panel bekommt ein Molekül auf dem Pfeil ein + oder − (zugegeben oder abgespalten). Ein Doppelklick auf einen Pfeil wählt ihn mit allem aus, was daran hängt.</li>
+        <li><strong>Mehrstufenpfeil</strong> (zwei Pfeile übereinander als ein Objekt) für „in n Stufen“.</li>
+        <li><strong>Vorlagen:</strong> Adamantan als Käfig, zusätzlich zur flachen Form.</li>
+        <li>Ist ein Element gewählt, setzt ein Klick auf die leere Zeichenfläche ein einzelnes Atom (bei O: Wasser).</li>
+        <li>Gefüllte Ringe lassen sich anklicken: Ein Klick wählt den Ring, ein Doppelklick das ganze Molekül, und durch Ziehen wird es verschoben.</li>
+      </ul>
+      <h3>Geändert</h3>
+      <ul>
+        <li>Das Werkzeug <em>Verbindungsnummer</em> entfällt: Ein fetter Text am unteren Anker leistet dasselbe und lässt sich frei bearbeiten.</li>
+        <li><em>Ausrichten</em> berücksichtigt die Anker: Texte an einem Anker bewegen sich mit ihrem Molekül, freie Texte werden einzeln ausgerichtet. So lassen sich Texte und Moleküle gemeinsam ausrichten. <em>Reaktionsschema ausrichten</em> verlängert Pfeile passend zu dem, was darauf steht.</li>
+        <li>Das Raster ordnet Moleküle zeilenweise von links nach rechts an, so wie sie auf der Zeichenfläche liegen.</li>
+        <li>Sesselkonformationen (auch bei Zuckern) haben ihre Spitzen auf Höhe der oberen und unteren Ecke.</li>
+        <li>Überlappen sich Hervorhebungen verschiedener Farben, liegt die kleinere oben.</li>
+        <li>Die Pfeilarten im Panel tragen dieselben Symbole wie in der Werkzeugleiste.</li>
+      </ul>
+      <h3>Behoben</h3>
+      <ul>
+        <li>Nach <kbd>Umschalt+Enter</kbd> beginnt nicht mehr jeder Buchstabe eine neue Zeile.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.1.1">
+    <h2>0.1.1 <span class="date" data-date="2026-10-28">28 October 2026</span></h2>
+    <div lang="cs">
+      <p class="summary">Texty se formátují jen tam, kde to chcete.</p>
+      <h3>Změněno</h3>
+      <ul>
+        <li>Co napíšete, zůstane, jak je: číslice v DOI nebo v názvech už nedostanou dolní index samy od sebe.</li>
+        <li>Vzorec naformátujete sami: označte část textu a v okénku nad ním klikněte na <em>Vzorec</em> (H₂SO₄, Fe³⁺); <em>Prostý text</em> formátování zruší. Indexy jsou vidět už při psaní.</li>
+        <li>Starší soubory KET se při otevření převedou, takže vypadají jako dřív.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">Texts are formatted only where you want it.</p>
+      <h3>Changed</h3>
+      <ul>
+        <li>What you type stays as it is: digits in a DOI or in names no longer become subscripts by themselves.</li>
+        <li>You format a formula yourself: select part of a text and click <em>Formula</em> in the window over it (H₂SO₄, Fe³⁺); <em>Plain</em> takes the formatting off. Subscripts show while you type.</li>
+        <li>Older KET files are converted when opened, so they look as before.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Texte werden nur noch dort formatiert, wo Sie es wollen.</p>
+      <h3>Geändert</h3>
+      <ul>
+        <li>Eingegebener Text bleibt, wie er ist: Ziffern in DOIs oder Namen werden nicht mehr automatisch tiefgestellt.</li>
+        <li>Formeln formatieren Sie gezielt: Markieren Sie den Text und wählen Sie im Fenster darüber <em>Formel</em> (H₂SO₄, Fe³⁺); <em>Normal</em> hebt die Formatierung wieder auf. Tief- und Hochstellungen sind schon beim Tippen sichtbar.</li>
+        <li>Ältere KET-Dateien werden beim Öffnen umgewandelt und sehen aus wie bisher.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v0.1.0">
+    <h2>0.1.0 <span class="date" data-date="2026-10-27">27 October 2026</span></h2>
+    <img class="band" src="changelog/banner-0.1.0.svg" width="1200" height="200" loading="lazy" alt="The carbonate ion's resonance structures with curved arrows, glucose's Fischer and Haworth projections, and the acetic acid dimer with its hydrogen bonds">
+    <div lang="cs">
+      <p class="summary">První verze: kreslicí program pro chemii, který běží celý v prohlížeči.</p>
+      <h3>Kreslení</h3>
+      <ul>
+        <li>Vazby (jednoduchá, dvojná, trojná, klíny, šrafované klíny, vlnovka, dativní a vodíková), řetězce, kruhy o 3 až 8 atomech a benzen, s průhledným náhledem toho, co se stane.</li>
+        <li>Prvky z dolní lišty, z periodické tabulky a klávesami; zkratky skupin (Ph, Boc, OMe…) a obecné skupiny (R, Nu, LG).</li>
+        <li>Náboje (i δ+ a δ−), radikály, volné páry a vodíky, které program počítá sám.</li>
+        <li>Text s dolními a horními indexy, reakční, rovnovážná, rezonanční a retrosyntetická šipka, šipka dipólu, plus.</li>
+      </ul>
+      <h3>Mechanismy</h3>
+      <ul>
+        <li>Volné páry a nepárové elektrony; zahnuté šipky a půlšipky vázané na atomy a vazby, které si samy najdou cestu kolem kresby.</li>
+        <li>Mezomerní struktury, tranzitní stavy a závorky; aromatické kruhy jako kroužek nebo čárkovaně (aromatizace a Kekulé).</li>
+      </ul>
+      <h3>Chemie</h3>
+      <ul>
+        <li>Vzorec, molární a přesná hmotnost, elementární analýza a ionty pro HRMS.</li>
+        <li>R/S a E/Z u vybraných atomů a vazeb, číslování IUPAC s vysvětlením, karta Info se SMILES, InChI a odkazem na PubChem.</li>
+        <li>Kontrola, že úpravy nezmění molekulu; atom, který nesedí, se označí.</li>
+      </ul>
+      <h3>Šablony a struktury podle názvu</h3>
+      <ul>
+        <li>Kruhy, funkční skupiny, sloučeniny, konformace (židličky, Newmanovy projekce), projekce (Fischer, Haworth), komplexy, aminokyseliny, cukry a nukleové báze, činidla a rozpouštědla.</li>
+        <li>Struktura podle názvu, SMILES nebo InChI (názvy hledá PubChem).</li>
+      </ul>
+      <h3>Úpravy a uspořádání</h3>
+      <ul>
+        <li>Nové rozvržení s několika návrhy na výběr (i z 3D modelu), zarovnání, rovnoměrné rozmístění, mřížka a reakční schéma v jedné řadě, překlopení.</li>
+        <li>Barvy, zvýraznění a výplně kruhů; <em>Držet pohromadě</em> pro soli.</li>
+      </ul>
+      <h3>Soubory</h3>
+      <ul>
+        <li>Ukládání do KET (otevře i Ketcher); export do molfile, SMILES, RXN, CDXML a XYZ (3D), obrázky SVG a PNG; obrázek do Wordu, PowerPointu a Dokumentů Google přes <kbd>Ctrl+Shift+C</kbd>.</li>
+        <li>Odkaz, který nese celou kresbu; kresba se ukládá sama.</li>
+      </ul>
+      <h3>Aplikace</h3>
+      <ul>
+        <li>Běží celá v prohlížeči, nic se neinstaluje a kresby zůstávají u vás; funguje offline a jde nainstalovat jako aplikace.</li>
+        <li>Čeština, angličtina a němčina; světlý a tmavý vzhled; klávesové zkratky; rychlý start a příručka v PDF; nahlášení problému e-mailem s tabulkou údajů.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">The first version: a chemistry drawing program that runs entirely in the browser.</p>
+      <h3>Drawing</h3>
+      <ul>
+        <li>Bonds (single, double, triple, wedges, hashed wedges, wavy, dative and hydrogen bonds), chains, rings of 3 to 8 atoms and benzene, with a see-through preview of what will happen.</li>
+        <li>Elements from the bottom bar, the periodic table and keys; abbreviations (Ph, Boc, OMe…) and generic groups (R, Nu, LG).</li>
+        <li>Charges (δ+ and δ− too), radicals, lone pairs and hydrogens, which the program counts itself.</li>
+        <li>Text with subscripts and superscripts; reaction, equilibrium, resonance and retrosynthesis arrows, a dipole arrow, plus signs.</li>
+      </ul>
+      <h3>Mechanisms</h3>
+      <ul>
+        <li>Lone pairs and unpaired electrons; curved arrows and fishhooks tied to atoms and bonds, which find their own way round the drawing.</li>
+        <li>Resonance structures, transition states and brackets; aromatic rings as a circle or dashed (aromatize and Kekulé).</li>
+      </ul>
+      <h3>Chemistry</h3>
+      <ul>
+        <li>Formula, molar and exact mass, elemental analysis and ions for HRMS.</li>
+        <li>R/S and E/Z on chosen atoms and bonds, IUPAC numbering with the reasons, an Info card with SMILES, InChI and a PubChem link.</li>
+        <li>A check that edits don't change the molecule; an atom that doesn't fit is marked.</li>
+      </ul>
+      <h3>Templates and structures from a name</h3>
+      <ul>
+        <li>Rings, functional groups, compounds, conformations (chairs, Newman projections), projections (Fischer, Haworth), complexes, amino acids, sugars and nucleobases, reagents and solvents.</li>
+        <li>A structure from its name, SMILES or InChI (names are looked up in PubChem).</li>
+      </ul>
+      <h3>Editing and arranging</h3>
+      <ul>
+        <li>A new layout with several drawings to choose from (from a 3D model too), aligning, spacing evenly, a grid and a reaction scheme in one row, flipping.</li>
+        <li>Colours, highlights and ring fills; <em>Keep together</em> for salts.</li>
+      </ul>
+      <h3>Files</h3>
+      <ul>
+        <li>Saving as KET (Ketcher opens it too); export to molfile, SMILES, RXN, CDXML and XYZ (3D), SVG and PNG pictures; a picture into Word, PowerPoint and Google Docs with <kbd>Ctrl+Shift+C</kbd>.</li>
+        <li>A link that carries the whole drawing; the drawing saves itself.</li>
+      </ul>
+      <h3>The app</h3>
+      <ul>
+        <li>It runs entirely in the browser, nothing is installed and your drawings stay with you; it works offline and can be installed as an app.</li>
+        <li>Czech, English and German; light and dark looks; keyboard shortcuts; a quick start and a manual in PDF; reporting a problem by e-mail with a table of details.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">Die erste Version: ein Zeichenprogramm für die Chemie, das vollständig im Browser läuft.</p>
+      <h3>Zeichnen</h3>
+      <ul>
+        <li>Einfach-, Doppel- und Dreifachbindungen, Keile und gestrichelte Keile, Wellenlinien, dative Bindungen und Wasserstoffbrücken; Ketten, Ringe mit 3 bis 8 Atomen und Benzol, jeweils mit durchscheinender Vorschau.</li>
+        <li>Elemente aus der unteren Leiste, dem Periodensystem oder über die Tastatur; Kürzel (Ph, Boc, OMe …) und allgemeine Reste (R, Nu, LG).</li>
+        <li>Ladungen (auch δ+ und δ−), Radikale, freie Elektronenpaare und automatisch ergänzte H-Atome.</li>
+        <li>Text mit Tief- und Hochstellung; Reaktions-, Gleichgewichts-, Mesomerie- und Retrosynthesepfeil, Dipolpfeil, Pluszeichen.</li>
+      </ul>
+      <h3>Mechanismen</h3>
+      <ul>
+        <li>Freie Elektronenpaare und ungepaarte Elektronen; gebogene Pfeile und Halbpfeile, die an Atomen und Bindungen haften und ihren Weg um die Zeichnung selbst finden.</li>
+        <li>Mesomere Grenzstrukturen, Übergangszustände und Klammern; aromatische Ringe mit Kreis oder gestrichelt (Aromatisieren und Kekulé).</li>
+      </ul>
+      <h3>Chemie</h3>
+      <ul>
+        <li>Summenformel, molare und exakte Masse, Elementaranalyse und HRMS-Ionen.</li>
+        <li>R/S und E/Z an ausgewählten Atomen und Bindungen, IUPAC-Nummerierung mit Begründung, Info-Karte mit SMILES, InChI und Link zu PubChem.</li>
+        <li>Eine Prüfung stellt sicher, dass Bearbeitungen das Molekül nicht verändern; Atome mit unzulässiger Bindigkeit werden markiert.</li>
+      </ul>
+      <h3>Vorlagen und Strukturen aus Namen</h3>
+      <ul>
+        <li>Ringe, funktionelle Gruppen, Verbindungen, Konformationen (Sessel, Newman-Projektionen), Projektionen (Fischer, Haworth), Komplexe, Aminosäuren, Zucker und Nukleobasen, Reagenzien und Lösungsmittel.</li>
+        <li>Strukturen aus Namen, SMILES oder InChI (Namen werden auf PubChem nachgeschlagen).</li>
+      </ul>
+      <h3>Bearbeiten und Anordnen</h3>
+      <ul>
+        <li><em>Layout</em> mit mehreren Vorschlägen zur Auswahl (auch aus einem 3D-Modell), Ausrichten, gleichmäßiges Verteilen, Raster und Reaktionsschema in einer Reihe, Spiegeln.</li>
+        <li>Farben, Hervorhebungen und Ringfüllungen; <em>Zusammenhalten</em> für Salze.</li>
+      </ul>
+      <h3>Dateien</h3>
+      <ul>
+        <li>Speichern als KET (auch in Ketcher lesbar); Export als Molfile, SMILES, RXN, CDXML und XYZ (3D), als Bild in SVG und PNG; mit <kbd>Strg+Umschalt+C</kbd> als Bild nach Word, PowerPoint oder Google Docs.</li>
+        <li>Ein Link, der die ganze Zeichnung enthält; automatisches Speichern.</li>
+      </ul>
+      <h3>Die App</h3>
+      <ul>
+        <li>Läuft vollständig im Browser, ohne Installation; Zeichnungen bleiben auf dem eigenen Rechner. Offline nutzbar und als App installierbar.</li>
+        <li>Tschechisch, Englisch und Deutsch; heller und dunkler Modus; Tastenkürzel; Kurzanleitung und Handbuch als PDF; Problemmeldungen per E-Mail mit Datentabelle.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+</body>
+</html>

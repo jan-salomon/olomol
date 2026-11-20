@@ -1,0 +1,34 @@
+{
+  "id": "./",
+  "name": "olomol",
+  "short_name": "olomol",
+  "description": "Free structure and mechanism drawing in the browser",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f8fb",
+  "theme_color": "#f7f8fb",
+  "file_handlers": [
+    {
+      "action": "./",
+      "accept": {
+        "application/x-olom+json": [".olom"],
+        "application/x-ket": [".ket"],
+        "chemical/x-mdl-molfile": [".mol", ".sdf", ".sd"],
+        "chemical/x-mdl-rxnfile": [".rxn"],
+        "chemical/x-cdxml": [".cdxml"],
+        "chemical/x-cdx": [".cdx"],
+        "chemical/x-cml": [".cml"],
+        "chemical/x-daylight-smiles": [".smi", ".smiles"],
+        "chemical/x-xyz": [".xyz"]
+      }
+    }
+  ],
+  "launch_handler": { "client_mode": "focus-existing" },
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

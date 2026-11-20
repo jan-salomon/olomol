@@ -1,0 +1,49 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.5.0",
+ "style": "screen",
+ "atoms": [
+  {"id": 1, "element": "Co", "x": 2.219, "y": 0, "charge": 2, "lonePairs": 0, "highlight": "#ffbde4"},
+  {"id": 2, "element": "O", "x": 0.982, "y": 0.7371, "lonePairs": 0},
+  {"id": 3, "element": "O", "x": 2.219, "y": -1.5588, "lonePairs": 0},
+  {"id": 4, "element": "O", "x": 0.8401, "y": -0.5785, "lonePairs": 0},
+  {"id": 5, "element": "O", "x": 3.456, "y": -0.7371, "lonePairs": 0},
+  {"id": 6, "element": "O", "x": 2.219, "y": 1.5588, "lonePairs": 0},
+  {"id": 7, "element": "O", "x": 3.5979, "y": 0.5785, "lonePairs": 0},
+  {"id": 14, "element": "Cl", "x": 8.0023, "y": 0, "charge": -1, "lonePairs": 0},
+  {"id": 15, "element": "Co", "x": 15.2785, "y": -0.1493, "charge": 2, "lonePairs": 0, "highlight": "#b5dcff"},
+  {"id": 16, "element": "Cl", "x": 16.7482, "y": -0.5093, "charge": -1, "lonePairs": 0},
+  {"id": 17, "element": "Cl", "x": 13.8088, "y": -0.5093, "charge": -1, "lonePairs": 0},
+  {"id": 18, "element": "Cl", "x": 15.2785, "y": -1.5893, "charge": -1, "lonePairs": 0},
+  {"id": 19, "element": "Cl", "x": 15.2785, "y": 1.5893, "charge": -1, "lonePairs": 0},
+  {"id": 24, "element": "O", "x": 21.3915, "y": 0, "lonePairs": 0}
+ ],
+ "bonds": [
+  {"id": 8, "atoms": [7, 1], "stereo": "hash", "kind": "dative", "depth": -0.501},
+  {"id": 9, "atoms": [6, 1], "kind": "dative", "depth": 0.45},
+  {"id": 10, "atoms": [5, 1], "stereo": "wedge", "kind": "dative", "depth": 0.5971},
+  {"id": 11, "atoms": [4, 1], "stereo": "wedge", "kind": "dative", "depth": 0.501},
+  {"id": 12, "atoms": [3, 1], "kind": "dative", "depth": -0.45},
+  {"id": 13, "atoms": [2, 1], "stereo": "hash", "kind": "dative", "depth": -0.5971},
+  {"id": 20, "atoms": [19, 15], "kind": "dative", "depth": 0.2329},
+  {"id": 21, "atoms": [18, 15], "stereo": "wedge", "kind": "dative", "depth": 0.742},
+  {"id": 22, "atoms": [17, 15], "stereo": "hash", "kind": "dative", "depth": -0.4875},
+  {"id": 23, "atoms": [16, 15], "stereo": "hash", "kind": "dative", "depth": -0.4875}
+ ],
+ "reactionArrows": [
+  {"id": 25, "kind": "equilibrium", "from": [9.8056, 0], "to": [12.0056, 0]}
+ ],
+ "plusSigns": [
+  {"id": 26, "x": 6.088, "y": 0},
+  {"id": 27, "x": 18.9014, "y": 0}
+ ],
+ "texts": [
+  {"id": 28, "x": 7.21, "y": -0.179, "text": "4", "onMolecule": {"atom": 14, "slot": "left"}},
+  {"id": 29, "x": 20.0234, "y": -0.179, "text": "6", "onMolecule": {"atom": 24, "slot": "left"}}
+ ],
+ "brackets": [
+  {"id": 30, "corners": [[-0.35, 2.1093], [4.788, -2.2325]], "superscript": "2+", "atoms": [1, 7, 6, 5, 4, 3, 2]},
+  {"id": 31, "corners": [[12.9556, 2.2547], [17.6014, -2.1398]], "superscript": "2−", "atoms": [15, 19, 18, 17, 16]}
+ ]
+}

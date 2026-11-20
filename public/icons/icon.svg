@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- olomol's app icon: "ol" (Olomouc, shortened), the o with two lone
+       pairs, one of them pushed to the l by a curved arrow; on the
+       department's blue (#1035A9) running into a lighter one, as the
+       selected tool. With rx="0" it is the maskable icon (scripts/icons.mjs);
+       the drawing keeps inside the middle 80 %, which every icon shape shows. -->
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1035A9"/><stop offset="1" stop-color="#2E6FDB"/></linearGradient></defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <g transform="translate(24 14)" fill="#fff">
+    <circle cx="196" cy="330" r="72" fill="none" stroke="#fff" stroke-width="36"/>
+    <line x1="356" y1="200" x2="356" y2="398" stroke="#fff" stroke-width="36" stroke-linecap="round"/>
+    <circle cx="172" cy="204" r="15"/><circle cx="220" cy="204" r="15"/>
+    <circle cx="70" cy="306" r="15"/><circle cx="70" cy="354" r="15"/>
+    <path d="M196 176 C 206 100, 290 84, 332 122" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round"/>
+    <polygon points="358,160 310,140 338,104"/>
+  </g>
+</svg>

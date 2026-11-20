@@ -1,0 +1,31 @@
+    <style>
+      .lock { --bg: #f7f8fb; --card: #ffffff; --text: #1c1f26; --muted: #687082; --edge: rgba(20, 24, 40, 0.12); --accent: #1035a9; --danger: #d1243f;
+        position: fixed; inset: 0; display: grid; place-items: center; background: var(--bg); color: var(--text);
+        font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; z-index: 100; }
+      @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .lock { --bg: #13151b; --card: #1c1f27; --text: #e7e9f0; --muted: #a0a6b6; --edge: rgba(255, 255, 255, 0.12); --accent: #7b96f2; --danger: #ff6b81; } }
+      :root[data-theme='dark'] .lock { --bg: #13151b; --card: #1c1f27; --text: #e7e9f0; --muted: #a0a6b6; --edge: rgba(255, 255, 255, 0.12); --accent: #7b96f2; --danger: #ff6b81; }
+      .lock form { width: min(340px, calc(100vw - 32px)); padding: 24px; border: 1px solid var(--edge); border-radius: 7px; background: var(--card); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12); }
+      .lock h1 { display: flex; align-items: center; gap: 10px; margin: 0 0 4px; font-size: 20px; }
+      .lock h1 span { width: 24px; height: 24px; background: url(icons/icon.svg) center / contain no-repeat; }
+      .lock p { margin: 0 0 16px; color: var(--muted); font-size: 13.5px; }
+      .lock input[type='password'] { box-sizing: border-box; width: 100%; height: 38px; padding: 0 12px; border: 1px solid var(--edge); border-radius: 7px; background: transparent; color: inherit; font: inherit; }
+      .lock input[type='password']:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+      .lock label { display: flex; align-items: center; gap: 8px; margin: 12px 0 16px; color: var(--muted); font-size: 13.5px; }
+      .lock button { width: 100%; height: 38px; border: 0; border-radius: 7px; background: linear-gradient(135deg, #1035a9, #2e6fdb); color: white; font: inherit; font-weight: 600; cursor: pointer; }
+      .lock button:disabled { opacity: 0.6; cursor: default; }
+      .lock .bar { height: 4px; margin-top: 12px; border-radius: 2px; background: var(--edge); overflow: hidden; }
+      .lock .bar[hidden] { display: none; }
+      .lock .bar div { width: 0; height: 100%; border-radius: 2px; background: var(--accent); transition: width 0.2s linear; }
+      .lock .error { min-height: 1.4em; margin: 10px 0 0; color: var(--danger); }
+    </style>
+    <div id="lock" class="lock">
+      <form>
+        <h1><span></span>olomol</h1>
+        <p id="lock-hint"></p>
+        <input type="password" autocomplete="current-password" autofocus required aria-label="Password" />
+        <label><input type="checkbox" /> <span id="lock-remember"></span></label>
+        <button type="submit" id="lock-open"></button>
+        <div class="bar" role="progressbar" hidden><div></div></div>
+        <p class="error" role="alert"></p>
+      </form>
+    </div>
