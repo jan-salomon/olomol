@@ -9,14 +9,22 @@
 //   key in the drawing's `unknown`; both written back as they were. Other programs name what they add with a
 //   prefix and a colon ("myapp:grade"); olomol's own keys never have one.
 // - Field names are olomol's for good once released: renaming one is a major version.
-import { addArrow, addAtom, addBond, addBracket, addCurve, addFill, addOrbital, addOverlap, addPlus, addText, emptyDoc, KINDS } from '../model/doc.js';
+import { addArrow, addAtom, addBond, addBracket, addCurve, addFill, addModel, addOrbital, addOverlap, addPlus, addText, emptyDoc, KINDS, renumbered } from '../model/doc.js';
 import { fragments } from '../model/graph.js';
 import { t } from '../i18n/i18n.js';
 import { clampPoints, defaultStyleOf, STYLES, styleOf } from '../render/style.js';
 
 export const FORMAT = 'olom';
-export const VERSION = '1.0';
+export const VERSION = '1.1';
 const [MAJOR, MINOR] = VERSION.split('.').map(Number);
+// What each minor version added, by the key it is written under. A file says the lowest version that holds what is
+// in it, so a drawing that uses nothing newer is written as before: read back the same (no unsaved changes after
+// an update, the released files of each version written back unchanged), and an olomol that knows only that
+// version opens it without a word.
+const SINCE = { models3D: '1.1' };
+const minorOf = (version) => Number(version.split('.')[1]);
+const versionFor = (file) => Object.entries(SINCE).filter(([key]) => file[key] !== undefined).map(([, version]) => version)
+  .reduce((lowest, version) => (minorOf(version) > minorOf(lowest) ? version : lowest), `${MAJOR}.0`);
 const STYLE_NAMES = [...Object.keys(STYLES), 'custom'];
 const APP = `olomol ${typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev'}`;
 
@@ -24,7 +32,7 @@ const APP = `olomol ${typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ :
 const UPGRADES = {};
 
 // the collections, as named in the file
-const COLLECTIONS = { atoms: 'atoms', bonds: 'bonds', arrows: 'reactionArrows', pluses: 'plusSigns', texts: 'texts', curves: 'electronArrows', fills: 'ringFills', brackets: 'brackets', orbitals: 'orbitals', overlaps: 'orbitalOverlaps' };
+const COLLECTIONS = { atoms: 'atoms', bonds: 'bonds', arrows: 'reactionArrows', pluses: 'plusSigns', texts: 'texts', curves: 'electronArrows', fills: 'ringFills', brackets: 'brackets', orbitals: 'orbitals', overlaps: 'orbitalOverlaps', models: 'models3D' };
 const TOP = new Set(['format', 'version', 'app', 'title', 'style', 'together', 'groups', ...Object.values(COLLECTIONS)]);
 
 const BOND_KINDS = { partial: 'partial', hbond: 'hydrogenBond', dative: 'dative', link: 'link' };
@@ -81,6 +89,7 @@ const VALUES = {
   curves: { electrons: oneOf(1, 2) },
   brackets: { shape: oneOf('square', 'round') },
   orbitals: { kind: oneOf('p', 'hybrid', 's'), phase: oneOf(1, -1), plane: oneOf(1, -1) },
+  models: { 'look.style': oneOf('balls', 'sticks', 'spacefill'), 'look.hydrogens': oneOf('all', 'small', 'none'), 'look.groups': oneOf('out', 'balls') },
 };
 const WRITTEN = { atoms: { 'onArrow.slot': 'above' }, texts: { 'onMolecule.slot': 'below', 'onArrow.slot': 'above' } };
 const pathOf = (path) => path.split('.');
@@ -211,13 +220,14 @@ const OUT = {
   texts: {
     // (arrowSign too: a sign in front of a text on an arrow, written in onArrow; unlisted it went as a key of its own
     // as well, read back among the unknown ones and written again for ever)
-    keys: ['id', 'x', 'y', 'text', 'color', 'bold', 'size', 'family', 'align', 'anchor', 'arrow', 'slot', 'drop', 'order', 'arrowSign'],
+    keys: ['id', 'x', 'y', 'text', 'color', 'highlight', 'bold', 'size', 'family', 'align', 'anchor', 'arrow', 'slot', 'drop', 'order', 'arrowSign'],
     write: (x, has) => ({
       id: x.id,
       x: r4(x.x),
       y: up(x.y),
       text: x.text,
       ...(x.color && { color: x.color }),
+      ...(x.highlight && { highlight: x.highlight }),
       ...(x.bold && { bold: true }),
       ...(r4(x.size) > 0 && x.size !== 1 && { size: r4(x.size) }),
       ...(x.family && { font: x.family }),
@@ -276,6 +286,24 @@ const OUT = {
     keys: ['id', 'a', 'b', 'color', 'sideA', 'sideB'],
     write: (o) => ({ id: o.id, orbitals: [o.a, o.b], ...(o.color && { color: o.color }), ...((o.sideA != null || o.sideB != null) && { lobes: [o.sideA ?? null, o.sideB ?? null] }) }),
   },
+  // a 3D model's own points and turn are in its own space (x right, y up, z towards the viewer): written as they are
+  models: {
+    keys: ['id', 'x', 'y', 'size', 'rotation', 'atoms', 'model', 'signature', 'look', 'color'],
+    write: (m, has) => {
+      const look = Object.fromEntries(Object.entries(m.look ?? {}).filter(([, v]) => v !== undefined && v !== null));
+      return {
+        id: m.id,
+        at: point(m.x, m.y),
+        ...((m.size ?? 1) !== 1 && { size: r4(m.size) }),
+        rotation: (m.rotation ?? [[1, 0, 0], [0, 1, 0], [0, 0, 1]]).map((row) => row.map((v) => +v.toFixed(6))),
+        // (its molecule's atoms, those in the file: without them it is out of date, its picture as it was)
+        ...(m.atoms?.length && m.atoms.every(has) && { atoms: [...m.atoms], signature: m.signature }),
+        ...(m.model && { model: { elements: m.model.elements, points: m.model.points.map((p) => p.map((v) => +v.toFixed(3))), bonds: m.model.bonds, ...(m.model.groups?.length && { groups: m.model.groups }), drawn: m.model.drawn } }),
+        ...(Object.keys(look).length && { look }),
+        ...(m.color && { color: m.color }),
+      };
+    },
+  },
 };
 
 // Which objects go into the file: all, or those with `ids` and what they need (a bond with both its atoms, an
@@ -292,6 +320,7 @@ function written(doc, ids) {
   for (const a of doc.atoms.values()) if (keep(a.id)) take('atoms', a);
   for (const b of doc.bonds.values()) if (has.has(b.a) && has.has(b.b)) take('bonds', b);
   for (const kind of ['arrows', 'pluses', 'brackets']) for (const o of doc[kind].values()) if (keep(o.id)) take(kind, o);
+  for (const o of doc.models?.values() ?? []) if (keep(o.id)) take('models', o);
   for (const o of doc.orbitals.values()) if (has.has(o.atom)) take('orbitals', o);
   for (const o of doc.overlaps.values()) if (has.has(o.a) && has.has(o.b)) take('overlaps', o);
   for (const f of doc.fills.values()) if (f.atoms.every((id) => has.has(id))) take('fills', f);
@@ -335,6 +364,7 @@ export function toOlom(doc, { ids = null, settings = {}, title = null, unmapped 
   }
   const groups = writtenGroups(doc, has);
   if (groups.length) file.groups = groups;
+  file.version = versionFor(file);
   return { ...file, ...doc.unknown };
 }
 
@@ -428,9 +458,10 @@ const IN = {
   },
   pluses: { keys: ['id', 'x', 'y', 'color'], read: (r) => ({ color: r.color ?? null }) },
   texts: {
-    keys: ['id', 'x', 'y', 'text', 'color', 'bold', 'size', 'font', 'align', 'onMolecule', 'onArrow'],
+    keys: ['id', 'x', 'y', 'text', 'color', 'highlight', 'bold', 'size', 'font', 'align', 'onMolecule', 'onArrow'],
     read: (r) => ({
       color: r.color ?? null,
+      ...(r.highlight && { highlight: r.highlight }),
       ...(r.bold && { bold: true }),
       ...(r4(r.size) > 0 && Number(r.size) !== 1 && { size: Number(r.size) }),
       ...(r.font && { family: r.font }),
@@ -461,6 +492,25 @@ const IN = {
       if (atoms.length) o.atoms = atoms;
     },
   },
+  models: {
+    keys: ['id', 'at', 'size', 'rotation', 'atoms', 'model', 'signature', 'look', 'color'],
+    read: (r) => ({
+      size: Number(r.size) > 0 ? Number(r.size) : 1,
+      rotation: rotationIn(r.rotation),
+      model: modelIn(r.model),
+      look: r.look && typeof r.look === 'object' && !Array.isArray(r.look) ? { ...r.look } : {},
+      color: r.color ?? null,
+    }),
+    // (its molecule's atoms by the drawing's ids, and the fingerprint of that molecule with them; a molecule not all
+    // in the file: none, the picture as it was)
+    links: (o, r, ref) => {
+      const atoms = listIn(r.atoms).map((id) => ref(id, 'atoms'));
+      if (atoms.length && atoms.every((id) => id !== undefined)) {
+        o.atoms = atoms;
+        o.signature = typeof r.signature === 'string' ? renumbered(r.signature, (id) => ref(id, 'atoms')) : null;
+      }
+    },
+  },
   orbitals: {
     keys: ['id', 'atom', 'kind', 'angle', 'angleFrom', 'size', 'phase', 'color', 'otherColor', 'plane', 'reach', 'depth', 'depthTilt'],
     read: (r) => ({
@@ -486,6 +536,25 @@ const IN = {
 
 // A list in a file (anything else: none), a point ([x, y]; anything else: `fallback`)
 const listIn = (value) => (Array.isArray(value) ? value : []);
+// a 3×3 turn (rows of three finite numbers), else none (the identity)
+const rotationIn = (value) => (Array.isArray(value) && value.length === 3 && value.every((row) => Array.isArray(row) && row.length === 3 && row.every((v) => Number.isFinite(v)))
+  ? value.map((row) => [...row]) : [[1, 0, 0], [0, 1, 0], [0, 0, 1]]);
+// a 3D model's atoms and bonds, those that make sense (points of three finite numbers, bonds between its atoms), or
+// null: a model without atoms is drawn as nothing
+function modelIn(value) {
+  if (!value || typeof value !== 'object') return null;
+  const elements = listIn(value.elements).map((el) => (typeof el === 'string' && el ? el : 'C'));
+  const points = listIn(value.points).slice(0, elements.length).map((p) => (Array.isArray(p) ? [0, 1, 2].map((k) => finiteIn(p[k])) : [0, 0, 0]));
+  if (!points.length) return null;
+  const n = points.length;
+  const atom = (i) => Number.isInteger(i) && i >= 0 && i < n;
+  const bonds = listIn(value.bonds).filter((b) => Array.isArray(b) && atom(b[0]) && atom(b[1]) && b[0] !== b[1])
+    .map(([a, b, order = 1, kind = null]) => [a, b, [1, 2, 3].includes(order) ? order : 1, ['dative', 'partial'].includes(kind) ? kind : null]);
+  const groups = listIn(value.groups).filter((g) => g && typeof g.name === 'string')
+    .map((g) => ({ name: g.name, atoms: listIn(g.atoms).filter(atom) })).filter((g) => g.atoms.length);
+  const drawn = Number.isInteger(value.drawn) && value.drawn >= 0 ? Math.min(value.drawn, n) : n;
+  return { elements: elements.slice(0, n), points, bonds, groups, drawn };
+}
 const finiteIn = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
 const pointIn = (value, fallback) => (Array.isArray(value) && value.length >= 2 ? [finiteIn(value[0]), finiteIn(value[1])] : fallback);
 // What an object's place (onArrow, onMolecule) holds that olomol doesn't know: kept, written back in it
@@ -594,6 +663,7 @@ export function readOlom(input, doc = emptyDoc()) {
     if (atoms.length && atoms.every((id) => id !== undefined)) next(r), add('fills', r, Object.assign(addFill(doc, atoms, r.color ?? null), fields('fills', r)));
   }
   for (const r of records.texts) next(r), add('texts', r, addText(doc, ...at(r), String(r.text ?? ''), fields('texts', r)));
+  for (const r of records.models) next(r), add('models', r, addModel(doc, ...down(pointIn(r.at, [0, 0])), fields('models', r)));
   // curved arrows: their ends by the drawing's ids (an end on something not in the file, or on nothing: the arrow is
   // left out)
   const ENDS = { atom: 'atoms', bond: 'bonds', orbital: 'orbitals', newBond: 'atoms' };

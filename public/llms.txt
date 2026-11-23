@@ -53,6 +53,11 @@ Examples:
 
 Curved arrows (mechanisms) can't be written into a link yet: draw the structures by link, and the arrows in olomol.
 
+## Putting olomol into another page (course and practice pages)
+
+olomol can be embedded in a course or practice page, with only some of its tools: https://olomol.org/embed.html?only=curved-arrows#smiles=CC(=O)O.OCC (an iframe). `only=` and `off=` take part names (structure, charges-electrons, curved-arrows, orbitals, reaction-arrows, text, brackets, colors, templates, structures-from-text, structures-from-names, chairs-projections, align-flip, redraw, turn-in-3d, molecule-info, export); `readonly` shows a drawing only to look at. With https://olomol.org/embed.js, `<olomol-editor>` gives the page what the student drew: `await editor.get('curvedArrows')` lists each curved arrow by atom ids, e.g. `{ electrons: 2, from: { lonePair: 8 }, to: { newBond: [3, 8] } }`. `await editor.get('canonicalForms')` gives the step as a string that is the same for every drawing of the same answer (equivalent atoms, stereo as drawn, any order), to compare with the answer's (`get('canonicalForms', answer)`). Pages can also switch parts at runtime (`setParts`), lock the given atoms (`lock`), ask the student to click atoms or bonds (`pick`), mark things (`highlight`) and show a message (`showMessage`). olomol gives the data; checking answers is the page's. Docs: https://olomol.org/docs/embed.md
+
+
 ## Pages
 
 - [About olomol, with videos (English)](https://olomol.org/about.html): what it is and what it does
@@ -67,9 +72,12 @@ Curved arrows (mechanisms) can't be written into a link yet: draw the structures
 - [Quick start (PDF, English)](https://olomol.org/docs/en/quick-start.pdf)
 - [Příručka (PDF, česky)](https://olomol.org/docs/manual.pdf)
 - [Rychlý start (PDF, česky)](https://olomol.org/docs/rychly-start.pdf)
+- [Embedding olomol in a page](https://olomol.org/docs/embed.md): the address, `<olomol-editor>`, the arrow data, checking an answer
+- [The .olom file format](https://olomol.org/docs/olom.md)
 
 ## Optional
 
 - [Zenodo record](https://doi.org/10.5281/zenodo.24104909): each version's built site archived with its own DOI
 - [Wikidata item](https://www.wikidata.org/wiki/Q142111790): olomol in Wikidata (Q142111790)
-- Problems and ideas: bugs@olomol.org
+- Problems: bugs@olomol.org
+- Ideas, questions, translations and collaboration: contact@olomol.org

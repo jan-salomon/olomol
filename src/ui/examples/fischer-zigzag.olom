@@ -1,0 +1,56 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.6.0-dev",
+ "atoms": [
+  {"id": 2, "group": "CHO", "x": -4.4, "y": 1.9997},
+  {"id": 3, "element": "C", "x": -4.4, "y": 0.9997, "projection": "fischer"},
+  {"id": 4, "element": "O", "x": -3.4, "y": 0.9997},
+  {"id": 5, "element": "C", "x": -4.4, "y": -0.0003, "projection": "fischer"},
+  {"id": 6, "element": "O", "x": -3.4, "y": -0.0003},
+  {"id": 7, "element": "C", "x": -4.4, "y": -1.0003, "projection": "fischer"},
+  {"id": 8, "element": "O", "x": -3.4, "y": -1.0003},
+  {"id": 9, "group": "CH2OH", "x": -4.4, "y": -2.0003},
+  {"id": 20, "element": "O", "x": 1.902, "y": 0.1},
+  {"id": 21, "element": "C", "x": 2.768, "y": -0.4},
+  {"id": 22, "element": "C", "x": 3.634, "y": 0.1},
+  {"id": 23, "element": "O", "x": 3.634, "y": 1.1},
+  {"id": 24, "element": "C", "x": 4.5, "y": -0.4},
+  {"id": 25, "element": "O", "x": 4.5, "y": -1.4},
+  {"id": 26, "element": "C", "x": 5.366, "y": 0.1},
+  {"id": 27, "element": "O", "x": 5.366, "y": 1.1},
+  {"id": 28, "element": "C", "x": 6.232, "y": -0.4},
+  {"id": 29, "element": "O", "x": 7.098, "y": 0.1},
+  {"id": 39, "element": "H", "x": -5.4, "y": 0.9997},
+  {"id": 41, "element": "H", "x": -5.4, "y": -0.0003},
+  {"id": 43, "element": "H", "x": -5.4, "y": -1.0003}
+ ],
+ "bonds": [
+  {"id": 12, "atoms": [2, 3]},
+  {"id": 13, "atoms": [3, 4]},
+  {"id": 14, "atoms": [3, 5]},
+  {"id": 15, "atoms": [5, 6]},
+  {"id": 16, "atoms": [5, 7]},
+  {"id": 17, "atoms": [7, 8]},
+  {"id": 18, "atoms": [7, 9]},
+  {"id": 40, "atoms": [3, 39]},
+  {"id": 42, "atoms": [5, 41]},
+  {"id": 44, "atoms": [7, 43]},
+  {"id": 30, "atoms": [20, 21], "order": 2},
+  {"id": 31, "atoms": [21, 22]},
+  {"id": 32, "atoms": [22, 23], "stereo": "hash"},
+  {"id": 33, "atoms": [22, 24]},
+  {"id": 34, "atoms": [24, 25], "stereo": "wedge"},
+  {"id": 35, "atoms": [24, 26]},
+  {"id": 36, "atoms": [26, 27], "stereo": "hash"},
+  {"id": 37, "atoms": [26, 28]},
+  {"id": 38, "atoms": [28, 29]}
+ ],
+ "reactionArrows": [
+  {"id": 45, "kind": "equals", "from": [-1.849, 0], "to": [0.351, 0]}
+ ],
+ "texts": [
+  {"id": 46, "x": -6.1416, "y": -3.0587, "text": "Fischer projection", "onMolecule": {"atom": 9, "slot": "below"}},
+  {"id": 47, "x": 3.9797, "y": -2.4585, "text": "zigzag", "onMolecule": {"atom": 25, "slot": "below"}}
+ ]
+}

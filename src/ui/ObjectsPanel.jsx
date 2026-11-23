@@ -11,7 +11,7 @@ import { objectList } from './objectList.js';
 import { icons } from './icons.jsx';
 import { t } from '../i18n/i18n.js';
 
-const KIND_ICONS = { molecule: icons.benzene, arrow: icons.rxn, plus: icons.plus, text: icons.text, bracket: icons.bracket, group: icons.group };
+const KIND_ICONS = { molecule: icons.benzene, arrow: icons.rxn, plus: icons.plus, text: icons.text, bracket: icons.bracket, model: icons.turn3d, group: icons.group };
 
 export function ObjectsPanel({ editor }) {
   const open = Boolean(editor.settings.objectsPanel);

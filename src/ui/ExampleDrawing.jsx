@@ -37,6 +37,13 @@ import catecholamines from './examples/catecholamines.olom?raw';
 import exercise from './examples/exercise.olom?raw';
 import files from './examples/files.olom?raw';
 import styleExample from './examples/style.olom?raw';
+import fischerZigzag from './examples/fischer-zigzag.olom?raw';
+import ephedrine from './examples/ephedrine.olom?raw';
+import model3D from './examples/model-3d.olom?raw';
+import spaceFilling from './examples/space-filling.olom?raw';
+import abbreviations from './examples/abbreviations.olom?raw';
+import aromatizeExample from './examples/aromatize.olom?raw';
+import nmrHydrogens from './examples/nmr-hydrogens.olom?raw';
 import { stereoLabels, wantsStereo } from '../chem/stereo.js';
 import { hitTest } from '../editor/hit.js';
 import { readOlom } from '../io/olom.js';
@@ -77,6 +84,10 @@ function Shown({ button, icon, children }) {
 const layout = () => <Shown button="relayout" icon={icons.layout}>{t('Redraw')}</Shown>;
 const alignMenu = () => <Shown button="align" icon={icons.align}>{t('Align')}</Shown>;
 const templates = (group) => <><Shown button="templates" icon={icons.templates}>{t('Templates')}</Shown> → <Shown>{group}</Shown></>;
+const fischerTool = () => <Shown button="fischer" icon={icons.fischer}>{t('Fischer projection')}</Shown>;
+const turn3D = () => <Shown button="turn3d" icon={icons.turn3d}>{t('Turn in 3D')}</Shown>;
+// (a molecule the Fischer projection tool drew: its tip says so, not Templates)
+const byFischerTool = () => ({ text: t('Fischer projection: the Fischer projection tool under the projections button, a click on a molecule drawn with wedges'), button: 'fischer' });
 const alignReaction = () => <>{t('The scheme selected:')} {alignMenu()} → <Shown icon={icons.alignReaction}>{t('Align reaction scheme')}</Shown></>;
 
 // (blank: also on the empty canvas, in this order; tags: what it shows, to pick by; steps: how
@@ -110,6 +121,9 @@ export const EXAMPLES = [
       <><Shown>{t('Use for new drawings')}</Shown> {t('the style new drawings start in, and files that say none')}</>,
       t('A bond selected, in its panel: ▬ for a bold bond; an atom: Label → B for a bold label'),
       t('A text being written: Aa for Sans or Serif, its size in pt')] },
+  { id: 'abbreviations', olom: abbreviations, tags: ['texts', 'biochem'], title: () => t('Abbreviations that count: Boc-Phe-OMe'),
+    steps: () => [<>{t('An atom selected, in its panel: Boc typed into')} <Shown>{t('Element')}</Shown> {t('(Me, Et, Ph, Bn, Ac, Boc, OMe and more)')}</>,
+      <>{t('The molecule selected:')} <Shown icon={icons.info}>{t('Info')}</Shown> {t('the formula, masses, SMILES and InChI of the whole molecule, its abbreviations drawn out')}</>] },
   { id: 'info', olom: info, tags: ['menus'], title: () => t('Info: formula, masses, SMILES and InChI'),
     steps: () => [<>{t('A molecule selected (double click): its formula in the panel, and')} <Shown>{t('Info')}</Shown> → {t('molar and exact mass, HRMS ions, elemental analysis, SMILES and InChI to copy, its PubChem page')}</>] },
   { id: 'looks', olom: looks, tags: ['menus'], title: () => t('The look: charges, lone pairs, colours'),
@@ -119,6 +133,9 @@ export const EXAMPLES = [
   { id: 'texts', olom: texts, tags: ['texts', 'reaction'], title: () => t('Texts: formulas, charges, Greek letters, bold and italic'),
     steps: () => [<><Shown button="tool-text" icon={icons.text}>{t('Text')}</Shown> {t('then a click, and type; in the window over the text:')} <Shown>{t('Formula')}</Shown> <Shown>x₂ x²</Shown> <Shown>B I</Shown> <Shown>α → •</Shown></>,
       t('A text dragged onto an arrow: its conditions, moving with it')] },
+  { id: 'aromatize', olom: aromatizeExample, tags: ['bonding'], title: () => t('Kekulé structures and Aromatize'),
+    steps: () => [<>{t('The lower molecules selected, in the panel:')} <Shown icon={icons.aromatic}>{t('Aromatize')}</Shown> {t('a circle in each aromatic ring (or dashed lines: Settings), the COO⁻ delocalized with δ−;')} <Shown icon={icons.benzene}>Kekulé</Shown> {t('back again')}</>,
+      t('Files keep single and double bonds: the formula, SMILES and InChI are the same either way')] },
   { id: 'carbonate', olom: carbonate, tags: ['mechanism', 'bonding'], title: () => t('Lewis structures: the carbonate ion') },
   { id: 'dipoles', olom: dipoles, tags: ['bonding'], title: () => t('Polar bonds: δ+, δ− and dipoles') },
   { id: 'sn2', olom: sn2, blank: true, tags: ['mechanism', 'reaction', 'stereo', '3d', 'layout'], title: () => <>S<sub>N</sub>2: {t('inversion of configuration')}</>,
@@ -126,8 +143,18 @@ export const EXAMPLES = [
   { id: 'friedel-crafts', olom: friedelCrafts, tags: ['mechanism', 'reaction'], title: () => t('Friedel–Crafts acylation: a mechanism with resonance') },
   { id: 'radical', olom: radical, tags: ['mechanism', 'reaction'], title: () => t('Radical chlorination of methane') },
   { id: 'diels-alder', olom: dielsAlder, blank: true, tags: ['mechanism', 'reaction', 'stereo'], title: () => t('Diels–Alder reaction and bromine addition'), steps: () => [alignReaction()] },
+  { id: 'nmr-hydrogens', olom: nmrHydrogens, tags: ['colour', 'menus'], title: () => t('Draw the H: ethyl acetate for ¹H NMR'),
+    steps: () => [<>{t('The molecule selected, in its panel:')} <Shown>{t('Draw the H')}</Shown> {t('its hydrogens as atoms of their own (again: hidden); then')} {layout()} {t('for room')}</>,
+      t('The hydrogens of each kind selected: a highlight colour, as for its signal in the spectrum')] },
   { id: 'numbering', olom: numbering, tags: ['stereo'], title: () => t('Numbering: IUPAC with R/S and E/Z, and by hand for NMR'),
     steps: () => [<>{t('The molecule selected, in its panel:')} <Shown>{t('IUPAC numbering')}</Shown> <Shown>{t('R/S, E/Z, Λ/Δ')}</Shown></>] },
+  { id: 'fischer-zigzag', olom: fischerZigzag, tags: ['stereo'], title: () => t('Fischer projection and zigzag: D-ribose'), projection: byFischerTool,
+    steps: () => [<>{fischerTool()} {t('then a molecule drawn with wedges: its Fischer projection, the main chain upright, C1 at the top')}</>,
+      <><Shown button="zigzag" icon={icons.zigzag}>{t('Zigzag')}</Shown> {t('then a molecule: its main chain as a zigzag, C1 on the left, with the wedges that keep its R/S')}</>,
+      t('Both are under the projections button in the top bar. A Fischer projection drawn by hand is read as one when clicked with Fischer projection')] },
+  { id: 'ephedrine', olom: ephedrine, tags: ['stereo'], title: () => t('Ephedrine and pseudoephedrine: Fischer projections with R/S'), projection: byFischerTool,
+    steps: () => [<>{fischerTool()} {t('then each molecule drawn with wedges: C1, a stereocentre at the end of the chain, is a crossing too, the line going on up through the phenyl')}</>,
+      <>{t('The molecule selected, in its panel:')} <Shown>{t('R/S, E/Z, Λ/Δ')}</Shown>{t('; the two differ only at C1')}</>] },
   { id: 'sugars', olom: sugars, tags: ['templates', 'stereo', 'biochem', 'colour'], title: () => t('Glucose: Fischer and Haworth projections'), steps: () => [templates(t('Conformations and projections'))] },
   { id: 'conformations', olom: conformations, tags: ['templates', 'stereo'], title: () => t('Conformations: Newman projections and chairs'),
     steps: () => [templates(t('Conformations and projections')),
@@ -140,6 +167,13 @@ export const EXAMPLES = [
     steps: () => [<>{t('On the flat ring, C1 and C2 selected, in the panel:')} <Shown>{t('Draw the H')}</Shown>{t('; then')} <Shown button="ring-flip" icon={icons.ringFlip}>{t('Ring flip')}</Shown> {t('twice: the Br axial')}</>,
       <>{t('The ⇌ lying to one side:')} <Shown>{t('Favours')}</Shown> {t('in its panel; the reaction that does not go: the crossed arrow among the reaction arrows')}</>,
       <><Shown button="turn3d" icon={icons.turn3d}>{t('Turn in 3D')}</Shown> {t('on the lower chair, the stick model: the highlighted H and Br point opposite ways')}</>] },
+  { id: 'model-3d', olom: model3D, tags: ['3d'], title: () => t('A 3D model beside its molecule: ibuprofen'),
+    steps: () => [<>{turn3D()} {t('then')} <Shown>{t('Put on canvas')}</Shown> {t('under the stick model: the model beside its molecule, for a handout or a slide')}</>,
+      <>{t('The model selected, in its panel:')} <Shown>{t('Ball and stick')}</Shown> <Shown>{t('Sticks')}</Shown> <Shown>{t('Space-filling')}</Shown>{t(', its hydrogens, and sliders that turn it')}</>,
+      t('When the molecule changes, its model stays as it was, in a dashed frame, until Update in its panel')] },
+  { id: 'space-filling', olom: spaceFilling, tags: ['3d', 'mechanism'], title: () => <>{t('Space-filling models: why')} S<sub>N</sub>2 {t('is slow at a tertiary carbon')}</>,
+    steps: () => [<>{t('Each molecule:')} {turn3D()} → <Shown>{t('Put on canvas')}</Shown></>,
+      <>{t('Both models selected, in the panel:')} <Shown>{t('Space-filling')}</Shown> {t('each atom as large as the atom itself: the three methyls leave the nucleophile no way in from behind the C–Br bond')}</>] },
   { id: 'turning', olom: turning, tags: ['stereo', 'layout'], title: () => t('Turning a part: flip over a bond, make a bond straight'),
     steps: () => [<><Shown button="flip-over" icon={icons.flipBond}>{t('Flip over a bond')}</Shown> {t('then the bond: the smaller side (or the selection) turns over it, R/S stays')}</>,
       <><Shown button="snap-bond" icon={icons.snap}>{t('Horizontal / vertical')}</Shown> {t('then a bond: the selection (or its molecule) turns until the bond is straight; again: a quarter further')}</>] },
@@ -220,6 +254,14 @@ const WORDS = () => ({
   'Exercise 1': t('Exercise 1'),
   'Draw the mechanism and the product.': t('Draw the mechanism and the product.'),
   'Scheme 1. The new C–O bond in bold.': t('Scheme 1. The new C–O bond in bold.'),
+  'Fischer projection': t('Fischer projection'),
+  zigzag: t('zigzag'),
+  '(−)-ephedrine': t('(−)-ephedrine'),
+  '(+)-pseudoephedrine': t('(+)-pseudoephedrine'),
+  'bromomethane: S_{N}2 fast': t('bromomethane: S_{N}2 fast'),
+  '2-bromo-2-methylpropane: S_{N}2 very slow': t('2-bromo-2-methylpropane: S_{N}2 very slow'),
+  Aromatize: t('Aromatize'),
+  'δ 2.04 (s, 3H) yellow · δ 4.12 (q, 2H) blue · δ 1.26 (t, 3H) green': t('δ 2.04 (s, 3H) yellow · δ 4.12 (q, 2H) blue · δ 1.26 (t, 3H) green'),
 });
 
 // An example's drawing, its words in the app's language
@@ -233,8 +275,10 @@ export function exampleDoc(example) {
 const tool = (id) => `tool-${id}`;
 const element = (el) => `el:${el}`;
 // the button (tool-…, templates, relayout, turn3d, el:Br)
+// (a projection tool, under the projections button: that button)
 const findButton = (key) =>
-  key.startsWith('el:') ? [...document.querySelectorAll('.dock .el')].find((b) => b.textContent === key.slice(3)) : document.querySelector(`[data-testid="${key}"]`);
+  key.startsWith('el:') ? [...document.querySelectorAll('.dock .el')].find((b) => b.textContent === key.slice(3))
+    : document.querySelector(`[data-testid="${key}"]`) ?? (['ring-flip', 'chair-turn', 'fischer', 'zigzag'].includes(key) ? document.querySelector('[data-testid="projections"]') : null);
 
 // The tip beside the pointer, to its left or above it near the window's right or bottom edge (.example-tip is
 // at most 300 px wide; about 80 px high for the longest tips)
@@ -276,6 +320,7 @@ function howDrawn(doc, rings, projected, tips3D, hit, example) {
       ? { text: t('Fishhook arrow: drag from the electron to where it goes'), button: tool('curve') }
       : { text: t('Curved arrow (A): drag from a bond or a lone pair to an atom or a bond'), button: tool('curve') };
   }
+  if (hit.kind === 'model') return { text: t('3D model: Turn in 3D, then Put on canvas; its look and its turn in the panel'), button: 'turn3d' };
   if (hit.kind === 'orbital') return { text: t('Orbital: the orbital tool in the left bar, a click on an atom; drag a lobe to turn it, click it for the other phase'), button: tool('orbital') };
   if (hit.kind === 'overlap') return { text: t('Overlap of two orbitals: a lobe dragged onto an orbital of another molecule'), button: tool('orbital') };
   // a Newman projection: its two carbons, the circle, and the bonds round it
@@ -313,8 +358,9 @@ function howDrawn(doc, rings, projected, tips3D, hit, example) {
     if (bond.kind === 'hbond') return { text: t('Hydrogen bond: a bond in the left bar, dotted'), button: tool('bond') };
     if (bond.kind === 'dative' || bond.z !== undefined) return in3D(bond.a);
     if (bond.highlight) return { text: t('Highlight: the highlighter in the left bar, a click on atoms or bonds'), button: tool('highlight') };
-    if (projected.has(bond.a)) return { text: t('Fischer and Haworth projections: Templates → Conformations and projections'), button: 'templates' };
+    if (projected.has(bond.a)) return example?.projection?.() ?? { text: t('Fischer and Haworth projections: Templates → Conformations and projections'), button: 'templates' };
     if (bond.color) return { text: t('Colour: the paint tool in the left bar, a click on atoms or bonds'), button: tool('paint') };
+    if (bond.delocalized) return { text: t('Aromatic ring or delocalized group: Aromatize in the panel of the selected molecules (Kekulé: back again)') };
     if (bond.cipLabel) return { text: t("E or Z, worked out for you: R/S, E/Z, Λ/Δ in the molecule's panel") };
     if (bond.stereo === 'wedge') return { text: t('Wedge: 1 over a single bond (again: a hashed wedge)'), button: tool('bond') };
     if (bond.stereo === 'hash') return { text: t('Hashed wedge: 1 twice over a single bond'), button: tool('bond') };
@@ -329,7 +375,7 @@ function howDrawn(doc, rings, projected, tips3D, hit, example) {
     if (hit.pair != null) return { text: t('Lone pairs: a click on the atom'), button: tool('pairs') };
     if (atom.arrow != null) return { text: t('Reagent: a molecule dragged onto the arrow; it moves with it ("+" in the panel)'), button: tool('select') };
     if (bondsOf(atom.id).some((b) => b.kind === 'dative' || b.z !== undefined)) return in3D(atom.id);
-    if (projected.has(atom.id) && !atom.highlight) return { text: t('Fischer and Haworth projections: Templates → Conformations and projections'), button: 'templates' };
+    if (projected.has(atom.id) && !atom.highlight) return example?.projection?.() ?? { text: t('Fischer and Haworth projections: Templates → Conformations and projections'), button: 'templates' };
     if (atom.isotope) return { text: t('Isotope ({isotope}): typed in the Element field of the atom’s panel', { isotope: `${atom.isotope}${atom.el}` }) };
     if (atom.el === '*' && !atom.highlight) {
       return abbreviationOf(atom)

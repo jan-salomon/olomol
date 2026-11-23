@@ -7,6 +7,7 @@ import { svgGrouping } from '../editor/grouping.js';
 import { fragments } from '../model/graph.js';
 import { buildScene } from '../render/scene.js';
 import { sceneToSVG } from '../render/svg.js';
+import { modelMarks } from '../render/model3d.js';
 import { STYLE } from '../render/style.js';
 import { endOnBonds, plainNewmans } from '../chem/newman.js';
 import { withProjectionStereo } from '../chem/projections.js';
@@ -17,6 +18,7 @@ import { bytesOf, drawingInPng, drawingInSvg, pngWithResolution } from './embedd
 import { convert } from './indigo.js';
 import { readKet, toKet, writeKet } from './ket.js';
 import { isOlom, readOlom } from './olom.js';
+import { cleanColours } from '../model/colour.js';
 import { parseMolfile, readMolfile, writeMolfile } from './molfile.js';
 import { getRDKit, kekulize, smilesToMolfile } from './rdkit.js';
 import { readMol } from './readMol.js';
@@ -200,6 +202,8 @@ export async function readAny(text, { doc = emptyDoc(), centre = null, name = ''
   // (one reaction: an RDF of several leaves each where Indigo put it, apart)
   const reactions = text.trim().startsWith('$RDFILE') ? (text.match(/^\$RXN/gm) ?? []).length : 1;
   if ((sniff(text) === 'rxn' || (kind === 'smiles' && isReactionSmiles(text))) && reactions === 1) alignReadReaction(result.doc, result.ids, settings);
+  // (colours that aren't one, from a file, a link or a page: never kept, never written into the drawing's markup)
+  cleanColours(result.doc);
   return result;
 }
 
@@ -330,7 +334,7 @@ async function forKetcher(doc, ids) {
 // The molecules of the one reaction among these objects (oneReaction), by side: { reactants, agents, products },
 // each a list of atom ids (a molecule as drawn, a complex with its dative bonds whole). Those on the arrow are its
 // agents; the others are before or after it along it (a retrosynthesis, target ⇒ precursors, the other way round).
-function reactionSides(doc, ids) {
+export function reactionSides(doc, ids) {
   const kept = (id) => !ids || ids.includes(id);
   const arrow = [...doc.arrows.values()].find((a) => kept(a.id) && REACTION_ARROWS.includes(a.kind));
   const length = Math.hypot(arrow.x2 - arrow.x1, arrow.y2 - arrow.y1) || 1;
@@ -592,6 +596,8 @@ export function svgOf(doc, settings, { ids = null, scale = STYLE.exportScale, ba
     for (const fill of [...part.fills.values()]) if (!fill.atoms.every((id) => keep.has(id))) part.fills.delete(fill.id);
     for (const bond of [...part.bonds.values()]) if (!part.atoms.has(bond.a) || !part.atoms.has(bond.b)) part.bonds.delete(bond.id);
     dropLooseCurves(part); // (a curved arrow selected without what it runs between: not drawn from nothing)
+    // (a 3D model selected without its molecule: in the molecule's colours and highlights all the same)
+    for (const model of part.models.values()) model.marks = modelMarks(doc, doc.models.get(model.id));
   }
   // (the drawing's groups as SVG groups)
   return sceneToSVG(buildScene(part, { ...settings, ink: '#000000' }, { stereo }), { scale, background, grouping: svgGrouping(part) });

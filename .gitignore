@@ -3,3 +3,7 @@ dist/
 # local browser-check output
 test-output/
 *.log
+# benchmarks: downloads, scratch and the generated report (bench/README.md)
+bench/data/cache/
+bench/out/
+bench/report/

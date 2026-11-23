@@ -1305,35 +1305,24 @@ test('an equilibrium arrow is two arrows for its side arcs: each meets the harpo
   assert.deepEqual([free('equilibrium', -2, 2, 'above', 'in').meets, free('equilibrium', -2, 2, 'below', 'out').meets], [-0.07, 0.07]);
 });
 
-test('the stick model\'s highlights in depth: a near atom\'s halo over what lies behind it, under its own ball, without a jump', async () => {
+test('the stick model\'s highlights as spheres and tubes: what lies behind one\'s front (what it highlights too: inside it) seen through it, tinted; what lies in front not', async () => {
   const { stickMarkup } = await import('../src/render/sticks.js');
   const { sceneMarkup } = await import('../src/render/svg.js');
-  // three carbons, the first near and highlighted, the last far
-  const points = [[0, 0, 1], [0.8, 0.3, 0], [1.6, 0, -1]];
-  const model = { elements: ['C', 'C', 'C'], points, bonds: [[0, 1, 1], [1, 2, 1]], marks: { atomHighlight: new Map([[0, '#ff0000']]) } };
-  const balls = (markup) => [...markup.matchAll(/<circle cx="([-\d.]+)"[^>]*fill="url\(#ball/g)].map((m) => m.index);
-  const markup = stickMarkup(model, 40);
-  const halo = markup.indexOf('fill="#ff0000"');
-  const [near, ...further] = balls(markup).reverse(); // (balls back to front: the last is the nearest)
-  assert.ok(further.every((at) => at < halo) && halo < near && (markup.match(/fill="#ff0000"/g) ?? []).length === 8,
-    `the halo over the further balls, under its own, in eight see-through layers (${JSON.stringify({ halo, balls: balls(markup) })})`);
-  // two halos: the nearer over the further, either atom near
-  for (const nearOne of [2, 0]) {
-    const p = [[0, 0, 0], [0.8, 0.3, 0], [1.6, 0, 0]];
-    p[nearOne][2] = 1;
-    p[2 - nearOne][2] = -1;
-    const two = stickMarkup({ elements: ['C', 'C', 'C'], points: p, bonds: [[0, 1, 1], [1, 2, 1]], marks: { atomHighlight: new Map([[0, '#ff0000'], [2, '#0000ff']]) } }, 40);
-    const [nearColour, farColour] = nearOne === 2 ? ['#0000ff', '#ff0000'] : ['#ff0000', '#0000ff'];
-    assert.ok(two.indexOf(`fill="${nearColour}"`) > two.lastIndexOf(`fill="${farColour}"`), `atom ${nearOne} near: its halo over the other one's`);
-  }
-  // turning, no jump: a ball going further behind the halo is covered by more of its layers, one at a time
-  const covering = [0.02, 0.1, 0.2, 0.3, 0.45, 0.6, 0.8].map((behind) => {
-    const turned = stickMarkup({ ...model, points: [[0, 0, 1], [0.8, 0.3, 1 - behind], [1.6, 0, -1]] }, 40);
-    const ball = balls(turned).find((at) => turned.slice(at, at + 40).includes('cx="32"')); // (the middle ball: x 0.8 · 40)
-    return (turned.slice(ball).match(/fill="#ff0000"/g) ?? []).length;
-  });
-  assert.ok(covering.every((n, k) => k === 0 || n >= covering[k - 1]) && covering[0] <= 1 && covering.at(-1) === 8 && new Set(covering).size >= 4,
-    `the layers over a ball as it goes behind the halo: ${covering.join(' ')}`);
+  // (a ball's tinted part: the ball again (and its haze, at the back), the highlight over it, masked)
+  const tints = (markup) => [...markup.matchAll(/<g mask="url\(#ht[^"]*\)"><circle cx="([-\d.]+)"[^>]*\/>(?:<circle [^>]*fill="#ffffff"[^>]*\/>)?<circle [^>]*fill="#ff0000"/g)].map((m) => Number(m[1]));
+  // a highlighted atom, a ball beside it on the screen behind it, and the same ball in front of it
+  const lone = (z) => ({ elements: ['C', 'C'], points: [[0, 0, 0], [0.35, 0, z]], bonds: [], marks: { atomHighlight: new Map([[0, '#ff0000']]) } });
+  const behind = stickMarkup(lone(-1), 40);
+  const glowAt = behind.indexOf('fill="#ff0000"');
+  const firstBall = behind.search(/fill="url\(#ball/);
+  assert.ok(glowAt >= 0 && glowAt < firstBall, 'its glow behind every ball');
+  assert.deepEqual(tints(behind).sort((p, q) => p - q), [0, 14], 'its own ball (inside it) and the ball behind it tinted (at x 0 and 0.35 · 40)');
+  assert.deepEqual(tints(stickMarkup(lone(1), 40)), [0], 'the ball in front of it not');
+  // the bond's tube and both its atoms' spheres: one tint each on its two balls (inside) and on a ball behind them all
+  const own = stickMarkup({ elements: ['C', 'C', 'C'], points: [[0, 0, 0], [0.8, 0, 0], [0.4, 0.1, -1.2]], bonds: [[0, 1, 1]],
+    marks: { atomHighlight: new Map([[0, '#ff0000'], [1, '#ff0000']]), bondHighlight: new Map([['0-1', '#ff0000']]) } }, 40);
+  assert.deepEqual(tints(own).sort((p, q) => p - q), [0, 16, 32], 'its two balls and the ball behind, each once (x 0, 0.4 · 40, 0.8 · 40)');
+  assert.equal((own.match(/<g opacity="[\d.]+">/g) ?? []).length, 1, 'one glow for the colour');
   // the drawing (Turn in 3D's line view, the canvas) keeps its highlights behind every bond
   const doc = emptyDoc();
   const [a, b] = [0, 1].map((k) => addAtom(doc, k * 0.8, 0, 'C', { depth: [1, -1][k] }).id);

@@ -1,0 +1,3829 @@
+{
+ "b1": {
+  "title": "B1: lone pairs and hydrogens compared with RDKit",
+  "environment": {
+   "olomol": "0.6.0-dev",
+   "commit": "dcad161eab1dcbffadfa5284d952e2120f54691a",
+   "commitShort": "dcad161",
+   "commitDate": "2026-11-22T02:41:43+01:00",
+   "branch": "embedding",
+   "srcChanged": false,
+   "tag": null,
+   "date": "2026-11-22T02:20:54.579Z",
+   "node": "v24.22.0",
+   "chrome": "154.0.8037.97",
+   "playwright": "1.64.1",
+   "rdkitJs": "2026.9.1",
+   "rdkitCore": "2026.09.1",
+   "meganeRdkit": "0.1.0",
+   "indigo": "1.46.0",
+   "openchemlib": "9.25.1",
+   "vite": "8.3.4",
+   "machine": {
+    "cpu": "AMD Ryzen AI 7 350 w/ Radeon 860M",
+    "cores": 16,
+    "ramGB": 31,
+    "os": "Linux 7.2.8-200.fc44.x86_64 (linux x64)"
+   }
+  },
+  "seconds": 53.6,
+  "summary": {
+   "chembl": {
+    "molecules": 10000,
+    "excluded": 0,
+    "atomsAgree": {
+     "k": 297311,
+     "n": 297311,
+     "p": 1,
+     "lo": 0.9999870794918887,
+     "hi": 1
+    },
+    "moleculesAgree": {
+     "k": 10000,
+     "n": 10000,
+     "p": 1,
+     "lo": 0.9996160016293234,
+     "hi": 1
+    },
+    "pastedMoleculesAgree": {
+     "k": 10000,
+     "n": 10000,
+     "p": 1,
+     "lo": 0.9996160016293234,
+     "hi": 1
+    },
+    "failuresByCategory": {}
+   },
+   "hard": {
+    "molecules": 159,
+    "excluded": 4,
+    "atomsAgree": {
+     "k": 721,
+     "n": 724,
+     "p": 0.9958563535911602,
+     "lo": 0.9878887610448757,
+     "hi": 0.9985898069160095
+    },
+    "moleculesAgree": {
+     "k": 152,
+     "n": 155,
+     "p": 0.9806451612903225,
+     "lo": 0.9446461303387816,
+     "hi": 0.9933961232783706
+    },
+    "pastedMoleculesAgree": {
+     "k": 155,
+     "n": 155,
+     "p": 1,
+     "lo": 0.9758157671856282,
+     "hi": 1
+    },
+    "failuresByCategory": {
+     "olomol wrong": 2,
+     "RDKit models it differently": 1
+    }
+   }
+  }
+ },
+ "b2a": {
+  "title": "B2a: every projection template against PubChem",
+  "environment": {
+   "olomol": "0.6.0-dev",
+   "commit": "dcad161eab1dcbffadfa5284d952e2120f54691a",
+   "commitShort": "dcad161",
+   "commitDate": "2026-11-22T02:41:43+01:00",
+   "branch": "embedding",
+   "srcChanged": false,
+   "tag": null,
+   "date": "2026-11-22T02:20:56.072Z",
+   "node": "v24.22.0",
+   "chrome": "154.0.8037.97",
+   "playwright": "1.64.1",
+   "rdkitJs": "2026.9.1",
+   "rdkitCore": "2026.09.1",
+   "meganeRdkit": "0.1.0",
+   "indigo": "1.46.0",
+   "openchemlib": "9.25.1",
+   "vite": "8.3.4",
+   "machine": {
+    "cpu": "AMD Ryzen AI 7 350 w/ Radeon 860M",
+    "cores": 16,
+    "ramGB": 31,
+    "os": "Linux 7.2.8-200.fc44.x86_64 (linux x64)"
+   }
+  },
+  "seconds": 0.3,
+  "summary": {
+   "all": {
+    "k": 26,
+    "n": 26,
+    "p": 1,
+    "lo": 0.8712710781407846,
+    "hi": 1
+   },
+   "byKind": {
+    "chair": {
+     "k": 7,
+     "n": 7,
+     "p": 1,
+     "lo": 0.6456695649333126,
+     "hi": 1
+    },
+    "boat": {
+     "k": 1,
+     "n": 1,
+     "p": 1,
+     "lo": 0.20654931437723745,
+     "hi": 1
+    },
+    "Newman": {
+     "k": 6,
+     "n": 6,
+     "p": 1,
+     "lo": 0.6096657120978346,
+     "hi": 1
+    },
+    "Haworth": {
+     "k": 5,
+     "n": 5,
+     "p": 1,
+     "lo": 0.5655175352168251,
+     "hi": 1
+    },
+    "Fischer": {
+     "k": 6,
+     "n": 6,
+     "p": 1,
+     "lo": 0.6096657120978346,
+     "hi": 1
+    },
+    "cage": {
+     "k": 1,
+     "n": 1,
+     "p": 1,
+     "lo": 0.20654931437723745,
+     "hi": 1
+    }
+   }
+  }
+ },
+ "b2b": {
+  "title": "B2b: generated chairs and Newman projections",
+  "environment": {
+   "olomol": "0.6.0-dev",
+   "commit": "dcad161eab1dcbffadfa5284d952e2120f54691a",
+   "commitShort": "dcad161",
+   "commitDate": "2026-11-22T02:41:43+01:00",
+   "branch": "embedding",
+   "srcChanged": false,
+   "tag": null,
+   "date": "2026-11-22T02:20:56.072Z",
+   "node": "v24.22.0",
+   "chrome": "154.0.8037.97",
+   "playwright": "1.64.1",
+   "rdkitJs": "2026.9.1",
+   "rdkitCore": "2026.09.1",
+   "meganeRdkit": "0.1.0",
+   "indigo": "1.46.0",
+   "openchemlib": "9.25.1",
+   "vite": "8.3.4",
+   "machine": {
+    "cpu": "AMD Ryzen AI 7 350 w/ Radeon 860M",
+    "cores": 16,
+    "ramGB": 31,
+    "os": "Linux 7.2.8-200.fc44.x86_64 (linux x64)"
+   }
+  },
+  "seconds": 35.2,
+  "summary": {
+   "chairs": {
+    "k": 5000,
+    "n": 5000,
+    "p": 1,
+    "lo": 0.9992322980549431,
+    "hi": 1
+   },
+   "chairsByPattern": {
+    "1,1": {
+     "k": 100,
+     "n": 100,
+     "p": 1,
+     "lo": 0.9630065017930143,
+     "hi": 1
+    },
+    "1,2": {
+     "k": 400,
+     "n": 400,
+     "p": 1,
+     "lo": 0.9904877056657034,
+     "hi": 0.9999999999999999
+    },
+    "1,3": {
+     "k": 400,
+     "n": 400,
+     "p": 1,
+     "lo": 0.9904877056657034,
+     "hi": 0.9999999999999999
+    },
+    "1,4": {
+     "k": 400,
+     "n": 400,
+     "p": 1,
+     "lo": 0.9904877056657034,
+     "hi": 0.9999999999999999
+    },
+    "1,2,3": {
+     "k": 1234,
+     "n": 1234,
+     "p": 1,
+     "lo": 0.9968966471486956,
+     "hi": 1
+    },
+    "1,2,4": {
+     "k": 1233,
+     "n": 1233,
+     "p": 1,
+     "lo": 0.9968941380535894,
+     "hi": 1
+    },
+    "1,3,5": {
+     "k": 1233,
+     "n": 1233,
+     "p": 1,
+     "lo": 0.9968941380535894,
+     "hi": 1
+    }
+   },
+   "chairsBySubstituent": {
+    "Me": {
+     "k": 2271,
+     "n": 2271,
+     "p": 1,
+     "lo": 0.9983113289913902,
+     "hi": 0.9999999999999999
+    },
+    "OH": {
+     "k": 2301,
+     "n": 2301,
+     "p": 1,
+     "lo": 0.9983333088677346,
+     "hi": 1
+    },
+    "Cl": {
+     "k": 2221,
+     "n": 2221,
+     "p": 1,
+     "lo": 0.9982733786241423,
+     "hi": 0.9999999999999999
+    },
+    "tBu": {
+     "k": 2292,
+     "n": 2292,
+     "p": 1,
+     "lo": 0.9983267752196324,
+     "hi": 1
+    },
+    "CO2H": {
+     "k": 2311,
+     "n": 2311,
+     "p": 1,
+     "lo": 0.9983405088905523,
+     "hi": 1
+    }
+   },
+   "chairsByChair": {
+    "A": {
+     "k": 1258,
+     "n": 1258,
+     "p": 1,
+     "lo": 0.9969556723676805,
+     "hi": 1
+    },
+    "A mirrored": {
+     "k": 1216,
+     "n": 1216,
+     "p": 1,
+     "lo": 0.9968508540245813,
+     "hi": 1
+    },
+    "B": {
+     "k": 1239,
+     "n": 1239,
+     "p": 1,
+     "lo": 0.9969091320590969,
+     "hi": 1
+    },
+    "B mirrored": {
+     "k": 1287,
+     "n": 1287,
+     "p": 1,
+     "lo": 0.9970240661279942,
+     "hi": 1
+    }
+   },
+   "sugars": {
+    "k": 64,
+    "n": 64,
+    "p": 1,
+    "lo": 0.9433759402071946,
+    "hi": 1
+   },
+   "newman": {
+    "k": 1080,
+    "n": 1080,
+    "p": 1,
+    "lo": 0.9964557004260808,
+    "hi": 1
+   },
+   "newmanByMolecule": {
+    "2,3-dibromobutane": {
+     "k": 216,
+     "n": 216,
+     "p": 1,
+     "lo": 0.9825262312154358,
+     "hi": 1
+    },
+    "2-bromo-3-chlorobutane": {
+     "k": 216,
+     "n": 216,
+     "p": 1,
+     "lo": 0.9825262312154358,
+     "hi": 1
+    },
+    "3-chlorobutan-2-ol": {
+     "k": 216,
+     "n": 216,
+     "p": 1,
+     "lo": 0.9825262312154358,
+     "hi": 1
+    },
+    "threonine": {
+     "k": 216,
+     "n": 216,
+     "p": 1,
+     "lo": 0.9825262312154358,
+     "hi": 1
+    },
+    "1,2-dibromo-1,2-diphenylethane": {
+     "k": 216,
+     "n": 216,
+     "p": 1,
+     "lo": 0.9825262312154358,
+     "hi": 1
+    }
+   },
+   "newmanByDihedral": {
+    "0": {
+     "k": 180,
+     "n": 180,
+     "p": 1,
+     "lo": 0.9791045020783868,
+     "hi": 1
+    },
+    "60": {
+     "k": 180,
+     "n": 180,
+     "p": 1,
+     "lo": 0.9791045020783868,
+     "hi": 1
+    },
+    "120": {
+     "k": 180,
+     "n": 180,
+     "p": 1,
+     "lo": 0.9791045020783868,
+     "hi": 1
+    },
+    "180": {
+     "k": 180,
+     "n": 180,
+     "p": 1,
+     "lo": 0.9791045020783868,
+     "hi": 1
+    },
+    "240": {
+     "k": 180,
+     "n": 180,
+     "p": 1,
+     "lo": 0.9791045020783868,
+     "hi": 1
+    },
+    "300": {
+     "k": 180,
+     "n": 180,
+     "p": 1,
+     "lo": 0.9791045020783868,
+     "hi": 1
+    }
+   },
+   "cyclohexaneNewman": {
+    "k": 216,
+    "n": 216,
+    "p": 1,
+    "lo": 0.9825262312154358,
+    "hi": 1
+   },
+   "ringFlipKept": {
+    "k": 5064,
+    "n": 5064,
+    "p": 1,
+    "lo": 0.9992419930947115,
+    "hi": 1
+   },
+   "ringFlipRight": {
+    "k": 5064,
+    "n": 5064,
+    "p": 1,
+    "lo": 0.9992419930947115,
+    "hi": 1
+   },
+   "ringFlipRefused": 0,
+   "toChair": {
+    "k": 1000,
+    "n": 1000,
+    "p": 1,
+    "lo": 0.996173241514445,
+    "hi": 1
+   },
+   "all": {
+    "k": 7360,
+    "n": 7360,
+    "p": 1,
+    "lo": 0.999478334936707,
+    "hi": 0.9999999999999999
+   },
+   "builderCheck": [
+    {
+     "name": "alpha-D-glucopyranose",
+     "cid": 79025,
+     "builder": "WQZGKKKJIJFFOK-DVKNGEFBSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-DVKNGEFBSA-N",
+     "agree": true
+    },
+    {
+     "name": "beta-D-glucopyranose",
+     "cid": 64689,
+     "builder": "WQZGKKKJIJFFOK-VFUOTHLCSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-VFUOTHLCSA-N",
+     "agree": true
+    },
+    {
+     "name": "alpha-D-mannopyranose",
+     "cid": 185698,
+     "builder": "WQZGKKKJIJFFOK-PQMKYFCFSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-PQMKYFCFSA-N",
+     "agree": true
+    },
+    {
+     "name": "beta-D-mannopyranose",
+     "cid": 439680,
+     "builder": "WQZGKKKJIJFFOK-RWOPYEJCSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-RWOPYEJCSA-N",
+     "agree": true
+    },
+    {
+     "name": "alpha-D-allopyranose",
+     "cid": 3034742,
+     "builder": "WQZGKKKJIJFFOK-UKFBFLRUSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-UKFBFLRUSA-N",
+     "agree": true
+    },
+    {
+     "name": "beta-D-allopyranose",
+     "cid": 448388,
+     "builder": "WQZGKKKJIJFFOK-QZABAPFNSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-QZABAPFNSA-N",
+     "agree": true
+    },
+    {
+     "name": "alpha-D-altropyranose",
+     "cid": 7098663,
+     "builder": "WQZGKKKJIJFFOK-TVIMKVIFSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-TVIMKVIFSA-N",
+     "agree": true
+    },
+    {
+     "name": "beta-D-altropyranose",
+     "cid": 448702,
+     "builder": "WQZGKKKJIJFFOK-DGPNFKTASA-N",
+     "pubchem": "WQZGKKKJIJFFOK-DGPNFKTASA-N",
+     "agree": true
+    },
+    {
+     "name": "alpha-D-gulopyranose",
+     "cid": 7044038,
+     "builder": "WQZGKKKJIJFFOK-RXRWUWDJSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-RXRWUWDJSA-N",
+     "agree": true
+    },
+    {
+     "name": "beta-D-gulopyranose",
+     "cid": 6102790,
+     "builder": "WQZGKKKJIJFFOK-AIECOIEWSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-AIECOIEWSA-N",
+     "agree": true
+    },
+    {
+     "name": "alpha-D-idopyranose",
+     "cid": 7098664,
+     "builder": "WQZGKKKJIJFFOK-RDQKPOQOSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-RDQKPOQOSA-N",
+     "agree": true
+    },
+    {
+     "name": "beta-D-idopyranose",
+     "cid": 7018164,
+     "builder": "WQZGKKKJIJFFOK-FDROIEKHSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-FDROIEKHSA-N",
+     "agree": true
+    },
+    {
+     "name": "alpha-D-galactopyranose",
+     "cid": 439357,
+     "builder": "WQZGKKKJIJFFOK-PHYPRBDBSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-PHYPRBDBSA-N",
+     "agree": true
+    },
+    {
+     "name": "beta-D-galactopyranose",
+     "cid": 439353,
+     "builder": "WQZGKKKJIJFFOK-FPRJBGLDSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-FPRJBGLDSA-N",
+     "agree": true
+    },
+    {
+     "name": "alpha-D-talopyranose",
+     "cid": 81696,
+     "builder": "WQZGKKKJIJFFOK-URLGYRAOSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-URLGYRAOSA-N",
+     "agree": true
+    },
+    {
+     "name": "beta-D-talopyranose",
+     "cid": 5319264,
+     "builder": "WQZGKKKJIJFFOK-QBFJYBIGSA-N",
+     "pubchem": "WQZGKKKJIJFFOK-QBFJYBIGSA-N",
+     "agree": true
+    }
+   ],
+   "builderAgrees": true,
+   "mirrorPairs": {
+    "pairs": 1213,
+    "truthDiffers": 858,
+    "olomolDiffersToo": 858
+   }
+  }
+ },
+ "b2c": {
+  "title": "B2c: chairs drawn by hand",
+  "environment": {
+   "olomol": "0.6.0-dev",
+   "commit": "dcad161eab1dcbffadfa5284d952e2120f54691a",
+   "commitShort": "dcad161",
+   "commitDate": "2026-11-22T02:41:43+01:00",
+   "branch": "embedding",
+   "srcChanged": false,
+   "tag": null,
+   "date": "2026-11-22T02:20:56.072Z",
+   "node": "v24.22.0",
+   "chrome": "154.0.8037.97",
+   "playwright": "1.64.1",
+   "rdkitJs": "2026.9.1",
+   "rdkitCore": "2026.09.1",
+   "meganeRdkit": "0.1.0",
+   "indigo": "1.46.0",
+   "openchemlib": "9.25.1",
+   "vite": "8.3.4",
+   "machine": {
+    "cpu": "AMD Ryzen AI 7 350 w/ Radeon 860M",
+    "cores": 16,
+    "ramGB": 31,
+    "os": "Linux 7.2.8-200.fc44.x86_64 (linux x64)"
+   }
+  },
+  "seconds": 8.5,
+  "summary": {
+   "recallBySigma": {
+    "0": {
+     "k": 996,
+     "n": 1000,
+     "p": 0.996,
+     "lo": 0.9897604437227377,
+     "hi": 0.9984434118595916
+    },
+    "0.05": {
+     "k": 934,
+     "n": 1000,
+     "p": 0.934,
+     "lo": 0.9168907240940241,
+     "hi": 0.9477876495405142
+    },
+    "0.1": {
+     "k": 461,
+     "n": 1000,
+     "p": 0.461,
+     "lo": 0.4303127166140634,
+     "hi": 0.49198577054780995
+    },
+    "0.15": {
+     "k": 180,
+     "n": 1000,
+     "p": 0.18,
+     "lo": 0.15742689252874323,
+     "hi": 0.20502223290201207
+    },
+    "0.2": {
+     "k": 77,
+     "n": 1000,
+     "p": 0.077,
+     "lo": 0.062047907060605895,
+     "hi": 0.09518953061817373
+    },
+    "0.3": {
+     "k": 14,
+     "n": 1000,
+     "p": 0.014,
+     "lo": 0.00835757513042392,
+     "hi": 0.02336203411753566
+    }
+   },
+   "stereoRightBySigma": {
+    "0": {
+     "k": 996,
+     "n": 996,
+     "p": 1,
+     "lo": 0.9961579320533226,
+     "hi": 0.9999999999999999
+    },
+    "0.05": {
+     "k": 934,
+     "n": 934,
+     "p": 1,
+     "lo": 0.9959039358043259,
+     "hi": 0.9999999999999999
+    },
+    "0.1": {
+     "k": 461,
+     "n": 461,
+     "p": 1,
+     "lo": 0.9917359806278039,
+     "hi": 1
+    },
+    "0.15": {
+     "k": 180,
+     "n": 180,
+     "p": 1,
+     "lo": 0.9791045020783868,
+     "hi": 1
+    },
+    "0.2": {
+     "k": 74,
+     "n": 77,
+     "p": 0.961038961038961,
+     "lo": 0.8916001812736711,
+     "hi": 0.986662049959409
+    },
+    "0.3": {
+     "k": 13,
+     "n": 14,
+     "p": 0.9285714285714286,
+     "lo": 0.6853129557584889,
+     "hi": 0.9872777847521093
+    }
+   },
+   "recall": {
+    "k": 2662,
+    "n": 6000,
+    "p": 0.44366666666666665,
+    "lo": 0.43113572231373126,
+    "hi": 0.45626969892589214
+   },
+   "stereoRight": {
+    "k": 2658,
+    "n": 2662,
+    "p": 0.9984973703981969,
+    "lo": 0.9961425720120142,
+    "hi": 0.9994155063645099
+   },
+   "falsePositiveByClass": {
+    "regular hexagon": {
+     "k": 0,
+     "n": 1000,
+     "p": 0,
+     "lo": 2.168404344971009e-19,
+     "hi": 0.0038267584855551234
+    },
+    "Haworth hexagon": {
+     "k": 0,
+     "n": 1000,
+     "p": 0,
+     "lo": 2.168404344971009e-19,
+     "hi": 0.0038267584855551234
+    },
+    "boat": {
+     "k": 0,
+     "n": 1000,
+     "p": 0,
+     "lo": 2.168404344971009e-19,
+     "hi": 0.0038267584855551234
+    },
+    "half-chair": {
+     "k": 0,
+     "n": 1000,
+     "p": 0,
+     "lo": 2.168404344971009e-19,
+     "hi": 0.0038267584855551234
+    },
+    "twist-boat": {
+     "k": 0,
+     "n": 1000,
+     "p": 0,
+     "lo": 2.168404344971009e-19,
+     "hi": 0.0038267584855551234
+    },
+    "random hexagon": {
+     "k": 0,
+     "n": 1000,
+     "p": 0,
+     "lo": 2.168404344971009e-19,
+     "hi": 0.0038267584855551234
+    }
+   },
+   "falsePositive": {
+    "k": 0,
+    "n": 6000,
+    "p": 0,
+    "lo": 0,
+    "hi": 0.0006398334877831175
+   },
+   "hand": {
+    "k": 0,
+    "n": 0,
+    "p": null,
+    "lo": null,
+    "hi": null
+   },
+   "fitOffPositive": {
+    "median": 0.08522356617356008,
+    "p95": 0.16619319495307727
+   }
+  }
+ },
+ "b5": {
+  "title": "B5: the conformation drawn kept in 3D",
+  "environment": {
+   "olomol": "0.6.0-dev",
+   "commit": "dcad161eab1dcbffadfa5284d952e2120f54691a",
+   "commitShort": "dcad161",
+   "commitDate": "2026-11-22T02:41:43+01:00",
+   "branch": "embedding",
+   "srcChanged": false,
+   "tag": null,
+   "date": "2026-11-22T02:22:19.376Z",
+   "node": "v24.22.0",
+   "chrome": "154.0.8037.97",
+   "playwright": "1.64.1",
+   "rdkitJs": "2026.9.1",
+   "rdkitCore": "2026.09.1",
+   "meganeRdkit": "0.1.0",
+   "indigo": "1.46.0",
+   "openchemlib": "9.25.1",
+   "vite": "8.3.4",
+   "machine": {
+    "cpu": "AMD Ryzen AI 7 350 w/ Radeon 860M",
+    "cores": 16,
+    "ramGB": 31,
+    "os": "Linux 7.2.8-200.fc44.x86_64 (linux x64)"
+   }
+  },
+  "seconds": 78.9,
+  "summary": {
+   "all": {
+    "k": 614,
+    "n": 614,
+    "p": 1,
+    "lo": 0.9937824521714252,
+    "hi": 1
+   },
+   "sidesKept": {
+    "k": 464,
+    "n": 464,
+    "p": 1,
+    "lo": 0.9917889730628459,
+    "hi": 0.9999999999999999
+   },
+   "sidesKeptByPart": {
+    "chair": {
+     "k": 350,
+     "n": 350,
+     "p": 1,
+     "lo": 0.9891435592835921,
+     "hi": 0.9999999999999999
+    },
+    "sugar": {
+     "k": 64,
+     "n": 64,
+     "p": 1,
+     "lo": 0.9433759402071946,
+     "hi": 1
+    },
+    "cyNewman": {
+     "k": 50,
+     "n": 50,
+     "p": 1,
+     "lo": 0.9286524008666414,
+     "hi": 1
+    }
+   },
+   "newmanKept": {
+    "k": 100,
+    "n": 100,
+    "p": 1,
+    "lo": 0.9630065017930143,
+    "hi": 1
+   },
+   "newmanError": {
+    "median": 5.6,
+    "max": 13.8
+   },
+   "dieneKept": {
+    "k": 50,
+    "n": 50,
+    "p": 1,
+    "lo": 0.9286524008666414,
+    "hi": 1
+   },
+   "dieneByDrawn": {
+    "s-cis": {
+     "k": 25,
+     "n": 25,
+     "p": 1,
+     "lo": 0.8668077490609515,
+     "hi": 0.9999999999999999
+    },
+    "s-trans": {
+     "k": 25,
+     "n": 25,
+     "p": 1,
+     "lo": 0.8668077490609515,
+     "hi": 0.9999999999999999
+    }
+   },
+   "dieneError": {
+    "median": 0,
+    "max": 28.4
+   },
+   "dihedralError": {
+    "median": 5,
+    "max": 28.4
+   },
+   "stereoKept": {
+    "k": 614,
+    "n": 614,
+    "p": 1,
+    "lo": 0.9937824521714252,
+    "hi": 1
+   },
+   "conformationLost": 0,
+   "noModel": 0,
+   "ms": {
+    "median": 62,
+    "p95": 344.35,
+    "max": 793
+   },
+   "tolerance": 30
+  }
+ },
+ "b3": {
+  "title": "B3: Redraw, several engines with a SMILES check",
+  "environment": {
+   "olomol": "0.6.0-dev",
+   "commit": "dcad161eab1dcbffadfa5284d952e2120f54691a",
+   "commitShort": "dcad161",
+   "commitDate": "2026-11-22T02:41:43+01:00",
+   "branch": "embedding",
+   "srcChanged": false,
+   "tag": null,
+   "date": "2026-11-22T02:23:38.745Z",
+   "node": "v24.22.0",
+   "chrome": "154.0.8037.97",
+   "playwright": "1.64.1",
+   "rdkitJs": "2026.9.1",
+   "rdkitCore": "2026.09.1",
+   "meganeRdkit": "0.1.0",
+   "indigo": "1.46.0",
+   "openchemlib": "9.25.1",
+   "vite": "8.3.4",
+   "machine": {
+    "cpu": "AMD Ryzen AI 7 350 w/ Radeon 860M",
+    "cores": 16,
+    "ramGB": 31,
+    "os": "Linux 7.2.8-200.fc44.x86_64 (linux x64)"
+   }
+  },
+  "seconds": 487.2,
+  "summary": {
+   "molecules": 305,
+   "notFinished": 0,
+   "bestOfAllClean": {
+    "k": 278,
+    "n": 305,
+    "p": 0.9114754098360656,
+    "lo": 0.8742666327799533,
+    "hi": 0.938448088094761
+   },
+   "bySet": {
+    "bridged": {
+     "molecules": 100,
+     "bestOfAllClean": {
+      "k": 77,
+      "n": 100,
+      "p": 0.77,
+      "lo": 0.6784561697712622,
+      "hi": 0.8415673411969654
+     },
+     "engines": {
+      "Indigo layout": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 100,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 35,
+        "n": 100,
+        "p": 0.35,
+        "lo": 0.26364248243097527,
+        "hi": 0.44745556703112027
+       },
+       "clean": {
+        "k": 32,
+        "n": 100,
+        "p": 0.32,
+        "lo": 0.23669147324999093,
+        "hi": 0.41662618610452384
+       },
+       "bestOfAllBeats": {
+        "k": 65,
+        "n": 100,
+        "p": 0.65,
+        "lo": 0.5525444329688796,
+        "hi": 0.7363575175690247
+       },
+       "olomolPick": 32,
+       "ms": {
+        "median": 8.5,
+        "p95": 17.099999999999998
+       }
+      },
+      "RDKit + ring template": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 52,
+       "drawn": 25,
+       "sameAsAnother": 0,
+       "sameAsStart": 23,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 18,
+        "n": 100,
+        "p": 0.18,
+        "lo": 0.11700225498946351,
+        "hi": 0.2666735838630073
+       },
+       "clean": {
+        "k": 40,
+        "n": 100,
+        "p": 0.4,
+        "lo": 0.3094012864324589,
+        "hi": 0.4979974132089382
+       },
+       "bestOfAllBeats": {
+        "k": 82,
+        "n": 100,
+        "p": 0.82,
+        "lo": 0.7333264161369926,
+        "hi": 0.8829977450105364
+       },
+       "olomolPick": 15,
+       "ms": {
+        "median": 6,
+        "p95": 8.8
+       }
+      },
+      "RDKit": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 3,
+       "nothing": 0,
+       "drawn": 46,
+       "sameAsAnother": 0,
+       "sameAsStart": 51,
+       "rejectedRate": {
+        "k": 3,
+        "n": 100,
+        "p": 0.03,
+        "lo": 0.010254524024038925,
+        "hi": 0.0845193642905276
+       },
+       "best": {
+        "k": 31,
+        "n": 100,
+        "p": 0.31,
+        "lo": 0.22779697212376038,
+        "hi": 0.40626055719489407
+       },
+       "clean": {
+        "k": 38,
+        "n": 100,
+        "p": 0.38,
+        "lo": 0.29097599252478734,
+        "hi": 0.47790244704488916
+       },
+       "bestOfAllBeats": {
+        "k": 69,
+        "n": 100,
+        "p": 0.69,
+        "lo": 0.5937394428051057,
+        "hi": 0.7722030278762395
+       },
+       "olomolPick": 3,
+       "ms": {
+        "median": 4,
+        "p95": 6.8
+       }
+      },
+      "CoordGen": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 73,
+       "sameAsAnother": 0,
+       "sameAsStart": 27,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 19,
+        "n": 100,
+        "p": 0.19,
+        "lo": 0.12514751509768735,
+        "hi": 0.27778845379064376
+       },
+       "clean": {
+        "k": 50,
+        "n": 100,
+        "p": 0.5,
+        "lo": 0.4038315303659956,
+        "hi": 0.5961684696340044
+       },
+       "bestOfAllBeats": {
+        "k": 81,
+        "n": 100,
+        "p": 0.81,
+        "lo": 0.7222115462093562,
+        "hi": 0.8748524849023126
+       },
+       "olomolPick": 2,
+       "ms": {
+        "median": 15,
+        "p95": 77.74999999999996
+       }
+      },
+      "Indigo clean-up": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 100,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 11,
+        "n": 100,
+        "p": 0.11,
+        "lo": 0.06254196357064568,
+        "hi": 0.18631296503080313
+       },
+       "clean": {
+        "k": 68,
+        "n": 100,
+        "p": 0.68,
+        "lo": 0.5833738138954762,
+        "hi": 0.7633085267500092
+       },
+       "bestOfAllBeats": {
+        "k": 89,
+        "n": 100,
+        "p": 0.89,
+        "lo": 0.8136870349691969,
+        "hi": 0.9374580364293543
+       },
+       "olomolPick": 44,
+       "ms": {
+        "median": 4010,
+        "p95": 4043
+       }
+      },
+      "3D, projected": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 1,
+       "nothing": 8,
+       "drawn": 91,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 1,
+        "n": 100,
+        "p": 0.01,
+        "lo": 0.0017674320641406505,
+        "hi": 0.054486196178705315
+       },
+       "best": {
+        "k": 1,
+        "n": 100,
+        "p": 0.01,
+        "lo": 0.0017674320641406505,
+        "hi": 0.054486196178705315
+       },
+       "clean": {
+        "k": 33,
+        "n": 100,
+        "p": 0.33,
+        "lo": 0.24563122734128034,
+        "hi": 0.4269465620490947
+       },
+       "bestOfAllBeats": {
+        "k": 99,
+        "n": 100,
+        "p": 0.99,
+        "lo": 0.9455138038212946,
+        "hi": 0.9982325679358593
+       },
+       "olomolPick": 4,
+       "ms": {
+        "median": 371.5,
+        "p95": 1423.3499999999995
+       }
+      },
+      "3D, projected, another view": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 1,
+       "nothing": 8,
+       "drawn": 91,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 1,
+        "n": 100,
+        "p": 0.01,
+        "lo": 0.0017674320641406505,
+        "hi": 0.054486196178705315
+       },
+       "best": {
+        "k": 2,
+        "n": 100,
+        "p": 0.02,
+        "lo": 0.005501967550162343,
+        "hi": 0.0700117907285439
+       },
+       "clean": {
+        "k": 23,
+        "n": 100,
+        "p": 0.23,
+        "lo": 0.15843265880303448,
+        "hi": 0.3215438302287378
+       },
+       "bestOfAllBeats": {
+        "k": 98,
+        "n": 100,
+        "p": 0.98,
+        "lo": 0.929988209271456,
+        "hi": 0.9944980324498376
+       },
+       "olomolPick": 0,
+       "ms": {
+        "median": 29.5,
+        "p95": 65.19999999999999
+       }
+      }
+     }
+    },
+    "macrocyclic": {
+     "molecules": 100,
+     "bestOfAllClean": {
+      "k": 97,
+      "n": 100,
+      "p": 0.97,
+      "lo": 0.9154806357094724,
+      "hi": 0.9897454759759611
+     },
+     "engines": {
+      "Indigo layout": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 23,
+       "nothing": 0,
+       "drawn": 77,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 23,
+        "n": 100,
+        "p": 0.23,
+        "lo": 0.15843265880303448,
+        "hi": 0.3215438302287378
+       },
+       "best": {
+        "k": 56,
+        "n": 100,
+        "p": 0.56,
+        "lo": 0.4622810465167699,
+        "hi": 0.6532797336983921
+       },
+       "clean": {
+        "k": 70,
+        "n": 100,
+        "p": 0.7,
+        "lo": 0.6041514536665332,
+        "hi": 0.7810511470506724
+       },
+       "bestOfAllBeats": {
+        "k": 44,
+        "n": 100,
+        "p": 0.44,
+        "lo": 0.34672026630160796,
+        "hi": 0.5377189534832302
+       },
+       "olomolPick": 19,
+       "ms": {
+        "median": 10,
+        "p95": 24.5
+       }
+      },
+      "RDKit + ring template": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 4,
+       "nothing": 57,
+       "drawn": 39,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 4,
+        "n": 100,
+        "p": 0.04,
+        "lo": 0.01566330399154762,
+        "hi": 0.0983707143588792
+       },
+       "best": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "clean": {
+        "k": 20,
+        "n": 100,
+        "p": 0.2,
+        "lo": 0.13336693333103253,
+        "hi": 0.28882916559315885
+       },
+       "bestOfAllBeats": {
+        "k": 100,
+        "n": 100,
+        "p": 1,
+        "lo": 0.9630065017930143,
+        "hi": 1
+       },
+       "olomolPick": 10,
+       "ms": {
+        "median": 6,
+        "p95": 12
+       }
+      },
+      "RDKit": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 1,
+       "nothing": 0,
+       "drawn": 89,
+       "sameAsAnother": 1,
+       "sameAsStart": 9,
+       "rejectedRate": {
+        "k": 1,
+        "n": 100,
+        "p": 0.01,
+        "lo": 0.0017674320641406505,
+        "hi": 0.054486196178705315
+       },
+       "best": {
+        "k": 51,
+        "n": 100,
+        "p": 0.51,
+        "lo": 0.4134801193402717,
+        "hi": 0.6057800106955886
+       },
+       "clean": {
+        "k": 91,
+        "n": 100,
+        "p": 0.91,
+        "lo": 0.837737871472837,
+        "hi": 0.9519274599974348
+       },
+       "bestOfAllBeats": {
+        "k": 49,
+        "n": 100,
+        "p": 0.49,
+        "lo": 0.3942199893044113,
+        "hi": 0.5865198806597283
+       },
+       "olomolPick": 16,
+       "ms": {
+        "median": 5,
+        "p95": 14.799999999999997
+       }
+      },
+      "CoordGen": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 3,
+       "nothing": 0,
+       "drawn": 10,
+       "sameAsAnother": 0,
+       "sameAsStart": 87,
+       "rejectedRate": {
+        "k": 3,
+        "n": 100,
+        "p": 0.03,
+        "lo": 0.010254524024038925,
+        "hi": 0.0845193642905276
+       },
+       "best": {
+        "k": 19,
+        "n": 100,
+        "p": 0.19,
+        "lo": 0.12514751509768735,
+        "hi": 0.27778845379064376
+       },
+       "clean": {
+        "k": 88,
+        "n": 100,
+        "p": 0.88,
+        "lo": 0.8018790057328857,
+        "hi": 0.9300059356298052
+       },
+       "bestOfAllBeats": {
+        "k": 81,
+        "n": 100,
+        "p": 0.81,
+        "lo": 0.7222115462093562,
+        "hi": 0.8748524849023126
+       },
+       "olomolPick": 2,
+       "ms": {
+        "median": null,
+        "p95": null
+       }
+      },
+      "Indigo clean-up": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 78,
+       "sameAsAnother": 0,
+       "sameAsStart": 22,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 15,
+        "n": 100,
+        "p": 0.15,
+        "lo": 0.09305985283656631,
+        "hi": 0.23283559590832364
+       },
+       "clean": {
+        "k": 95,
+        "n": 100,
+        "p": 0.95,
+        "lo": 0.8882495307680808,
+        "hi": 0.9784563208456319
+       },
+       "bestOfAllBeats": {
+        "k": 85,
+        "n": 100,
+        "p": 0.85,
+        "lo": 0.7671644040916763,
+        "hi": 0.9069401471634337
+       },
+       "olomolPick": 53,
+       "ms": {
+        "median": 4015,
+        "p95": 4112.5
+       }
+      },
+      "3D, projected": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 1,
+       "nothing": 60,
+       "drawn": 39,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 1,
+        "n": 100,
+        "p": 0.01,
+        "lo": 0.0017674320641406505,
+        "hi": 0.054486196178705315
+       },
+       "best": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "clean": {
+        "k": 12,
+        "n": 100,
+        "p": 0.12,
+        "lo": 0.0699940643701949,
+        "hi": 0.19812099426711421
+       },
+       "bestOfAllBeats": {
+        "k": 100,
+        "n": 100,
+        "p": 1,
+        "lo": 0.9630065017930143,
+        "hi": 1
+       },
+       "olomolPick": 0,
+       "ms": {
+        "median": 712,
+        "p95": 47958.399999999994
+       }
+      },
+      "3D, projected, another view": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 1,
+       "nothing": 60,
+       "drawn": 39,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 1,
+        "n": 100,
+        "p": 0.01,
+        "lo": 0.0017674320641406505,
+        "hi": 0.054486196178705315
+       },
+       "best": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "clean": {
+        "k": 9,
+        "n": 100,
+        "p": 0.09,
+        "lo": 0.04807254000256516,
+        "hi": 0.1622621285271631
+       },
+       "bestOfAllBeats": {
+        "k": 100,
+        "n": 100,
+        "p": 1,
+        "lo": 0.9630065017930143,
+        "hi": 1
+       },
+       "olomolPick": 0,
+       "ms": {
+        "median": 61,
+        "p95": 93.4
+       }
+      }
+     }
+    },
+    "fused": {
+     "molecules": 100,
+     "bestOfAllClean": {
+      "k": 100,
+      "n": 100,
+      "p": 1,
+      "lo": 0.9630065017930143,
+      "hi": 1
+     },
+     "engines": {
+      "Indigo layout": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 1,
+       "nothing": 0,
+       "drawn": 87,
+       "sameAsAnother": 0,
+       "sameAsStart": 12,
+       "rejectedRate": {
+        "k": 1,
+        "n": 100,
+        "p": 0.01,
+        "lo": 0.0017674320641406505,
+        "hi": 0.054486196178705315
+       },
+       "best": {
+        "k": 94,
+        "n": 100,
+        "p": 0.94,
+        "lo": 0.8752318455410406,
+        "hi": 0.9722138760368118
+       },
+       "clean": {
+        "k": 99,
+        "n": 100,
+        "p": 0.99,
+        "lo": 0.9455138038212946,
+        "hi": 0.9982325679358593
+       },
+       "bestOfAllBeats": {
+        "k": 6,
+        "n": 100,
+        "p": 0.06,
+        "lo": 0.027786123963188192,
+        "hi": 0.1247681544589592
+       },
+       "olomolPick": 79,
+       "ms": {
+        "median": 12,
+        "p95": 16.9
+       }
+      },
+      "RDKit + ring template": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 100,
+       "drawn": 0,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "clean": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "bestOfAllBeats": {
+        "k": 100,
+        "n": 100,
+        "p": 1,
+        "lo": 0.9630065017930143,
+        "hi": 1
+       },
+       "olomolPick": 0,
+       "ms": {
+        "median": null,
+        "p95": null
+       }
+      },
+      "RDKit": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 2,
+       "sameAsAnother": 0,
+       "sameAsStart": 98,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 82,
+        "n": 100,
+        "p": 0.82,
+        "lo": 0.7333264161369926,
+        "hi": 0.8829977450105364
+       },
+       "clean": {
+        "k": 99,
+        "n": 100,
+        "p": 0.99,
+        "lo": 0.9455138038212946,
+        "hi": 0.9982325679358593
+       },
+       "bestOfAllBeats": {
+        "k": 18,
+        "n": 100,
+        "p": 0.18,
+        "lo": 0.11700225498946351,
+        "hi": 0.2666735838630073
+       },
+       "olomolPick": 1,
+       "ms": {
+        "median": null,
+        "p95": null
+       }
+      },
+      "CoordGen": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 75,
+       "sameAsAnother": 10,
+       "sameAsStart": 15,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 71,
+        "n": 100,
+        "p": 0.71,
+        "lo": 0.6146110882442888,
+        "hi": 0.7898516425087772
+       },
+       "clean": {
+        "k": 100,
+        "n": 100,
+        "p": 1,
+        "lo": 0.9630065017930143,
+        "hi": 1
+       },
+       "bestOfAllBeats": {
+        "k": 29,
+        "n": 100,
+        "p": 0.29,
+        "lo": 0.2101483574912227,
+        "hi": 0.3853889117557111
+       },
+       "olomolPick": 14,
+       "ms": {
+        "median": 15,
+        "p95": 39.8
+       }
+      },
+      "Indigo clean-up": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 44,
+       "sameAsAnother": 0,
+       "sameAsStart": 56,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 56,
+        "n": 100,
+        "p": 0.56,
+        "lo": 0.4622810465167699,
+        "hi": 0.6532797336983921
+       },
+       "clean": {
+        "k": 100,
+        "n": 100,
+        "p": 1,
+        "lo": 0.9630065017930143,
+        "hi": 1
+       },
+       "bestOfAllBeats": {
+        "k": 44,
+        "n": 100,
+        "p": 0.44,
+        "lo": 0.34672026630160796,
+        "hi": 0.5377189534832302
+       },
+       "olomolPick": 2,
+       "ms": {
+        "median": 3979,
+        "p95": 4027.95
+       }
+      },
+      "3D, projected": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 100,
+       "drawn": 0,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "clean": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "bestOfAllBeats": {
+        "k": 100,
+        "n": 100,
+        "p": 1,
+        "lo": 0.9630065017930143,
+        "hi": 1
+       },
+       "olomolPick": 0,
+       "ms": {
+        "median": null,
+        "p95": null
+       }
+      },
+      "3D, projected, another view": {
+       "molecules": 100,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 100,
+       "drawn": 0,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "best": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "clean": {
+        "k": 0,
+        "n": 100,
+        "p": 0,
+        "lo": 3.469446951953614e-18,
+        "hi": 0.03699349820698568
+       },
+       "bestOfAllBeats": {
+        "k": 100,
+        "n": 100,
+        "p": 1,
+        "lo": 0.9630065017930143,
+        "hi": 1
+       },
+       "olomolPick": 0,
+       "ms": {
+        "median": null,
+        "p95": null
+       }
+      }
+     }
+    },
+    "brief": {
+     "molecules": 5,
+     "bestOfAllClean": {
+      "k": 4,
+      "n": 5,
+      "p": 0.8,
+      "lo": 0.3755346297625253,
+      "hi": 0.9637758913675698
+     },
+     "engines": {
+      "Indigo layout": {
+       "molecules": 5,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 4,
+       "sameAsAnother": 0,
+       "sameAsStart": 1,
+       "rejectedRate": {
+        "k": 0,
+        "n": 5,
+        "p": 0,
+        "lo": 0,
+        "hi": 0.43448246478317476
+       },
+       "best": {
+        "k": 3,
+        "n": 5,
+        "p": 0.6,
+        "lo": 0.2307242812760128,
+        "hi": 0.882379225767352
+       },
+       "clean": {
+        "k": 4,
+        "n": 5,
+        "p": 0.8,
+        "lo": 0.3755346297625253,
+        "hi": 0.9637758913675698
+       },
+       "bestOfAllBeats": {
+        "k": 2,
+        "n": 5,
+        "p": 0.4,
+        "lo": 0.11762077423264783,
+        "hi": 0.769275718723987
+       },
+       "olomolPick": 1,
+       "ms": {
+        "median": 8,
+        "p95": 8
+       }
+      },
+      "RDKit + ring template": {
+       "molecules": 5,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 3,
+       "drawn": 1,
+       "sameAsAnother": 0,
+       "sameAsStart": 1,
+       "rejectedRate": {
+        "k": 0,
+        "n": 5,
+        "p": 0,
+        "lo": 0,
+        "hi": 0.43448246478317476
+       },
+       "best": {
+        "k": 0,
+        "n": 5,
+        "p": 0,
+        "lo": 0,
+        "hi": 0.43448246478317476
+       },
+       "clean": {
+        "k": 1,
+        "n": 5,
+        "p": 0.2,
+        "lo": 0.036224108632430085,
+        "hi": 0.6244653702374747
+       },
+       "bestOfAllBeats": {
+        "k": 5,
+        "n": 5,
+        "p": 1,
+        "lo": 0.5655175352168251,
+        "hi": 1
+       },
+       "olomolPick": 1,
+       "ms": {
+        "median": 6,
+        "p95": 6
+       }
+      },
+      "RDKit": {
+       "molecules": 5,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 3,
+       "sameAsAnother": 0,
+       "sameAsStart": 2,
+       "rejectedRate": {
+        "k": 0,
+        "n": 5,
+        "p": 0,
+        "lo": 0,
+        "hi": 0.43448246478317476
+       },
+       "best": {
+        "k": 3,
+        "n": 5,
+        "p": 0.6,
+        "lo": 0.2307242812760128,
+        "hi": 0.882379225767352
+       },
+       "clean": {
+        "k": 4,
+        "n": 5,
+        "p": 0.8,
+        "lo": 0.3755346297625253,
+        "hi": 0.9637758913675698
+       },
+       "bestOfAllBeats": {
+        "k": 2,
+        "n": 5,
+        "p": 0.4,
+        "lo": 0.11762077423264783,
+        "hi": 0.769275718723987
+       },
+       "olomolPick": 0,
+       "ms": {
+        "median": 3,
+        "p95": 3.9
+       }
+      },
+      "CoordGen": {
+       "molecules": 5,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 2,
+       "sameAsAnother": 0,
+       "sameAsStart": 3,
+       "rejectedRate": {
+        "k": 0,
+        "n": 5,
+        "p": 0,
+        "lo": 0,
+        "hi": 0.43448246478317476
+       },
+       "best": {
+        "k": 2,
+        "n": 5,
+        "p": 0.4,
+        "lo": 0.11762077423264783,
+        "hi": 0.769275718723987
+       },
+       "clean": {
+        "k": 4,
+        "n": 5,
+        "p": 0.8,
+        "lo": 0.3755346297625253,
+        "hi": 0.9637758913675698
+       },
+       "bestOfAllBeats": {
+        "k": 3,
+        "n": 5,
+        "p": 0.6,
+        "lo": 0.2307242812760128,
+        "hi": 0.882379225767352
+       },
+       "olomolPick": 1,
+       "ms": {
+        "median": 3,
+        "p95": 4.8
+       }
+      },
+      "Indigo clean-up": {
+       "molecules": 5,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 0,
+       "drawn": 2,
+       "sameAsAnother": 0,
+       "sameAsStart": 3,
+       "rejectedRate": {
+        "k": 0,
+        "n": 5,
+        "p": 0,
+        "lo": 0,
+        "hi": 0.43448246478317476
+       },
+       "best": {
+        "k": 4,
+        "n": 5,
+        "p": 0.8,
+        "lo": 0.3755346297625253,
+        "hi": 0.9637758913675698
+       },
+       "clean": {
+        "k": 4,
+        "n": 5,
+        "p": 0.8,
+        "lo": 0.3755346297625253,
+        "hi": 0.9637758913675698
+       },
+       "bestOfAllBeats": {
+        "k": 1,
+        "n": 5,
+        "p": 0.2,
+        "lo": 0.036224108632430085,
+        "hi": 0.6244653702374747
+       },
+       "olomolPick": 2,
+       "ms": {
+        "median": 2431,
+        "p95": 2488.6
+       }
+      },
+      "3D, projected": {
+       "molecules": 5,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 3,
+       "drawn": 2,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 0,
+        "n": 5,
+        "p": 0,
+        "lo": 0,
+        "hi": 0.43448246478317476
+       },
+       "best": {
+        "k": 0,
+        "n": 5,
+        "p": 0,
+        "lo": 0,
+        "hi": 0.43448246478317476
+       },
+       "clean": {
+        "k": 1,
+        "n": 5,
+        "p": 0.2,
+        "lo": 0.036224108632430085,
+        "hi": 0.6244653702374747
+       },
+       "bestOfAllBeats": {
+        "k": 5,
+        "n": 5,
+        "p": 1,
+        "lo": 0.5655175352168251,
+        "hi": 1
+       },
+       "olomolPick": 0,
+       "ms": {
+        "median": 311.5,
+        "p95": 419.95
+       }
+      },
+      "3D, projected, another view": {
+       "molecules": 5,
+       "failed": 0,
+       "rejected": 0,
+       "nothing": 3,
+       "drawn": 2,
+       "sameAsAnother": 0,
+       "sameAsStart": 0,
+       "rejectedRate": {
+        "k": 0,
+        "n": 5,
+        "p": 0,
+        "lo": 0,
+        "hi": 0.43448246478317476
+       },
+       "best": {
+        "k": 0,
+        "n": 5,
+        "p": 0,
+        "lo": 0,
+        "hi": 0.43448246478317476
+       },
+       "clean": {
+        "k": 1,
+        "n": 5,
+        "p": 0.2,
+        "lo": 0.036224108632430085,
+        "hi": 0.6244653702374747
+       },
+       "bestOfAllBeats": {
+        "k": 5,
+        "n": 5,
+        "p": 1,
+        "lo": 0.5655175352168251,
+        "hi": 1
+       },
+       "olomolPick": 0,
+       "ms": {
+        "median": 16.5,
+        "p95": 18.75
+       }
+      }
+     }
+    }
+   },
+   "engines": {
+    "Indigo layout": {
+     "molecules": 305,
+     "failed": 0,
+     "rejected": 24,
+     "nothing": 0,
+     "drawn": 268,
+     "sameAsAnother": 0,
+     "sameAsStart": 13,
+     "rejectedRate": {
+      "k": 24,
+      "n": 305,
+      "p": 0.07868852459016394,
+      "lo": 0.053446205121561875,
+      "hi": 0.11441163047683822
+     },
+     "best": {
+      "k": 188,
+      "n": 305,
+      "p": 0.6163934426229508,
+      "lo": 0.5606948005212327,
+      "hi": 0.6691966145469137
+     },
+     "clean": {
+      "k": 205,
+      "n": 305,
+      "p": 0.6721311475409836,
+      "lo": 0.617591465418305,
+      "hi": 0.7223887963021929
+     },
+     "bestOfAllBeats": {
+      "k": 117,
+      "n": 305,
+      "p": 0.3836065573770492,
+      "lo": 0.33080338545308635,
+      "hi": 0.4393051994787674
+     },
+     "olomolPick": 131,
+     "ms": {
+      "median": 10,
+      "p95": 19.65
+     }
+    },
+    "RDKit + ring template": {
+     "molecules": 305,
+     "failed": 0,
+     "rejected": 4,
+     "nothing": 212,
+     "drawn": 65,
+     "sameAsAnother": 0,
+     "sameAsStart": 24,
+     "rejectedRate": {
+      "k": 4,
+      "n": 305,
+      "p": 0.013114754098360656,
+      "lo": 0.005111572997678568,
+      "hi": 0.033229972421484184
+     },
+     "best": {
+      "k": 18,
+      "n": 305,
+      "p": 0.05901639344262295,
+      "lo": 0.037653248427745395,
+      "hi": 0.09134970011688348
+     },
+     "clean": {
+      "k": 61,
+      "n": 305,
+      "p": 0.2,
+      "lo": 0.15896486951568237,
+      "hi": 0.24849810291430682
+     },
+     "bestOfAllBeats": {
+      "k": 287,
+      "n": 305,
+      "p": 0.940983606557377,
+      "lo": 0.9086502998831165,
+      "hi": 0.9623467515722546
+     },
+     "olomolPick": 26,
+     "ms": {
+      "median": 6,
+      "p95": 12
+     }
+    },
+    "RDKit": {
+     "molecules": 305,
+     "failed": 0,
+     "rejected": 4,
+     "nothing": 0,
+     "drawn": 140,
+     "sameAsAnother": 1,
+     "sameAsStart": 160,
+     "rejectedRate": {
+      "k": 4,
+      "n": 305,
+      "p": 0.013114754098360656,
+      "lo": 0.005111572997678568,
+      "hi": 0.033229972421484184
+     },
+     "best": {
+      "k": 167,
+      "n": 305,
+      "p": 0.5475409836065573,
+      "lo": 0.49143561029531485,
+      "hi": 0.6024637000846321
+     },
+     "clean": {
+      "k": 232,
+      "n": 305,
+      "p": 0.760655737704918,
+      "lo": 0.7097165796336651,
+      "hi": 0.8051106738288034
+     },
+     "bestOfAllBeats": {
+      "k": 138,
+      "n": 305,
+      "p": 0.4524590163934426,
+      "lo": 0.39753629991536776,
+      "hi": 0.5085643897046851
+     },
+     "olomolPick": 20,
+     "ms": {
+      "median": 5,
+      "p95": 11.599999999999994
+     }
+    },
+    "CoordGen": {
+     "molecules": 305,
+     "failed": 0,
+     "rejected": 3,
+     "nothing": 0,
+     "drawn": 160,
+     "sameAsAnother": 10,
+     "sameAsStart": 132,
+     "rejectedRate": {
+      "k": 3,
+      "n": 305,
+      "p": 0.009836065573770493,
+      "lo": 0.0033506797395839154,
+      "hi": 0.028515051170616965
+     },
+     "best": {
+      "k": 111,
+      "n": 305,
+      "p": 0.3639344262295082,
+      "lo": 0.31194113693461933,
+      "hi": 0.41931256094346325
+     },
+     "clean": {
+      "k": 242,
+      "n": 305,
+      "p": 0.7934426229508197,
+      "lo": 0.7444953416051605,
+      "hi": 0.8350900569469266
+     },
+     "bestOfAllBeats": {
+      "k": 194,
+      "n": 305,
+      "p": 0.6360655737704918,
+      "lo": 0.5806874390565367,
+      "hi": 0.6880588630653807
+     },
+     "olomolPick": 19,
+     "ms": {
+      "median": 14,
+      "p95": 50.89999999999988
+     }
+    },
+    "Indigo clean-up": {
+     "molecules": 305,
+     "failed": 0,
+     "rejected": 0,
+     "nothing": 0,
+     "drawn": 224,
+     "sameAsAnother": 0,
+     "sameAsStart": 81,
+     "rejectedRate": {
+      "k": 0,
+      "n": 305,
+      "p": 0,
+      "lo": 0,
+      "hi": 0.012438287383315282
+     },
+     "best": {
+      "k": 86,
+      "n": 305,
+      "p": 0.2819672131147541,
+      "lo": 0.23442350567190562,
+      "hi": 0.33493482948213016
+     },
+     "clean": {
+      "k": 267,
+      "n": 305,
+      "p": 0.8754098360655738,
+      "lo": 0.8336133532420791,
+      "hi": 0.9078674080340547
+     },
+     "bestOfAllBeats": {
+      "k": 219,
+      "n": 305,
+      "p": 0.7180327868852459,
+      "lo": 0.6650651705178698,
+      "hi": 0.7655764943280943
+     },
+     "olomolPick": 101,
+     "ms": {
+      "median": 4011,
+      "p95": 4050
+     }
+    },
+    "3D, projected": {
+     "molecules": 305,
+     "failed": 0,
+     "rejected": 2,
+     "nothing": 171,
+     "drawn": 132,
+     "sameAsAnother": 0,
+     "sameAsStart": 0,
+     "rejectedRate": {
+      "k": 2,
+      "n": 305,
+      "p": 0.006557377049180328,
+      "lo": 0.001800115095752829,
+      "hi": 0.023589801305486185
+     },
+     "best": {
+      "k": 1,
+      "n": 305,
+      "p": 0.003278688524590164,
+      "lo": 0.0005790036811761587,
+      "hi": 0.01833509821110099
+     },
+     "clean": {
+      "k": 46,
+      "n": 305,
+      "p": 0.15081967213114755,
+      "lo": 0.11501473374440258,
+      "hi": 0.1953110210511586
+     },
+     "bestOfAllBeats": {
+      "k": 304,
+      "n": 305,
+      "p": 0.9967213114754099,
+      "lo": 0.981664901788899,
+      "hi": 0.9994209963188239
+     },
+     "olomolPick": 4,
+     "ms": {
+      "median": 427,
+      "p95": 17108.999999999945
+     }
+    },
+    "3D, projected, another view": {
+     "molecules": 305,
+     "failed": 0,
+     "rejected": 2,
+     "nothing": 171,
+     "drawn": 132,
+     "sameAsAnother": 0,
+     "sameAsStart": 0,
+     "rejectedRate": {
+      "k": 2,
+      "n": 305,
+      "p": 0.006557377049180328,
+      "lo": 0.001800115095752829,
+      "hi": 0.023589801305486185
+     },
+     "best": {
+      "k": 2,
+      "n": 305,
+      "p": 0.006557377049180328,
+      "lo": 0.001800115095752829,
+      "hi": 0.023589801305486185
+     },
+     "clean": {
+      "k": 33,
+      "n": 305,
+      "p": 0.10819672131147541,
+      "lo": 0.0780854810770417,
+      "hi": 0.1480546851020152
+     },
+     "bestOfAllBeats": {
+      "k": 303,
+      "n": 305,
+      "p": 0.9934426229508196,
+      "lo": 0.9764101986945138,
+      "hi": 0.9981998849042472
+     },
+     "olomolPick": 0,
+     "ms": {
+      "median": 31,
+      "p95": 75.99999999999997
+     }
+    }
+   },
+   "olomolPickIsBest": {
+    "k": 162,
+    "n": 301,
+    "p": 0.5382059800664452,
+    "lo": 0.4817583613466993,
+    "hi": 0.5936906936767791
+   },
+   "secondsPerMolecule": {
+    "median": 4.15,
+    "p95": 5.718999999999999,
+    "molecules": 35
+   },
+   "secondsPerMoleculeUnderLoad": {
+    "median": 5.4,
+    "pages": 13
+   },
+   "anyRejected": {
+    "k": 31,
+    "n": 305,
+    "p": 0.10163934426229508,
+    "lo": 0.07253144103687484,
+    "hi": 0.1406570961242583
+   },
+   "pasteChanged": [],
+   "rejectedButRight": []
+  }
+ },
+ "b4": {
+  "title": "B4: curved-arrow placement",
+  "environment": {
+   "olomol": "0.6.0-dev",
+   "commit": "dcad161eab1dcbffadfa5284d952e2120f54691a",
+   "commitShort": "dcad161",
+   "commitDate": "2026-11-22T02:41:43+01:00",
+   "branch": "embedding",
+   "srcChanged": false,
+   "tag": null,
+   "date": "2026-11-22T02:31:46.533Z",
+   "node": "v24.22.0",
+   "chrome": "154.0.8037.97",
+   "playwright": "1.64.1",
+   "rdkitJs": "2026.9.1",
+   "rdkitCore": "2026.09.1",
+   "meganeRdkit": "0.1.0",
+   "indigo": "1.46.0",
+   "openchemlib": "9.25.1",
+   "vite": "8.3.4",
+   "machine": {
+    "cpu": "AMD Ryzen AI 7 350 w/ Radeon 860M",
+    "cores": 16,
+    "ramGB": 31,
+    "os": "Linux 7.2.8-200.fc44.x86_64 (linux x64)"
+   }
+  },
+  "seconds": 67.2,
+  "summary": {
+   "steps": 51,
+   "arrows": 119,
+   "clean": {
+    "k": 110,
+    "n": 119,
+    "p": 0.9243697478991597,
+    "lo": 0.862495227337845,
+    "hi": 0.9597027583391644
+   },
+   "collisionFree": {
+    "k": 110,
+    "n": 119,
+    "p": 0.9243697478991597,
+    "lo": 0.862495227337845,
+    "hi": 0.9597027583391644
+   },
+   "collisionsByKind": {
+    "labels": {
+     "k": 5,
+     "n": 119,
+     "p": 0.04201680672268908,
+     "lo": 0.018078474459665823,
+     "hi": 0.09459894693841323
+    },
+    "bonds": {
+     "k": 1,
+     "n": 119,
+     "p": 0.008403361344537815,
+     "lo": 0.0014849430400896285,
+     "hi": 0.04606788543307778
+    },
+    "lonePairs": {
+     "k": 0,
+     "n": 119,
+     "p": 0,
+     "lo": 3.469446951953614e-18,
+     "hi": 0.031271680241939506
+    },
+    "arrows": {
+     "k": 4,
+     "n": 119,
+     "p": 0.03361344537815126,
+     "lo": 0.013147752896700837,
+     "hi": 0.0832485202701503
+    }
+   },
+   "tail": {
+    "median": 0.11,
+    "p95": 0.2089999999999995,
+    "max": 0.443
+   },
+   "head": {
+    "median": 0.079,
+    "p95": 0.26,
+    "max": 0.49
+   },
+   "msPerArrow": {
+    "median": 2.06,
+    "p95": 3.182999999999999,
+    "max": 6.28
+   },
+   "sceneNode": {
+    "median": 6.73,
+    "max": 21.72,
+    "warmMedian": 0.52
+   },
+   "sceneChrome": {
+    "median": 11.1,
+    "max": 28.4
+   },
+   "largest": {
+    "step": "NADH: hydride to a carbonyl",
+    "arrows": 4,
+    "scene": 8.61,
+    "sceneWarm": 0.72,
+    "noArrows": 0.55,
+    "chrome": 14.5
+   },
+   "edits": 5100,
+   "editsAllRight": {
+    "k": 4936,
+    "n": 5100,
+    "p": 0.967843137254902,
+    "lo": 0.9626382906071237,
+    "hi": 0.9723437299947918
+   },
+   "arrowsAnchored": {
+    "k": 11900,
+    "n": 11900,
+    "p": 1,
+    "lo": 0.9996772925081385,
+    "hi": 1
+   },
+   "arrowsStillFree": {
+    "k": 10788,
+    "n": 11000,
+    "p": 0.9807272727272728,
+    "lo": 0.9779852249250857,
+    "hi": 0.9831336751952232
+   },
+   "editsByKind": {
+    "moved": {
+     "k": 2046,
+     "n": 2122,
+     "p": 0.9641847313854854,
+     "lo": 0.9554020766495283,
+     "hi": 0.9712897948566627
+    },
+    "turned": {
+     "k": 1330,
+     "n": 1385,
+     "p": 0.9602888086642599,
+     "lo": 0.9486668590545052,
+     "hi": 0.9693644913939755
+    },
+    "flipped": {
+     "k": 724,
+     "n": 724,
+     "p": 1,
+     "lo": 0.9947221214535945,
+     "hi": 0.9999999999999999
+    },
+    "redrew": {
+     "k": 836,
+     "n": 869,
+     "p": 0.9620253164556962,
+     "lo": 0.9471498472591576,
+     "hi": 0.9728339503539191
+    }
+   },
+   "falseAcceptances": {
+    "k": 0,
+    "n": 50,
+    "p": 0,
+    "lo": 0,
+    "hi": 0.07134759913335872
+   },
+   "falseRefusals": {
+    "k": 0,
+    "n": 50,
+    "p": 0,
+    "lo": 0,
+    "hi": 0.07134759913335872
+   },
+   "thresholds": {
+    "near": 0.1,
+    "ends": 0.25,
+    "tail": 0.5,
+    "head": 0.75
+   },
+   "stepTimings": [
+    {
+     "step": "Acyl substitution",
+     "arrows": 2,
+     "atoms": 5,
+     "scene": 12.38,
+     "sceneWarm": 0.89,
+     "noArrows": 5.14,
+     "chrome": 25.2
+    },
+    {
+     "step": "SN2",
+     "arrows": 2,
+     "atoms": 3,
+     "scene": 9.68,
+     "sceneWarm": 0.77,
+     "noArrows": 4,
+     "chrome": 20.7
+    },
+    {
+     "step": "E2",
+     "arrows": 3,
+     "atoms": 9,
+     "scene": 11.46,
+     "sceneWarm": 0.8,
+     "noArrows": 4.02,
+     "chrome": 18.8
+    },
+    {
+     "step": "HBr addition",
+     "arrows": 2,
+     "atoms": 5,
+     "scene": 9.29,
+     "sceneWarm": 0.54,
+     "noArrows": 3.87,
+     "chrome": 16.7
+    },
+    {
+     "step": "Enolate alkylation",
+     "arrows": 3,
+     "atoms": 6,
+     "scene": 15.7,
+     "sceneWarm": 0.79,
+     "noArrows": 7.96,
+     "chrome": 11.5
+    },
+    {
+     "step": "Aldol addition",
+     "arrows": 3,
+     "atoms": 6,
+     "scene": 12.57,
+     "sceneWarm": 0.75,
+     "noArrows": 4.28,
+     "chrome": 19.5
+    },
+    {
+     "step": "Acylium formation",
+     "arrows": 2,
+     "atoms": 8,
+     "scene": 21.72,
+     "sceneWarm": 0.46,
+     "noArrows": 15.83,
+     "chrome": 27.9
+    },
+    {
+     "step": "Aromatic acylation",
+     "arrows": 2,
+     "atoms": 9,
+     "scene": 6.03,
+     "sceneWarm": 0.82,
+     "noArrows": 0.26,
+     "chrome": 11
+    },
+    {
+     "step": "Radical chlorination",
+     "arrows": 3,
+     "atoms": 3,
+     "scene": 18.33,
+     "sceneWarm": 0.79,
+     "noArrows": 8.42,
+     "chrome": 20.4
+    },
+    {
+     "step": "Homolysis",
+     "arrows": 2,
+     "atoms": 2,
+     "scene": 13.48,
+     "sceneWarm": 0.41,
+     "noArrows": 8.32,
+     "chrome": 10.9
+    },
+    {
+     "step": "Carbonyl addition",
+     "arrows": 2,
+     "atoms": 6,
+     "scene": 5.81,
+     "sceneWarm": 0.77,
+     "noArrows": 0.58,
+     "chrome": 10.4
+    },
+    {
+     "step": "Proton transfer",
+     "arrows": 2,
+     "atoms": 3,
+     "scene": 9.21,
+     "sceneWarm": 0.75,
+     "noArrows": 4.26,
+     "chrome": 8.6
+    },
+    {
+     "step": "Diels–Alder",
+     "arrows": 3,
+     "atoms": 6,
+     "scene": 6.64,
+     "sceneWarm": 0.47,
+     "noArrows": 0.08,
+     "chrome": 12.8
+    },
+    {
+     "step": "Cope rearrangement",
+     "arrows": 3,
+     "atoms": 6,
+     "scene": 3.27,
+     "sceneWarm": 0.37,
+     "noArrows": 0.07,
+     "chrome": 7.8
+    },
+    {
+     "step": "Claisen rearrangement",
+     "arrows": 3,
+     "atoms": 6,
+     "scene": 3.22,
+     "sceneWarm": 0.46,
+     "noArrows": 0.55,
+     "chrome": 10
+    },
+    {
+     "step": "6π electrocyclisation",
+     "arrows": 3,
+     "atoms": 6,
+     "scene": 2.82,
+     "sceneWarm": 0.36,
+     "noArrows": 0.08,
+     "chrome": 7.8
+    },
+    {
+     "step": "Wittig: ylide addition",
+     "arrows": 2,
+     "atoms": 8,
+     "scene": 4.76,
+     "sceneWarm": 0.62,
+     "noArrows": 0.6,
+     "chrome": 9.1
+    },
+    {
+     "step": "Wittig: oxaphosphetane collapse",
+     "arrows": 2,
+     "atoms": 8,
+     "scene": 1.49,
+     "sceneWarm": 0.21,
+     "noArrows": 0.54,
+     "chrome": 3.8
+    },
+    {
+     "step": "Ester hydrolysis: hydroxide addition",
+     "arrows": 2,
+     "atoms": 6,
+     "scene": 6.56,
+     "sceneWarm": 0.48,
+     "noArrows": 0.95,
+     "chrome": 12.5
+    },
+    {
+     "step": "Ester hydrolysis: tetrahedral collapse",
+     "arrows": 2,
+     "atoms": 6,
+     "scene": 8.74,
+     "sceneWarm": 0.37,
+     "noArrows": 5.13,
+     "chrome": 14
+    },
+    {
+     "step": "Imine formation: amine addition",
+     "arrows": 2,
+     "atoms": 5,
+     "scene": 4.78,
+     "sceneWarm": 0.52,
+     "noArrows": 0.48,
+     "chrome": 9.7
+    },
+    {
+     "step": "Imine formation: water loss",
+     "arrows": 2,
+     "atoms": 5,
+     "scene": 3.07,
+     "sceneWarm": 0.46,
+     "noArrows": 0.14,
+     "chrome": 6.4
+    },
+    {
+     "step": "Amide formation",
+     "arrows": 2,
+     "atoms": 6,
+     "scene": 9.27,
+     "sceneWarm": 0.66,
+     "noArrows": 4.59,
+     "chrome": 10.2
+    },
+    {
+     "step": "SN1: ionisation",
+     "arrows": 1,
+     "atoms": 5,
+     "scene": 6.36,
+     "sceneWarm": 0.21,
+     "noArrows": 4.14,
+     "chrome": 11.6
+    },
+    {
+     "step": "SN1: capture by water",
+     "arrows": 1,
+     "atoms": 5,
+     "scene": 2.11,
+     "sceneWarm": 0.38,
+     "noArrows": 0.07,
+     "chrome": 4.8
+    },
+    {
+     "step": "E1: deprotonation",
+     "arrows": 2,
+     "atoms": 8,
+     "scene": 2.74,
+     "sceneWarm": 0.31,
+     "noArrows": 0.09,
+     "chrome": 5.7
+    },
+    {
+     "step": "SN2 with cyanide",
+     "arrows": 2,
+     "atoms": 5,
+     "scene": 8.52,
+     "sceneWarm": 0.37,
+     "noArrows": 4.24,
+     "chrome": 8.3
+    },
+    {
+     "step": "NADH: hydride to a carbonyl",
+     "arrows": 4,
+     "atoms": 12,
+     "scene": 8.61,
+     "sceneWarm": 0.72,
+     "noArrows": 0.55,
+     "chrome": 14.5
+    },
+    {
+     "step": "NAD+ reduced by an alkoxide",
+     "arrows": 4,
+     "atoms": 12,
+     "scene": 13.62,
+     "sceneWarm": 0.78,
+     "noArrows": 4.28,
+     "chrome": 19.9
+    },
+    {
+     "step": "Epoxide opening by hydroxide",
+     "arrows": 2,
+     "atoms": 5,
+     "scene": 6.24,
+     "sceneWarm": 0.43,
+     "noArrows": 0.52,
+     "chrome": 11.1
+    },
+    {
+     "step": "Epoxide opening, acid",
+     "arrows": 2,
+     "atoms": 5,
+     "scene": 5,
+     "sceneWarm": 0.7,
+     "noArrows": 0.17,
+     "chrome": 9.2
+    },
+    {
+     "step": "Radical chain: H abstraction from ethane",
+     "arrows": 3,
+     "atoms": 6,
+     "scene": 7.79,
+     "sceneWarm": 0.49,
+     "noArrows": 0.05,
+     "chrome": 12.6
+    },
+    {
+     "step": "Radical chain: Br· addition",
+     "arrows": 3,
+     "atoms": 3,
+     "scene": 6.82,
+     "sceneWarm": 0.6,
+     "noArrows": 0.03,
+     "chrome": 10.5
+    },
+    {
+     "step": "Radical chain: termination",
+     "arrows": 2,
+     "atoms": 2,
+     "scene": 2.21,
+     "sceneWarm": 0.49,
+     "noArrows": 0.02,
+     "chrome": 3.7
+    },
+    {
+     "step": "Peroxide homolysis",
+     "arrows": 2,
+     "atoms": 10,
+     "scene": 10.14,
+     "sceneWarm": 0.72,
+     "noArrows": 1.11,
+     "chrome": 24.7
+    },
+    {
+     "step": "Acid deprotonated by hydroxide",
+     "arrows": 2,
+     "atoms": 6,
+     "scene": 7.21,
+     "sceneWarm": 0.48,
+     "noArrows": 0.95,
+     "chrome": 11.5
+    },
+    {
+     "step": "Grignard addition",
+     "arrows": 2,
+     "atoms": 7,
+     "scene": 9.38,
+     "sceneWarm": 0.43,
+     "noArrows": 4.59,
+     "chrome": 16.7
+    },
+    {
+     "step": "Hydroboration",
+     "arrows": 2,
+     "atoms": 5,
+     "scene": 5.01,
+     "sceneWarm": 0.54,
+     "noArrows": 0.05,
+     "chrome": 9.4
+    },
+    {
+     "step": "Bromonium formation",
+     "arrows": 2,
+     "atoms": 4,
+     "scene": 12.54,
+     "sceneWarm": 0.41,
+     "noArrows": 8.15,
+     "chrome": 9.7
+    },
+    {
+     "step": "Bromonium opening",
+     "arrows": 2,
+     "atoms": 4,
+     "scene": 6.04,
+     "sceneWarm": 0.41,
+     "noArrows": 0.54,
+     "chrome": 10.6
+    },
+    {
+     "step": "Hemiacetal formation",
+     "arrows": 2,
+     "atoms": 5,
+     "scene": 5.53,
+     "sceneWarm": 0.52,
+     "noArrows": 0.62,
+     "chrome": 10.3
+    },
+    {
+     "step": "Arenium deprotonation",
+     "arrows": 2,
+     "atoms": 9,
+     "scene": 4.16,
+     "sceneWarm": 0.38,
+     "noArrows": 0.13,
+     "chrome": 8.1
+    },
+    {
+     "step": "Nitration: nitronium attack",
+     "arrows": 2,
+     "atoms": 9,
+     "scene": 6.07,
+     "sceneWarm": 0.71,
+     "noArrows": 0.92,
+     "chrome": 12.1
+    },
+    {
+     "step": "Michael addition",
+     "arrows": 3,
+     "atoms": 8,
+     "scene": 6.09,
+     "sceneWarm": 0.7,
+     "noArrows": 1.04,
+     "chrome": 11.1
+    },
+    {
+     "step": "Enolate protonation",
+     "arrows": 3,
+     "atoms": 6,
+     "scene": 14.64,
+     "sceneWarm": 0.52,
+     "noArrows": 8.27,
+     "chrome": 11.5
+    },
+    {
+     "step": "Enolisation by hydroxide",
+     "arrows": 3,
+     "atoms": 6,
+     "scene": 6.73,
+     "sceneWarm": 0.91,
+     "noArrows": 0.48,
+     "chrome": 11.1
+    },
+    {
+     "step": "Pinacol: methyl shift",
+     "arrows": 2,
+     "atoms": 7,
+     "scene": 3.36,
+     "sceneWarm": 0.39,
+     "noArrows": 0.6,
+     "chrome": 7.1
+    },
+    {
+     "step": "Hydride shift",
+     "arrows": 1,
+     "atoms": 6,
+     "scene": 2.45,
+     "sceneWarm": 0.36,
+     "noArrows": 0.1,
+     "chrome": 4.8
+    },
+    {
+     "step": "Ozonolysis: cycloaddition",
+     "arrows": 3,
+     "atoms": 5,
+     "scene": 12.59,
+     "sceneWarm": 0.67,
+     "noArrows": 4.62,
+     "chrome": 19.6
+    },
+    {
+     "step": "E2 on a Newman projection",
+     "arrows": 3,
+     "atoms": 9,
+     "scene": 13.58,
+     "sceneWarm": 0.85,
+     "noArrows": 4.42,
+     "chrome": 22.8
+    },
+    {
+     "step": "E2 on cyclohexane seen along C1–C2",
+     "arrows": 3,
+     "atoms": 15,
+     "scene": 14.3,
+     "sceneWarm": 0.94,
+     "noArrows": 4.45,
+     "chrome": 28.4
+    }
+   ]
+  }
+ },
+ "b2d": {
+  "title": "B2d: Fischer projections both ways",
+  "environment": {
+   "olomol": "0.6.0-dev",
+   "commit": "371eaeb7f3c622b4a379f543fc5c4431f10ac42b",
+   "commitShort": "371eaeb",
+   "commitDate": "2026-11-22T03:34:20+01:00",
+   "branch": "embedding",
+   "srcChanged": true,
+   "tag": null,
+   "date": "2026-11-22T02:58:48.729Z",
+   "node": "v24.22.0",
+   "chrome": "154.0.8037.97",
+   "playwright": "1.64.1",
+   "rdkitJs": "2026.9.1",
+   "rdkitCore": "2026.09.1",
+   "meganeRdkit": "0.1.0",
+   "indigo": "1.46.0",
+   "openchemlib": "9.25.1",
+   "vite": "8.3.4",
+   "machine": {
+    "cpu": "AMD Ryzen AI 7 350 w/ Radeon 860M",
+    "cores": 16,
+    "ramGB": 31,
+    "os": "Linux 7.2.8-200.fc44.x86_64 (linux x64)"
+   }
+  },
+  "seconds": 28,
+  "summary": {
+   "compounds": 87,
+   "converted": 87,
+   "excluded": [],
+   "perConversion": {
+    "toFischer": {
+     "label": "wedges → Fischer",
+     "n": 87,
+     "right": {
+      "k": 84,
+      "n": 87,
+      "p": 0.9655172413793104,
+      "lo": 0.903459176131256,
+      "hi": 0.9882041794724941
+     },
+     "refused": {
+      "k": 3,
+      "n": 87,
+      "p": 0.034482758620689655,
+      "lo": 0.011795820527505975,
+      "hi": 0.09654082386874399
+     },
+     "wrong": {
+      "k": 0,
+      "n": 87,
+      "p": 0,
+      "lo": 0,
+      "hi": 0.04228750694412034
+     },
+     "notRun": 0
+    },
+    "toZigzag": {
+     "label": "Fischer → zigzag",
+     "n": 84,
+     "right": {
+      "k": 84,
+      "n": 84,
+      "p": 1,
+      "lo": 0.95626827158534,
+      "hi": 0.9999999999999999
+     },
+     "refused": {
+      "k": 0,
+      "n": 84,
+      "p": 0,
+      "lo": 0,
+      "hi": 0.04373172841465988
+     },
+     "wrong": {
+      "k": 0,
+      "n": 84,
+      "p": 0,
+      "lo": 0,
+      "hi": 0.04373172841465988
+     },
+     "notRun": 3
+    },
+    "backToFischer": {
+     "label": "zigzag → Fischer",
+     "n": 84,
+     "right": {
+      "k": 84,
+      "n": 84,
+      "p": 1,
+      "lo": 0.95626827158534,
+      "hi": 0.9999999999999999
+     },
+     "refused": {
+      "k": 0,
+      "n": 84,
+      "p": 0,
+      "lo": 0,
+      "hi": 0.04373172841465988
+     },
+     "wrong": {
+      "k": 0,
+      "n": 84,
+      "p": 0,
+      "lo": 0,
+      "hi": 0.04373172841465988
+     },
+     "notRun": 3
+    }
+   },
+   "allConversions": {
+    "n": 255,
+    "right": {
+     "k": 252,
+     "n": 255,
+     "p": 0.9882352941176471,
+     "lo": 0.9659877937861514,
+     "hi": 0.9959910218737018
+    },
+    "refused": {
+     "k": 3,
+     "n": 255,
+     "p": 0.011764705882352941,
+     "lo": 0.004008978126298192,
+     "hi": 0.034012206213848595
+    },
+    "wrong": {
+     "k": 0,
+     "n": 255,
+     "p": 0,
+     "lo": 8.673617379884035e-19,
+     "hi": 0.014840971914608158
+    }
+   },
+   "roundTrips": {
+    "k": 84,
+    "n": 87,
+    "p": 0.9655172413793104,
+    "lo": 0.903459176131256,
+    "hi": 0.9882041794724941
+   },
+   "refusalReasons": {
+    "This molecule has no stereocentre: its Fischer projection would show nothing a drawing doesn't.": [
+     "glycine (wedges → Fischer)"
+    ],
+    "A Fischer projection is of an open chain: the main chain of this molecule is a ring.": [
+     "L-proline (wedges → Fischer)",
+     "D-proline (wedges → Fischer)"
+    ]
+   },
+   "hand": {
+    "compounds": 80,
+    "notDrawn": [
+     {
+      "name": "glycine",
+      "reason": "Not drawn as a Fischer projection: no stereocentre"
+     },
+     {
+      "name": "L-proline",
+      "reason": "Not drawn as a Fischer projection: its stereocentres are not all on one open chain of carbons (a ring, or a heteroatom between them)"
+     },
+     {
+      "name": "D-proline",
+      "reason": "Not drawn as a Fischer projection: its stereocentres are not all on one open chain of carbons (a ring, or a heteroatom between them)"
+     },
+     {
+      "name": "Ala-Ala-Ala",
+      "reason": "Not drawn as a Fischer projection: its stereocentres are not all on one open chain of carbons (a ring, or a heteroatom between them)"
+     },
+     {
+      "name": "Thr-Thr",
+      "reason": "Not drawn as a Fischer projection: its stereocentres are not all on one open chain of carbons (a ring, or a heteroatom between them)"
+     },
+     {
+      "name": "Ile-Thr",
+      "reason": "Not drawn as a Fischer projection: its stereocentres are not all on one open chain of carbons (a ring, or a heteroatom between them)"
+     },
+     {
+      "name": "Ile-Ile",
+      "reason": "Not drawn as a Fischer projection: its stereocentres are not all on one open chain of carbons (a ring, or a heteroatom between them)"
+     }
+    ],
+    "drawings": 560,
+    "clicks": 1211,
+    "read": {
+     "k": 560,
+     "n": 560,
+     "p": 1,
+     "lo": 0.9931869876530032,
+     "hi": 1
+    },
+    "missed": {
+     "k": 0,
+     "n": 560,
+     "p": 0,
+     "lo": 4.336808689942018e-19,
+     "hi": 0.006813012346996886
+    },
+    "wrong": {
+     "k": 0,
+     "n": 560,
+     "p": 0,
+     "lo": 4.336808689942018e-19,
+     "hi": 0.006813012346996886
+    },
+    "clicksRead": {
+     "k": 1211,
+     "n": 1211,
+     "p": 1,
+     "lo": 0.9968378928848681,
+     "hi": 1
+    },
+    "stereoBeforeClick": 0,
+    "extraVariants": [
+     "turned +12°",
+     "turned +20°"
+    ],
+    "byVariant": {
+     "straight": {
+      "n": 80,
+      "read": {
+       "k": 80,
+       "n": 80,
+       "p": 1,
+       "lo": 0.9541818704644728,
+       "hi": 0.9999999999999999
+      },
+      "missed": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      },
+      "wrong": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      }
+     },
+     "turned +3°": {
+      "n": 80,
+      "read": {
+       "k": 80,
+       "n": 80,
+       "p": 1,
+       "lo": 0.9541818704644728,
+       "hi": 0.9999999999999999
+      },
+      "missed": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      },
+      "wrong": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      }
+     },
+     "turned −3°": {
+      "n": 80,
+      "read": {
+       "k": 80,
+       "n": 80,
+       "p": 1,
+       "lo": 0.9541818704644728,
+       "hi": 0.9999999999999999
+      },
+      "missed": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      },
+      "wrong": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      }
+     },
+     "turned +8°": {
+      "n": 80,
+      "read": {
+       "k": 80,
+       "n": 80,
+       "p": 1,
+       "lo": 0.9541818704644728,
+       "hi": 0.9999999999999999
+      },
+      "missed": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      },
+      "wrong": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      }
+     },
+     "turned −8°": {
+      "n": 80,
+      "read": {
+       "k": 80,
+       "n": 80,
+       "p": 1,
+       "lo": 0.9541818704644728,
+       "hi": 0.9999999999999999
+      },
+      "missed": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      },
+      "wrong": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      }
+     },
+     "uneven arms": {
+      "n": 80,
+      "read": {
+       "k": 80,
+       "n": 80,
+       "p": 1,
+       "lo": 0.9541818704644728,
+       "hi": 0.9999999999999999
+      },
+      "missed": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      },
+      "wrong": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      }
+     },
+     "uneven arms, turned +8°": {
+      "n": 80,
+      "read": {
+       "k": 80,
+       "n": 80,
+       "p": 1,
+       "lo": 0.9541818704644728,
+       "hi": 0.9999999999999999
+      },
+      "missed": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      },
+      "wrong": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      }
+     },
+     "turned +12°": {
+      "n": 80,
+      "read": {
+       "k": 80,
+       "n": 80,
+       "p": 1,
+       "lo": 0.9541818704644728,
+       "hi": 0.9999999999999999
+      },
+      "missed": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      },
+      "wrong": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      }
+     },
+     "turned +20°": {
+      "n": 80,
+      "read": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      },
+      "missed": {
+       "k": 80,
+       "n": 80,
+       "p": 1,
+       "lo": 0.9541818704644728,
+       "hi": 0.9999999999999999
+      },
+      "wrong": {
+       "k": 0,
+       "n": 80,
+       "p": 0,
+       "lo": 0,
+       "hi": 0.0458181295355271
+      }
+     }
+    },
+    "chrome": true
+   },
+   "medianCentres": 2
+  }
+ },
+ "b6": {
+  "title": "B6: the canonical form of a curved-arrow step",
+  "environment": {
+   "olomol": "0.6.0-dev",
+   "commit": "371eaeb7f3c622b4a379f543fc5c4431f10ac42b",
+   "commitShort": "371eaeb",
+   "commitDate": "2026-11-22T03:34:20+01:00",
+   "branch": "embedding",
+   "srcChanged": true,
+   "tag": null,
+   "date": "2026-11-22T02:58:29.041Z",
+   "node": "v24.22.0",
+   "chrome": "154.0.8037.97",
+   "playwright": "1.64.1",
+   "rdkitJs": "2026.9.1",
+   "rdkitCore": "2026.09.1",
+   "meganeRdkit": "0.1.0",
+   "indigo": "1.46.0",
+   "openchemlib": "9.25.1",
+   "vite": "8.3.4",
+   "machine": {
+    "cpu": "AMD Ryzen AI 7 350 w/ Radeon 860M",
+    "cores": 16,
+    "ramGB": 31,
+    "os": "Linux 7.2.8-200.fc44.x86_64 (linux x64)"
+   }
+  },
+  "seconds": 6.6,
+  "summary": {
+   "steps": 53,
+   "arrows": 125,
+   "variantsPerStep": 20,
+   "invariance": {
+    "k": 1060,
+    "n": 1060,
+    "p": 1,
+    "lo": 0.9963890683251312,
+    "hi": 0.9999999999999999
+   },
+   "invarianceWithoutH": {
+    "k": 952,
+    "n": 952,
+    "p": 1,
+    "lo": 0.9959810711439179,
+    "hi": 1
+   },
+   "invarianceByKind": {
+    "ids": {
+     "k": 106,
+     "n": 106,
+     "p": 1,
+     "lo": 0.9650272414265277,
+     "hi": 1
+    },
+    "order": {
+     "k": 106,
+     "n": 106,
+     "p": 1,
+     "lo": 0.9650272414265277,
+     "hi": 1
+    },
+    "turned and moved": {
+     "k": 193,
+     "n": 193,
+     "p": 1,
+     "lo": 0.9804845033982735,
+     "hi": 0.9999999999999999
+    },
+    "moved": {
+     "k": 106,
+     "n": 106,
+     "p": 1,
+     "lo": 0.9650272414265277,
+     "hi": 1
+    },
+    "turned": {
+     "k": 106,
+     "n": 106,
+     "p": 1,
+     "lo": 0.9650272414265277,
+     "hi": 1
+    },
+    "flipped": {
+     "k": 106,
+     "n": 106,
+     "p": 1,
+     "lo": 0.9650272414265277,
+     "hi": 1
+    },
+    "redrawn": {
+     "k": 96,
+     "n": 96,
+     "p": 1,
+     "lo": 0.9615244121423243,
+     "hi": 1
+    },
+    "H drawn": {
+     "k": 104,
+     "n": 104,
+     "p": 1,
+     "lo": 0.9643786456275479,
+     "hi": 0.9999999999999999
+    },
+    "all at once": {
+     "k": 53,
+     "n": 53,
+     "p": 1,
+     "lo": 0.932418011423458,
+     "hi": 0.9999999999999999
+    },
+    "equivalent": {
+     "k": 80,
+     "n": 80,
+     "p": 1,
+     "lo": 0.9541818704644728,
+     "hi": 0.9999999999999999
+    },
+    "H left out": {
+     "k": 4,
+     "n": 4,
+     "p": 1,
+     "lo": 0.5101091635454027,
+     "hi": 1
+    }
+   },
+   "stepsAllSame": {
+    "k": 53,
+    "n": 53,
+    "p": 1,
+    "lo": 0.932418011423458,
+    "hi": 0.9999999999999999
+   },
+   "distinctness": {
+    "k": 342,
+    "n": 342,
+    "p": 1,
+    "lo": 0.9888924282421392,
+    "hi": 1
+   },
+   "distinctnessByKind": {
+    "head on another atom": {
+     "k": 119,
+     "n": 119,
+     "p": 1,
+     "lo": 0.9687283197580606,
+     "hi": 1
+    },
+    "fishhook": {
+     "k": 110,
+     "n": 110,
+     "p": 1,
+     "lo": 0.9662560647018358,
+     "hi": 0.9999999999999999
+    },
+    "lone-pair source": {
+     "k": 86,
+     "n": 86,
+     "p": 1,
+     "lo": 0.9572418027142576,
+     "hi": 0.9999999999999999
+    },
+    "full arrowhead": {
+     "k": 15,
+     "n": 15,
+     "p": 1,
+     "lo": 0.7961166989641515,
+     "hi": 1
+    },
+    "atom head": {
+     "k": 8,
+     "n": 8,
+     "p": 1,
+     "lo": 0.6755924351161198,
+     "hi": 1
+    },
+    "anti H → gauche H": {
+     "k": 2,
+     "n": 2,
+     "p": 1,
+     "lo": 0.34238022750665303,
+     "hi": 1
+    },
+    "axial H → equatorial H": {
+     "k": 2,
+     "n": 2,
+     "p": 1,
+     "lo": 0.34238022750665303,
+     "hi": 1
+    }
+   },
+   "distinctnessNotCounted": 6,
+   "perArrow": {
+    "invariance": {
+     "k": 2500,
+     "n": 2500,
+     "p": 1,
+     "lo": 0.9984657739382173,
+     "hi": 0.9999999999999999
+    },
+    "invarianceWithoutH": {
+     "k": 2242,
+     "n": 2242,
+     "p": 1,
+     "lo": 0.9982895235967764,
+     "hi": 1
+    },
+    "distinctness": {
+     "k": 343,
+     "n": 343,
+     "p": 1,
+     "lo": 0.9889244531672897,
+     "hi": 0.9999999999999999
+    },
+    "unchangedKept": {
+     "k": 535,
+     "n": 535,
+     "p": 1,
+     "lo": 0.9928708922488971,
+     "hi": 0.9999999999999998
+    }
+   },
+   "products": {
+    "k": 53,
+    "n": 53,
+    "p": 1,
+    "lo": 0.932418011423458,
+    "hi": 0.9999999999999999
+   },
+   "productsRight": {
+    "k": 53,
+    "n": 53,
+    "p": 1,
+    "lo": 0.932418011423458,
+    "hi": 0.9999999999999999
+   },
+   "stepKeptWithProducts": {
+    "k": 53,
+    "n": 53,
+    "p": 1,
+    "lo": 0.932418011423458,
+    "hi": 0.9999999999999999
+   },
+   "equivalentMoves": {
+    "steps": 20,
+    "classesKept": true
+   },
+   "node": {
+    "median": 0.4458879999997407,
+    "p95": 2.312461399999846,
+    "max": 4.230247999999847,
+    "slowest": "E2 on a bromocyclohexane chair"
+   },
+   "chrome": {
+    "median": 0.6000000238418579,
+    "p95": 2.3999999999999986,
+    "max": 4.600000023841858,
+    "sameAsNode": true,
+    "differentInChrome": []
+   }
+  }
+ }
+}

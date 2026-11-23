@@ -88,11 +88,3 @@ export function applyStyle(settings) {
 }
 
 export const INK = '#000000';
-// The stick model's highlights, in depth among its balls and sticks: this opaque, what lies behind showing a little.
-// Each is LAYERS thin see-through copies, from just behind its atom to `ramp` further back (half a bond), so
-// that what passes behind it is covered a layer at a time as it turns, not all at once (a jump); together as
-// opaque as IN_DEPTH, and seen face on one flat shape as before.
-export const IN_DEPTH = 0.75;
-const LAYERS = 8;
-export const LAYER_OPACITY = +(1 - (1 - IN_DEPTH) ** (1 / LAYERS)).toFixed(3);
-export const layerDepths = (z, ramp) => Array.from({ length: LAYERS }, (_, k) => z - 1e-3 - (ramp * k) / (LAYERS - 1));

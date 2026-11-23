@@ -153,20 +153,7 @@
     --shadow: 0 10px 34px rgba(25, 30, 60, 0.1), 0 2px 6px rgba(25, 30, 60, 0.05);
     color-scheme: light;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --accent: #8fb0ff;
-      --accent-2: #6f97f5;
-      --accent-soft: rgba(143, 176, 255, 0.1);
-      --text: #e7e9f0;
-      --muted: #a0a6b6;
-      --canvas: #13151b;
-      --panel: #1b1e26;
-      --edge: rgba(255, 255, 255, 0.08);
-      --shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
-      color-scheme: dark;
-    }
-  }
+  /* (light only, as the manual on the web: a page to read, whatever the system's theme) */
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -218,13 +205,32 @@
   .features { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
   .pair figure { margin-bottom: 18px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 6px 0 12px; }
+  .step {
+    display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 12px;
+    border: 1px solid var(--edge); background: var(--canvas); color: var(--text); text-decoration: none; font-size: 15px; line-height: 1.45;
+  }
+  .step:hover { border-color: var(--accent-2); background: var(--accent-soft); }
+  .step .num {
+    display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; margin-bottom: 4px;
+    background: linear-gradient(135deg, #1035a9, #2e6fdb); color: #fff; font-weight: 700; font-size: 14px;
+  }
+  .step strong { font-size: 16px; color: var(--accent); }
+  .step > span:last-child { color: var(--muted); }
+  .print { color: var(--muted); font-size: 14px; }
   kbd {
     font: 13px ui-monospace, monospace; padding: 1px 5px; border-radius: 5px;
     border: 1px solid var(--edge); background: var(--accent-soft);
   }
+  .cite .citation { padding: 12px 16px; border-radius: 12px; background: var(--panel, #fff); border: 1px solid var(--edge, rgba(20, 25, 45, 0.1)); user-select: all; overflow-wrap: anywhere; }
+  .cite-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 8px 0; }
+  .cite-row .label { color: var(--muted); font-size: 14px; margin-right: 4px; }
+  .cite-row button { font: inherit; font-size: 14px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--edge, rgba(20, 25, 45, 0.12)); background: var(--panel, #fff); color: inherit; cursor: pointer; }
+  .cite-row button:hover { border-color: var(--accent); color: var(--accent); }
+  .cite .said { min-height: 1.4em; color: var(--muted); font-size: 14px; margin: 4px 0 0; }
   footer { margin-top: 28px; color: var(--muted); font-size: 14px; text-align: center; }
   @media (max-width: 680px) {
-    .features, .pair { grid-template-columns: 1fr; }
+    .features, .pair, .steps { grid-template-columns: 1fr; }
     .end { margin-left: 0; }
     section { padding: 16px 16px 8px; }
     h1 { font-size: 28px; }
@@ -289,6 +295,28 @@
       <p>Es läuft vollständig im Webbrowser, ohne Installation und ohne Konto. Zeichnungen bleiben auf dem eigenen Rechner: im Browser und in selbst gewählten Dateien. Nur ein Name oder Molekül, das man selbst auf PubChem sucht, wird dorthin geschickt. Einmal geöffnet, funktioniert olomol auch offline und lässt sich als App installieren.</p>
       <p>olomol entsteht am Lehrstuhl für Physikalische Chemie der Palacký-Universität Olomouc (Tschechien). Die Oberfläche gibt es auf Tschechisch, Englisch und Deutsch.</p>
     </div>
+  </section>
+
+  <section id="start">
+    <h2><span lang="cs">Jak začít</span><span lang="en">Getting started</span><span lang="de">Erste Schritte</span></h2>
+    <div lang="cs" class="steps">
+      <a class="step" href="./"><span class="num">1</span><strong>Otevřete olomol</strong><span>a začněte kreslit. Nic se neinstaluje, žádný účet.</span></a>
+      <a class="step" href="./?help"><span class="num">2</span><strong>Podívejte se na příklady</strong><span>Nápověda za kulatým tlačítkem <kbd>?</kbd> vpravo dole: hotové kresby podle témat.</span></a>
+      <a class="step" href="cs/manual.html"><span class="num">3</span><strong>Přečtěte si příručku</strong><span>Na webu vysvětluje každý nástroj, s obsahem vedle textu.</span></a>
+    </div>
+    <div lang="en" class="steps">
+      <a class="step" href="./"><span class="num">1</span><strong>Open olomol</strong><span>and start drawing. Nothing to install, no account.</span></a>
+      <a class="step" href="./?help"><span class="num">2</span><strong>Look at the examples</strong><span>Help, behind the round <kbd>?</kbd> button at the bottom right: finished drawings by topic.</span></a>
+      <a class="step" href="manual.html"><span class="num">3</span><strong>Read the manual</strong><span>On the web it explains every tool, with its contents beside the text.</span></a>
+    </div>
+    <div lang="de" class="steps">
+      <a class="step" href="./"><span class="num">1</span><strong>olomol öffnen</strong><span>und loszeichnen. Ohne Installation, ohne Konto.</span></a>
+      <a class="step" href="./?help"><span class="num">2</span><strong>Beispiele ansehen</strong><span>Die Hilfe hinter der runden Schaltfläche <kbd>?</kbd> unten rechts: fertige Zeichnungen nach Themen.</span></a>
+      <a class="step" href="manual.html"><span class="num">3</span><strong>Handbuch lesen</strong><span>Im Web (auf Englisch) erklärt es jedes Werkzeug, mit dem Inhaltsverzeichnis neben dem Text.</span></a>
+    </div>
+    <p lang="cs" class="print">K tisku v PDF: <a href="docs/rychly-start.pdf">rychlý start</a> · <a href="docs/manual.pdf">příručka</a></p>
+    <p lang="en" class="print">For printing, as PDF: <a href="docs/en/quick-start.pdf">Quick start</a> · <a href="docs/en/manual.pdf">Manual</a></p>
+    <p lang="de" class="print">Zum Ausdrucken, als PDF: <a href="docs/en/quick-start.pdf">Quick start</a> · <a href="docs/en/manual.pdf">Manual</a></p>
   </section>
 
   <section>
@@ -498,19 +526,6 @@
     </figure>
   </div>
 
-  <section>
-    <h2><span lang="cs">Jak začít</span><span lang="en">Getting started</span><span lang="de">Erste Schritte</span></h2>
-    <div lang="cs">
-      <p><a href="./">Otevřete olomol</a> a začněte kreslit. Kulaté tlačítko <kbd>?</kbd> vpravo dole otevře nápovědu s příklady. Návody v PDF: <a href="docs/rychly-start.pdf">Rychlý start</a> a <a href="docs/manual.pdf">Příručka</a>.</p>
-    </div>
-    <div lang="en">
-      <p><a href="./">Open olomol</a> and start drawing. The round <kbd>?</kbd> button at the bottom right opens Help with the examples. Guides in PDF: the <a href="docs/en/quick-start.pdf">Quick start</a> and the <a href="docs/en/manual.pdf">Manual</a>.</p>
-    </div>
-    <div lang="de">
-      <p><a href="./">olomol öffnen</a> und loszeichnen. Die runde Schaltfläche <kbd>?</kbd> unten rechts öffnet die Hilfe mit den Beispielen. Anleitungen als PDF (auf Englisch): <a href="docs/en/quick-start.pdf">Quick start</a> und <a href="docs/en/manual.pdf">Manual</a>.</p>
-    </div>
-  </section>
-
   <!-- Questions people ask, each an <h3> and one <p>: scripts/pages.mjs also writes them as FAQPage JSON-LD
        on each language's page, for search engines and AI answers -->
   <section id="faq">
@@ -523,13 +538,13 @@
       <h3>Kde jsou moje kresby uložené?</h3>
       <p>Ve vašem počítači. Rozpracovanou kresbu si pamatuje prohlížeč a soubory ukládáte, kam chcete. Nikam se nic neposílá, jen název nebo molekula, kterou sami vyhledáte v PubChemu.</p>
       <h3>Jaké soubory otevře a uloží?</h3>
-      <p>Otevře KET, molfile, SDF, SMILES, RXN, CML, XYZ a soubory z ChemDraw (CDXML, CDX). Ukládá KET, který otevře i Ketcher, a exportuje molfile, SDF, SMILES, InChI a XYZ, obrázky jako SVG a PNG. <kbd>Ctrl+Shift+C</kbd> vloží obrázek rovnou do Wordu, PowerPointu nebo Dokumentů Google.</p>
+      <p>Otevře kresby olomolu (.olom), KET, molfile, SDF, SMILES, RXN, CML, XYZ a soubory z ChemDraw (CDXML, CDX). Ukládá vlastní soubory .olom se vším, co kresba má, a exportuje KET pro Ketcher, molfile, SDF, SMILES, InChI a XYZ, obrázky jako SVG, PNG a PDF. <kbd>Ctrl+Shift+C</kbd> vloží obrázek rovnou do Wordu, PowerPointu nebo Dokumentů Google.</p>
       <h3>Spolupracuje s ChemDraw?</h3>
       <p>Soubory z ChemDraw (CDXML, CDX) olomol otevře i se zkratkami. Do ChemDraw přenesete struktury jako molfile nebo SDF a obrázky jako SVG.</p>
       <h3>Smím obrázky použít v seminárkách, domácích úkolech, závěrečných pracích a článcích?</h3>
       <p>Ano, jsou vaše a nemají vodoznak. Pokud vám olomol pomohl, budu rád za citaci.</p>
       <h3>Jak olomol citovat?</h3>
-      <p>Salomon, J. <em>olomol: drawing chemical structures, reactions and mechanisms</em> [počítačový program]. Zenodo. <a href="https://doi.org/10.5281/zenodo.24104909">https://doi.org/10.5281/zenodo.24104909</a>. Doplňte verzi, kterou jste použili; okno <em>O aplikaci</em> dá citaci jako text, BibTeX, RIS i CSL JSON.</p>
+      <p>Citací této verze s jejím DOI, viz <a href="#cite">Jak citovat</a> níže; je tam i pro BibTeX, Zotero, Mendeley a EndNote.</p>
     </div>
     <div lang="en">
       <h3>Is olomol free?</h3>
@@ -539,13 +554,13 @@
       <h3>Where are my drawings kept?</h3>
       <p>On your computer. The browser keeps the drawing you are working on, and you save files wherever you choose. Nothing is sent anywhere, except a name or a molecule you look up on PubChem yourself.</p>
       <h3>Which files does it open and save?</h3>
-      <p>It opens KET, molfile, SDF, SMILES, RXN, CML, XYZ and ChemDraw files (CDXML, CDX). It saves KET, which Ketcher opens too, and exports molfile, SDF, SMILES, InChI and XYZ, and pictures as SVG and PNG. <kbd>Ctrl+Shift+C</kbd> copies a picture straight into Word, PowerPoint or Google Docs.</p>
+      <p>It opens olomol drawings (.olom), KET, molfile, SDF, SMILES, RXN, CML, XYZ and ChemDraw files (CDXML, CDX). It saves its own .olom files, with everything a drawing has, and exports KET for Ketcher, molfile, SDF, SMILES, InChI and XYZ, and pictures as SVG, PNG and PDF. <kbd>Ctrl+Shift+C</kbd> copies a picture straight into Word, PowerPoint or Google Docs.</p>
       <h3>Does it work with ChemDraw?</h3>
       <p>olomol opens ChemDraw's files (CDXML, CDX) with their abbreviations kept. Structures go to ChemDraw as a molfile or SDF, and pictures as SVG.</p>
       <h3>May I use the pictures in homework, theses and papers?</h3>
       <p>Yes, they are yours, with no watermark. If olomol helped, I'd be glad of a citation.</p>
       <h3>How do I cite olomol?</h3>
-      <p>Salomon, J. <em>olomol: drawing chemical structures, reactions and mechanisms</em> [Computer software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.24104909">https://doi.org/10.5281/zenodo.24104909</a>. Add the version you used; the <em>About</em> window gives the citation as text, BibTeX, RIS and CSL JSON.</p>
+      <p>With this version's citation and its DOI: see <a href="#cite">How to cite</a> below, also for BibTeX, Zotero, Mendeley and EndNote.</p>
     </div>
     <div lang="de">
       <h3>Ist olomol kostenlos?</h3>
@@ -555,35 +570,40 @@
       <h3>Wo werden meine Zeichnungen gespeichert?</h3>
       <p>Auf Ihrem Rechner. Die aktuelle Zeichnung merkt sich der Browser, Dateien speichern Sie, wo Sie möchten. Verschickt wird nichts, außer einem Namen oder Molekül, das Sie selbst auf PubChem suchen.</p>
       <h3>Welche Dateien öffnet und speichert olomol?</h3>
-      <p>Es öffnet KET, Molfile, SDF, SMILES, RXN, CML, XYZ und ChemDraw-Dateien (CDXML, CDX). Es speichert KET, das auch Ketcher öffnet, und exportiert Molfile, SDF, SMILES, InChI und XYZ, Bilder als SVG und PNG. Mit <kbd>Strg+Umschalt+C</kbd> kommt ein Bild direkt in Word, PowerPoint oder Google Docs.</p>
+      <p>Es öffnet olomol-Zeichnungen (.olom), KET, Molfile, SDF, SMILES, RXN, CML, XYZ und ChemDraw-Dateien (CDXML, CDX). Es speichert eigene .olom-Dateien mit allem, was eine Zeichnung enthält, und exportiert KET für Ketcher, Molfile, SDF, SMILES, InChI und XYZ, Bilder als SVG, PNG und PDF. Mit <kbd>Strg+Umschalt+C</kbd> kommt ein Bild direkt in Word, PowerPoint oder Google Docs.</p>
       <h3>Arbeitet olomol mit ChemDraw zusammen?</h3>
       <p>ChemDraw-Dateien (CDXML, CDX) öffnet olomol samt Abkürzungen. Nach ChemDraw gehen Strukturen als Molfile oder SDF, Bilder als SVG.</p>
       <h3>Darf ich die Bilder in Hausarbeiten, Abschlussarbeiten und Veröffentlichungen verwenden?</h3>
       <p>Ja, sie gehören Ihnen, ohne Wasserzeichen. Wenn olomol geholfen hat, freue ich mich über eine Zitierung.</p>
       <h3>Wie zitiere ich olomol?</h3>
-      <p>Salomon, J. <em>olomol: drawing chemical structures, reactions and mechanisms</em> [Software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.24104909">https://doi.org/10.5281/zenodo.24104909</a>. Ergänzen Sie die verwendete Version; das Fenster <em>Über olomol</em> gibt das Zitat als Text, BibTeX, RIS und CSL JSON aus.</p>
+      <p>Mit der Zitierung dieser Version und ihrer DOI: siehe <a href="#cite">Zitieren</a> unten, auch für BibTeX, Zotero, Mendeley und EndNote.</p>
     </div>
   </section>
 
+  <section id="cite">
+    <h2><span lang="cs">Jak citovat</span><span lang="en">How to cite</span><span lang="de">Zitieren</span></h2>
+    <p><span lang="cs">Pomohl-li olomol s publikací, závěrečnou prací nebo výukovými materiály, citujte prosím verzi, kterou jste použili (citace je anglicky, jak ji časopisy chtějí):</span><span lang="en">If olomol helped with a publication, a thesis or teaching materials, please cite the version you used:</span><span lang="de">Wenn olomol bei einer Veröffentlichung, einer Abschlussarbeit oder Lehrmaterialien geholfen hat, zitieren Sie bitte die verwendete Version (die Zitierung ist englisch, wie Zeitschriften sie verlangen):</span></p>
+    <div class="cite" data-citation></div>
+  </section>
   <section>
     <h2><span lang="cs">Autor a poděkování</span><span lang="en">Who makes it</span><span lang="de">Wer es macht</span></h2>
     <div lang="cs">
-      <p>olomol píše Jan Salomon na Katedře fyzikální chemie Univerzity Palackého v Olomouci, s podstatnou pomocí Clauda (Anthropic). Problémy a nápady posílejte tlačítkem s broukem vpravo nahoře v aplikaci, nebo na <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>.</p>
-      <p>Překlady jsou vítány. Chcete-li olomol ve svém jazyce, napište na <a href="mailto:bugs@olomol.org?subject=olomol%20translation">bugs@olomol.org</a>: texty aplikace jsou jeden seznam asi tisíce krátkých vět a k překladu není třeba programovat.</p>
+      <p>olomol píše Jan Salomon na Katedře fyzikální chemie Univerzity Palackého v Olomouci, s podstatnou pomocí Clauda (Anthropic). Problémy posílejte tlačítkem s broukem vpravo nahoře v aplikaci, nebo na <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>. Nápady, otázky a vše ostatní na <a href="mailto:contact@olomol.org?subject=olomol">contact@olomol.org</a>.</p>
+      <p>Překlady jsou vítány. Chcete-li olomol ve svém jazyce, napište na <a href="mailto:contact@olomol.org?subject=olomol%20translation">contact@olomol.org</a>: texty aplikace jsou jeden seznam asi tisíce krátkých vět a k překladu není třeba programovat.</p>
       <p>olomol je zdarma k použití pod <a href="LICENSE.txt">licencí MIT</a>.</p>
-      <p>Stojí na <a href="https://www.rdkit.org">RDKit</a> (BSD-3-Clause), <a href="https://lifescience.opensource.epam.com/indigo/">Indigu</a> od EPAM Systems (Apache 2.0), <a href="https://github.com/hodakamori/megane-rdkit">megane-rdkit</a> (BSD-3-Clause; 3D struktury) a <a href="https://github.com/cheminfo/openchemlib-js">OpenChemLib</a> (BSD-3-Clause). Jeho formát KET je formát <a href="https://github.com/epam/ketcher">Ketcheru</a>. <a href="THIRD_PARTY_LICENSES/README.md">Licence knihoven</a>.</p>
+      <p>Stojí na <a href="https://www.rdkit.org">RDKit</a> (BSD-3-Clause), <a href="https://lifescience.opensource.epam.com/indigo/">Indigu</a> od EPAM Systems (Apache 2.0), <a href="https://github.com/hodakamori/megane-rdkit">megane-rdkit</a> (BSD-3-Clause; 3D struktury) a <a href="https://github.com/cheminfo/openchemlib-js">OpenChemLib</a> (BSD-3-Clause). Pro <a href="https://github.com/epam/ketcher">Ketcher</a> exportuje jeho formát KET. <a href="THIRD_PARTY_LICENSES/README.md">Licence knihoven</a>.</p>
     </div>
     <div lang="en">
-      <p>olomol is written by Jan Salomon at the Department of Physical Chemistry, Palacký University Olomouc, with substantial help from Claude (Anthropic). Send problems and ideas with the bug button at the top right of the app, or to <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>.</p>
-      <p>Translations are welcome. If you would like olomol in your language, write to <a href="mailto:bugs@olomol.org?subject=olomol%20translation">bugs@olomol.org</a>: the app’s texts are one list of about a thousand short phrases, and translating them needs no programming.</p>
+      <p>olomol is written by Jan Salomon at the Department of Physical Chemistry, Palacký University Olomouc, with substantial help from Claude (Anthropic). Send problems with the bug button at the top right of the app, or to <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>. Ideas, questions and everything else to <a href="mailto:contact@olomol.org?subject=olomol">contact@olomol.org</a>.</p>
+      <p>Translations are welcome. If you would like olomol in your language, write to <a href="mailto:contact@olomol.org?subject=olomol%20translation">contact@olomol.org</a>: the app’s texts are one list of about a thousand short phrases, and translating them needs no programming.</p>
       <p>olomol is free to use under the <a href="LICENSE.txt">MIT License</a>.</p>
-      <p>It is built on <a href="https://www.rdkit.org">RDKit</a> (BSD-3-Clause), <a href="https://lifescience.opensource.epam.com/indigo/">Indigo</a> by EPAM Systems (Apache 2.0), <a href="https://github.com/hodakamori/megane-rdkit">megane-rdkit</a> (BSD-3-Clause; 3D structures) and <a href="https://github.com/cheminfo/openchemlib-js">OpenChemLib</a> (BSD-3-Clause). Its KET format is the one of <a href="https://github.com/epam/ketcher">Ketcher</a>. <a href="THIRD_PARTY_LICENSES/README.md">The libraries' licences</a>.</p>
+      <p>It is built on <a href="https://www.rdkit.org">RDKit</a> (BSD-3-Clause), <a href="https://lifescience.opensource.epam.com/indigo/">Indigo</a> by EPAM Systems (Apache 2.0), <a href="https://github.com/hodakamori/megane-rdkit">megane-rdkit</a> (BSD-3-Clause; 3D structures) and <a href="https://github.com/cheminfo/openchemlib-js">OpenChemLib</a> (BSD-3-Clause). For <a href="https://github.com/epam/ketcher">Ketcher</a> it exports Ketcher's format, KET. <a href="THIRD_PARTY_LICENSES/README.md">The libraries' licences</a>.</p>
     </div>
     <div lang="de">
-      <p>olomol wird von Jan Salomon am Lehrstuhl für Physikalische Chemie der Palacký-Universität Olomouc entwickelt, mit wesentlicher Hilfe von Claude (Anthropic). Probleme und Ideen bitte über die Schaltfläche mit dem Käfer oben rechts in der App oder an <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>.</p>
-      <p>Übersetzungen sind willkommen. Wenn Sie olomol in Ihrer Sprache möchten, schreiben Sie an <a href="mailto:bugs@olomol.org?subject=olomol%20translation">bugs@olomol.org</a>: Die Texte der App sind eine Liste von etwa tausend kurzen Sätzen, und zum Übersetzen muss man nicht programmieren.</p>
+      <p>olomol wird von Jan Salomon am Lehrstuhl für Physikalische Chemie der Palacký-Universität Olomouc entwickelt, mit wesentlicher Hilfe von Claude (Anthropic). Probleme bitte über die Schaltfläche mit dem Käfer oben rechts in der App oder an <a href="mailto:bugs@olomol.org?subject=olomol">bugs@olomol.org</a>. Ideen, Fragen und alles andere an <a href="mailto:contact@olomol.org?subject=olomol">contact@olomol.org</a>.</p>
+      <p>Übersetzungen sind willkommen. Wenn Sie olomol in Ihrer Sprache möchten, schreiben Sie an <a href="mailto:contact@olomol.org?subject=olomol%20translation">contact@olomol.org</a>: Die Texte der App sind eine Liste von etwa tausend kurzen Sätzen, und zum Übersetzen muss man nicht programmieren.</p>
       <p>olomol ist kostenlos nutzbar unter der <a href="LICENSE.txt">MIT-Lizenz</a>.</p>
-      <p>Grundlage sind <a href="https://www.rdkit.org">RDKit</a> (BSD-3-Clause), <a href="https://lifescience.opensource.epam.com/indigo/">Indigo</a> von EPAM Systems (Apache 2.0), <a href="https://github.com/hodakamori/megane-rdkit">megane-rdkit</a> (BSD-3-Clause; 3D-Strukturen) und <a href="https://github.com/cheminfo/openchemlib-js">OpenChemLib</a> (BSD-3-Clause). Das Dateiformat KET stammt von <a href="https://github.com/epam/ketcher">Ketcher</a>. <a href="THIRD_PARTY_LICENSES/README.md">Lizenzen der Bibliotheken</a>.</p>
+      <p>Grundlage sind <a href="https://www.rdkit.org">RDKit</a> (BSD-3-Clause), <a href="https://lifescience.opensource.epam.com/indigo/">Indigo</a> von EPAM Systems (Apache 2.0), <a href="https://github.com/hodakamori/megane-rdkit">megane-rdkit</a> (BSD-3-Clause; 3D-Strukturen) und <a href="https://github.com/cheminfo/openchemlib-js">OpenChemLib</a> (BSD-3-Clause). Für <a href="https://github.com/epam/ketcher">Ketcher</a> exportiert es dessen Format KET. <a href="THIRD_PARTY_LICENSES/README.md">Lizenzen der Bibliotheken</a>.</p>
     </div>
   </section>
 
@@ -616,6 +636,37 @@
     }
   };
   for (const link of document.querySelectorAll('a[href="./"], a[href="../"]')) for (const kind of ['click', 'auxclick']) link.addEventListener(kind, read);
+
+  // How to cite: a format copied, or saved as a file (the citation and its formats: scripts/pages.mjs)
+  (() => {
+    const data = document.getElementById('citation-formats');
+    if (!data) return;
+    const formats = Object.fromEntries(JSON.parse(data.textContent).map((format) => [format.id, format]));
+    const said = document.querySelector('.cite .said');
+    const words = {
+      cs: ['zkopírováno', 'Nešlo to zkopírovat: vyberte citaci a zkopírujte ji ručně.'],
+      de: ['kopiert', 'Das Kopieren ging nicht: Markieren Sie die Zitierung und kopieren Sie sie von Hand.'],
+    }[document.documentElement.lang] ?? ['copied', 'Could not copy it: select the citation and copy it by hand.'];
+    document.querySelector('.cite').addEventListener('click', async (e) => {
+      const button = e.target.closest('button');
+      if (!button) return;
+      const format = formats[button.dataset.copy ?? button.dataset.save];
+      if (button.dataset.copy) {
+        try {
+          await navigator.clipboard.writeText(format.text);
+          said.textContent = `${format.label}: ${words[0]}`;
+        } catch {
+          said.textContent = words[1];
+        }
+        return;
+      }
+      const url = URL.createObjectURL(new Blob([format.text], { type: format.mime }));
+      const link = Object.assign(document.createElement('a'), { href: url, download: `olomol-${format.id === 'csl' ? 'csl' : 'citation'}.${format.ext}` });
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      said.textContent = '';
+    });
+  })();
 </script>
 </body>
 </html>

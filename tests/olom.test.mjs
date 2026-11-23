@@ -62,7 +62,9 @@ test('.olom: recognised by its content, with its version', () => {
   const text = writeOlom(doc);
   assert.ok(isOlom(text));
   assert.ok(!isOlom('{"root":{"nodes":[]}}'));
-  assert.equal(JSON.parse(text).version, VERSION);
+  // (the lowest version that holds it: a drawing without a 3D model is 1.0; this olomol writes up to VERSION)
+  assert.equal(JSON.parse(text).version, '1.0');
+  assert.equal(VERSION, '1.1');
 });
 
 test('.olom: what a reader does not know is kept and written back', () => {
@@ -455,4 +457,15 @@ test('.olom: what a newer olomol adds is kept: keys inside onArrow, a section\'s
   assert.equal(out.atoms[0].onArrow.spacing, 2);
   assert.deepEqual(out.style, { preset: 'nature', charges: 'circled' });
   assert.deepEqual(out.arrowLabels, file.arrowLabels);
+});
+
+test('.olom: a file says the lowest version that holds it (1.0 without a 3D model, 1.1 with one)', async () => {
+  const { readOlom } = await import('../src/io/olom.js');
+  const plain = readOlom(readFileSync('tests/fixtures/olom/1.0/aspirin.olom', 'utf8')).doc;
+  assert.equal(toOlom(plain).version, '1.0', 'nothing newer in it: 1.0, as 0.5.0 wrote it');
+  const withModel = { format: 'olom', version: '1.1', atoms: [{ id: 1, element: 'C', x: 0, y: 0 }],
+    models3D: [{ id: 2, at: [3, 0], model: { elements: ['C'], points: [[0, 0, 0]], bonds: [] }, atoms: [1] }] };
+  const read = readOlom(JSON.stringify(withModel));
+  assert.ok(!read.newer && read.doc.models.size === 1, 'a 1.1 file read whole');
+  assert.equal(toOlom(read.doc).version, '1.1');
 });

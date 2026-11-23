@@ -103,6 +103,8 @@ export const icons = {
   // a chair (taller than drawn, to read at this size), and a two-way arrow over it
   chairTurn: <Icon><path d="M2.7 13l7.1 3.1 7.2-3.1 4.3 7.4-7.1-3.1-7.1 3.1z" /><path d="M12 10.2A7.5 3 0 1 1 19.5 7.2" /><path d="M17.6 6.3l1.9.9.9-1.9" /></Icon>,
   ringFlip: <Icon><path d="M2.7 12l7.1 3.1 7.2-3.1 4.3 7.4-7.1-3.1-7.1 3.1z" /><path d="M6 8a7.5 4.5 0 0 1 12 0" /><path d="M4.4 6.2l1.6 1.9 2.2-.9M19.6 6.2L18 8.1l-2.2-.9" /></Icon>,
+  fischer: <Icon><path d="M12 2.5v19M6 7.5h12M6 12h12M6 16.5h12" /></Icon>,
+  zigzag: <Icon><path d="M2.5 16l4.75-6 4.75 6 4.75-6 4.75 6" /><path d="M12 16l-1.4-9h2.8z" fill="currentColor" stroke="none" /></Icon>,
   zoomIn: <Icon><circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5L20 20M10.5 8v5M8 10.5h5" /></Icon>,
   zoomOut: <Icon><circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5L20 20M8 10.5h5" /></Icon>,
   fit: <Icon><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" /></Icon>,

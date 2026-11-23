@@ -19,8 +19,12 @@ import { bracketAtoms, changeCharge, highlightObjects, keepApart, keepTogether, 
 import { t } from '../i18n/i18n.js';
 import { icons } from './icons.jsx';
 import { pubchemLink } from './actions.js';
+import { allowed } from '../features.js';
 import { HIGHLIGHTS, Swatches } from './Menus.jsx';
 import { SHADE } from '../render/orbitals.js';
+import { MODEL_LOOK, outOfDate } from '../render/model3d.js';
+import { updateModel } from '../editor/models3d.js';
+import { multiply, rotationAbout } from '../layout/threeD.js';
 
 // A double bond's second line, from where it is drawn (+1 one side, -1 the other, 0 centred) to the next place.
 const SIDES = [[0, 'center'], [1, 'left'], [-1, 'right']];
@@ -86,6 +90,47 @@ function chargeText(charge) {
 
 // The value all objects share, or undefined if they differ.
 const common = (objects, key) => (objects.every((o) => o[key] === objects[0][key]) ? objects[0][key] : undefined);
+
+// A highlight's pattern and colour: 'hatch:#ffb3b3' → ['hatch', '#ffb3b3'], a plain one ['', its colour]
+const PATTERNED = /^(hatch|lines|dots):(.+)$/;
+const patternOf = (highlight) => { const m = PATTERNED.exec(highlight ?? ''); return m ? [m[1], m[2]] : ['', highlight ?? null]; };
+
+// The selected atoms' and bonds' highlight: its colour (a swatch), and its pattern (plain, hatched, upright lines,
+// dots), told apart without colour (in black and white, for colour-blind readers); a pattern kept when the colour
+// changes, each highlight's own colour kept when the pattern does
+function HighlightSection({ editor, objects }) {
+  const highlights = objects.map((o) => o.highlight ?? null);
+  const none = highlights.every((h) => !h);
+  const parts = highlights.filter(Boolean).map(patternOf);
+  const shared = (k) => (parts.length && parts.every((part) => part[k] === parts[0][k]) ? parts[0][k] : undefined);
+  const colour = none ? null : objects.every((o) => o.highlight) ? shared(1) : undefined;
+  const pattern = none ? '' : shared(0);
+  const ids = objects.map((o) => o.id);
+  const repattern = (kind) => editor.change((doc) => {
+    for (const o of objects) {
+      const thing = doc.atoms.get(o.id) ?? doc.bonds.get(o.id);
+      if (!thing?.highlight) continue;
+      const [, base] = patternOf(thing.highlight);
+      thing.highlight = kind ? `${kind}:${base}` : base;
+    }
+  });
+  return (
+    <section data-testid="highlight-section">
+      <h3>{t('Highlight')}</h3>
+      <Swatches value={colour} palette={HIGHLIGHTS} list="highlight" noneTitle={t('No highlight')}
+        onPick={(h) => highlightObjects(editor, ids, h && pattern ? `${pattern}:${h}` : h)} />
+      {!none && (
+        <div className="row">
+          <span className="name">{t('Pattern')}</span>
+          <Seg value={pattern} onChange={repattern} options={[
+            ['', t('no pattern')], ['hatch', t('hatched'), t('Diagonal stripes: told apart without colour, in black and white or by colour-blind readers')],
+            ['lines', t('lines'), t('Upright lines: told apart without colour')], ['dots', t('dots'), t('Dots: told apart without colour')],
+          ]} />
+        </div>
+      )}
+    </section>
+  );
+}
 
 const SUPERSCRIPT = { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹', '+': '⁺', '−': '⁻' };
 // [M+H]+ as written: [M+H]⁺, [M]2− as [M]²⁻.
@@ -210,7 +255,7 @@ function MoleculeInfo({ editor, doc, atomIds, which }) {
             ))}
             {!found && <p className="small">SMILES, InChI…</p>}
           </div>
-          {found?.inchikey && (
+          {found?.inchikey && allowed('structures-from-names') && (
             <a className="btn" href={pubchemLink({ inchikey: found.inchikey, ...(found.smiles && { smiles: found.smiles }) })} target="_blank" rel="noopener" data-testid="pubchem-page"
               title={t('Open its page on PubChem (this sends its InChIKey there; if PubChem has no exact match, its SMILES too)')}>
               {icons.external}<span className="label">{t('PubChem page')}</span>
@@ -331,7 +376,108 @@ function ColourSection({ editor, ids, color, orbitals }) {
   );
 }
 
-export default function Inspector({ editor, short }) {
+// A 3D model's look as the panel shows it: its own where set, else the default
+const lookOf = (item, key) => item.look?.[key] ?? MODEL_LOOK[key];
+const commonLook = (items, key) => (items.every((item) => lookOf(item, key) === lookOf(items[0], key)) ? lookOf(items[0], key) : undefined);
+// The panel's turns of 3D models, by sliders: about the page's vertical axis, its horizontal axis, and in its plane,
+// each in degrees from how the models were turned when they were selected (`base`), so that the three stay
+// independent; a slide one undo step (a checkpoint as it starts, as a drag). Turned another way meanwhile (Turn in
+// 3D, undo): the sliders start again from there.
+const TURNS = [['y', () => t('Left–right')], ['x', () => t('Back–forward')], ['z', () => t('In the page')]];
+const DEG = Math.PI / 180;
+// (left–right first, then back–forward, then in the page: each about the page's own axis)
+const turnedBy = (angles, base) => multiply(rotationAbout([0, 0, 1], angles.z * DEG), multiply(rotationAbout([1, 0, 0], -angles.x * DEG), multiply(rotationAbout([0, 1, 0], angles.y * DEG), base)));
+const sameTurn = (a, b) => a.every((row, i) => row.every((v, j) => Math.abs(v - b[i][j]) < 1e-9));
+function useTurns(editor, models) {
+  const key = models.map((item) => item.id).join();
+  const [turns, setTurns] = useState({ key, angles: { x: 0, y: 0, z: 0 }, base: new Map(models.map((item) => [item.id, item.rotation])) });
+  const fresh = { key, angles: { x: 0, y: 0, z: 0 }, base: new Map(models.map((item) => [item.id, item.rotation])) };
+  // (other models selected, or turned otherwise since: from where they are now)
+  const current = turns.key === key && models.every((item) => turns.base.has(item.id) && sameTurn(item.rotation, turnedBy(turns.angles, turns.base.get(item.id)))) ? turns : fresh;
+  useEffect(() => {
+    if (current !== turns) setTurns(current);
+  });
+  const slide = (axis, value) => {
+    const angles = { ...current.angles, [axis]: value };
+    for (const item of models) item.rotation = turnedBy(angles, current.base.get(item.id));
+    setTurns({ ...current, angles });
+    editor.touched();
+  };
+  return { angles: current.angles, slide, start: () => editor.checkpoint() };
+}
+
+// 3D models selected: how they are shown (style, hydrogens, labels' groups, depth), their size, turned by steps or in
+// Turn in 3D, and built again when their molecule has changed (Update). Each change one undo step.
+function ModelSection({ editor, models, onTurn3D }) {
+  const [busy, setBusy] = useState(false);
+  // (each stays where it is, round its middle: it doesn't move as it is shown another way)
+  const look = (changes) => editor.change(() => models.forEach((item) => { item.look = { ...item.look, ...changes }; }));
+  const stale = models.filter((item) => outOfDate(editor.doc, item));
+  const hasGroups = models.some((item) => item.model.groups?.length);
+  const turns = useTurns(editor, models);
+  const update = async () => {
+    setBusy(true);
+    for (const item of stale) await updateModel(editor, item.id); // eslint-disable-line no-await-in-loop
+    setBusy(false);
+  };
+  const size = models.every((item) => (item.size ?? 1) === (models[0].size ?? 1)) ? models[0].size ?? 1 : undefined;
+  return (
+    <section data-testid="model-section">
+      <h3>{models.length === 1 ? t('3D model') : t('{n} 3D models', { n: models.length })}</h3>
+      {stale.length > 0 && (
+        <div className="row" data-testid="model-stale">
+          <span className="small warn">{t('Its molecule has changed since: the model is as it was.')}</span>
+          <button type="button" className="btn primary" disabled={busy} onClick={update} data-testid="model-update">{busy ? t('Building…') : t('Update')}</button>
+        </div>
+      )}
+      <div className="row">
+        <span className="name">{t('Style')}</span>
+        <Seg value={commonLook(models, 'style')} onChange={(style) => look({ style })}
+          options={[['balls', t('Ball and stick')], ['sticks', t('Sticks')], ['spacefill', t('Space-filling'), t('Each atom as large as the atom itself (its van der Waals radius)')]]} />
+      </div>
+      <div className="row">
+        <span className="name">{t('Hydrogens')}</span>
+        <Seg value={commonLook(models, 'hydrogens')} onChange={(hydrogens) => look({ hydrogens })}
+          options={[['all', t('all')], ['small', t('small'), t('Small hydrogens: those the model adds small and near their atoms; those you drew stay as they are')], ['none', t('none'), t('Only the hydrogens you drew')]]} />
+      </div>
+      {hasGroups && (
+        <div className="row">
+          <span className="name">{t('Labels')}</span>
+          <Seg value={commonLook(models, 'groups')} onChange={(groups) => look({ groups })}
+            options={[['out', t('drawn out'), t('Draw out groups')], ['balls', t('as balls'), t('Each label one ball with its name')]]} />
+        </div>
+      )}
+      <div className="row">
+        <span className="name">{t('Depth')}</span>
+        <Seg value={commonLook(models, 'fade')} onChange={(fade) => look({ fade })}
+          options={[[true, t('back paler')], [false, t('even'), t('Every atom in its full colour')]]} />
+      </div>
+      <div className="row">
+        <span className="name">{t('Size')}</span>
+        <Seg value={size} onChange={(value) => editor.change(() => models.forEach((item) => { item.size = value; }))}
+          options={[[0.5, '½'], [0.75, '¾'], [1, '1', t('A bond as long as in the drawing')], [1.5, '1½'], [2, '2']]} />
+      </div>
+      <div className="turns" data-testid="model-turn">
+        {TURNS.map(([axis, label]) => (
+          <label key={axis} className="row slider">
+            <span className="name">{label()}</span>
+            <input type="range" min={-180} max={180} step={1} value={turns.angles[axis]} data-testid={`model-turn-${axis}`}
+              onPointerDown={turns.start} onKeyDown={turns.start} onChange={(e) => turns.slide(axis, Number(e.target.value))}
+              onPointerUp={(e) => e.currentTarget.blur()} /* (let go: Ctrl+Z and the keys back with the drawing) */ />
+            <span className="small value">{turns.angles[axis]}°</span>
+          </label>
+        ))}
+      </div>
+      {models.length === 1 && onTurn3D && (
+        <div className="row">
+          <button type="button" className="btn" onClick={onTurn3D} data-testid="model-turn3d">{icons.turn3d}<span className="label">{t('Turn in 3D…')}</span></button>
+        </div>
+      )}
+    </section>
+  );
+}
+
+export default function Inspector({ editor, short, onTurn3D = null }) {
   const moleculeName = useMoleculeLabel(editor);
   const { doc } = editor;
   if (!editor.selection.size) infoOf = null;
@@ -343,6 +489,7 @@ export default function Inspector({ editor, short }) {
   const arrows = editor.selected('arrows').map((id) => doc.arrows.get(id));
   const brackets = editor.selected('brackets').map((id) => doc.brackets.get(id));
   const texts = editor.selected('texts').map((id) => doc.texts.get(id));
+  const models = editor.selected('models').map((id) => doc.models.get(id)).filter((item) => item?.model);
   const newmans = newmansOf(doc, editor.selectedAtoms());
   const set = (objects, changes) => editor.change(() => objects.forEach((o) => Object.assign(o, changes)));
   const ids = [...editor.selection];
@@ -365,7 +512,7 @@ export default function Inspector({ editor, short }) {
   const inner = carbons.filter((a) => scene.atoms.get(a.id).degree > 1);
   // (a Newman projection's bond seen end on: no Order, Kind or Stereo, as the keys and the bond tool keep it single)
   const bondDetails = (bonds.length === 1 || !whole) && !bonds.some((b) => isEndOn(doc, b));
-  const colors = [...ids].map((id) => doc.atoms.get(id) ?? doc.bonds.get(id) ?? doc.curves.get(id) ?? doc.arrows.get(id) ?? doc.texts.get(id) ?? doc.pluses.get(id) ?? doc.brackets.get(id) ?? doc.orbitals.get(id) ?? doc.overlaps.get(id)).filter(Boolean);
+  const colors = [...ids].map((id) => doc.atoms.get(id) ?? doc.bonds.get(id) ?? doc.curves.get(id) ?? doc.arrows.get(id) ?? doc.texts.get(id) ?? doc.pluses.get(id) ?? doc.brackets.get(id) ?? doc.orbitals.get(id) ?? doc.overlaps.get(id) ?? doc.models?.get(id)).filter(Boolean);
   // only side arcs of reaction arrows: no settings of their own, they can be deleted (what is at their end stays)
   if (!colors.length) {
     return (
@@ -385,7 +532,7 @@ export default function Inspector({ editor, short }) {
       {molecules.length > 0 && (
         <section>
           <h3>{molecules.length === 1 ? t('Molecule') : t('{n} molecules', { n: molecules.length })}</h3>
-          <MoleculeInfo editor={editor} doc={doc} atomIds={molecules.flat()} which={which} />
+          {allowed('molecule-info') && <MoleculeInfo editor={editor} doc={doc} atomIds={molecules.flat()} which={which} />}
           {carbons.length > 0 && (() => {
             // the carbons selected (a whole molecule: all of them): CH3 at the chain ends, plain line ends, or every carbon
             // written. A charged carbon is written (C+) unless set to line: then only its charge, at the corner
@@ -412,7 +559,7 @@ export default function Inspector({ editor, short }) {
               </div>
             );
           })()}
-          {(() => {
+          {allowed('text') && (() => {
             // IUPAC numbers, worked out again after each change; or numbers set by hand
             const auto = molecules.map((members) => members.some((id) => doc.atoms.get(id).autoNumber));
             const on = auto.every(Boolean);
@@ -434,7 +581,7 @@ export default function Inspector({ editor, short }) {
               </>
             );
           })()}
-          {(() => {
+          {allowed('molecule-info') && (() => {
             // R/S and E/Z labels for the selected atoms and bonds (a whole molecule: all of its)
             const ids = editor.selectedAtoms();
             const inside = new Set(ids);
@@ -448,7 +595,9 @@ export default function Inspector({ editor, short }) {
               </label>
             );
           })()}
+          {(allowed('structure') || allowed('brackets')) && (
           <div className="row">
+            {allowed('structure') && (<>
             <button type="button" className="btn" onClick={() => aromatize(editor)}
               title={t('Draw aromatic rings with a circle (or dashed lines, see Settings) and charged groups such as COO⁻ and NO₂ delocalized, with δ charges. Files keep single and double bonds.')}>
               {icons.aromatic}<span className="label">{t('Aromatize')}</span>
@@ -456,12 +605,16 @@ export default function Inspector({ editor, short }) {
             <button type="button" className="btn" onClick={() => kekulize(editor)} title={t('Single and double bonds again (Kekulé structure)')}>
               {icons.benzene}<span className="label">Kekulé</span>
             </button>
+            </>)}
+            {allowed('brackets') && (
             <button type="button" className="btn" onClick={() => bracketAtoms(editor, editor.selectedAtoms())}
               title={t('Brackets round the selected atoms: whole molecules for a transition state or an ion, part of a chain for a repeating unit (with n)')}>
               {icons.bracket}<span className="label">{t('Brackets')}</span>
             </button>
+            )}
           </div>
-          {(molecules.length > 1 || linked) && (
+          )}
+          {(molecules.length > 1 || linked) && allowed('structure') && (
             <div className="row">
               {molecules.length > 1 && (
                 <button type="button" className="btn" data-testid="keep-together" onClick={() => keepTogether(editor, molecules)}
@@ -482,7 +635,7 @@ export default function Inspector({ editor, short }) {
         </section>
       )}
 
-      {atoms.length > 0 && (
+      {atoms.length > 0 && allowed('structure') && (
         <section>
           <h3>{atoms.length === 1 ? t('Atom') : t('{n} atoms', { n: atoms.length })}</h3>
           {atomDetails && (
@@ -626,7 +779,7 @@ export default function Inspector({ editor, short }) {
         </section>
       )}
 
-      {bonds.length > 0 && bondDetails && (
+      {bonds.length > 0 && bondDetails && allowed('structure') && (
         <section>
           <h3>{bonds.length === 1 ? t('Bond') : t('{n} bonds', { n: bonds.length })}</h3>
           <div className="row">
@@ -677,7 +830,7 @@ export default function Inspector({ editor, short }) {
         </section>
       )}
 
-      {curves.length > 0 && (
+      {curves.length > 0 && allowed('curved-arrows') && (
         <section>
           <h3>{curves.length === 1 ? t('Curved arrow') : t('{n} curved arrows', { n: curves.length })}</h3>
           <div className="row">
@@ -700,7 +853,7 @@ export default function Inspector({ editor, short }) {
         </section>
       )}
 
-      {orbitals.length > 0 && (
+      {orbitals.length > 0 && allowed('orbitals') && (
         <section data-testid="orbital-panel">
           <h3>{orbitals.length === 1 ? t('Orbital') : t('{n} orbitals', { n: orbitals.length })}</h3>
           <div className="row">
@@ -724,7 +877,7 @@ export default function Inspector({ editor, short }) {
         </section>
       )}
 
-      {arrows.length > 0 && (
+      {arrows.length > 0 && allowed('reaction-arrows') && (
         <section>
           <h3>{arrows.length === 1 ? t('Reaction arrow') : t('{n} reaction arrows', { n: arrows.length })}</h3>
           <div className="row">
@@ -804,7 +957,7 @@ export default function Inspector({ editor, short }) {
         );
       })()}
 
-      {texts.length > 0 && (
+      {texts.length > 0 && allowed('text') && (
         <section>
           <h3>{texts.length === 1 ? t('Text') : t('{n} texts', { n: texts.length })}</h3>
           <label className="row tick" title={t('Bold text, for example a compound number')}>
@@ -836,7 +989,7 @@ export default function Inspector({ editor, short }) {
         </section>
       )}
 
-      {brackets.length > 0 && (
+      {brackets.length > 0 && allowed('brackets') && (
         <section>
           <h3>{brackets.length === 1 ? t('Brackets') : t('{n} brackets', { n: brackets.length })}</h3>
           <div className="row">
@@ -857,15 +1010,11 @@ export default function Inspector({ editor, short }) {
         </section>
       )}
 
-      <ColourSection editor={editor} ids={ids} color={color} orbitals={orbitals} />
-      {(atoms.length > 0 || bonds.length > 0) && (
-        <section>
-          <h3>{t('Highlight')}</h3>
-          <Swatches value={common([...atoms, ...bonds], 'highlight') ?? (atoms.concat(bonds).every((o) => !o.highlight) ? null : undefined)}
-            palette={HIGHLIGHTS} list="highlight" noneTitle={t('No highlight')}
-            onPick={(h) => highlightObjects(editor, [...atoms, ...bonds].map((o) => o.id), h)} />
-        </section>
-      )}
+      {models.length > 0 && allowed('turn-in-3d') && <ModelSection editor={editor} models={models} onTurn3D={onTurn3D} />}
+
+      {/* (a 3D model's colours are its molecule's: no colour of its own) */}
+      {models.length < editor.selection.size && allowed('colors') && <ColourSection editor={editor} ids={ids.filter((id) => !doc.models?.has(id))} color={common(colors.filter((o) => !doc.models?.has(o.id)), 'color')} orbitals={orbitals} />}
+      {(atoms.length > 0 || bonds.length > 0) && allowed('colors') && <HighlightSection editor={editor} objects={[...atoms, ...bonds]} />}
       <section className="row">
         <button type="button" className="btn" onClick={() => editor.deleteSelection()} title={t('Delete (Del)')}>{icons.trash}<span className="label">{t('Delete')}</span></button>
         <span className="small" style={{ marginLeft: 'auto' }}>{t('{n} selected', { n: editor.selection.size })}</span>

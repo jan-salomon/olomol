@@ -8,9 +8,10 @@ import { pickElement, pressTool } from '../editor/tools.js';
 import { forDarkBackground } from '../render/svg.js';
 import { newDrawing, openFile, saveFile, snapPressed } from './actions.js';
 import { t } from '../i18n/i18n.js';
+import { allowed, dialogAllowed, EMBEDDED, isReadOnly, toolAllowed } from '../features.js';
 import { keyOf, toolHint } from './keys.js';
 import { isNewTitle, newTitle } from '../editor/editor.js';
-import { RELEASED, VERSION, WHATS_NEW } from './report.js';
+import { ABOUT_PAGE, RELEASED, VERSION, WHATS_NEW } from './report.js';
 import { icons, RingIcon } from './icons.jsx';
 import { install, installOffer, onInstallOffer } from './install.js';
 import { AlignMenu, ColorPicker, ExportMenu, HIGHLIGHTS, OpenMenu, PALETTE, Popover, recentExtras, SettingsMenu } from './Menus.jsx';
@@ -109,9 +110,53 @@ const TOP_OVERFLOW = ['view', 'chairs', 'arrange', 'anew'];
 const DOCK_OVERFLOW = ['rings', 'elements'];
 
 // The top bar in groups, | between them: the drawing's file (New, Open, Save, Export) | Undo, Redo | drawing it
-// anew (Redraw, Turn in 3D) | arranging (Align, the flips, a bond horizontal) | chairs (Ring flip, Turn a chair) |
+// anew (Redraw, Turn in 3D) | arranging (Align, the flips, a bond horizontal) | chairs (the projections: Ring flip, Turn a chair, Fischer, zigzag) |
 // the view (zoom, fit)
-export function TopBar({ editor, fit, onRelayout, onTurn3D, onVersions, onShow }) {
+// The projection tools, one button: the one in use or last chosen, its kinds under it (a click on it in use, its
+// corner triangle or a right click), as the rail's tools have theirs
+const PROJECTIONS = () => [
+  ['ringFlip', 'ring-flip', icons.ringFlip, t('Ring flip'), t('Ring flip of a chair: then click the chair; axial and equatorial swap, each group staying up or down (cis/trans, R/S kept); Shift+click: both chairs, with ⇌. A flat six-membered ring clicked becomes a chair')],
+  ['chairTurn', 'chair-turn', icons.chairTurn, t('Turn a chair'), t('Turn a chair: then click the chair; it turns a third of the way round its axis, anticlockwise (Shift+click: clockwise), every group staying axial or equatorial, up or down: the same chair, seen turned')],
+  ['fischer', 'fischer', icons.fischer, t('Fischer projection'), t('Fischer projection: then click a molecule drawn with wedges, it is drawn as its Fischer projection; or a vertical chain of crossings you drew, it is read as one (horizontal bonds towards you, vertical ones away; its spine lights up when pointed at); click again: plain lines again, no stereo')],
+  ['zigzag', 'zigzag', icons.zigzag, t('Zigzag'), t('Zigzag: then click a molecule (a Fischer projection too); its main chain is drawn as a zigzag, C1 on the left, with the wedges that keep its R/S')],
+];
+
+function Projections({ editor }) {
+  const [last, setLast] = useState('ringFlip');
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const tools = PROJECTIONS();
+  const active = tools.find(([name]) => editor.tool.name === name);
+  const [name, , icon, , title] = active ?? tools.find(([n]) => n === last);
+  const pick = (chosen) => {
+    setLast(chosen);
+    setOpen(false);
+    editor.setTool({ name: chosen });
+  };
+  return (
+    <span ref={ref}>
+      <button type="button" className={`btn projections${active ? ' toggled' : ''}`} title={t('{tool} — click again for more', { tool: title })} aria-label={title} data-testid="projections"
+        onClick={(e) => (active || e.target.closest?.('.corner') ? setOpen(!open) : pick(name))}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setOpen(true);
+        }}>
+        {icon}<span className="corner" />
+      </button>
+      {open && (
+        <Popover anchor={ref.current?.firstElementChild} side="below" className="menu" onClose={() => setOpen(false)}>
+          {tools.map(([tool, testId, toolIcon, label, tip]) => (
+            <button key={tool} type="button" className={`item${editor.tool.name === tool ? ' on' : ''}`} title={tip} data-testid={testId} onClick={() => pick(tool)}>
+              <span className="icon">{toolIcon}</span>{label}
+            </button>
+          ))}
+        </Popover>
+      )}
+    </span>
+  );
+}
+
+export function TopBar({ editor, fit, onRelayout, onTurn3D, onVersions, onShow, onEmbed }) {
   const [menu, setMenu] = useState(null);
   const bar = useRef(null);
   // (again when the words change: another language, another name)
@@ -123,10 +168,10 @@ export function TopBar({ editor, fit, onRelayout, onTurn3D, onVersions, onShow }
   const zoom = (k) => editor.zoomAt(k, window.innerWidth / 2, window.innerHeight / 2);
   return (
     <div className="glass topbar" ref={bar}>
-      <div className="brand"><img className="brand-mark" src="icons/icon.svg" alt="" />olomol</div>
+      {!EMBEDDED && <div className="brand"><img className="brand-mark" src="icons/icon.svg" alt="" />olomol</div>}
       {/* (the name on its tab once there are tabs; a new drawing's: empty here, "New drawing" in grey, its file still
           suggested under the date and time) */}
-      {editor.tabs.length < 2 && (
+      {!EMBEDDED && editor.tabs.length < 2 && (
         <input className="title-field" value={isNewTitle(editor.title) ? '' : editor.title} placeholder={t('New drawing')}
           aria-label={t('Name of the drawing (for its files)')} title={t('Name of the drawing (for its files)')}
           size={Math.max(8, (isNewTitle(editor.title) ? t('New drawing') : editor.title).length)} spellCheck={false}
@@ -143,6 +188,8 @@ export function TopBar({ editor, fit, onRelayout, onTurn3D, onVersions, onShow }
             if (e.key === 'Enter' || e.key === 'Escape') e.currentTarget.blur();
           }} />
       )}
+      {/* (an embedded editor: no files, nothing kept; its drawing is the page's) */}
+      {!EMBEDDED && (<>
       <KeptMark editor={editor} onVersions={onVersions} />
       <Btn title={t('New drawing')} onClick={() => newDrawing(editor)} testId="new-drawing">{icons.newDoc}</Btn>
       {/* (with recent files: a small menu, them and the computer's files; without: the computer's at once) */}
@@ -154,15 +201,21 @@ export function TopBar({ editor, fit, onRelayout, onTurn3D, onVersions, onShow }
         onClick={() => saveFile(editor)} testId="save">
         {icons.save}{editor.unsaved && <span className="unsaved-dot" title={t('Changes not saved in a file yet')} data-testid="unsaved" />}
       </Btn>
-      <span ref={exportRef}><Btn title={t('Export: SVG, PNG, molfile, SMILES, InChI…')} onClick={() => setMenu(menu === 'export' ? null : 'export')} label={t('Export')} testId="export">{icons.export}</Btn></span>
-      <span className="sep" />
+      </>)}
+      {allowed('export') && <span ref={exportRef}><Btn title={t('Export: SVG, PNG, molfile, SMILES, InChI…')} onClick={() => setMenu(menu === 'export' ? null : 'export')} label={t('Export')} testId="export">{icons.export}</Btn></span>}
+      {(!EMBEDDED || allowed('export')) && <span className="sep" />}
+      {!isReadOnly() && (<>
       <Btn title={t('Undo (Ctrl+Z)')} onClick={() => editor.undo()} disabled={!editor.undoStack.length}>{icons.undo}</Btn>
       <Btn title={t('Redo (Ctrl+Shift+Z)')} onClick={() => editor.redo()} disabled={!editor.redoStack.length}>{icons.redo}</Btn>
+      </>)}
+      {(allowed('redraw') || allowed('turn-in-3d')) && (
       <span className="bar-group" data-group="anew">
       <span className="sep" />
-      <Btn title={t('Redraw: pick from several drawings of the selected molecule, or of only its selected part')} onClick={onRelayout} label={t('Redraw')} testId="relayout">{icons.layout}</Btn>
-      <Btn title={t('Turn in 3D: turn the selected molecule as you like, see it as it will be drawn, then use that view')} onClick={onTurn3D} label={t('Turn in 3D')} labelClass="roomy" testId="turn3d">{icons.turn3d}</Btn>
+      {allowed('redraw') && <Btn title={t('Redraw: pick from several drawings of the selected molecule, or of only its selected part')} onClick={onRelayout} label={t('Redraw')} testId="relayout">{icons.layout}</Btn>}
+      {allowed('turn-in-3d') && <Btn title={t('Turn in 3D: turn the selected molecule as you like, see it as it will be drawn, then use that view')} onClick={onTurn3D} label={t('Turn in 3D')} labelClass="roomy" testId="turn3d">{icons.turn3d}</Btn>}
       </span>
+      )}
+      {allowed('align-flip') && (
       <span className="bar-group" data-group="arrange">
       <span className="sep" />
       <span ref={alignRef}><Btn title={t('Align: line up, space evenly, grid, reaction scheme')} onClick={() => setMenu(menu === 'align' ? null : 'align')} label={t('Align')} testId="align">{icons.align}</Btn></span>
@@ -173,25 +226,24 @@ export function TopBar({ editor, fit, onRelayout, onTurn3D, onVersions, onShow }
       <Btn title={t('Make a bond horizontal or vertical: then click the bond, the selection (or its molecule) turning; with one bond selected, its molecule at once; again: a quarter further')} toggled={editor.tool.name === 'snapBond'}
         onClick={() => snapPressed(editor)} testId="snap-bond">{icons.snap}</Btn>
       </span>
+      )}
+      {allowed('chairs-projections') && (
       <span className="bar-group" data-group="chairs">
       <span className="sep" />
-      <Btn title={t('Ring flip of a chair: then click the chair; axial and equatorial swap, each group staying up or down (cis/trans, R/S kept); Shift+click: both chairs, with ⇌. A flat six-membered ring clicked becomes a chair')}
-        toggled={editor.tool.name === 'ringFlip'}
-        onClick={() => editor.setTool(editor.tool.name === 'ringFlip' ? { name: 'select' } : { name: 'ringFlip' })} testId="ring-flip">{icons.ringFlip}</Btn>
-      <Btn title={t('Turn a chair: then click the chair; it turns a third of the way round its axis, anticlockwise (Shift+click: clockwise), every group staying axial or equatorial, up or down: the same chair, seen turned')}
-        toggled={editor.tool.name === 'chairTurn'}
-        onClick={() => editor.setTool(editor.tool.name === 'chairTurn' ? { name: 'select' } : { name: 'chairTurn' })} testId="chair-turn">{icons.chairTurn}</Btn>
+      <Projections editor={editor} />
       </span>
+      )}
       <span className="bar-group" data-group="view">
-      <span className="sep" />
+      {/* (only to look at, embedded: zooming alone, nothing before it) */}
+      {!(EMBEDDED && isReadOnly() && !allowed('export')) && <span className="sep" />}
       <Btn title={t('Zoom out (Ctrl+wheel)')} onClick={() => zoom(1 / 1.25)}>{icons.zoomOut}</Btn>
       <button type="button" className="btn zoom-label" title={t('Back to 100%')} onClick={() => zoom(42 / scale)}>{Math.round((scale / 42) * 100)}%</button>
       <Btn title={t('Zoom in (Ctrl+wheel)')} onClick={() => zoom(1.25)}>{icons.zoomIn}</Btn>
       <Btn title={t('Fit everything, or the selection, in the window')} onClick={fit} testId="fit">{icons.fit}</Btn>
-      <Btn title={t('Show: the drawings alone, full screen, for a lecture; → and ← (or a clicker) step through the open drawings, an exercise and then its solution; Esc: back')} onClick={onShow} testId="show">{icons.present}</Btn>
+      {!EMBEDDED && <Btn title={t('Show: the drawings alone, full screen, for a lecture; → and ← (or a clicker) step through the open drawings, an exercise and then its solution; Esc: back')} onClick={onShow} testId="show">{icons.present}</Btn>}
       </span>
       <More bar={bar} list />
-      {menu === 'export' && <ExportMenu editor={editor} anchor={exportRef.current} onClose={() => setMenu(null)} />}
+      {menu === 'export' && <ExportMenu editor={editor} anchor={exportRef.current} onClose={() => setMenu(null)} onEmbed={EMBEDDED ? null : onEmbed} />}
       {menu === 'open' && <OpenMenu editor={editor} anchor={openRef.current} fit={fit} onClose={() => setMenu(null)} onVersions={onVersions} />}
       {menu === 'align' && <AlignMenu editor={editor} anchor={alignRef.current?.offsetParent ? alignRef.current : bar.current?.querySelector('[data-more] button')} onClose={() => setMenu(null)} />}
     </div>
@@ -208,7 +260,7 @@ export function TopRight({ editor, theme, setTheme, onReport, onCustomStyle }) {
   return (
     <div className="glass topright">
       {offer && <Btn title={t('Install as an app: its own window, works offline')} onClick={install} testId="install">{icons.install}</Btn>}
-      <Btn title={t('Report a problem or an idea')} onClick={onReport} testId="report">{icons.debug}</Btn>
+      <Btn title={t('Report a problem')} onClick={onReport} testId="report">{icons.debug}</Btn>
       <span ref={ref}><Btn title={t('Settings')} onClick={() => setOpen(!open)} testId="settings">{icons.settings}</Btn></span>
       {open && <SettingsMenu editor={editor} anchor={ref.current} onClose={() => setOpen(false)} theme={theme} setTheme={setTheme} onCustomStyle={onCustomStyle} />}
     </div>
@@ -294,6 +346,14 @@ const KINDS = {
   text: [t('text'), t('atom numbers')],
 };
 
+// The rail's groups, each with the kinds of tools that may be used (features.js); a group with none left out, and
+// a separator only between groups
+function railGroups() {
+  const groups = GROUPS.map((group) => (group === 'sep' ? group : { ...group, variants: (typeof group.variants === 'function' ? group.variants() : group.variants).filter(([tool]) => toolAllowed(tool)) }))
+    .filter((group) => group === 'sep' || group.variants.length);
+  return groups.filter((group, k) => group !== 'sep' || (k > 0 && groups[k - 1] !== 'sep' && k < groups.length - 1));
+}
+
 // The other kinds of the active tool's button, for the hint line: [{ name }], or null where it has none.
 // The rings as one: benzene and 3 to 8.
 export function otherKinds(tool) {
@@ -303,7 +363,7 @@ export function otherKinds(tool) {
   if (group.id === 'ring') return [{ name: t('benzene and rings of 3 to 8') }];
   const names = KINDS[group.id];
   if (!names) return null;
-  const others = group.variants.flatMap(([v], k) => (same(v, now) || !names[k] ? [] : [{ name: names[k] }]));
+  const others = group.variants.flatMap(([v], k) => (same(v, now) || !names[k] || !toolAllowed(v) ? [] : [{ name: names[k] }]));
   return others.length ? others : null;
 }
 
@@ -355,7 +415,7 @@ export function Rail({ editor }) {
     timers.current.close = setTimeout(() => setFlyout((now) => (now?.hovered ? null : now)), HOVER_CLOSE);
   };
   const [picker, setPicker] = useState(null); // { anchor (the button), tool ('paint' | 'highlight') } while a colour picker is open
-  const groups = GROUPS.map((group) => (typeof group.variants === 'function' ? { ...group, variants: group.variants() } : group));
+  const groups = railGroups();
   const activate = (group, index, anchor) => {
     const [tool] = group.variants[index];
     if (tool.pick) {
@@ -442,8 +502,13 @@ export function Dock({ editor, dark, onPeriodicTable, onTemplates, ui, searchFie
   const drawing = (el) => (editor.tool.name === 'atom' || editor.tool.name === 'bond') && editor.tool.el === el;
   const bar = useRef(null);
   useFitted(bar, [], { order: DOCK_OVERFLOW });
+  const structure = allowed('structure');
+  const templates = dialogAllowed('templates');
+  const search = allowed('structures-from-text') || allowed('structures-from-names');
+  if (!structure && !templates && !search) return null;
   return (
     <div className="glass dock" role="toolbar" aria-label={t('Elements and rings')} ref={bar}>
+      {structure && (<>
       <span className="bar-group" data-group="elements">
       {ELEMENTS.map((el) => (
         <button key={el} type="button" className={`btn el${drawing(el) ? ' on' : ''}`}
@@ -460,9 +525,10 @@ export function Dock({ editor, dark, onPeriodicTable, onTemplates, ui, searchFie
       ))}
       </span>
       <More bar={bar} side="above" />
-      <span className="sep" />
-      <Btn title={t('Templates (Shift+T): rings, functional groups, amino acids, sugars, reagents')} onClick={onTemplates} label={t('Templates')} testId="templates">{icons.templates}</Btn>
-      <SearchBar editor={editor} ui={ui} field={searchField} />
+      </>)}
+      {structure && (templates || search) && <span className="sep" />}
+      {templates && <Btn title={t('Templates (Shift+T): rings, functional groups, amino acids, sugars, reagents')} onClick={onTemplates} label={t('Templates')} testId="templates">{icons.templates}</Btn>}
+      {search && <SearchBar editor={editor} ui={ui} field={searchField} />}
     </div>
   );
 }
@@ -499,16 +565,27 @@ export function HelpButton({ onHelp }) {
   return <button type="button" className="help-button" title={t('Help: examples, quick start, manual, keyboard shortcuts')} aria-label={t('Help')} onClick={onHelp} data-testid="help">?</button>;
 }
 
-// The version in the bottom left corner, small: its release date, and under it What's new and About
-export function VersionMark({ onAbout }) {
+// The version in the bottom left corner, small: its release date, and under it What's new and About (the about page:
+// what olomol is, how to cite it, its licence and credits), each in a new tab
+export function VersionMark() {
   return (
     <div className="version-mark" data-testid="version-mark">
       <span title={VERSION}>olomol {__APP_VERSION__}{RELEASED && ` · ${RELEASED}`}</span>
       <span className="links">
         <a href={WHATS_NEW} target="_blank" rel="noopener">{t("What's new")}</a>
         {' · '}
-        <button type="button" className="link" onClick={onAbout} data-testid="version-about">{t('About')}</button>
+        <a href={ABOUT_PAGE} target="_blank" rel="noopener" data-testid="version-about">{t('About')}</a>
       </span>
     </div>
+  );
+}
+
+// An embedded editor's corner (embed.html): olomol's name, a link to it, for the students to find it and the
+// teachers to cite it
+export function EmbedMark() {
+  return (
+    <a className="version-mark embed-mark" href="https://olomol.org/" target="_blank" rel="noopener" title={t('olomol: drawing chemical structures and mechanisms (opens olomol.org)')} data-testid="embed-mark">
+      <img src="icons/icon.svg" alt="" width="14" height="14" />olomol
+    </a>
   );
 }

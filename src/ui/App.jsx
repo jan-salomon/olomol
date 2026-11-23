@@ -15,15 +15,18 @@ import { getRDKit } from '../io/rdkit.js';
 import { svgOf, writeAs } from '../io/files.js';
 import { linkTo } from '../io/link.js';
 import { language, t } from '../i18n/i18n.js';
-import { checkUnsaved, copySelection, OLOMOL_TYPE, openGiven, openLink, pasteText, saveFile } from './actions.js';
+import { checkUnsaved, copySelection, OLOMOL_TYPE, openEmbedded, openGiven, openLink, pasteText, saveFile } from './actions.js';
+import { dialogAllowed, EMBEDDED, isReadOnly } from '../features.js';
+import { startBridge } from '../embed/bridge.js';
 import { keepOnLeaving, keepSoon, restoreTabs, shownTitle, watchOtherWindows } from './tabs.js';
 import { Tabs } from './Tabs.jsx';
-import { Dock, HelpButton, Rail, TopBar, TopRight, VersionMark } from './Bars.jsx';
+import { Dock, EmbedMark, HelpButton, Rail, TopBar, TopRight, VersionMark } from './Bars.jsx';
 import Canvas from './Canvas.jsx';
 import DebugPanel from './DebugPanel.jsx';
 import { ContextMenu } from './ContextMenu.jsx';
 import { ShowBar, useShow } from './Show.jsx';
-import { About, NameDialog, PeriodicTable, QuestionDialog, Report, Shortcuts, StyleDialog, VersionsDialog } from './Dialogs.jsx';
+import { NameDialog, PeriodicTable, QuestionDialog, Report, Shortcuts, StyleDialog, VersionsDialog } from './Dialogs.jsx';
+import { EmbedDialog } from './EmbedDialog.jsx';
 import { loadRecent } from './history.js';
 import Inspector from './Inspector.jsx';
 import { ObjectsPanel } from './ObjectsPanel.jsx';
@@ -118,6 +121,8 @@ const THEME_KEY = 'olomol-theme';
 
 function useTheme() {
   const [theme, setThemeState] = useState(() => {
+    // (an embedded editor: as its page asks, ?theme=dark or auto (the system's); light without)
+    if (EMBEDDED) return ['dark', 'auto'].includes(new URLSearchParams(location.search).get('theme')) ? new URLSearchParams(location.search).get('theme') : 'light';
     try {
       return localStorage.getItem(THEME_KEY) ?? 'light'; // (light at the start; dark or the system's when chosen)
     } catch {
@@ -139,6 +144,7 @@ function useTheme() {
   }, [theme, resolved]);
   const setTheme = (value) => {
     setThemeState(value);
+    if (EMBEDDED) return;
     try {
       localStorage.setItem(THEME_KEY, value);
     } catch {
@@ -176,24 +182,65 @@ const typing = () => ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeEle
 
 export default function App() {
   useSyncExternalStore((listener) => editor.subscribe(listener), () => editor.version);
-  const [dialog, setDialog] = useState(null);
+  const [dialog, showDialog] = useState(null);
+  // (a window of a part switched off, features.js, doesn't open, whatever asks for it: a button, a key, the search bar)
+  const setDialog = useCallback((name) => {
+    if (name === null || dialogAllowed(name)) showDialog(name);
+  }, []);
   const [contextMenu, setContextMenu] = useState(null); // { at, point, hit } while the right-click menu is open
+  const [panelOpen, setPanelOpen] = useState(false); // (embedded: the panel opened from its button)
   const show = useShow(editor); // Show: the drawings alone, full screen (Show.jsx)
   const showRef = useRef(show);
   showRef.current = show;
   const [theme, setTheme, dark] = useTheme();
-  const fit = useCallback(() => {
+  // (`selected`: what is selected, if anything, as large as it fits; the embedding page's fit: the whole drawing)
+  const fit = useCallback(({ selected = true, also = null } = {}) => {
     // the space between the bars (and the panel, when it is open)
     const edge = (selector, side, fallback) => document.querySelector(selector)?.getBoundingClientRect()[side] ?? fallback;
     const [left, top] = [edge('.rail', 'right', 0) + 8, Math.max(edge('.topbar', 'bottom', 0), edge('.tabs', 'bottom', 0)) + 8];
     const right = Math.min(edge('.inspector', 'left', window.innerWidth), edge('.topright', 'right', window.innerWidth)) - 8;
     const bottom = edge('.dock', 'top', window.innerHeight) - 8;
-    editor.fit(Math.max(100, right - left), Math.max(100, bottom - top), { left, top, selected: true });
+    editor.fit(Math.max(100, right - left), Math.max(100, bottom - top), { left, top, selected, also });
   }, []);
   const centre = () => editor.viewCentre(window.innerWidth, window.innerHeight);
 
+  // an embedded editor (embed.html): the drawing its address gives (again when the page gives another, #…), nothing
+  // kept in the browser, no other windows to watch
+  useEffect(() => {
+    if (!EMBEDDED) return undefined;
+    let bridge = null;
+    const open = async () => {
+      const result = await openEmbedded(editor);
+      if (result.opened) fit();
+      return result;
+    };
+    // (the page told it is ready once the drawing from the address is there, or why it isn't; a drawing the page
+    // gives later, a new #… in the address, not said back to it as a change)
+    open().then((opened) => {
+      bridge = startBridge(editor, { fit, opened });
+    });
+    const again = async () => (bridge ? bridge.opened(await bridge.own(open)) : open());
+    window.addEventListener('hashchange', again);
+    return () => {
+      bridge?.stop();
+      window.removeEventListener('hashchange', again);
+    };
+  }, [fit]);
+
+  // ?help: opened with Help (the about page's Getting started), once: taken out of the address, so a reload
+  // doesn't open it again
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    if (EMBEDDED || !query.has('help')) return;
+    query.delete('help');
+    const rest = query.toString();
+    history.replaceState(history.state, '', `${location.pathname}${rest ? `?${rest}` : ''}${location.hash}`);
+    setDialog('examples');
+  }, [setDialog]);
+
   // the drawings from last time, and remembering them
   useEffect(() => {
+    if (EMBEDDED) return undefined;
     // every drawing kept (as tabs, each as it was seen), then one a link brings (in a tab of its own)
     loadRecent(editor);
     restoreTabs(editor).then(async ({ found, view, elsewhere }) => {
@@ -296,6 +343,7 @@ export default function App() {
   // manifest file_handlers), each in a tab of its own
   const [dropping, setDropping] = useState(false);
   useEffect(() => {
+    if (EMBEDDED) return undefined; // (no files in an embedded editor)
     const files = (e) => [...(e.dataTransfer?.types ?? [])].includes('Files');
     let left = null;
     const over = (e) => {
@@ -381,17 +429,22 @@ export default function App() {
       <Canvas editor={editor} dark={dark} onContextMenu={setContextMenu} />
       {show.showing && <ShowBar editor={editor} show={show} />}
       {contextMenu && <ContextMenu editor={editor} ui={{ fit, show: setDialog, present: show.start }} {...contextMenu} onClose={() => setContextMenu(null)} />}
-      <TopBar editor={editor} fit={fit} onRelayout={() => setDialog('layout')} onTurn3D={() => setDialog('turn3d')} onVersions={() => setDialog('versions')} onShow={show.start} />
-      <Tabs editor={editor} blocked={Boolean(dialog)} />
-      <TopRight editor={editor} theme={theme} setTheme={setTheme} onReport={() => setDialog('report')} onCustomStyle={() => setDialog('style')} />
-      <Rail editor={editor} />
+      <TopBar editor={editor} fit={fit} onRelayout={() => setDialog('layout')} onTurn3D={() => setDialog('turn3d')} onVersions={() => setDialog('versions')} onShow={show.start} onEmbed={() => setDialog('embed')} />
+      {!EMBEDDED && <Tabs editor={editor} blocked={Boolean(dialog)} />}
+      {!EMBEDDED && <TopRight editor={editor} theme={theme} setTheme={setTheme} onReport={() => setDialog('report')} onCustomStyle={() => setDialog('style')} />}
+      {!isReadOnly() && <Rail editor={editor} />}
       <Dock editor={editor} dark={dark} onPeriodicTable={() => setDialog('periodic')} onTemplates={() => setDialog('templates')} ui={{ fit, show: setDialog, present: show.start }} searchField={searchField} />
-      <Inspector editor={editor} short={editor.debug} />
-      <ObjectsPanel editor={editor} />
-      <HelpButton onHelp={() => setDialog('examples')} />
-      <VersionMark onAbout={() => setDialog('about')} />
+      {/* (embedded, in a frame a few hundred pixels high: the panel folded to a button until asked for, not over what the
+          student clicks next) */}
+      {!isReadOnly() && EMBEDDED && editor.selection.size > 0 && !editor.gesture && (
+        <button type="button" className="glass inspector-fold" onClick={() => setPanelOpen(!panelOpen)} data-testid="panel-fold">{t('Panel')} {panelOpen ? '▴' : '▾'}</button>
+      )}
+      {!isReadOnly() && (!EMBEDDED || panelOpen) && <Inspector editor={editor} short={editor.debug} onTurn3D={() => setDialog('turn3d')} />}
+      {!isReadOnly() && <ObjectsPanel editor={editor} />}
+      {!EMBEDDED && <HelpButton onHelp={() => setDialog('examples')} />}
+      {EMBEDDED ? <EmbedMark /> : <VersionMark />}
       {editor.debug && <DebugPanel editor={editor} />}
-      {isEmpty(editor.doc) && !editor.gesture && !editor.editing && !dialog && <EmptyExample editor={editor} dark={dark} />}
+      {!EMBEDDED && isEmpty(editor.doc) && !editor.gesture && !editor.editing && !dialog && <EmptyExample editor={editor} dark={dark} />}
       <div className="messages">
         <Downloads />
         <XyzJob editor={editor} />
@@ -401,27 +454,27 @@ export default function App() {
       </div>
       {dialog === 'layout' && <LayoutDialog editor={editor} onClose={() => setDialog(null)} />}
       {dialog === 'turn3d' && <Turn3D editor={editor} dark={dark} onClose={() => setDialog(null)} />}
-      {dialog === 'examples' && <ExamplesWindow editor={editor} dark={dark} fit={fit} onClose={() => setDialog(null)} onKeys={() => setDialog('keys')} onReport={() => setDialog('report')} onAbout={() => setDialog('about')} />}
+      {dialog === 'examples' && <ExamplesWindow editor={editor} dark={dark} fit={fit} onClose={() => setDialog(null)} onKeys={() => setDialog('keys')} onReport={() => setDialog('report')} />}
       {dialog === 'periodic' && (
         <PeriodicTable onClose={() => setDialog(null)} onPick={(el) => {
           pickElement(editor, el);
           setDialog(null);
         }} />
       )}
-      {dialog === 'about' && <About onClose={() => setDialog(null)} onShortcuts={() => setDialog('keys')} />}
       {dialog === 'keys' && <Shortcuts onClose={() => setDialog(null)} />}
       {dialog === 'versions' && <VersionsDialog editor={editor} onClose={() => setDialog(null)} />}
       {dialog === 'style' && <StyleDialog editor={editor} onClose={() => setDialog(null)} />}
       {dialog === 'report' && <Report editor={editor} onClose={() => setDialog(null)} />}
+      {dialog === 'embed' && <EmbedDialog editor={editor} onClose={() => setDialog(null)} />}
       {dialog === 'templates' && <Templates editor={editor} onClose={() => setDialog(null)} />}
       {editor.nameRequest && <NameDialog key={editor.nameRequest.ext + editor.nameRequest.name} request={editor.nameRequest} />}
       {editor.question && <QuestionDialog question={editor.question} />}
       {dropping && <div className="drop-here" data-testid="drop-here"><div className="glass">{t('Drop to open: drawings in tabs of their own, molecules where they are dropped')}</div></div>}
-      {!editor.gesture && !editor.editing && !dialog && (
+      {!editor.gesture && !editor.editing && !dialog && !isReadOnly() && (
         <div className="tool-hint" aria-live="polite">
           {/* (one line: what the tool mostly does; all of it, and the kinds behind the button's corner, in the
               button's tooltip; the keys on the sheet, ?) */}
-          {mainHint(toolHint(editor.tool))} · <kbd>?</kbd> {t('all keys')}
+          {mainHint(toolHint(editor.tool))}{!EMBEDDED && <> · <kbd>?</kbd> {t('all keys')}</>}
         </div>
       )}
     </>

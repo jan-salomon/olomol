@@ -9,6 +9,7 @@ import { RADICAL_CYCLE } from '../chem/valence.js';
 import { deleteObjects } from '../model/doc.js';
 import { isEndOn } from '../chem/newman.js';
 import { t } from '../i18n/i18n.js';
+import { allowed, refusal } from '../features.js';
 import { copyPicture, openFile, saveFile } from './actions.js';
 import { stepTab } from './tabs.js';
 import { groupSelection, ungroupSelection } from '../editor/grouping.js';
@@ -258,6 +259,11 @@ export function handleKey(editor, e, { fit, help, fromName, templates }) {
     return true;
   }
   const onBond = bond ?? (['1', '2', '3', 'd'].includes(key) ? oneBond : null);
+  // (a wedge is how a bond is drawn, which the check of changes lets be: changed by hand, it is the structure)
+  if (onBond !== null && ['1', '2', '3', 'd'].includes(key) && !allowed('structure')) {
+    editor.say(refusal('structure'), 'error');
+    return true;
+  }
   if (onBond !== null) {
     const bond = onBond;
     const b = editor.doc.bonds.get(bond);

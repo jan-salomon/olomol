@@ -1,0 +1,136 @@
+{
+ "SOURCE": "PubChem PUG REST, https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/<name>/property/SMILES,InChIKey,Title/JSON",
+ "LICENCE": "PubChem data are in the public domain (NCBI); see https://www.ncbi.nlm.nih.gov/home/about/policies/",
+ "DATE": "2026-11-06",
+ "SEED": "none",
+ "answers": {
+  "alpha-D-glucopyranose": {
+   "cid": 79025,
+   "smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-DVKNGEFBSA-N",
+   "title": "Alpha-D-Glucose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-glucopyranose": {
+   "cid": 64689,
+   "smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-VFUOTHLCSA-N",
+   "title": "Beta-D-Glucose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "alpha-D-mannopyranose": {
+   "cid": 185698,
+   "smiles": "C([C@@H]1[C@H]([C@@H]([C@@H]([C@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-PQMKYFCFSA-N",
+   "title": "alpha-D-Mannopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-mannopyranose": {
+   "cid": 439680,
+   "smiles": "C([C@@H]1[C@H]([C@@H]([C@@H]([C@@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-RWOPYEJCSA-N",
+   "title": "beta-D-mannopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "alpha-D-allopyranose": {
+   "cid": 3034742,
+   "smiles": "C([C@@H]1[C@H]([C@H]([C@H]([C@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-UKFBFLRUSA-N",
+   "title": "alpha-D-Allopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-allopyranose": {
+   "cid": 448388,
+   "smiles": "C([C@@H]1[C@H]([C@H]([C@H]([C@@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-QZABAPFNSA-N",
+   "title": "beta-D-allopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "alpha-D-altropyranose": {
+   "cid": 7098663,
+   "smiles": "C([C@@H]1[C@H]([C@H]([C@@H]([C@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-TVIMKVIFSA-N",
+   "title": "alpha-D-Altropyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-altropyranose": {
+   "cid": 448702,
+   "smiles": "C([C@@H]1[C@H]([C@H]([C@@H]([C@@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-DGPNFKTASA-N",
+   "title": "beta-D-altropyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "alpha-D-gulopyranose": {
+   "cid": 7044038,
+   "smiles": "C([C@@H]1[C@@H]([C@H]([C@H]([C@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-RXRWUWDJSA-N",
+   "title": "Gulopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-gulopyranose": {
+   "cid": 6102790,
+   "smiles": "C([C@@H]1[C@@H]([C@H]([C@H]([C@@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-AIECOIEWSA-N",
+   "title": "beta-D-gulopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "alpha-D-idopyranose": {
+   "cid": 7098664,
+   "smiles": "C([C@@H]1[C@@H]([C@H]([C@@H]([C@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-RDQKPOQOSA-N",
+   "title": "alpha-D-Idopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-idopyranose": {
+   "cid": 7018164,
+   "smiles": "C([C@@H]1[C@@H]([C@H]([C@@H]([C@@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-FDROIEKHSA-N",
+   "title": "beta-D-idopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "alpha-D-galactopyranose": {
+   "cid": 439357,
+   "smiles": "C([C@@H]1[C@@H]([C@@H]([C@H]([C@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-PHYPRBDBSA-N",
+   "title": "alpha-D-Galactopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-galactopyranose": {
+   "cid": 439353,
+   "smiles": "C([C@@H]1[C@@H]([C@@H]([C@H]([C@@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-FPRJBGLDSA-N",
+   "title": "beta-D-Galactopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "alpha-D-talopyranose": {
+   "cid": 81696,
+   "smiles": "C([C@@H]1[C@@H]([C@@H]([C@@H]([C@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-URLGYRAOSA-N",
+   "title": "alpha-D-talopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-talopyranose": {
+   "cid": 5319264,
+   "smiles": "C([C@@H]1[C@@H]([C@@H]([C@@H]([C@@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-QBFJYBIGSA-N",
+   "title": "beta-D-talose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  }
+ }
+}

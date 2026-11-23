@@ -6,6 +6,7 @@
 import { forEachPoint } from '../model/doc.js';
 import { fragments } from '../model/graph.js';
 import { bracketShapes } from '../render/scene.js';
+import { modelBox } from '../render/model3d.js';
 
 
 export function boxOf(points) {
@@ -53,13 +54,18 @@ function moleculeItem(doc, scene, atomIds) {
   };
 }
 
-const COLLECTION = { arrow: 'arrows', plus: 'pluses', text: 'texts' };
+const COLLECTION = { arrow: 'arrows', plus: 'pluses', text: 'texts', model: 'models' };
 
 function simpleItem(doc, scene, kind, id) {
   const object = doc[COLLECTION[kind]].get(id);
   const box = () => {
     if (kind === 'arrow') return boxOf([[object.x1, object.y1], [object.x2, object.y2]]);
     if (kind === 'plus') return boxOf([[object.x - 0.3, object.y - 0.3], [object.x + 0.3, object.y + 0.3]]);
+    if (kind === 'model') {
+      // (a 3D model: its balls as drawn)
+      const b = modelBox(object);
+      return { minX: b.x1, maxX: b.x2, minY: b.y1, maxY: b.y2 };
+    }
     const { box: b, at } = scene.texts.get(id);
     const [dx, dy] = [object.x - at[0], object.y - at[1]]; // moved since the scene was made
     return { minX: b.x1 + dx, maxX: b.x2 + dx, minY: b.y1 + dy, maxY: b.y2 + dy };
@@ -137,6 +143,7 @@ export function itemsOf(doc, scene, selection, atoms = null) {
   const items = fragments(doc).filter((members) => members.some((id) => selectedAtoms.has(id))).map((members) => moleculeItem(doc, scene, members));
   for (const id of selected('arrows')) if (doc.arrows.get(id).kind !== 'dipole') items.push(simpleItem(doc, scene, 'arrow', id));
   for (const id of selected('pluses')) items.push(simpleItem(doc, scene, 'plus', id));
+  for (const id of doc.models ? selected('models') : []) items.push(simpleItem(doc, scene, 'model', id));
   // the text on a selected molecule's anchors goes with it, selected or not (a box that missed its name)
   const texts = new Set(selected('texts'));
   const inMolecules = new Set(items.flatMap((item) => item.atomIds));

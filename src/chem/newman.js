@@ -292,6 +292,18 @@ export function dihedralDrawn(doc, bond) {
 
 export const dihedralOf = (doc, bond) => dihedralDrawn(doc, bond)?.dihedral ?? null;
 
+// The dihedral between one group on the front carbon (its first atom) and one on the back, read as dihedralDrawn
+// reads the largest ones': 0, 60 … 300, an eclipsed back drawn a little further round counting as eclipsed; or null
+export function dihedralBetween(doc, bond, front, back) {
+  const f = groupsAround(doc, bond, 'front').find((g) => g.atom === front);
+  const b = groupsAround(doc, bond, 'back').find((g) => g.atom === back);
+  if (!f || !b) return null;
+  const raw = ((((b.angle - f.angle) / DEGREE) % 360) + 360) % 360;
+  const wide = groupsAround(doc, bond, 'front').some((g) => doc.atoms.get(g.atom).el !== 'H');
+  const off = (x) => Math.abs(((raw - x + 540) % 360) - 180);
+  return [0, 60, 120, 180, 240, 300].reduce((best, d) => (off(drawnAt(d, wide)) < off(drawnAt(best, wide)) ? d : best), 0);
+}
+
 // Sets the dihedral (degrees, as dihedralOf counts it) by turning the back. False if it can't turn.
 export function setDihedral(doc, bond, dihedral) {
   const now = dihedralDrawn(doc, bond);

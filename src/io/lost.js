@@ -13,26 +13,26 @@ export function oneReaction(doc, ids, format) {
   return !['sdf', 'inchi'].includes(format) && arrows.filter((a) => REACTION_ARROWS.includes(a.kind)).length === 1;
 }
 
-// What of the drawing (or the objects with `ids`) a format can't hold: [what, in words], [] for none (KET and
-// pictures keep it all; XYZ is 3D coordinates only, as its name says)
+// What of the drawing (or the objects with `ids`) a format can't hold: [what, in words], [] for none (pictures keep
+// it all, KET all but 3D models: olomol's own; XYZ is 3D coordinates only, as its name says)
 // (a molfile of a reaction is an RXN, a reaction SMILES has one: its arrow and + kept, other arrows not; SDF and
 // InChI hold molecules only)
 const LOST = {
-  mol: ['curves', 'lonePairs', 'orbitals', 'texts', 'brackets', 'arrows', 'otherArrows', 'colours', 'partial'],
-  rxn: ['curves', 'lonePairs', 'orbitals', 'texts', 'brackets', 'arrows', 'otherArrows', 'colours', 'partial'],
-  sdf: ['curves', 'lonePairs', 'orbitals', 'texts', 'brackets', 'arrows', 'colours', 'partial'],
+  mol: ['curves', 'lonePairs', 'orbitals', 'texts', 'brackets', 'arrows', 'otherArrows', 'colours', 'partial', 'models'],
+  rxn: ['curves', 'lonePairs', 'orbitals', 'texts', 'brackets', 'arrows', 'otherArrows', 'colours', 'partial', 'models'],
+  sdf: ['curves', 'lonePairs', 'orbitals', 'texts', 'brackets', 'arrows', 'colours', 'partial', 'models'],
   // (standard SMILES: no dative bonds, a complex written as its parts)
-  smiles: ['curves', 'lonePairs', 'orbitals', 'texts', 'brackets', 'units', 'arrows', 'otherArrows', 'colours', 'hbond', 'partial', 'dative'],
-  inchi: ['curves', 'lonePairs', 'orbitals', 'texts', 'brackets', 'units', 'arrows', 'colours', 'hbond', 'partial', 'dative'],
-  cdxml: ['curves', 'lonePairs', 'orbitals', 'brackets', 'units', 'colours', 'partial'],
+  smiles: ['curves', 'lonePairs', 'orbitals', 'texts', 'brackets', 'units', 'arrows', 'otherArrows', 'colours', 'hbond', 'partial', 'dative', 'models'],
+  inchi: ['curves', 'lonePairs', 'orbitals', 'texts', 'brackets', 'units', 'arrows', 'colours', 'hbond', 'partial', 'dative', 'models'],
+  cdxml: ['curves', 'lonePairs', 'orbitals', 'brackets', 'units', 'colours', 'partial', 'models'],
   // (KET for Ketcher: olomol's own section keeps the rest, which Ketcher ignores; what Ketcher itself shows otherwise)
-  ket: ['newman', 'partialKet', 'labelPairs'],
+  ket: ['newman', 'partialKet', 'labelPairs', 'models'],
 };
 const LOST_WORDS = {
   curves: () => t('curved arrows'), lonePairs: () => t('lone pairs'), orbitals: () => t('orbitals'), texts: () => t('texts'),
   brackets: () => t('brackets'), units: () => t('repeating units (n)'), arrows: () => t('arrows and +'), otherArrows: () => t('arrows other than the reaction\'s'), colours: () => t('colours'),
   newman: () => t('Newman projections (as the molecules they show)'), labelPairs: () => t('lone pairs on abbreviations'), partialKet: () => t('partial bonds (as hydrogen bonds)'),
-  hbond: () => t('hydrogen bonds'), partial: () => t('partial bonds'), dative: () => t('dative bonds'),
+  hbond: () => t('hydrogen bonds'), partial: () => t('partial bonds'), dative: () => t('dative bonds'), models: () => t('3D models'),
 };
 export function lostIn(doc, format, ids = null) {
   const lost = LOST[format];
@@ -62,6 +62,7 @@ export function lostIn(doc, format, ids = null) {
     newman: bonds.some((b) => b.newman),
     labelPairs: atoms.some((a) => a.alias && (a.lonePairs === 'auto' || a.lonePairs > 0)),
     dative: bonds.some((b) => b.kind === 'dative'),
+    models: some('models'),
   };
   return lost.filter((what) => has[what]).map((what) => LOST_WORDS[what]());
 }

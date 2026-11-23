@@ -1,4 +1,4 @@
-# The .olom file format, version 1.0
+# The .olom file format, version 1.1
 
 `.olom` is olomol's own file: a drawing of molecules, reactions and mechanisms as olomol holds it. It is JSON
 (UTF-8), so any program, script or language model can read and write it. The name: **O**lomol **L**ayout
@@ -34,7 +34,8 @@ olomol also opens KET (Ketcher's format, and olomol's own files before 0.5.0), a
   such as a bond without its atoms, is left out).
 - **Defaults are left out.** A field not written has its default (the tables below). Writers should leave out
   defaults; readers must accept them written.
-- **Colours** are CSS hex colours (`"#d0021b"`).
+- **Colours** are CSS hex colours (`"#d0021b"`, `"#d02"`); a highlight may also be one with a pattern
+  (`"hatch:#f87171"`, `"lines:…"`, `"dots:…"`). olomol reads any other value as no colour.
 - **Texts** carry olomol's markup (below, `texts`); a backslash writes a character as it is: `\{`, `\}`, `\\` (and
   `\_`, `\^`, `\*`, `\~`). A backslash before any other character is itself (`C:\temp`).
 - **Order** in a collection is drawing order (later on top).
@@ -59,11 +60,11 @@ olomol also opens KET (Ketcher's format, and olomol's own files before 0.5.0), a
 | key | | |
 |---|---|---|
 | `format` | required | always `"olom"`: how a file is recognised, whatever its name |
-| `version` | required | `"1.0"` |
+| `version` | required | `"1.1"`, or the lowest version that holds what is in the file: a drawing without a 3D model is `"1.0"` |
 | `app` | | what wrote it (`"olomol 0.5.0"`); informative only |
 | `title` | | the drawing's name |
 | `style` | | a preset by its name, `"screen"`, `"acs"`, `"rsc"` or `"slides"`; or a style of one's own, `{ "bond", "line", "bold", "hash", "margin", "label" (the bond length, the line, bold and wedge widths, the hash spacing, the margin round labels and the labels' size, all in points), "font": "sans" \| "serif" }`; with charges circled or lone pairs as bars, `"charges": "circled"` (⊕ ⊖; default `"plain"`) and `"lonePairs": "bars"` (Lewis; default `"dots"`) beside the sizes, and a preset then as `{ "preset": "acs", … }`; none: the reader's style for new drawings |
-| `atoms`, `bonds`, `together`, `reactionArrows`, `plusSigns`, `texts`, `electronArrows`, `ringFills`, `brackets`, `orbitals`, `orbitalOverlaps`, `groups` | | the collections below; an empty one is left out |
+| `atoms`, `bonds`, `together`, `reactionArrows`, `plusSigns`, `texts`, `electronArrows`, `ringFills`, `brackets`, `orbitals`, `orbitalOverlaps`, `models3D`, `groups` | | the collections below; an empty one is left out |
 
 ## atoms
 
@@ -132,7 +133,7 @@ molecule for the chemistry (a formula, a SMILES). `id`, `atoms` (`[a, b]`, requi
 | key | default | |
 |---|---|---|
 | `id`, `x`, `y`, `text` | required | `x`, `y`: the start of its first baseline; `text`: lines separated by `\n`, with olomol's markup: `_{…}` subscript, `^{…}` superscript, `*{…}` bold, `~{…}` italic, one inside another (`*{H_{2}O}`); `\{`, `\}`, `\\` for the characters themselves |
-| `color`, `bold` | | |
+| `color`, `bold`, `highlight` | | `highlight`: a background colour behind the text |
 | `size` | 1 | a factor of the style's text size |
 | `font` | the style's | `"sans"` or `"serif"` |
 | `align` | left | `"left"`, `"center"`, `"right"` |
@@ -194,10 +195,28 @@ arrow follows its molecules when they move or flip; it writes the curve it draws
 `id`, `orbitals` (`[a, b]`, required), `lobes` (`[1 | -1 | null, …]`: the lobe of each it is drawn from and
 to; none: the facing ones), `color`.
 
+
+## models3D (since 1.1)
+
+A molecule's 3D model as a picture beside it (ball and stick, sticks or space-filling). The model is kept as it was
+built, so the picture is the same wherever the file is opened; its colours and highlights are its molecule's. Its own
+points and turn are in its own space: x right, y up, z towards the viewer.
+
+| key | default | |
+|---|---|---|
+| `id`, `at` | required | `at`: its middle on the page |
+| `size` | 1 | a bond's length in it, in the drawing's bond lengths |
+| `rotation` | none | how it is turned: a 3×3 matrix, by rows, applied to its points |
+| `model` | required | `{ "elements", "points", "bonds", "groups", "drawn" }`: its atoms' elements and 3D points (a bond 1 long, round their middle), its bonds `[a, b, order, kind]` (by index; kind `"dative"`, `"partial"` or `null`), the atoms of each group a label stands for (`{ "name", "atoms" }`), and how many of its first atoms are the drawing's (the rest are hydrogens and labels' atoms it added) |
+| `atoms` | — | the drawing's atoms it was built from, in its order (its first `drawn`); left out when its molecule isn't in the file |
+| `signature` | — | its molecule as it was built (its atoms with their element, group, charge, isotope, multiplicity and hydrogens, and the handedness each wedge gives the atom it starts at, its bonds with their order, kind, whether wedged and, a double one, cis or trans, by the atoms' ids; and the conformation drawn, a chair's or a Newman projection's torsions as gauche or anti: what the drawing means, so the molecule moved, turned or flipped keeps it); another molecule, configuration or conformation now means the picture is out of date (olomol marks it and offers Update) |
+| `look` | | `{ "style": "balls" \| "sticks" \| "spacefill", "hydrogens": "all" \| "small" \| "none", "groups": "out" \| "balls", "fade": true \| false }`; what is left out as the defaults: `"balls"`, `"all"`, `"out"`, `true` |
+| `color` | | |
+
 ## groups
 
 Things grouped to be selected and moved together (olomol: Ctrl+G); nothing chemical. `id`, `name` (optional: what it is called, "Route A"), `members`
 (required): ids of atoms (each standing for its whole molecule; olomol writes one atom of it), reaction arrows
-(with what is on them), plus signs, texts standing free, brackets, and other groups (nested: a group in one group
+(with what is on them), plus signs, texts standing free, brackets, 3D models, and other groups (nested: a group in one group
 at most). A bond, an electron arrow, an orbital, a text on a molecule or an arrow, a molecule on an arrow: in the
 group of what it belongs to.

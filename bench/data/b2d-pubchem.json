@@ -1,0 +1,854 @@
+{
+ "SOURCE": "PubChem PUG REST, https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/<name>/property/SMILES,InChIKey,Title/JSON",
+ "LICENCE": "PubChem data are in the public domain (NCBI); see https://www.ncbi.nlm.nih.gov/home/about/policies/",
+ "DATE": "2026-11-22",
+ "SEED": "none",
+ "answers": {
+  "D-glyceraldehyde": {
+   "cid": 79014,
+   "smiles": "C([C@H](C=O)O)O",
+   "inchikey": "MNQZXJOMYWMBOU-VKHMYHEASA-N",
+   "title": "(+)-Glyceraldehyde",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-glyceraldehyde": {
+   "cid": 439723,
+   "smiles": "C([C@@H](C=O)O)O",
+   "inchikey": "MNQZXJOMYWMBOU-GSVOUGTGSA-N",
+   "title": "(-)-Glyceraldehyde",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-erythrose": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-erythrose": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-threose": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-threose": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-ribose": {
+   "cid": 5311110,
+   "smiles": "C([C@H]([C@H]([C@H](C=O)O)O)O)O",
+   "inchikey": "PYMYPHUHKUWMLA-LMVFSUKVSA-N",
+   "title": "Aldehydo-D-ribose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-ribose": {
+   "cid": 90428,
+   "smiles": "C([C@@H]([C@@H]([C@@H](C=O)O)O)O)O",
+   "inchikey": "PYMYPHUHKUWMLA-MROZADKFSA-N",
+   "title": "L-Ribose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-arabinose": {
+   "cid": 66308,
+   "smiles": "C([C@H]([C@H]([C@@H](C=O)O)O)O)O",
+   "inchikey": "PYMYPHUHKUWMLA-WDCZJNDASA-N",
+   "title": "D-Arabinose",
+   "otherCids": [
+    854
+   ],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-arabinose": {
+   "cid": 5460291,
+   "smiles": "C([C@@H]([C@@H]([C@H](C=O)O)O)O)O",
+   "inchikey": "PYMYPHUHKUWMLA-VAYJURFESA-N",
+   "title": "aldehydo-L-arabinose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-xylose": {
+   "cid": 644160,
+   "smiles": "C([C@H]([C@@H]([C@H](C=O)O)O)O)O",
+   "inchikey": "PYMYPHUHKUWMLA-VPENINKCSA-N",
+   "title": "aldehydo-D-Xylose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-xylose": {
+   "cid": 95259,
+   "smiles": "C([C@@H]([C@H]([C@@H](C=O)O)O)O)O",
+   "inchikey": "PYMYPHUHKUWMLA-WISUUJSJSA-N",
+   "title": "L-Xylose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-lyxose": {
+   "cid": 65550,
+   "smiles": "C([C@H]([C@@H]([C@@H](C=O)O)O)O)O",
+   "inchikey": "PYMYPHUHKUWMLA-UOWFLXDJSA-N",
+   "title": "Lyxose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-lyxose": {
+   "cid": 644176,
+   "smiles": "C([C@@H]([C@H]([C@H](C=O)O)O)O)O",
+   "inchikey": "PYMYPHUHKUWMLA-YUPRTTJUSA-N",
+   "title": "L-Lyxose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-allose": {
+   "cid": 102288,
+   "smiles": "C([C@H]([C@H]([C@H]([C@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-BGPJRJDNSA-N",
+   "title": "(2R,3R,4R,5R)-2,3,4,5,6-pentahydroxyhexanal",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-allose": {
+   "cid": 111317,
+   "smiles": "C([C@@H]([C@@H]([C@@H]([C@@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-MOJAZDJTSA-N",
+   "title": "L-Allose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-altrose": {
+   "cid": 94780,
+   "smiles": "C([C@H]([C@H]([C@H]([C@@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-ARQDHWQXSA-N",
+   "title": "D-Altrose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-altrose": {
+   "cid": 102190,
+   "smiles": "C([C@@H]([C@@H]([C@@H]([C@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-AZGQCCRYSA-N",
+   "title": "aldehydo-L-altrose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-glucose": {
+   "cid": 107526,
+   "smiles": "C([C@H]([C@H]([C@@H]([C@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-SLPGGIOYSA-N",
+   "title": "(2R,3S,4R,5R)-2,3,4,5,6-pentahydroxyhexanal",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-glucose": {
+   "cid": 2724488,
+   "smiles": "C([C@H]1[C@@H]([C@H]([C@@H](C(O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-ZZWDRFIYSA-N",
+   "title": "L-glucose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-mannose": {
+   "cid": 161658,
+   "smiles": "C([C@H]([C@H]([C@@H]([C@@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-KVTDHHQDSA-N",
+   "title": "Demannose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-mannose": {
+   "cid": 82308,
+   "smiles": "C([C@@H]([C@@H]([C@H]([C@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-BXKVDMCESA-N",
+   "title": "L-Mannose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-gulose": {
+   "cid": 167792,
+   "smiles": "C([C@H]([C@@H]([C@H]([C@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-FSIIMWSLSA-N",
+   "title": "Gulose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-gulose": {
+   "cid": 80127,
+   "smiles": "C([C@@H]([C@H]([C@@H]([C@@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-JGWLITMVSA-N",
+   "title": "L-Gulose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-idose": {
+   "cid": 111123,
+   "smiles": "C([C@H]([C@@H]([C@H]([C@@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-ZXXMMSQZSA-N",
+   "title": "D-Idose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-idose": {
+   "cid": 111112,
+   "smiles": "C([C@@H]([C@H]([C@@H]([C@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-UNTFVMJOSA-N",
+   "title": "aldehydo-L-idose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-galactose": {
+   "cid": 3037556,
+   "smiles": "C([C@H]([C@@H]([C@@H]([C@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-KCDKBNATSA-N",
+   "title": "(2R,3S,4S,5R)-2,3,4,5,6-pentahydroxyhexanal",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-galactose": {
+   "cid": 84996,
+   "smiles": "C([C@@H]([C@H]([C@H]([C@@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-DPYQTVNSSA-N",
+   "title": "L-Galactose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-D-talose": {
+   "cid": 99459,
+   "smiles": "C([C@H]([C@@H]([C@@H]([C@@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-KAZBKCHUSA-N",
+   "title": "Aldehydo-D-talose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "aldehydo-L-talose": {
+   "cid": 90173,
+   "smiles": "C([C@@H]([C@H]([C@H]([C@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-OMMKOOBNSA-N",
+   "title": "L-Talose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-erythrulose": {
+   "cid": 5460177,
+   "smiles": "C([C@H](C(=O)CO)O)O",
+   "inchikey": "UQPHVQVXLPRNCX-GSVOUGTGSA-N",
+   "title": "D-Erythrulose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "keto-D-ribulose": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "keto-D-xylulose": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "keto-D-psicose": {
+   "cid": 90008,
+   "smiles": "C([C@H]([C@H]([C@H](C(=O)CO)O)O)O)O",
+   "inchikey": "BJHIKXHVCXFQLS-PUFIMZNGSA-N",
+   "title": "Psicose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "keto-D-fructose": {
+   "cid": 5984,
+   "smiles": "C([C@H]([C@H]([C@@H](C(=O)CO)O)O)O)O",
+   "inchikey": "BJHIKXHVCXFQLS-UYFOZJQFSA-N",
+   "title": "D-(-)-Fructose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "keto-D-sorbose": {
+   "cid": 107428,
+   "smiles": "C([C@H]([C@@H]([C@H](C(=O)CO)O)O)O)O",
+   "inchikey": "BJHIKXHVCXFQLS-PYWDMBMJSA-N",
+   "title": "D-Sorbose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "keto-D-tagatose": {
+   "cid": 92092,
+   "smiles": "C([C@H]([C@@H]([C@@H](C(=O)CO)O)O)O)O",
+   "inchikey": "BJHIKXHVCXFQLS-PQLUHFTBSA-N",
+   "title": "(3S,4S,5R)-1,3,4,5,6-pentahydroxyhexan-2-one",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "glycine": {
+   "cid": 750,
+   "smiles": "C(C(=O)O)N",
+   "inchikey": "DHMQDGOQFOQNFH-UHFFFAOYSA-N",
+   "title": "Glycine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-alanine": {
+   "cid": 5950,
+   "smiles": "C[C@@H](C(=O)O)N",
+   "inchikey": "QNAYBMKLOCPYGJ-REOHCLBHSA-N",
+   "title": "L-Alanine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-alanine": {
+   "cid": 71080,
+   "smiles": "C[C@H](C(=O)O)N",
+   "inchikey": "QNAYBMKLOCPYGJ-UWTATZPHSA-N",
+   "title": "D-Alanine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-arginine": {
+   "cid": 6322,
+   "smiles": "C(C[C@@H](C(=O)O)N)CN=C(N)N",
+   "inchikey": "ODKSFYDXXFIFQN-BYPYZUCNSA-N",
+   "title": "L-Arginine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-arginine": {
+   "cid": 71070,
+   "smiles": "C(C[C@H](C(=O)O)N)CN=C(N)N",
+   "inchikey": "ODKSFYDXXFIFQN-SCSAIBSYSA-N",
+   "title": "D-Arginine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-asparagine": {
+   "cid": 6267,
+   "smiles": "C([C@@H](C(=O)O)N)C(=O)N",
+   "inchikey": "DCXYFEDJOCDNAF-REOHCLBHSA-N",
+   "title": "(-)-Asparagine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-asparagine": {
+   "cid": 439600,
+   "smiles": "C([C@H](C(=O)O)N)C(=O)N",
+   "inchikey": "DCXYFEDJOCDNAF-UWTATZPHSA-N",
+   "title": "D-Asparagine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-aspartic acid": {
+   "cid": 5960,
+   "smiles": "C([C@@H](C(=O)O)N)C(=O)O",
+   "inchikey": "CKLJMWTZIZZHCS-REOHCLBHSA-N",
+   "title": "L-Aspartic Acid",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-aspartic acid": {
+   "cid": 83887,
+   "smiles": "C([C@H](C(=O)O)N)C(=O)O",
+   "inchikey": "CKLJMWTZIZZHCS-UWTATZPHSA-N",
+   "title": "D-Aspartic Acid",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-cysteine": {
+   "cid": 5862,
+   "smiles": "C([C@@H](C(=O)O)N)S",
+   "inchikey": "XUJNEKJLAYXESH-REOHCLBHSA-N",
+   "title": "L-(+)-Cysteine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-cysteine": {
+   "cid": 92851,
+   "smiles": "C([C@H](C(=O)O)N)S",
+   "inchikey": "XUJNEKJLAYXESH-UWTATZPHSA-N",
+   "title": "D-Cysteine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-glutamine": {
+   "cid": 5961,
+   "smiles": "C(CC(=O)N)[C@@H](C(=O)O)N",
+   "inchikey": "ZDXPYRJPNDTMRX-VKHMYHEASA-N",
+   "title": "L-Glutamine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-glutamine": {
+   "cid": 145815,
+   "smiles": "C(CC(=O)N)[C@H](C(=O)O)N",
+   "inchikey": "ZDXPYRJPNDTMRX-GSVOUGTGSA-N",
+   "title": "D-Glutamine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-glutamic acid": {
+   "cid": 33032,
+   "smiles": "C(CC(=O)O)[C@@H](C(=O)O)N",
+   "inchikey": "WHUUTDBJXJRKMK-VKHMYHEASA-N",
+   "title": "L-Glutamic Acid",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-glutamic acid": {
+   "cid": 23327,
+   "smiles": "C(CC(=O)O)[C@H](C(=O)O)N",
+   "inchikey": "WHUUTDBJXJRKMK-GSVOUGTGSA-N",
+   "title": "D-Glutamic Acid",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-histidine": {
+   "cid": 6274,
+   "smiles": "C1=C(NC=N1)C[C@@H](C(=O)O)N",
+   "inchikey": "HNDVDQJCIGZPNO-YFKPBYRVSA-N",
+   "title": "L-Histidine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-histidine": {
+   "cid": 71083,
+   "smiles": "C1=C(NC=N1)C[C@H](C(=O)O)N",
+   "inchikey": "HNDVDQJCIGZPNO-RXMQYKEDSA-N",
+   "title": "D-Histidine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-isoleucine": {
+   "cid": 6306,
+   "smiles": "CC[C@H](C)[C@@H](C(=O)O)N",
+   "inchikey": "AGPKZVBTJJNPAG-WHFBIAKZSA-N",
+   "title": "L-Isoleucine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-isoleucine": {
+   "cid": 76551,
+   "smiles": "CC[C@@H](C)[C@H](C(=O)O)N",
+   "inchikey": "AGPKZVBTJJNPAG-RFZPGFLSSA-N",
+   "title": "D-Isoleucine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-leucine": {
+   "cid": 6106,
+   "smiles": "CC(C)C[C@@H](C(=O)O)N",
+   "inchikey": "ROHFNLRQFUQHCH-YFKPBYRVSA-N",
+   "title": "L-Leucine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-leucine": {
+   "cid": 439524,
+   "smiles": "CC(C)C[C@H](C(=O)O)N",
+   "inchikey": "ROHFNLRQFUQHCH-RXMQYKEDSA-N",
+   "title": "D-Leucine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-lysine": {
+   "cid": 5962,
+   "smiles": "C(CCN)C[C@@H](C(=O)O)N",
+   "inchikey": "KDXKERNSBIXSRK-YFKPBYRVSA-N",
+   "title": "L-Lysine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-lysine": {
+   "cid": 57449,
+   "smiles": "C(CCN)C[C@H](C(=O)O)N",
+   "inchikey": "KDXKERNSBIXSRK-RXMQYKEDSA-N",
+   "title": "D-Lysine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-methionine": {
+   "cid": 6137,
+   "smiles": "CSCC[C@@H](C(=O)O)N",
+   "inchikey": "FFEARJCKVFRZRR-BYPYZUCNSA-N",
+   "title": "L-Methionine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-methionine": {
+   "cid": 84815,
+   "smiles": "CSCC[C@H](C(=O)O)N",
+   "inchikey": "FFEARJCKVFRZRR-SCSAIBSYSA-N",
+   "title": "D-Methionine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-phenylalanine": {
+   "cid": 6140,
+   "smiles": "C1=CC=C(C=C1)C[C@@H](C(=O)O)N",
+   "inchikey": "COLNVLDHVKWLRT-QMMMGPOBSA-N",
+   "title": "L-Phenylalanine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-phenylalanine": {
+   "cid": 71567,
+   "smiles": "C1=CC=C(C=C1)C[C@H](C(=O)O)N",
+   "inchikey": "COLNVLDHVKWLRT-MRVPVSSYSA-N",
+   "title": "D-Phenylalanine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-proline": {
+   "cid": 145742,
+   "smiles": "C1C[C@H](NC1)C(=O)O",
+   "inchikey": "ONIBWKKTOPOVIA-BYPYZUCNSA-N",
+   "title": "L-Proline",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-proline": {
+   "cid": 8988,
+   "smiles": "C1C[C@@H](NC1)C(=O)O",
+   "inchikey": "ONIBWKKTOPOVIA-SCSAIBSYSA-N",
+   "title": "D-Proline",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-serine": {
+   "cid": 5951,
+   "smiles": "C([C@@H](C(=O)O)N)O",
+   "inchikey": "MTCFGRXMJLQNBG-REOHCLBHSA-N",
+   "title": "L-Serine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-serine": {
+   "cid": 71077,
+   "smiles": "C([C@H](C(=O)O)N)O",
+   "inchikey": "MTCFGRXMJLQNBG-UWTATZPHSA-N",
+   "title": "D-Serine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-threonine": {
+   "cid": 6288,
+   "smiles": "C[C@H]([C@@H](C(=O)O)N)O",
+   "inchikey": "AYFVYJQAPQTCCC-GBXIJSLDSA-N",
+   "title": "L-Threonine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-threonine": {
+   "cid": 69435,
+   "smiles": "C[C@@H]([C@H](C(=O)O)N)O",
+   "inchikey": "AYFVYJQAPQTCCC-STHAYSLISA-N",
+   "title": "D-Threonine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-tryptophan": {
+   "cid": 6305,
+   "smiles": "C1=CC=C2C(=C1)C(=CN2)C[C@@H](C(=O)O)N",
+   "inchikey": "QIVBCDIJIAJPQS-VIFPVBQESA-N",
+   "title": "L-Tryptophan",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-tryptophan": {
+   "cid": 9060,
+   "smiles": "C1=CC=C2C(=C1)C(=CN2)C[C@H](C(=O)O)N",
+   "inchikey": "QIVBCDIJIAJPQS-SECBINFHSA-N",
+   "title": "D-Tryptophan",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-tyrosine": {
+   "cid": 6057,
+   "smiles": "C1=CC(=CC=C1C[C@@H](C(=O)O)N)O",
+   "inchikey": "OUYCCCASQSFEME-QMMMGPOBSA-N",
+   "title": "L-Tyrosine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-tyrosine": {
+   "cid": 71098,
+   "smiles": "C1=CC(=CC=C1C[C@H](C(=O)O)N)O",
+   "inchikey": "OUYCCCASQSFEME-MRVPVSSYSA-N",
+   "title": "D-Tyrosine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-valine": {
+   "cid": 6287,
+   "smiles": "CC(C)[C@@H](C(=O)O)N",
+   "inchikey": "KZSNJWFQEVHDMF-BYPYZUCNSA-N",
+   "title": "L-Valine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-valine": {
+   "cid": 71563,
+   "smiles": "CC(C)[C@H](C(=O)O)N",
+   "inchikey": "KZSNJWFQEVHDMF-SCSAIBSYSA-N",
+   "title": "D-Valine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-tartaric acid": {
+   "cid": 444305,
+   "smiles": "[C@@H]([C@H](C(=O)O)O)(C(=O)O)O",
+   "inchikey": "FEWJPZIEWOKRBE-JCYAYHJZSA-N",
+   "title": "L-Tartaric acid",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-tartaric acid": {
+   "cid": 439655,
+   "smiles": "[C@H]([C@@H](C(=O)O)O)(C(=O)O)O",
+   "inchikey": "FEWJPZIEWOKRBE-LWMBPPNESA-N",
+   "title": "D-Tartaric acid",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "meso-tartaric acid": {
+   "cid": 447315,
+   "smiles": "[C@@H]([C@@H](C(=O)O)O)(C(=O)O)O",
+   "inchikey": "FEWJPZIEWOKRBE-XIXRPRMCSA-N",
+   "title": "Meso-Tartaric acid",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(2R,3S)-2,3-dibromobutane": {
+   "cid": 98508,
+   "smiles": "C[C@H]([C@H](C)Br)Br",
+   "inchikey": "BXXWFOGWXLJPPA-ZXZARUISSA-N",
+   "title": "Butane, 2,3-dibromo-, (R*,S*)-",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(2R,3R)-2,3-dibromobutane": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "L-alanyl-L-alanyl-L-alanine": {
+   "cid": 5478845,
+   "smiles": "C[C@@H](C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(=O)O)N",
+   "inchikey": "BYXHQQCXAJARLQ-ZLUOBGJFSA-N",
+   "title": "Ala-Ala-Ala",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-threonyl-L-threonine": {
+   "cid": 11321969,
+   "smiles": "C[C@H]([C@@H](C(=O)N[C@@H]([C@@H](C)O)C(=O)O)N)O",
+   "inchikey": "DSGIVWSDDRDJIO-ZXXMMSQZSA-N",
+   "title": "Thr-Thr",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-isoleucyl-L-threonine": {
+   "cid": 44298493,
+   "smiles": "CC[C@H](C)[C@@H](C(=O)N[C@@H]([C@@H](C)O)C(=O)O)N",
+   "inchikey": "DRCKHKZYDLJYFQ-YWIQKCBGSA-N",
+   "title": "L-Isoleucyl-L-threonine",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-isoleucyl-L-isoleucine": {
+   "cid": 7010568,
+   "smiles": "CC[C@H](C)[C@@H](C(=O)N[C@@H]([C@@H](C)CC)C(=O)O)N",
+   "inchikey": "BCVIOZZGJNOEQS-XKNYDFJKSA-N",
+   "title": "Ile-Ile",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-glucitol": {
+   "cid": 5780,
+   "smiles": "C([C@H]([C@H]([C@@H]([C@H](CO)O)O)O)O)O",
+   "inchikey": "FBPFZTCFMRRESA-JGWLITMVSA-N",
+   "title": "Sorbitol",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "ribitol": {
+   "cid": 6912,
+   "smiles": "C([C@H](C([C@H](CO)O)O)O)O",
+   "inchikey": "HEBKCHPVOIAQTA-NGQZWQHPSA-N",
+   "title": "(2S,4R)-Pentane-1,2,3,4,5-Pentol",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "xylitol": {
+   "cid": 6912,
+   "smiles": "C([C@H](C([C@H](CO)O)O)O)O",
+   "inchikey": "HEBKCHPVOIAQTA-NGQZWQHPSA-N",
+   "title": "(2S,4R)-Pentane-1,2,3,4,5-Pentol",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-gluconic acid": {
+   "cid": 10690,
+   "smiles": "C([C@H]([C@H]([C@@H]([C@H](C(=O)O)O)O)O)O)O",
+   "inchikey": "RGHNJXZEOKUKBD-SQOUGZDYSA-N",
+   "title": "Gluconic Acid",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-erythrose": {
+   "cid": 94176,
+   "smiles": "C([C@H]([C@H](C=O)O)O)O",
+   "inchikey": "YTBSYETUWUMLBZ-IUYQGCFVSA-N",
+   "title": "D-Erythrose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-erythrose": {
+   "cid": 5460674,
+   "smiles": "C([C@@H]([C@@H](C=O)O)O)O",
+   "inchikey": "YTBSYETUWUMLBZ-DMTCNVIQSA-N",
+   "title": "L-Erythrose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-threose": {
+   "cid": 439665,
+   "smiles": "C([C@H]([C@@H](C=O)O)O)O",
+   "inchikey": "YTBSYETUWUMLBZ-QWWZWVQMSA-N",
+   "title": "D-Threose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-threose": {
+   "cid": 5460672,
+   "smiles": "C([C@@H]([C@H](C=O)O)O)O",
+   "inchikey": "YTBSYETUWUMLBZ-IMJSIDKUSA-N",
+   "title": "L-Threose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-ribulose": {
+   "cid": 151261,
+   "smiles": "C([C@H]([C@H](C(=O)CO)O)O)O",
+   "inchikey": "ZAQJHHRNXZUBTE-NQXXGFSBSA-N",
+   "title": "D-Ribulose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "D-xylulose": {
+   "cid": 5289590,
+   "smiles": "C([C@H]([C@@H](C(=O)CO)O)O)O",
+   "inchikey": "ZAQJHHRNXZUBTE-WUJLRWPWSA-N",
+   "title": "D-Xylulose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "L-glucose": {
+   "cid": 2724488,
+   "smiles": "C([C@H]1[C@@H]([C@H]([C@@H](C(O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-ZZWDRFIYSA-N",
+   "title": "L-glucose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(2S,3R,4S,5S)-2,3,4,5,6-pentahydroxyhexanal": {
+   "cid": 10954115,
+   "smiles": "C([C@@H]([C@@H]([C@H]([C@@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-VANKVMQKSA-N",
+   "title": "GlyTouCan:G06186NU",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(R,R)-2,3-dibromobutane": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "(2R,3R)-rel-2,3-dibromobutane": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "dl-2,3-dibromobutane": {
+   "cid": 21508,
+   "smiles": "CC(C(C)Br)Br",
+   "inchikey": "BXXWFOGWXLJPPA-UHFFFAOYSA-N",
+   "title": "2,3-Dibromobutane",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(+)-2,3-dibromobutane": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "meso-2,3-dibromobutane": {
+   "cid": 98508,
+   "smiles": "C[C@H]([C@H](C)Br)Br",
+   "inchikey": "BXXWFOGWXLJPPA-ZXZARUISSA-N",
+   "title": "Butane, 2,3-dibromo-, (R*,S*)-",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(2S,3S)-2,3-dibromobutane": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "(2R,3R)-2,3-Dibromobutane": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "Butane, 2,3-dibromo-, (R-(R*,R*))-": {
+   "error": "No CID found",
+   "retrieved": "2026-11-22"
+  },
+  "(2R,3R)-2,3,4-trihydroxybutanal": {
+   "cid": 94176,
+   "smiles": "C([C@H]([C@H](C=O)O)O)O",
+   "inchikey": "YTBSYETUWUMLBZ-IUYQGCFVSA-N",
+   "title": "D-Erythrose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(2S,3S)-2,3,4-trihydroxybutanal": {
+   "cid": 5460674,
+   "smiles": "C([C@@H]([C@@H](C=O)O)O)O",
+   "inchikey": "YTBSYETUWUMLBZ-DMTCNVIQSA-N",
+   "title": "L-Erythrose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(2S,3R)-2,3,4-trihydroxybutanal": {
+   "cid": 439665,
+   "smiles": "C([C@H]([C@@H](C=O)O)O)O",
+   "inchikey": "YTBSYETUWUMLBZ-QWWZWVQMSA-N",
+   "title": "D-Threose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(2R,3S)-2,3,4-trihydroxybutanal": {
+   "cid": 5460672,
+   "smiles": "C([C@@H]([C@H](C=O)O)O)O",
+   "inchikey": "YTBSYETUWUMLBZ-IMJSIDKUSA-N",
+   "title": "L-Threose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(3R,4R)-1,3,4,5-tetrahydroxypentan-2-one": {
+   "cid": 151261,
+   "smiles": "C([C@H]([C@H](C(=O)CO)O)O)O",
+   "inchikey": "ZAQJHHRNXZUBTE-NQXXGFSBSA-N",
+   "title": "D-Ribulose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "(3S,4R)-1,3,4,5-tetrahydroxypentan-2-one": {
+   "cid": 5289590,
+   "smiles": "C([C@H]([C@@H](C(=O)CO)O)O)O",
+   "inchikey": "ZAQJHHRNXZUBTE-WUJLRWPWSA-N",
+   "title": "D-Xylulose",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  },
+  "Butane, 2,3-dibromo-, threo": {
+   "cid": 6430975,
+   "smiles": "C[C@H]([C@@H](C)Br)Br",
+   "inchikey": "BXXWFOGWXLJPPA-QWWZWVQMSA-N",
+   "title": "Butane, 2,3-dibromo-, threo",
+   "otherCids": [],
+   "retrieved": "2026-11-22"
+  }
+ }
+}

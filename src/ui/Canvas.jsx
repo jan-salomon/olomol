@@ -8,6 +8,8 @@ import { lobePath } from '../render/orbitals.js';
 import { FONTS, STYLE } from '../render/style.js';
 import { bondsByAtom, freeIds, moveObjects, otherEnd } from '../model/doc.js';
 import { readChair } from '../chem/ringFlip.js';
+import { fischerSpines } from '../chem/fischer.js';
+import { moleculeAt } from '../chem/chains.js';
 import { NEWMAN_RADIUS } from '../chem/newman.js';
 import { sceneLayers, sceneMarkup } from '../render/svg.js';
 import { t } from '../i18n/i18n.js';
@@ -93,6 +95,12 @@ function Halos({ editor, scene, turning: washed = false }) {
     if (text) {
       const b = text.box;
       items.push(<rect key={`${className}${id}`} className={className} x={b.x1 - 0.08} y={b.y1 - 0.06} width={b.x2 - b.x1 + 0.16} height={b.y2 - b.y1 + 0.12} rx={0.12} stroke="none" />);
+      return;
+    }
+    const model = scene.models?.get(id);
+    if (model) {
+      const b = model.box;
+      items.push(<rect key={`${className}${id}`} className={className} x={b.x1} y={b.y1} width={b.x2 - b.x1} height={b.y2 - b.y1} rx={0.2} style={{ fill: 'none' }} strokeWidth={0.12} />);
     }
   };
   // turning over a bond: what turns, washed out (its copy shows where it goes), and the axle in
@@ -115,6 +123,8 @@ function Halos({ editor, scene, turning: washed = false }) {
   // Making a bond horizontal: the bond under the pointer in the flip's blue, over the selection.
   const snapping = editor.tool.name === 'snapBond' && editor.hover?.kind === 'bond';
   // (a ring read as a chair under the pointer shows in its own colour, ChairUnder, instead of the pointer's blue)
+  // (a Fischer projection's spine doesn't: its atoms are drawn on one by one, so the one pointed at shows; with the
+  // Fischer tool, a click takes the whole projection, so the spine alone)
   // (a text being written in: none, the field over it shows it as chosen, with a glow of its own)
   const writing = editor.editing?.id;
   // a box or lasso being dragged: what letting go would select, paler; what is selected now only if it stays
@@ -125,7 +135,7 @@ function Halos({ editor, scene, turning: washed = false }) {
     if (editor.preview.adding) for (const id of editor.selection) halo(id, 'halo');
     return <g className="halos" data-testid="box-taking">{items}</g>;
   }
-  if (editor.hover && editor.hover.id !== writing && !editor.selection.has(editor.hover.id) && editor.tool.name !== 'text' && !flip && !snapping && !pointedChair(editor, scene)) halo(editor.hover.id, 'halo hover');
+  if (editor.hover && editor.hover.id !== writing && !editor.selection.has(editor.hover.id) && editor.tool.name !== 'text' && !flip && !snapping && !pointedChair(editor, scene) && !(editor.tool.name === 'fischer' && pointedSpine(editor, scene))) halo(editor.hover.id, 'halo hover');
   for (const id of editor.selection) if (id !== writing) halo(id, 'halo');
   if (snapping) {
     const selected = items.splice(0);
@@ -148,6 +158,16 @@ function ErrorRings({ scene }) {
     if (info.chem.error) rings.push(<circle key={id} className="error-ring" cx={info.pos[0]} cy={info.pos[1]} r={info.label ? 0.42 : 0.3} />);
   }
   return rings.length ? <g>{rings}</g> : null;
+}
+
+// 3D models out of date (their molecule changed since they were built): a dashed frame round each, on the canvas
+// only (not in pictures and files), till Update in the panel builds it again
+function StaleModels({ scene }) {
+  const frames = [];
+  for (const [id, { box, stale }] of scene.models ?? []) {
+    if (stale) frames.push(<rect key={id} className="stale-model" x={box.x1} y={box.y1} width={box.x2 - box.x1} height={box.y2 - box.y1} rx={0.2} data-testid="stale-model" />);
+  }
+  return frames.length ? <g>{frames}</g> : null;
 }
 
 // Rings read as chairs (drawn as the templates draw them or by hand, readChair), per scene: Map (each of their
@@ -178,21 +198,61 @@ function pointedChair(editor, scene) {
   return pointed == null ? null : chairBonds(editor.doc, scene).get(pointed) ?? null;
 }
 
-// The chair pointed at: its ring in a pastel green-teal, opaque, over highlights and ring fills but under the
-// bonds and labels (in the drawing, after its bottom layer), so it doesn't mix with a highlight's colour.
+// Fischer projections (their centres marked: chem/fischer.js), per scene: Map (each of their atoms, the groups
+// on them and their bonds -> the spine's bonds). Pointed at, the spine lights up in the chairs' colour: nothing
+// on the canvas says otherwise that a cross is read as a Fischer projection.
+const spinesOf = new WeakMap();
+function spineBonds(doc, scene) {
+  if (!spinesOf.has(scene)) spinesOf.set(scene, fischerSpines(doc));
+  return spinesOf.get(scene);
+}
+
+// The spine lit, { bonds, pale } (null: none): with the Fischer tool, the one a click would read (pale) or reads;
+// else a Fischer projection pointed at, not while something is dragged
+function pointedSpine(editor, scene) {
+  if (editor.tool.name === 'fischer') return editor.preview?.kind === 'fischer' ? editor.preview : null;
+  if (editor.tool.name === 'text' || editor.preview?.turning || editor.gesture?.moved) return null;
+  const pointed = editor.hover?.id;
+  const bonds = pointed == null ? null : spineBonds(editor.doc, scene).get(pointed);
+  return bonds ? { bonds, pale: false } : null;
+}
+
+// The chair pointed at: its ring in a pastel green-teal, opaque, under the whole drawing, its highlights and ring
+// fills too (a highlight, or a mark an embedding page put on an atom, stays whole over it). A Fischer projection's
+// spine the same (paler: what the Fischer tool would read).
 function ChairUnder({ editor, scene, scale }) {
-  const bonds = pointedChair(editor, scene);
-  if (!bonds) return null;
+  const chair = pointedChair(editor, scene);
+  const spine = pointedSpine(editor, scene);
+  // (the Fischer or zigzag tool over a molecule: how it would be drawn, see-through, a word above it)
+  const note = ['fischer', 'zigzag'].includes(editor.tool.name) && editor.preview?.kind === 'place' ? editor.preview.note : null;
+  if (!chair && !spine && !note) return null;
+  const lines = (bonds) => bonds.map((id) => {
+    const bond = scene.bonds.get(id);
+    if (!bond) return null;
+    const [p, q] = [scene.atoms.get(bond.bond.a).pos, scene.atoms.get(bond.bond.b).pos];
+    return <line key={id} x1={p[0]} y1={p[1]} x2={q[0]} y2={q[1]} />;
+  });
   return (
     <g className="chair-under" transform={`scale(${scale})`} strokeWidth={STYLE.highlightWidth + 0.06} strokeLinecap="round" data-testid="chair-under">
-      {bonds.map((id) => {
-        const bond = scene.bonds.get(id);
-        if (!bond) return null;
-        const [p, q] = [scene.atoms.get(bond.bond.a).pos, scene.atoms.get(bond.bond.b).pos];
-        return <line key={id} x1={p[0]} y1={p[1]} x2={q[0]} y2={q[1]} />;
-      })}
+      {chair && lines(chair)}
+      {spine && <g className="spine" opacity={spine.pale ? 0.6 : 1} data-testid="fischer-spine" data-pale={spine.pale ? 'true' : 'false'}>{lines(spine.bonds)}</g>}
+      {spine && <SpineNote editor={editor} scene={scene} spine={spine} />}
+      {note && <text className="chair-note" x={note.at[0]} y={note.at[1]} fontSize={0.3} textAnchor="middle" data-testid="fischer-note">{note.text}</text>}
     </g>
   );
+}
+
+// Above a Fischer projection's spine, pointed at: that it is read as one (so one look says it; with the Fischer
+// tool, what a click does)
+function SpineNote({ editor, scene, spine }) {
+  // (above the whole molecule, its groups too: not on a label at the top)
+  const first = scene.bonds.get(spine.bonds[0])?.bond.a;
+  if (first == null) return null;
+  const points = moleculeAt(editor.doc, first).map((id) => scene.atoms.get(id)?.pos).filter(Boolean);
+  const top = [scene.atoms.get(first).pos[0], Math.min(...points.map((p) => p[1]))];
+  const tool = editor.tool.name === 'fischer';
+  const text = spine.pale ? t('Plain lines · click: Fischer projection') : tool ? t('Fischer projection · click: plain lines') : t('Fischer projection');
+  return <text className="chair-note" x={top[0]} y={top[1] - 0.5} fontSize={0.3} textAnchor="middle" data-testid="fischer-note">{text}</text>;
 }
 
 // The links that keep molecules together: dashed, on screen only, when
@@ -889,14 +949,11 @@ export default function Canvas({ editor, dark, onContextMenu }) {
             <Places preview={editor.preview} scale={scale} />
           </g>
           <g className="drawing" transform={`translate(${tx} ${ty})`} fontFamily={STYLE.fontFamily}>
-            {/* (the chair pointed at over highlights and ring fills, under the rest: first where there are none) */}
-            {!sliding && !layers.some(([key]) => key === 'under') && <ChairUnder editor={editor} scene={scene} scale={scale} />}
-            {layers.map(([key, markup]) => [
-              sliding?.keys.has(key)
-                ? <g key={key} transform={shift} dangerouslySetInnerHTML={{ __html: frozen.layers.get(key) }} />
-                : <g key={key} dangerouslySetInnerHTML={{ __html: markup }} />,
-              key === 'under' && !sliding && <ChairUnder key="chair-under" editor={editor} scene={scene} scale={scale} />,
-            ])}
+            {/* (the chair or Fischer spine pointed at under everything, highlights too: a mark on an atom stays whole) */}
+            {!sliding && <ChairUnder editor={editor} scene={scene} scale={scale} />}
+            {layers.map(([key, markup]) => (sliding?.keys.has(key)
+              ? <g key={key} transform={shift} dangerouslySetInnerHTML={{ __html: frozen.layers.get(key) }} />
+              : <g key={key} dangerouslySetInnerHTML={{ __html: markup }} />))}
           </g>
           {/* over the drawing, blended in, so it shows on highlights and ring fills too */}
           <g className="selection" transform={`matrix(${scale} 0 0 ${scale} ${tx} ${ty})`}>
@@ -908,6 +965,7 @@ export default function Canvas({ editor, dark, onContextMenu }) {
           </g>
           <g transform={`matrix(${scale} 0 0 ${scale} ${tx} ${ty})`}>
             <ErrorRings scene={scene} />
+            <StaleModels scene={scene} />
             <Links editor={editor} scene={scene} />
             {editor.debug && <DebugLayer editor={editor} scene={scene} />}
             <SelectionFrame editor={editor} scale={scale} />

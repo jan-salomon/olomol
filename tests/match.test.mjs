@@ -37,8 +37,8 @@ test('ranked: the best first, then the shorter, then as they came; at most so ma
 
 test('other words for a thing: only from three letters, and never above its own name', async () => {
   const { scoreOf } = await import('../src/editor/match.js');
-  assert.equal(scoreOf('fe', ['Report a problem or an idea'], ['bug', 'feedback']), 0, 'two letters: not by the other words');
-  assert.equal(scoreOf('feed', ['Report a problem or an idea'], ['bug', 'feedback']), 2, 'from three: by them, as the start of a word');
-  assert.equal(scoreOf('feedback', ['Report a problem or an idea'], ['feedback']), 2, 'even the whole word: no more than that');
-  assert.equal(scoreOf('report', ['Report a problem or an idea'], ['feedback']), 3, 'its own name counts for more');
+  assert.equal(scoreOf('fe', ['Report a problem'], ['bug', 'feedback']), 0, 'two letters: not by the other words');
+  assert.equal(scoreOf('feed', ['Report a problem'], ['bug', 'feedback']), 2, 'from three: by them, as the start of a word');
+  assert.equal(scoreOf('feedback', ['Report a problem'], ['feedback']), 2, 'even the whole word: no more than that');
+  assert.equal(scoreOf('report', ['Report a problem'], ['feedback']), 3, 'its own name counts for more');
 });

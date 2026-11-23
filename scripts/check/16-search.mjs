@@ -68,7 +68,7 @@ export default async function run() {
   check(JSON.stringify(await state(() => olomol.tool)) === JSON.stringify({ name: 'curve', electrons: 2 }), 'curved, Enter: the curved arrow tool');
   // an element
   await search('Fe');
-  check((await rows())[0] === 'iron (Fe): the atom tool' && !(await rows()).includes('Report a problem or an idea'), `Fe: the element first, nothing by its other words from two letters (${(await rows()).join(', ')})`);
+  check((await rows())[0] === 'iron (Fe): the atom tool' && !(await rows()).includes('Report a problem'), `Fe: the element first, nothing by its other words from two letters (${(await rows()).join(', ')})`);
   await page.keyboard.press('Enter');
   check(JSON.stringify(await state(() => olomol.tool)) === JSON.stringify({ name: 'atom', el: 'Fe' }), 'Enter: the atom tool for Fe');
   // ? and a part: the templates with it, only them (as the Templates window: ?Ph, ?S)

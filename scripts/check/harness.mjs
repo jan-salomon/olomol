@@ -130,6 +130,11 @@ export async function paste(text) {
 export const drawnSmiles = async () => canonical(await state(() => window.olomolTest.molfile()));
 export const atomsByEl = (el) => state((el) => [...olomol.doc.atoms.values()].filter((a) => a.el === el).map((a) => a.id), el);
 export const tool = (id) => page.getByTestId(`tool-${id}`);
+// a projection tool (Ring flip, Turn a chair, Fischer projection, Zigzag), from under the top bar's projections button
+export async function projectionTool(id) {
+  if (!(await page.getByTestId(id).isVisible().catch(() => false))) await page.getByTestId('projections').click({ button: 'right' });
+  await page.getByTestId(id).click();
+}
 export const notice = () => page.locator('.notice').textContent({ timeout: 3000 }).catch(() => '');
 export const curveNames = () => state(() => [...olomol.doc.curves.values()].map((cv) => {
   const name = (end) => (end.bond !== undefined ? 'bond' : olomol.doc.atoms.get(end.atom).el + (olomol.doc.atoms.get(end.atom).charge < 0 ? '-' : ''));

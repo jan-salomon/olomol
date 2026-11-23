@@ -3,8 +3,7 @@
 
 import {
   atomXY, bondMiddle, canonical, check, clear, dragBetween, drawnSmiles, hoverAndPress, layoutDone, notice, page, paste,
-  screen, state, tool,
-} from './harness.mjs';
+  screen, state, tool, projectionTool } from './harness.mjs';
 // (its parts, in the order run:)
 //   ring flip of a chair
 //   turning a chair (a third of a turn, and back)
@@ -104,7 +103,7 @@ export default async function run() {
     const sidesBefore = await chairSides();
     const slantBefore = await slant();
     const ringIds = Object.keys(sidesBefore).map(Number);
-    await page.getByTestId('ring-flip').click();
+    await projectionTool('ring-flip');
     await page.mouse.move(...(await screen(await ringMiddle(ringIds))));
     const flipGhosts = await page.locator('.ghost-copy').count();
     await page.mouse.click(...(await screen(await ringMiddle(ringIds))));
@@ -127,7 +126,7 @@ export default async function run() {
     const glucoseRing = Object.keys(await chairSides()).map(Number);
     // (animated: where it ends is the same as at once)
     await state(() => olomol.setSettings({ animations: true }));
-    await page.getByTestId('ring-flip').click();
+    await projectionTool('ring-flip');
     await page.mouse.click(...(await screen(await ringMiddle(glucoseRing))));
     await page.waitForFunction(() => !olomol.animation, null, { timeout: 5000 }).catch(() => {});
     const glucoseAfter = await chairSmiles();
@@ -173,7 +172,7 @@ export default async function run() {
     await placeChair('Chair');
     await state(() => olomol.setSettings({ animations: true }));
     const bareRing = Object.keys(await chairSides()).map(Number);
-    await page.getByTestId('ring-flip').click();
+    await projectionTool('ring-flip');
     await state((ring) => {
       window.ringFrames = [];
       // (until the flip has started and ended: the click can come some frames later, as in Firefox)
@@ -205,7 +204,7 @@ export default async function run() {
     await paste('C1CCCCC1');
     const flatRing = await state(() => [...olomol.doc.atoms.keys()]);
     const flatBefore = await positions();
-    await page.getByTestId('ring-flip').click();
+    await projectionTool('ring-flip');
     await page.mouse.click(...(await screen(await ringMiddle(flatRing))));
     await page.waitForFunction((was) => JSON.stringify([...olomol.doc.atoms.values()].map((a) => [a.id, a.x.toFixed(4), a.y.toFixed(4)])) !== was, flatBefore, { timeout: 15_000 }).catch(() => {});
     const flatChair = await page.evaluate(async (ring) => { const { readChair } = await import('/src/chem/ringFlip.js'); return readChair(olomol.doc, ring).error ?? 'a chair'; }, flatRing);
@@ -216,7 +215,7 @@ export default async function run() {
     await state(() => olomol.setTool({ name: 'ring', size: 6, aromatic: false }));
     await page.mouse.click(...(await screen(await bondMiddle(fuseOn))));
     const fusedBefore = await positions();
-    await page.getByTestId('ring-flip').click();
+    await projectionTool('ring-flip');
     await page.mouse.click(...(await screen(await ringMiddle(chairRing))));
     const fusedSays = await notice();
     check((await state(() => olomol.doc.atoms.size)) >= 10 && fusedSays.includes('Fused') && (await positions()) === fusedBefore,
@@ -228,7 +227,7 @@ export default async function run() {
     await state((ring) => olomol.change((doc) => { [...doc.bonds.values()].find((b) => ring.includes(b.a) && ring.includes(b.b)).stereo = 'wedge'; }), wedgedRing);
     const wedgedBefore = await positions();
     await state(() => olomol.clearNotice());
-    await page.getByTestId('ring-flip').click();
+    await projectionTool('ring-flip');
     await page.mouse.click(...(await screen(await ringMiddle(wedgedRing))));
     const wedgeSays = await notice();
     check(/wedge/.test(wedgeSays) && !/Only a ring of single bonds/.test(wedgeSays) && (await positions()) === wedgedBefore,
@@ -513,7 +512,7 @@ export default async function run() {
       const [a, b] = [olomol.doc.atoms.get(p), olomol.doc.atoms.get(q)];
       return [(a.x + b.x) / 2, (a.y + b.y) / 2];
     }, [front, await state(() => [...olomol.doc.bonds.values()].filter((b) => b.newman)[1].a)]);
-    await page.getByTestId('ring-flip').click();
+    await projectionTool('ring-flip');
     await page.mouse.click(...(await screen(middle)));
     await page.waitForFunction(() => !olomol.animation, null, { timeout: 5000 }).catch(() => {});
     const smilesAfter = canonical(await state(() => window.olomolTest.molfile()), { removeHs: true });
@@ -558,7 +557,7 @@ export default async function run() {
     });
     const where = () => state(() => [...olomol.doc.atoms.values()].map((a) => `${a.x.toFixed(3)},${a.y.toFixed(3)}`).join(' '));
     const before = await where();
-    await page.getByTestId('ring-flip').click();
+    await projectionTool('ring-flip');
     await page.mouse.click(...(await screen(middle)));
     await page.waitForTimeout(600);
     const said = await notice();
@@ -622,7 +621,7 @@ export default async function run() {
     await page.waitForTimeout(150);
     const away = await page.locator('[data-testid=chair-under] line, .halo.hover').count();
     // the ring flip on the hand-drawn chair, on its long back edge
-    await page.getByTestId('ring-flip').click();
+    await projectionTool('ring-flip');
     const edge = await bondMiddle('handChair', 1, 2);
     const before = await state(() => window.handChair.map((id) => olomol.doc.atoms.get(id).y.toFixed(2)).join());
     await page.mouse.move(...edge);
@@ -653,7 +652,7 @@ export default async function run() {
       return { slots: chair.error ? chair.error : chair.groups.map((g) => `${g.first}${g.slot}`).sort().join(), left, where: JSON.stringify([...olomol.doc.atoms.values()].map((a) => [Math.round(a.x * 100), Math.round(a.y * 100)])), steps: olomol.undoStack.length };
     });
     const start = await read();
-    await page.getByTestId('chair-turn').click();
+    await projectionTool('chair-turn');
     const middle = await state(() => {
       const ring = olomol.scene.rings.find((r) => r.length === 6);
       const [x, y] = [ring.reduce((s, id) => s + olomol.doc.atoms.get(id).x, 0) / 6, ring.reduce((s, id) => s + olomol.doc.atoms.get(id).y, 0) / 6];
@@ -690,7 +689,7 @@ export default async function run() {
       if (prepare) await prepare();
       await state(() => { olomol.clearSelection(); olomol.fit(window.innerWidth, window.innerHeight); });
       const before = await drawnSmiles();
-      await page.getByTestId('ring-flip').click();
+      await projectionTool('ring-flip');
       const at = await ringMiddleOf();
       await page.mouse.move(...at);
       await page.waitForFunction(() => Boolean(olomol.preview?.lit), null, { timeout: 15_000 }).catch(() => {});

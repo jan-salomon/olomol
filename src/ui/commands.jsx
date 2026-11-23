@@ -2,7 +2,7 @@
 // its English name (the key of its translation, so found in the interface's language and in English), other words
 // people may look for it by, its key, and what it does. Built for the moment of searching: `ui` gives what lives in
 // the App (fit, a window to open by name: 'layout', 'turn3d', 'templates', 'periodic', 'examples', 'keys',
-// 'report', 'about', 'versions').
+// 'report', 'versions').
 import { align, alignReaction, flip, GRID_GAP } from '../arrange/align.js';
 import { abbreviateSelection, abbreviatable, canDrawOut, drawOutAbbreviations } from '../editor/abbreviate.js';
 import { aromatize, kekulize } from '../editor/aromatic.js';
@@ -11,12 +11,13 @@ import { groupSelection, ungroupSelection } from '../editor/grouping.js';
 import { fragments } from '../model/graph.js';
 import { FORMATS } from '../io/files.js';
 import { language, t as translate } from '../i18n/i18n.js';
+import { allowed, EMBEDDED, toolAllowed } from '../features.js';
 import { copyLink, copyPicture, exportAs, newDrawing, openFile, printDrawing, saveFile, snapPressed } from './actions.js';
 import { ALIASES } from './aliases.js';
 import { icons } from './icons.jsx';
 import { AlignIcon } from './Menus.jsx';
 import { keyOf } from './keys.js';
-import { DOCS, WHATS_NEW } from './report.js';
+import { ABOUT_PAGE, DOCS, WHATS_NEW } from './report.js';
 import { duplicateTab, shownTitle } from './tabs.js';
 
 const fill = (text, vars = {}) => text.replace(/\{(\w+)\}/g, (whole, name) => (name in vars ? vars[name] : whole));
@@ -27,11 +28,23 @@ const t = (en, vars) => ({ en, vars });
 
 // One entry: `name` (t('…')), `key` its shortcut; other words for it from aliases.js (by its English name, filled
 // in: Ring of 6, or as written: Export {format})
-function entry({ en, vars }, run, { key = null, icon = null, kind = 'action' } = {}) {
+function entry({ en, vars }, run, { key = null, icon = null, kind = 'action', tool = null } = {}) {
   const label = translate(en, vars);
   const also = [...(ALIASES[fill(en, vars)] ?? []), ...(fill(en, vars) !== en ? ALIASES[en] ?? [] : [])];
-  return { id: `${kind}:${fill(en, vars)}`, label, names: [label, fill(en, vars)], also, key, icon, kind, run };
+  return { id: `${kind}:${fill(en, vars)}`, en, label, names: [label, fill(en, vars)], also, key, icon, kind, run, tool };
 }
+
+// The actions of parts that may be switched off (features.js), by their English names; SITE: olomol.org's own,
+// not in an embedded editor (files, tabs, help)
+const ACTION_PARTS = {
+  Redraw: 'redraw', 'Turn in 3D': 'turn-in-3d', 'Align reaction scheme': 'align-flip', 'Arrange in a grid': 'align-flip', 'Flip left–right': 'align-flip', 'Flip top–bottom': 'align-flip',
+  'Horizontal / vertical': 'align-flip', 'One compound': 'structure', Separate: 'structure', Aromatize: 'structure', 'Kekulé': 'structure', Abbreviate: 'structure',
+  'Draw out': 'structure', 'Periodic table': 'structure', Templates: 'templates', 'Export {format}': 'export', 'Copy as picture': 'export', 'PDF / Print…': 'export',
+};
+const ALIGNING = /^(Align |Horizontally: |Vertically: )/;
+const SITE = new Set(['New drawing', 'Duplicate drawing', 'Open a file from this computer…', 'Save', 'Save as', 'Copy link', 'Show', 'Earlier versions of {name}', 'Help',
+  'Keyboard shortcuts', 'Report a problem', 'Embed in a page…', 'About', "What's new", 'Manual', 'Quick start']);
+const commandAllowed = (c) => (c.tool ? toolAllowed(c.tool) : allowed(ACTION_PARTS[c.en] ?? (ALIGNING.test(c.en) ? 'align-flip' : null)) && !(EMBEDDED && SITE.has(c.en)));
 
 // the molecules the selection has atoms of (as the panel has them)
 function selectedMolecules(editor) {
@@ -42,10 +55,14 @@ function selectedMolecules(editor) {
 export function commands(editor, ui) {
   const say = ({ en, vars }) => editor.say(translate(en, vars)); // (a message, marked with t('…') as the names are)
   // (as the left bar's button: with a selection, brackets round it, lone pairs on it, a charge or bond on part of a molecule)
-  const tool = (en, which, options = {}) => entry(en, () => pressTool(editor, which), { kind: 'tool', key: keyOf(which) ?? null, ...options });
+  const tool = (en, which, options = {}) => entry(en, () => pressTool(editor, which), { kind: 'tool', key: keyOf(which) ?? null, tool: which, ...options });
   const opens = (en, name, options) => entry(en, () => ui.show(name), options);
   const page = (en, href, options) => entry(en, () => window.open(href, '_blank', 'noopener'), options);
   const zoom = (k) => editor.zoomAt(k, window.innerWidth / 2, window.innerHeight / 2);
+  return all(editor, ui, { say, tool, opens, page, zoom }).filter(commandAllowed);
+}
+
+function all(editor, ui, { say, tool, opens, page, zoom }) {
   return [
     // the tools (the left bar's, by the short names its hint line uses)
     tool(t('Select'), { name: 'select' }, { icon: icons.select }),
@@ -103,6 +120,7 @@ export function commands(editor, ui) {
       entry(t('Export {format}', { format: label }), () => exportAs(editor, format), { icon: icons.export })),
     entry(t('Copy as picture'), () => copyPicture(editor), { key: 'Ctrl+Shift+C', icon: icons.copy }),
     entry(t('Copy link'), () => copyLink(editor), { icon: icons.link }),
+    opens(t('Embed in a page…'), 'embed', { icon: icons.external }),
     entry(t('PDF / Print…'), () => printDrawing(editor), { icon: icons.export }),
     // the drawing
     entry(t('Undo'), () => editor.undo(), { key: 'Ctrl+Z', icon: icons.undo }),
@@ -155,8 +173,8 @@ export function commands(editor, ui) {
     opens(t('Earlier versions of {name}', { name: shownTitle(editor.title) }), 'versions', { icon: icons.undo }),
     opens(t('Help'), 'examples', { icon: icons.info }),
     opens(t('Keyboard shortcuts'), 'keys', { key: '?', icon: icons.keyboard }),
-    opens(t('Report a problem or an idea'), 'report', { icon: icons.debug }),
-    opens(t('About'), 'about', { icon: icons.info }),
+    opens(t('Report a problem'), 'report', { icon: icons.debug }),
+    page(t('About'), ABOUT_PAGE, { icon: icons.info }),
     page(t("What's new"), WHATS_NEW, { icon: icons.external }),
     page(t('Manual'), DOCS.manual, { icon: icons.external }),
     page(t('Manual as PDF'), DOCS.manualPdf, { icon: icons.external }),

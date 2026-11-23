@@ -86,7 +86,13 @@ or drawn by hand. A flat ring or a Haworth projection becomes a chair with
 one click, each group axial or equatorial as its wedge says, and the ring flip
 turns it into the other chair. Newman projections are real molecules, so an E2
 is drawn with curved arrows right in the projection, and Turn in 3D shows the
-real shape as a stick model.
+real shape as a stick model. A molecule drawn with wedges becomes its Fischer
+projection with a click, any chain a zigzag, and a Fischer projection drawn by
+hand is read as one when you click it; each R/S is kept.
+
+**3D models on the canvas.** Put a molecule's ball-and-stick, stick or
+space-filling model beside it in the drawing, turn it from the panel, and
+build it again with Update when the molecule changes.
 
 And besides:
 
@@ -107,6 +113,11 @@ And besides:
   `olomol.org/#name=caffeine` opens the structure drawn.
 - **Styles** for journals (ACS, RSC) and slides, or your own: bond length,
   lines, label size and font.
+- **In your own page:** `embed.html` gives olomol with only the tools
+  students should have (curved arrows only, say), and `<olomol-editor>` lets
+  the page read what they drew: the curved arrows by their atoms, SMILES,
+  InChI, and a step written the same way however it is drawn. Export →
+  Embed in a page… writes the code ([docs/embed.md](docs/embed.md)).
 
 The full list is in [docs/features.md](docs/features.md).
 
@@ -119,7 +130,9 @@ The full list is in [docs/features.md](docs/features.md).
 
 Use the bug button at the top right of the app: it writes the email for you,
 with your browser and the app's version filled in, to
-[bugs@olomol.org](mailto:bugs@olomol.org?subject=olomol). The
+[bugs@olomol.org](mailto:bugs@olomol.org?subject=olomol). Ideas, questions,
+translations and everything else go to
+[contact@olomol.org](mailto:contact@olomol.org?subject=olomol). The
 [manual](https://olomol.org/manual.html) ([Czech](https://olomol.org/cs/manual.html);
 PDF: [English](docs/en/manual.pdf), [Czech](docs/manual.pdf)) explains every
 tool, and [What's new](https://olomol.org/changelog.html) lists the
@@ -132,12 +145,14 @@ changes of each version.
 Needs Node.js 24 (the exact version is in `.nvmrc`).
 
 ```sh
-git clone https://github.com/jansa249/olomol.git && cd olomol
+git clone https://github.com/jan-salomon/olomol.git && cd olomol
 npm ci            # install the exact dependency versions from package-lock.json
 npm run dev       # development server at http://localhost:5173/
 npm run build     # build the static site into dist/
 npm run preview   # serve dist/ at http://localhost:4173/
 npm test          # unit tests (chemistry against RDKit, file round trips)
+npm run check:formats   # every structure export read back by RDKit, Indigo and olomol, against what was drawn
+npm run fuzz:files -- --count 50   # generated drawings through every file format; each kind of failure shrunk into test-output/fuzz/
 npm run check     # the browser check, on a running dev server (npm run dev), in headless Chrome
 npm run check -- --only drawing,files   # only some topics (scripts/check/)
 npm run check -- --jobs 3               # three topics at a time
@@ -155,15 +170,17 @@ programs that read or write olomol's drawings).
 | Folder | What |
 |---|---|
 | `src/model/` | the drawing as data (`doc.js`: atoms, bonds, arrows, text, curved arrows) and the molecule graph (`graph.js`: molecules, rings) |
-| `src/chem/` | element data, hydrogens and lone pairs (`valence.js`), formula and mass, R/S labels, templates and chairs, delocalized groups (`delocalize.js`) |
-| `src/render/` | from the data to a picture: labels, bonds, electrons and curved arrows (`mechanism.js`, the arrow rules), SVG |
+| `src/chem/` | element data, hydrogens and lone pairs (`valence.js`), formula and mass, R/S labels, templates and chairs, Fischer projections and zigzags (`fischer.js`, `chains.js`), delocalized groups (`delocalize.js`) |
+| `src/render/` | from the data to a picture: labels, bonds, electrons and curved arrows (`mechanism.js`, the arrow rules), 3D models (`model3d.js`, `sticks.js`), SVG |
 | `src/editor/` | the editor (selection, undo, view), the tools, hit testing, building rings and chains |
 | `src/arrange/` | Align and Align reaction |
 | `src/layout/` | Redraw and Turn in 3D: the engines, ring templates, 3D models, the SMILES check |
-| `src/io/` | files: KET, molfile, RDKit and Indigo (in a background thread), the PubChem lookup |
+| `src/io/` | files: .olom (`olom.js`), KET, molfile, RDKit and Indigo (in a background thread), links, the PubChem lookup |
 | `src/ui/` | the screen: canvas, toolbars, panel, menus, dialogs (React) |
+| `src/embed/`, `src/features.js` | olomol in another page: the parts switched on or off, the bridge to the page (`postMessage`), the canonical form of a curved-arrow step |
 | `src/i18n/` | the languages: `t()` and one table per language (`cs.js`, `de.js`; `en.js` for English singulars: 1 lone pair, 2 lone pairs) |
-| `tests/`, `scripts/` | unit tests, the browser check, the arrow gallery |
+| `tests/`, `scripts/` | unit tests, the browser check, the file-format checks and fuzzer (`scripts/formats/`), the arrow gallery |
+| `bench/` | the benchmarks: what olomol claims, measured against truths from elsewhere, with a report of every case |
 
 ## Citing olomol
 

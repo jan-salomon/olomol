@@ -18,6 +18,7 @@ import { explainSmiles, looksLikeSmiles } from '../io/smiles.js';
 import { language, t } from '../i18n/i18n.js';
 import { useEscape } from './Dialogs.jsx';
 import { pubchemLink } from './actions.js';
+import { allowed, refusal } from '../features.js';
 import { icons } from './icons.jsx';
 
 const DUPLICATES = new Set(Object.values(ABBREVIATED).flat());
@@ -200,12 +201,14 @@ export function useLookup(query, onDoc, settings) {
       setBusy(false);
     }
   };
-  const draw = (source = text) => run(async () => ({ title: inchi ? t('the InChI') : source, source }));
+  // (a part switched off in an embedded editor, features.js: said, not done)
+  const draw = (source = text) => (allowed('structures-from-text') ? run(async () => ({ title: inchi ? t('the InChI') : source, source })) : setError(refusal('structures-from-text')));
   const meantAsSmiles = !inchi && looksLikeSmiles(text);
   const ask = async () => {
     // (the SMILES check may still be under way: a SMILES is drawn, not sent)
     if (await isSmiles(text)) return draw();
     if (meantAsSmiles) return null; // a SMILES with a mistake: what is wrong is shown
+    if (!allowed('structures-from-names')) return setError(refusal('structures-from-names'));
     return run(async () => {
       const found = await lookUp(text);
       return { title: found.title, source: found.smiles };
@@ -213,14 +216,14 @@ export function useLookup(query, onDoc, settings) {
   };
   const cid = cidOf(text);
   const actions = [];
-  if (text && (inchi || smiles)) actions.push({ key: 'draw', label: inchi ? t('Draw this InChI') : t('Draw this SMILES'), icon: icons.templates, testId: 'draw-identifier', run: () => draw() });
+  if (text && (inchi || smiles) && allowed('structures-from-text')) actions.push({ key: 'draw', label: inchi ? t('Draw this InChI') : t('Draw this SMILES'), icon: icons.templates, testId: 'draw-identifier', run: () => draw() });
   const fix = !smiles && meantAsSmiles ? problem?.fixed : null;
-  if (fix) actions.push({ key: 'fix', label: t('Draw {smiles} instead', { smiles: fix }), icon: icons.templates, testId: 'draw-fixed', run: () => draw(fix) });
-  if (text && !inchi && !smiles && !meantAsSmiles) {
+  if (fix && allowed('structures-from-text')) actions.push({ key: 'fix', label: t('Draw {smiles} instead', { smiles: fix }), icon: icons.templates, testId: 'draw-fixed', run: () => draw(fix) });
+  if (text && !inchi && !smiles && !meantAsSmiles && allowed('structures-from-names')) {
     const label = busy ? t('Looking up…') : cid ? t('Look up CID {cid} on PubChem', { cid }) : t('Look up “{name}” on PubChem', { name: text });
     actions.push({ key: 'pubchem', label, icon: icons.search, testId: 'pubchem', run: ask });
   }
-  if (text && (smiles || inchi || !meantAsSmiles)) {
+  if (text && (smiles || inchi || !meantAsSmiles) && allowed('structures-from-names')) {
     const by = cid ? { cid } : inchi ? { inchi: text } : smiles ? { smiles: text } : { name: text };
     actions.push({ key: 'page', label: t('PubChem page'), icon: icons.external, testId: 'pubchem-open',
       title: t('Open its page on PubChem (this sends what you typed there)'), href: pubchemLink(by) });

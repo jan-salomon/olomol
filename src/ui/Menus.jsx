@@ -5,6 +5,7 @@ import { align, alignReaction, GRID_GAP } from '../arrange/align.js';
 import { FORMATS } from '../io/files.js';
 import { lostIn } from '../io/lost.js';
 import { language, LANGUAGES, pickLanguage, t } from '../i18n/i18n.js';
+import { EMBEDDED } from '../features.js';
 import { copyLink, copyPicture, exportAs, openFile, openRecent, printDrawing, reloadKeepingView } from './actions.js';
 import { COLOR_GRIDS, parseColor, recentColors, rememberColor } from './colors.js';
 import { icons } from './icons.jsx';
@@ -103,7 +104,7 @@ export function OpenMenu({ editor, anchor, fit, onClose, onVersions }) {
   );
 }
 
-export function ExportMenu({ editor, anchor, onClose }) {
+export function ExportMenu({ editor, anchor, onClose, onEmbed }) {
   // (see-through unless ticked, remembered with the settings)
   const background = Boolean(editor.settings.whiteBackground);
   const setBackground = (whiteBackground) => editor.setSettings({ whiteBackground });
@@ -131,6 +132,12 @@ export function ExportMenu({ editor, anchor, onClose }) {
         onClose();
         copyLink(editor);
       }}>{t('Copy link')}<span className="hint">{t('the drawing inside the link')}</span></button>
+      {onEmbed && (
+        <button type="button" className="item" data-testid="embed" onClick={() => {
+          onClose();
+          onEmbed();
+        }}>{t('Embed in a page…')}<span className="hint">{t('olomol in your own page')}</span></button>
+      )}
       <hr />
       <div className="title">{t('Structure file')}</div>
       {Object.entries(FORMATS).filter(([, { held }]) => !held).map(([format, { label, ext }]) => {

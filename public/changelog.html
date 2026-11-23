@@ -137,8 +137,85 @@
     </div>
   </header>
 
+  <section id="v0.6.0">
+    <h2>0.6.0 <span class="date" data-date="2026-11-23">23 November 2026</span> <span class="newest"><span lang="cs">nejnovější</span><span lang="en">newest</span><span lang="de">neueste</span></span></h2>
+    <img class="band" src="changelog/banner-0.6.0.svg" width="1200" height="200" loading="lazy" alt="D-threose as a Fischer projection read by olomol, its chain lit; ibuprofen with its ball-and-stick model beside it; and a web page with olomol embedded, only curved arrows on, the arrows of an SN2 step marked">
+    <div lang="cs">
+      <p class="summary">3D modely na plátně vedle svých molekul, Fischerovy projekce oběma směry a olomol ve vlastní webové stránce.</p>
+      <h3>Nové</h3>
+      <ul>
+        <li><strong>3D model na plátně</strong>: z tyčinkového modelu v <em>Otočit ve 3D</em> tlačítkem <em>Dát na plátno</em>, vedle své molekuly; kuličky a tyčinky, tyčinky nebo kalotový, s vodíky, s malými nebo bez nich, otočený posuvníky v panelu vpravo. Když se molekula změní (i její nakreslená konformace), model zůstane, jaký byl, s čárkovaným rámečkem, a <em>Aktualizovat</em> ho sestaví znovu. Seskupí se, zarovná, překlopí i otočí s ostatním, je v panelu <em>Objekty</em> a uloží se v souborech .olom.</li>
+        <li><strong>Fischerovy projekce</strong>: nástroj <em>Fischerova projekce</em> nakreslí molekulu s klíny jako její Fischerovu projekci (hlavní řetězec podle IUPAC svisle, C1 nahoře). Fischerovu projekci nakreslenou ručně, svislý řetězec křížení, přečte jako Fischerovu projekci, až když na ni kliknete; další kliknutí z ní udělá zase jen čáry, bez stereochemie.</li>
+        <li><strong>Cik-cak</strong>: nástroj <em>Cik-cak</em> nakreslí hlavní řetězec kterékoli molekuly, i Fischerovy projekce, jako cik-cak, C1 vlevo, s klíny, které zachovají R/S.</li>
+        <li>Každý převod zachová R/S a je zkontrolovaný: výsledek, který by byl jiným stereoizomerem, se nenakreslí a program řekne proč.</li>
+        <li><strong>olomol ve vlastní stránce</strong>: <code>embed.html</code> s jen těmi částmi olomolu, které adresa zapne (třeba jen zahnuté šipky), a prvek <code>&lt;olomol-editor&gt;</code>, ze kterého stránka přečte, co student nakreslil: zahnuté šipky podle atomů, SMILES, InChI a krok zapsaný vždy stejně, ať je nakreslený jakkoli. Kód pro aktuální kresbu napíše <em>Export → Vložit do stránky…</em>; popis je v <a href="cs/manual.html#embedding">příloze B příručky</a>.</li>
+        <li><em>Nápověda</em> má sedm nových příkladů: Fischerovy projekce a cik-cak, 3D modely na plátně, zkratky, <em>Aromatizovat</em> a <em>Nakreslit H</em>.</li>
+      </ul>
+      <h3>Změněno</h3>
+      <ul>
+        <li>Tlačítka <em>Překlopení židličky</em> a <em>Otočit židličku</em> jsou spolu s Fischerovou projekcí a cik-cakem pod jedním tlačítkem projekcí v horní liště.</li>
+        <li>Brouk vpravo nahoře je <em>Nahlásit problém</em>: problémy na bugs@olomol.org, nápady a otázky na contact@olomol.org.</li>
+        <li>Zvýraznění vazby je vyplněný pruh, ne tah, takže v Inkscapu jedna barva výplně přebarví všechna zvýraznění.</li>
+      </ul>
+      <h3>Opraveno</h3>
+      <ul>
+        <li>Barva v souboru nebo odkazu, která barvou nebyla, mohla spustit kód ve stránce olomolu. Teď se čtou jen barvy.</li>
+        <li>Obrázek vložený do kreslicího programu (Inkscape) si zachová vzhled, i když je ve vrstvě nastavený tah nebo výplň.</li>
+        <li>Počet atomů u nástroje řetězce je počet atomů, které přidá: z prázdného místa i ten, ze kterého řetězec vychází.</li>
+      </ul>
+    </div>
+    <div lang="en">
+      <p class="summary">3D models on the canvas beside their molecules, Fischer projections both ways, and olomol in your own web page.</p>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>3D models on the canvas</strong>: from the stick model in <em>Turn in 3D</em> with <em>Put on canvas</em>, beside their molecule; ball and stick, sticks or space-filling, with all, small or no hydrogens, turned with sliders in the panel on the right. When the molecule changes (its conformation drawn too), the model stays as it was, in a dashed frame, and <em>Update</em> builds it again. Grouped, aligned, flipped and turned with the rest, listed in the <em>Objects</em> panel and kept in .olom files.</li>
+        <li><strong>Fischer projections</strong>: the <em>Fischer projection</em> tool draws a molecule drawn with wedges as its Fischer projection (the IUPAC main chain upright, C1 at the top). A Fischer projection drawn by hand, an upright chain of crossings, is read as one only when you click it; another click makes it plain lines again, with no stereochemistry.</li>
+        <li><strong>Zigzag</strong>: the <em>Zigzag</em> tool draws the main chain of any molecule, a Fischer projection too, as a zigzag, C1 on the left, with the wedges that keep its R/S.</li>
+        <li>Every conversion keeps each R/S and is checked: a result that would be another stereoisomer is not drawn, and olomol says why.</li>
+        <li><strong>olomol in your own page</strong>: <code>embed.html</code> with only the parts of olomol its address switches on (curved arrows only, say), and an element, <code>&lt;olomol-editor&gt;</code>, from which the page reads what a student drew: the curved arrows by their atoms, SMILES, InChI, and the step written the same way however it is drawn. <em>Export → Embed in a page…</em> writes the code for the drawing you have; described in <a href="manual.html#embedding">appendix B of the manual</a>.</li>
+        <li><em>Help</em> has seven new examples: Fischer projections and zigzags, 3D models on the canvas, abbreviations, <em>Aromatize</em> and <em>Draw the H</em>.</li>
+      </ul>
+      <h3>Changed</h3>
+      <ul>
+        <li><em>Ring flip</em> and <em>Turn a chair</em> are under one projections button in the top bar, with the Fischer projection and the zigzag.</li>
+        <li>The bug at the top right is <em>Report a problem</em>: problems to bugs@olomol.org, ideas and questions to contact@olomol.org.</li>
+        <li>A bond's highlight is a filled band, not a stroke, so one fill colour recolours every highlight in Inkscape.</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>A colour in a file or a link that wasn't a colour could run code in olomol's page. Only colours are read now.</li>
+        <li>A picture pasted into a drawing program (Inkscape) keeps its look where the layer has a stroke or fill set.</li>
+        <li>The chain tool's count is the number of atoms it adds: from an empty spot, the one it starts from too.</li>
+      </ul>
+    </div>
+    <div lang="de">
+      <p class="summary">3D-Modelle auf der Zeichenfläche neben ihren Molekülen, Fischer-Projektionen in beide Richtungen und olomol in der eigenen Webseite.</p>
+      <h3>Neu</h3>
+      <ul>
+        <li><strong>3D-Modelle auf der Zeichenfläche</strong>: aus dem Stabmodell in <em>In 3D drehen</em> mit <em>Auf die Zeichenfläche</em> neben ihr Molekül gesetzt, als Kugel-Stab-, Stäbchen- oder Kalottenmodell, mit allen, kleinen oder ohne H-Atome, mit Schiebereglern im Feld rechts drehbar. Ändert sich das Molekül (auch seine gezeichnete Konformation), bleibt das Modell, wie es war, in einem gestrichelten Rahmen, und <em>Aktualisieren</em> erstellt es neu. Modelle lassen sich wie die übrige Zeichnung gruppieren, ausrichten, spiegeln und drehen, erscheinen im Feld <em>Objekte</em> und werden in .olom-Dateien gespeichert.</li>
+        <li><strong>Fischer-Projektionen</strong>: Das Werkzeug <em>Fischer-Projektion</em> zeichnet ein mit Keilen gezeichnetes Molekül als seine Fischer-Projektion (die Hauptkette nach IUPAC senkrecht, C1 oben). Eine von Hand gezeichnete Fischer-Projektion, eine senkrechte Kette von Kreuzungspunkten, wird erst als solche gelesen, wenn Sie sie anklicken; ein weiterer Klick macht sie wieder zu bloßen Linien, ohne Stereochemie.</li>
+        <li><strong>Zickzack</strong>: Das Werkzeug <em>Zickzack</em> zeichnet die Hauptkette jedes Moleküls, auch einer Fischer-Projektion, als Zickzack, C1 links, mit den Keilen, die R/S erhalten.</li>
+        <li>Jede Umwandlung erhält jedes R/S und wird geprüft: Ein Ergebnis, das ein anderes Stereoisomer wäre, wird nicht gezeichnet, und olomol sagt, warum.</li>
+        <li><strong>olomol in der eigenen Seite</strong>: <code>embed.html</code> mit nur den Teilen von olomol, die seine Adresse einschaltet (etwa nur gebogene Pfeile), und ein Element, <code>&lt;olomol-editor&gt;</code>, aus dem die Seite liest, was ein Student gezeichnet hat: die gebogenen Pfeile nach ihren Atomen, SMILES, InChI und den Schritt, immer gleich geschrieben, wie auch immer er gezeichnet ist. Den Code für die aktuelle Zeichnung schreibt <em>Export → In eine Webseite einbetten…</em>; beschrieben in <a href="manual.html#embedding">Anhang B des Handbuchs</a> (auf Englisch).</li>
+        <li>Die <em>Hilfe</em> hat sieben neue Beispiele: Fischer-Projektionen und Zickzack, 3D-Modelle auf der Zeichenfläche, Abkürzungen, <em>Aromatisieren</em> und <em>H zeichnen</em>.</li>
+      </ul>
+      <h3>Geändert</h3>
+      <ul>
+        <li><em>Ringinversion</em> und <em>Sessel drehen</em> liegen zusammen mit der Fischer-Projektion und dem Zickzack unter einer Schaltfläche für Projektionen in der oberen Leiste.</li>
+        <li>Der Käfer oben rechts heißt <em>Ein Problem melden</em>: Probleme an bugs@olomol.org, Ideen und Fragen an contact@olomol.org.</li>
+        <li>Die Hervorhebung einer Bindung ist ein gefülltes Band statt einer Kontur, sodass in Inkscape eine Füllfarbe alle Hervorhebungen umfärbt.</li>
+      </ul>
+      <h3>Behoben</h3>
+      <ul>
+        <li>Eine Farbe in einer Datei oder einem Link, die keine Farbe war, konnte Code in der Seite von olomol ausführen. Jetzt werden nur Farben gelesen.</li>
+        <li>Ein in ein Zeichenprogramm (Inkscape) eingefügtes Bild behält sein Aussehen, auch wenn in der Ebene eine Kontur oder Füllung gesetzt ist.</li>
+        <li>Die Atomzahl beim Kettenwerkzeug ist die Zahl der Atome, die es hinzufügt: von einer leeren Stelle aus auch das, an dem die Kette beginnt.</li>
+      </ul>
+    </div>
+  </section>
+
   <section id="v0.5.1">
-    <h2>0.5.1 <span class="date" data-date="2026-11-20">20 November 2026</span> <span class="newest"><span lang="cs">nejnovější</span><span lang="en">newest</span><span lang="de">neueste</span></span></h2>
+    <h2>0.5.1 <span class="date" data-date="2026-11-20">20 November 2026</span></h2>
     <div lang="cs">
       <p class="summary">Příručka a rychlý start pro verzi 0.5.0 a příručka i jako stránka na webu.</p>
       <h3>Změněno</h3>

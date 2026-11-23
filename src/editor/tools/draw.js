@@ -183,7 +183,8 @@ export const chain = {
     if (!g.started) {
       ed.checkpoint();
       g.started = true;
-      g.from = g.hit?.kind === 'atom' ? g.hit.id : addAtom(ed.doc, g.start[0], g.start[1]).id;
+      g.fromNew = g.hit?.kind !== 'atom';
+      g.from = g.fromNew ? addAtom(ed.doc, g.start[0], g.start[1]).id : g.hit.id;
       g.added = [];
     }
     deleteObjects(ed.doc, g.added);
@@ -202,7 +203,8 @@ export const chain = {
       previous = next.id;
     }
     const last = points.at(-1);
-    ed.preview = { kind: 'badge', at: [last[0] + 0.3, last[1] - 0.3], text: String(points.length) };
+    // (the atoms the drag adds: from the canvas, the one it starts from too; from an atom drawn already, not that one)
+    ed.preview = { kind: 'badge', at: [last[0] + 0.3, last[1] - 0.3], text: String(points.length + (g.fromNew ? 1 : 0)) };
     ed.touched();
   },
   dragEnd(ed, g) {

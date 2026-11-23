@@ -12,7 +12,25 @@ export const cidOf = (text) => /^\s*(?:cid\s*:?\s*)?(\d+)\s*$/i.exec(text)?.[1] 
 // PubChem's answer to `path` with `fields` POSTed (so names with slashes or
 // other odd characters go through): { response, data }. Throws with a
 // message to show if PubChem can't be reached.
+// (PubChem takes about five requests a second and turns the rest away, without the header a browser needs to read the
+// refusal: asked at most four a second, and a refused one asked again, twice, after a short wait)
+let last = 0;
+const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 async function ask(path, fields) {
+  for (let attempt = 0; ; attempt++) {
+    const wait = Math.max(0, last + 260 - Date.now());
+    last = Date.now() + wait;
+    if (wait) await pause(wait);
+    try {
+      const answer = await askOnce(path, fields);
+      if (answer.response.status !== 503 || attempt >= 2) return answer;
+    } catch (error) {
+      if (attempt >= 2) throw error;
+    }
+    await pause(900 * (attempt + 1));
+  }
+}
+async function askOnce(path, fields) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 15_000);
   try {

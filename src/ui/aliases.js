@@ -64,6 +64,7 @@ export const ALIASES = {
   'Export {format}': ['export', 'picture', 'image', 'file', 'obrázek', 'soubor', 'Bild', 'Datei'],
   'Copy as picture': ['clipboard', 'word', 'powerpoint', 'copy image', 'kopírovat', 'schránka', 'kopieren', 'Zwischenablage'],
   'Copy link': ['share', 'url', 'send', 'sdílet', 'odkaz', 'poslat', 'teilen', 'senden'],
+  'Embed in a page…': ['iframe', 'embed', 'moodle', 'website', 'html', 'vložit', 'stránka', 'web', 'einbetten', 'Webseite'],
   'PDF / Print…': ['print', 'handout', 'tisk', 'tisknout', 'drucken', 'Druck'],
   // the drawing
   Undo: ['back', 'revert', 'zpět', 'vrátit', 'zurück'],
@@ -103,7 +104,7 @@ export const ALIASES = {
   'Earlier versions of {name}': ['history', 'autosave', 'restore', 'versions', 'historie', 'verze', 'obnovit', 'Verlauf', 'Versionen', 'wiederherstellen'],
   Help: ['examples', 'how to', 'nápověda', 'příklady', 'Hilfe', 'Beispiele'],
   'Keyboard shortcuts': ['keys', 'hotkeys', 'shortcuts', 'klávesy', 'zkratky', 'Tastenkürzel', 'Tastatur'],
-  'Report a problem or an idea': ['bug', 'feedback', 'error', 'chyba', 'nahlásit', 'Fehler', 'melden'],
+  'Report a problem': ['bug', 'feedback', 'error', 'chyba', 'nahlásit', 'Fehler', 'melden'],
   About: ['cite', 'citation', 'licence', 'license', 'version', 'doi', 'citace', 'licence', 'zitieren', 'Lizenz'],
   "What's new": ['changelog', 'news', 'novinky', 'Neuigkeiten'],
   Manual: ['documentation', 'guide', 'příručka', 'návod', 'Handbuch', 'Anleitung'],

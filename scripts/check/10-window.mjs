@@ -255,21 +255,20 @@ export default async function run() {
   });
   check(versionMark.ok && versionMark.status === 200 && versionMark.href.endsWith(`#v${versionMark.version.replace(/-.*/, '')}`),
     `bottom left: the version with its release date and a link to What's new (${versionMark.text}, ${versionMark.href} ${versionMark.status})`);
-  // under it, About opens the window about olomol (its credits and licences)
-  await page.getByTestId('version-about').click();
-  const aboutOpen = await page.getByTestId('about-page').isVisible().catch(() => false);
-  // how to cite this version: its citation with its DOI, to copy or save as BibTeX, RIS or CSL JSON
-  const cite = await state(() => ({
-    citation: document.querySelector('[data-testid=citation]')?.textContent ?? '',
-    buttons: [...document.querySelectorAll('[data-testid^=citation-]')].map((b) => b.dataset.testid).filter((id) => id !== 'citation'),
-  }));
-  const [download] = await Promise.all([page.waitForEvent('download', { timeout: 5000 }).catch(() => null), page.getByTestId('citation-save-bibtex').click().catch(() => {})]);
-  const bib = download ? readFileSync(await download.path(), 'utf8') : '';
-  await page.keyboard.press('Escape');
-  check(aboutOpen, `bottom left: About under the version opens the window about olomol (${aboutOpen})`);
+  // under it, About: the about page in a new tab, with how to cite olomol (its citation, and buttons for BibTeX,
+  // RIS, CSL JSON: a development version cites the version it is becoming, once What's new has it)
+  const about = await state(async () => {
+    const link = document.querySelector('[data-testid=version-about]');
+    const r = await fetch(link.getAttribute('href'));
+    const html = await r.text();
+    return { tag: link.tagName, href: link.getAttribute('href'), target: link.target, status: r.status,
+      citation: html.match(/data-testid="citation">([^<]*)/)?.[1] ?? '', buttons: (html.match(/data-(?:copy|save)="/g) ?? []).length, section: html.includes('id="cite"') };
+  });
+  check(about.tag === 'A' && /about\.html\?(?:lang=en&)?stay$/.test(about.href) && about.target === '_blank' && about.status === 200 && about.section && /^Salomon, J\./.test(about.citation),
+    `bottom left: About opens the about page in a new tab, with How to cite (${about.href}, ${about.citation.slice(0, 40)}…)`);
   const release = !/-dev/.test(versionMark.version);
-  check(!release || (/\(Version [\d.]+\).*Zenodo\. https:\/\/doi\.org\/10\.5281\/zenodo\.\d+/.test(cite.citation) && cite.buttons.length === 7 && /^@misc\{salomon_olomol_\d{4},/.test(bib) && bib.includes('doi          = {10.5281/zenodo.')),
-    `About: how to cite this version, its DOI, copied as text, BibTeX, RIS or CSL JSON and saved as .bib, .ris, .json (${cite.citation.slice(0, 60)}…; ${cite.buttons.length} buttons; ${bib.split('\n')[0]})`);
+  check(!release || (/\(Version [\d.]+\)/.test(about.citation) && about.buttons === 7),
+    `the about page: this version's citation, copied as text, BibTeX, RIS or CSL JSON and saved as .bib, .ris, .json (${about.buttons} buttons)`);
 
   // --- a tool's corner triangle opens its variants straight away ---
   await state(() => olomol.setTool({ name: 'select' }));
@@ -317,6 +316,7 @@ export default async function run() {
   await page.getByTestId('report-table').locator('tr').nth(7).waitFor({ timeout: 10_000 }).catch(() => {});
   const reportTable = await page.getByTestId('report-table').innerText();
   const mail = await page.getByTestId('report-mail').getAttribute('href');
+  const contact = await page.getByTestId('report-contact').locator('a').getAttribute('href');
   let reportCopied = 'not tried (Firefox)';
   if (!inFirefox) {
     await page.getByTestId('report-copy').click();
@@ -327,6 +327,7 @@ export default async function run() {
   const mailBody = decodeURIComponent(mail.split('&body=')[1] ?? '');
   check(reportTable.includes('Version') && reportTable.includes('Browser') && mail.startsWith('mailto:bugs@olomol.org?subject=olomol')
     && (inFirefox || reportCopied.startsWith('Version: ')), `Report a problem: the table (version, browser…), copied as lines, and an e-mail to start (${reportCopied.split('\n')[0]})`);
+  check(contact.startsWith('mailto:contact@olomol.org'), `Report a problem: ideas and questions go to contact@, not bugs@ (${contact})`);
   check(mailBody.includes('Version: ') && mailBody.includes('Browser: ') && !mailBody.includes('#d='), `the e-mail has the table in it already, without the drawing's link (${mailBody.length} characters)`);
 
   // --- languages ---

@@ -3,7 +3,9 @@
 // one bond length, side by side. No words in them (they serve every language): an example's texts are left out
 // unless they are formulas or numbers; the version is the heading's. A release about the interface rather than
 // drawing (0.5.0, files) has small pictures of the interface instead (ui below): drawn here in the app's look, with
-// its own icons and molecules drawn by olomol, file names but no words.
+// its own icons and molecules drawn by olomol, file names but no words. 0.6.0 has both: a Fischer projection as the
+// Fischer tool draws it (its spine lit, as when read), a molecule with its 3D model put on the canvas, and a web page
+// with olomol embedded in it (ui: embedded).
 //   node banners.mjs public/changelog [0.5.0 …]   banner-0.1.0.svg … banner-0.5.0.svg, or only the versions named
 //                                                 (OLOMOL_URL: a dev server)
 import { writeFileSync } from 'node:fs';
@@ -21,6 +23,8 @@ const RELEASES = {
   '0.3.0': [['cobalt', [-1, -3, 4.6, 3]], ['enzyme', null], ['sn2', null]],
   '0.4.0': [['conformations', [9.5, -2, 24, 2]], ['orbitals', [-2, -1.5, 1.8, 4.5]], ['radical', [-0.5, 2, 5.5, 4.5]], { sticks: 'β-D-Glucose, chair' }],
   '0.5.0': [{ ui: 'tabs' }, { ui: 'styles' }, { ui: 'show' }, { ui: 'search' }],
+  // D-threose, ibuprofen
+  '0.6.0': [{ fischer: 'O=C[C@@H](O)[C@H](O)CO', spine: '#bbf7d0' }, { model: 'CC(C)Cc1ccc(cc1)[C@H](C)C(=O)O' }, { ui: 'embedded' }],
 };
 const WORDLESS = /^[\d\s.,°+−\-–]*$|[_^]\{|^hν$|^(NADH|NAD|LDH|Et|Ph)/; // texts kept: numbers, formulas
 
@@ -29,7 +33,7 @@ const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
 await page.goto(`${APP}?test&lang=en`);
 await page.waitForFunction(() => window.olomolTest);
 
-const part = (name, box) => page.evaluate(async ([name, box, wordless]) => {
+const part = (name, box, marks = []) => page.evaluate(async ([name, box, wordless, marks]) => {
   const { readOlom } = await import('/src/io/olom.js');
   const { svgOf } = await import('/src/io/files.js');
   const { doc } = readOlom(await (await fetch(`/src/ui/examples/${name}.olom`)).text());
@@ -51,8 +55,54 @@ const part = (name, box) => page.evaluate(async ([name, box, wordless]) => {
     const at = t.arrow != null ? kept.has(t.arrow) : t.anchor != null ? atoms.has(t.anchor) : inside(t.x, t.y);
     if (at && new RegExp(wordless).test(t.text)) kept.add(t.id);
   }
+  [...doc.curves.values()].filter((c) => kept.has(c.id)).forEach((c, k) => {
+    if (marks[k]) c.highlight = marks[k];
+  });
   return svgOf(doc, olomol.settings, { ids: [...kept], scale: 40 });
-}, [name, box, WORDLESS.source]);
+}, [name, box, WORDLESS.source, marks]);
+
+// a molecule's Fischer projection, drawn by the Fischer tool's own code (chem/chains.js) from the molecule drawn with
+// wedges; `spine`: its chain's bonds highlighted, as the tool lights them when it has read a projection
+const fischer = (smiles, spine = null) => page.evaluate(async ([smiles, spine]) => {
+  const { smilesToMolfile, getRDKit } = await import('/src/io/rdkit.js');
+  const { readMolfile } = await import('/src/io/molfile.js');
+  const { svgOf } = await import('/src/io/files.js');
+  const { toFischer } = await import('/src/chem/chains.js');
+  const { fischerSpine } = await import('/src/chem/fischer.js');
+  const doc = readMolfile(await smilesToMolfile(smiles)).doc;
+  const made = await toFischer(await getRDKit(), doc, [...doc.atoms.keys()][0]);
+  if (made.error) throw new Error(`no Fischer projection of ${smiles}: ${made.error}`);
+  const keep = new Set(made.atoms);
+  if (spine) {
+    const centre = made.atoms.find((id) => made.doc.atoms.get(id).projection === 'fischer');
+    for (const id of fischerSpine(made.doc, { kind: 'atom', id: centre })?.bonds ?? []) made.doc.bonds.get(id).highlight = spine;
+  }
+  const bonds = [...made.doc.bonds.values()].filter((b) => keep.has(b.a) && keep.has(b.b)).map((b) => b.id);
+  return svgOf(made.doc, olomol.settings, { ids: [...made.atoms, ...bonds], scale: 40 });
+}, [smiles, spine]);
+
+// a molecule and its 3D model beside it, put on the canvas as a user puts it: Turn in 3D, Stick model, Put on canvas
+const withModel = async (smiles) => {
+  await page.evaluate(async (smiles) => {
+    const { smilesToMolfile } = await import('/src/io/rdkit.js');
+    const { readMolfile } = await import('/src/io/molfile.js');
+    olomol.setDoc(readMolfile(await smilesToMolfile(smiles)).doc);
+  }, smiles);
+  await page.keyboard.press('Control+a');
+  await page.getByTestId('turn3d').click();
+  await page.getByTestId('turn3d-stage').waitFor({ timeout: 90_000 });
+  await page.waitForTimeout(1200);
+  await page.keyboard.press('s');
+  await page.waitForTimeout(600);
+  await page.getByTestId('turn3d-put').click();
+  await page.waitForFunction(() => olomol.doc.models.size === 1, null, { timeout: 30_000 });
+  return page.evaluate(async () => {
+    const { svgOf } = await import('/src/io/files.js');
+    const item = [...olomol.doc.models.values()][0];
+    item.look = { ...item.look, hydrogens: 'small' };
+    return svgOf(olomol.doc, olomol.settings, { scale: 40 });
+  });
+};
 
 // a template's stick model, as Turn in 3D draws it, turned a little so that the chair shows
 const sticks = async (template) => {
@@ -194,6 +244,20 @@ ${fit(await molecule('CC(=O)Oc1ccccc1C(=O)O'), 'a', 20, 56, w - 40, h - 66)}`);
 ${fit(await part('exercise', null), 'x', 18, 14, w - 36, h - 58)}
 ${bar}`);
   },
+  // olomol in a web page (grey lines for its text): a frame with only Select, Erase and the curved arrow on its rail,
+  // the first step of Help's SN2 in it, both arrows marked as a page marks the ones it found right
+  async embedded() {
+    const [w, h] = [400, 166];
+    const lines = [[18, 20, 120], [18, 34, 210], [18, 44, 170]].map(([x, y, len], i) => `<rect x="${x}" y="${y}" width="${len}" height="${i ? 5 : 8}" rx="${i ? 2.5 : 4}" fill="${i ? '#d6dbe7' : '#b9c1d4'}"/>`).join('');
+    const [fx, fy, fw, fh] = [18, 58, w - 36, h - 72];
+    const step = await part('sn2', [0, -2, 8, 2], ['#bbf7d0', '#bbf7d0']);
+    return picture(w, h, `${card(0.5, 0.5, w - 1, h - 1)}${lines}
+<rect x="${fx}" y="${fy}" width="${fw}" height="${fh}" rx="8" fill="#fff" stroke="#d0d4dc"/>
+<path d="M${fx + 31} ${fy}V${fy + fh}" stroke="${EDGE}"/>
+${await icon('[data-testid=tool-select]', fx + 7, fy + 9, 17, MUTED)}${await icon('[data-testid=tool-erase]', fx + 7, fy + 33, 17, MUTED)}
+<rect x="${fx + 4}" y="${fy + 54}" width="23" height="23" rx="6" fill="${SOFT}"/>${await icon('[data-testid=tool-curve]', fx + 7, fy + 57, 17, ACCENT)}
+${fit(step, 'e', fx + 40, fy + 6, fw - 50, fh - 12)}`);
+  },
   // the search bar with a part typed (?C=O) and the templates with it above
   async search() {
     const [w, h] = [290, 166];
@@ -221,7 +285,10 @@ const parse = (svg, k) => {
 for (const [version, items] of Object.entries(RELEASES)) {
   if (only.length && !only.includes(version)) continue;
   const pictures = [];
-  for (const [k, item] of items.entries()) pictures.push(parse(item.ui ? await UI[item.ui]() : item.sticks ? await sticks(item.sticks) : await part(...item), k));
+  for (const [k, item] of items.entries()) {
+    const svg = item.ui ? await UI[item.ui]() : item.sticks ? await sticks(item.sticks) : item.fischer ? await fischer(item.fischer, item.spine) : item.model ? await withModel(item.model) : await part(...item);
+    pictures.push(parse(svg, k));
+  }
   // one scale for all: the tallest fits, and so does the row
   const room = W - 2 * PAD;
   const k = Math.min(1, (H - 34) / Math.max(...pictures.map((p) => p.vh)), (room - GAP * (pictures.length - 1)) / pictures.reduce((s, p) => s + p.vw, 0));

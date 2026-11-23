@@ -5,9 +5,13 @@ import { elementColor } from '../chem/elements.js';
 import { arrowMarkup, electronSVG } from './mechanism.js';
 import { lobePath } from './orbitals.js';
 import { FONTS, STYLE } from './style.js';
+import { modelMarkup } from './model3d.js';
 import { SIGN_SIZE } from './scene.js';
+import { isColour, isHighlight } from '../model/colour.js';
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// Only colours go into the markup (src/model/colour.js): anything else, black (a highlight: none of its own)
+const colourOnly = (color) => (isColour(color) ? color : '#000000');
 
 // A colour for a dark background: the same hue, light where it was dark
 // (black ink becomes nearly white, dark red a lighter red).
@@ -43,6 +47,32 @@ function dimmed(color) {
   return `#${[0, 2, 4].map((i, k) => Math.round(parseInt(full.slice(i, i + 2), 16) * 0.42 + dark[k] * 0.58).toString(16).padStart(2, '0')).join('')}`;
 }
 
+// A highlight with a pattern, told apart without its colour (an embedding page's marks): 'hatch:#f87171' diagonal
+// stripes (a page's "not right"), 'lines:#2563eb' upright ones, 'dots:#7c3aed' dots; each over a faint wash of
+// its colour, as an SVG pattern: the pattern's markup and how to paint with it. Any other highlight: its colour.
+const HATCH = 0.16; // (one stripe and its gap, in bond lengths; `f`: the drawing's units for bond lengths)
+const PATTERNED = /^(hatch|lines|dots):(.+)$/;
+function highlightPaint(given, dark, f = (v) => v) {
+  const color = isHighlight(given) ? given : '#000000';
+  const patterned = PATTERNED.exec(String(color));
+  if (!patterned) return { paint: dark ? dimmed(color) : color, defs: '' };
+  const [, kind, base] = patterned;
+  const ink = dark ? dimmed(base) : base;
+  const name = `olomol-${kind}-${ink.replace(/[^\w]/g, '')}`;
+  const [w, stripe] = [f(HATCH), f(HATCH * 0.45)];
+  // (the wash solid, a pale mix of the colour with the page: shapes lying over each other show no seam)
+  const page = dark ? [0x13, 0x15, 0x1b] : [0xff, 0xff, 0xff];
+  const hex = ink.replace('#', '');
+  const wash = `#${[0, 2, 4].map((i, k) => Math.round(parseInt(hex.slice(i, i + 2), 16) * 0.25 + page[k] * 0.75).toString(16).padStart(2, '0')).join('')}`;
+  // (named by its size too: the screen's zoom and a file's scale each their own)
+  const id = `${name}-${String(w).replace('.', '_')}`;
+  // (upright stripes thinner than the hatch's: they cross the labels)
+  const mark = kind === 'dots' ? `<circle cx="${w / 2}" cy="${w / 2}" r="${f(HATCH * 0.2)}" fill="${ink}"/>` : `<rect width="${kind === 'lines' ? f(HATCH * 0.22) : stripe}" height="${w}" fill="${ink}"/>`;
+  return { paint: `url(#${id})`, defs: `<pattern id="${id}" patternUnits="userSpaceOnUse" width="${w}" height="${w}"${kind === 'hatch' ? ' patternTransform="rotate(45)"' : ''}><rect width="${w}" height="${w}" fill="${wash}"/>${mark}</pattern>` };
+}
+// (the colour a patterned highlight is in: for what can't show a pattern, a 3D model's balls)
+export const highlightColour = (color) => PATTERNED.exec(String(color ?? ''))?.[2] ?? color;
+
 // Markup of the drawing (no <svg> element around it), `k` pixels per bond
 // length: on screen the current zoom, so text is laid out at its real size
 // (browsers draw tiny text that is then magnified blurred). `dark`: colours
@@ -53,9 +83,13 @@ export function paler(hex, t) {
   return `#${c.map((v) => Math.round(v + (255 - v) * t).toString(16).padStart(2, '0')).join('')}`;
 }
 
+// (`standalone`: a picture of its own, pasted or opened elsewhere: the outer group says SVG's own defaults, black fill
+// and no stroke, so that what doesn't set its own takes them there too, not a stroke or fill set in a drawing program
+// where it is pasted; `first`: markup inside it before the drawing, a background)
 export function sceneMarkup(scene, k = 1, options = {}) {
-  if (options.grouping) return `<g font-family="${STYLE.fontFamily}">${groupedMarkup(sceneLayers(scene, k, { ...options, pieces: true }), options.grouping)}</g>`;
-  return `<g font-family="${STYLE.fontFamily}">${sceneLayers(scene, k, options).map(([, markup]) => markup).join('')}</g>`;
+  const open = `<g font-family="${STYLE.fontFamily}"${options.standalone ? ' fill="#000000" stroke="none"' : ''}>${options.first ?? ''}`;
+  if (options.grouping) return `${open}${groupedMarkup(sceneLayers(scene, k, { ...options, pieces: true }), options.grouping)}</g>`;
+  return `${open}${sceneLayers(scene, k, options).map(([, markup]) => markup).join('')}</g>`;
 }
 
 // A picture's markup with the drawing's groups (Ctrl+G) as SVG groups, nested as they are (<g id="group-12">), so
@@ -97,7 +131,7 @@ function groupedMarkup({ under, parts }, { owner, parent, name = () => null }) {
 // the layers that changed (a drag: the molecule that moves).
 export function sceneLayers(scene, k = 1, { dark = false, skip = null, pieces = false } = {}) {
   const f = (v) => +(v * k).toFixed(2);
-  const paint = dark ? forDarkBackground : (c) => c;
+  const paint = dark ? (c) => forDarkBackground(colourOnly(c)) : colourOnly;
   const pts = (list) => list.map((p) => `${f(p[0])},${f(p[1])}`).join(' ');
   // paths from the scene (wavy bonds, curved arrows) hold only coordinates
   const path = (d) => d.replace(/-?\d*\.?\d+(?:e-?\d+)?/g, (number) => f(Number(number)));
@@ -123,7 +157,13 @@ export function sceneLayers(scene, k = 1, { dark = false, skip = null, pieces = 
   for (const { bond } of scene.bonds.values()) {
     if (!bond.highlight) continue;
     const [p, q] = [scene.pos(bond.a), scene.pos(bond.b)];
-    mark(bond.highlight, `<line x1="${f(p[0])}" y1="${f(p[1])}" x2="${f(q[0])}" y2="${f(q[1])}"/>`, bond.depth);
+    // (a band with round ends along the bond, drawn where it lies, not turned there: every highlight a fill, none a
+    // stroke, so that one fill colours them all in a drawing program; and a hatched one's stripes all one way)
+    const r = STYLE.highlightWidth / 2;
+    const length = Math.hypot(q[0] - p[0], q[1] - p[1]) || 1;
+    const [nx, ny] = [(-(q[1] - p[1]) / length) * r, ((q[0] - p[0]) / length) * r];
+    const pt = (x, y) => `${f(x)} ${f(y)}`;
+    mark(bond.highlight, `<path d="M${pt(p[0] + nx, p[1] + ny)}L${pt(q[0] + nx, q[1] + ny)}A${f(r)} ${f(r)} 0 0 0 ${pt(q[0] - nx, q[1] - ny)}L${pt(p[0] - nx, p[1] - ny)}A${f(r)} ${f(r)} 0 0 0 ${pt(p[0] + nx, p[1] + ny)}Z"/>`, bond.depth);
   }
   for (const { atom, pos, label } of scene.atoms.values()) {
     if (!atom.highlight) continue;
@@ -132,29 +172,43 @@ export function sceneLayers(scene, k = 1, { dark = false, skip = null, pieces = 
     if (boxes.length > 1 || boxes.some((b) => b.x2 - b.x1 > 0.5)) {
       const r = STYLE.highlightRadius;
       const [x1, y1, x2, y2] = [Math.min(...boxes.map((b) => b.x1)), Math.min(...boxes.map((b) => b.y1)), Math.max(...boxes.map((b) => b.x2)), Math.max(...boxes.map((b) => b.y2))];
-      mark(atom.highlight, `<rect x="${f(pos[0] + x1 - 0.14)}" y="${f(pos[1] + Math.min(y1 - 0.14, -r))}" width="${f(x2 - x1 + 0.28)}" height="${f(Math.max(y2 - y1 + 0.28, 2 * r))}" rx="${f(r)}" stroke="none"/>`, atom.depth);
+      mark(atom.highlight, `<rect x="${f(pos[0] + x1 - 0.14)}" y="${f(pos[1] + Math.min(y1 - 0.14, -r))}" width="${f(x2 - x1 + 0.28)}" height="${f(Math.max(y2 - y1 + 0.28, 2 * r))}" rx="${f(r)}"/>`, atom.depth);
     } else {
-      mark(atom.highlight, `<circle cx="${f(pos[0])}" cy="${f(pos[1])}" r="${f(STYLE.highlightRadius)}" stroke="none"/>`, atom.depth);
+      mark(atom.highlight, `<circle cx="${f(pos[0])}" cy="${f(pos[1])}" r="${f(STYLE.highlightRadius)}"/>`, atom.depth);
+    }
+  }
+  // a text highlighted (an embedding page's feedback): a rounded box behind it
+  for (const { text, box } of scene.texts.values()) {
+    if (!text.highlight || !box) continue;
+    const r = STYLE.highlightRadius * 0.6;
+    mark(text.highlight, `<rect x="${f(box.x1 - 0.12)}" y="${f(box.y1 - 0.08)}" width="${f(box.x2 - box.x1 + 0.24)}" height="${f(box.y2 - box.y1 + 0.16)}" rx="${f(r)}"/>`);
+  }
+  // a curved arrow highlighted (an embedding page's feedback): a band along it
+  for (const geometry of scene.curves.values()) {
+    const color = geometry.curve.highlight;
+    if (color) {
+      const { paint: shade, defs } = highlightPaint(color, dark, f);
+      under.push(`${defs}<polyline points="${pts(geometry.samples)}" fill="none" stroke="${shade}" stroke-width="${f(STYLE.highlightWidth)}" stroke-linecap="round" stroke-linejoin="round"/>`);
     }
   }
   // filled rings under everything
   for (const { fill, polygon } of scene.fills) {
-    under.push(`<polygon data-id="${fill.id}" points="${pts(polygon)}" fill="${dark ? dimmed(fill.color) : fill.color}" stroke="none"/>`);
+    under.push(`<polygon data-id="${fill.id}" points="${pts(polygon)}" fill="${dark ? dimmed(colourOnly(fill.color)) : colourOnly(fill.color)}" stroke="none"/>`);
   }
   for (const [color, elements] of [...marks].sort((a, b) => b[1].length - a[1].length)) {
-    const shade = dark ? dimmed(color) : color;
-    under.push(`<g fill="${shade}" stroke="${shade}" stroke-width="${f(STYLE.highlightWidth)}" stroke-linecap="round">${elements.join('')}</g>`);
+    const { paint: shade, defs } = highlightPaint(color, dark, f);
+    under.push(`${defs}<g fill="${shade}">${elements.join('')}</g>`);
   }
   for (const { color, element } of deep.sort((p, q) => p.depth - q.depth)) {
-    const shade = dark ? dimmed(color) : color;
-    under.push(`<g fill="${shade}" stroke="${shade}" stroke-width="${f(STYLE.highlightWidth)}" stroke-linecap="round">${element}</g>`);
+    const { paint: shade, defs } = highlightPaint(color, dark, f);
+    under.push(`${defs}<g fill="${shade}">${element}</g>`);
   }
   // orbitals: behind their molecule's bonds and labels, filled (a white lobe hides what lies behind it)
   for (const { orbital, lobes, shade, other, ink } of scene.orbitals?.values() ?? []) {
     if (molecule(orbital.atom).skip) continue;
     // (the other phase white, unless painted a colour of its own)
-    const blank = other ? (dark ? dimmed(other) : other) : dark ? CANVAS_DARK : '#ffffff';
-    const lobe = (l) => `<path d="${lobePath(l, f)}" fill="${l.shaded ? (dark ? dimmed(shade) : shade) : blank}"/>`;
+    const blank = other ? (dark ? dimmed(colourOnly(other)) : colourOnly(other)) : dark ? CANVAS_DARK : '#ffffff';
+    const lobe = (l) => `<path d="${lobePath(l, f)}" fill="${l.shaded ? (dark ? dimmed(colourOnly(shade)) : colourOnly(shade)) : blank}"/>`;
     const group = (list) => `<g data-id="${orbital.id}" stroke="${paint(ink)}" stroke-width="${f(STYLE.line)}" stroke-linejoin="round">${list.map(lobe).join('')}</g>`;
     // (in a drawing from a 3D view each lobe goes in by its depth, among the bonds: skeleton below;
     // else all behind the bonds)
@@ -269,6 +323,8 @@ export function sceneLayers(scene, k = 1, { dark = false, skip = null, pieces = 
     for (const run of runs) parts.push(`<text x="${f(run.x)}" y="${f(run.y)}" font-size="${f(run.size)}"${run.italic ? ' font-style="italic"' : ''} fill="${paint(color)}" stroke="none">${esc(run.text)}</text>`);
     over.push(`<g data-id="${bracket.id}" stroke="${paint(color)}" stroke-width="${f(STYLE.line)}" stroke-linecap="square" stroke-linejoin="miter">${parts.join('')}</g>`);
   }
+  // 3D models, in their molecules' colours (as pictures: the same light or dark as the canvas)
+  for (const { item } of scene.models?.values() ?? []) over.push(`<g data-id="${item.id}">${modelMarkup(scene.doc, item, k, { dark })}</g>`);
   // R/S and E/Z
   for (const mark of scene.stereo) {
     over.push(`<text x="${f(mark.x)}" y="${f(mark.y + STYLE.stereoFont * 0.36)}" font-size="${f(STYLE.stereoFont)}" font-style="italic" text-anchor="middle" fill="${paint(STYLE.stereoColor)}">${mark.text}</text>`);
@@ -340,7 +396,7 @@ export function sceneBounds(scene) {
     point(plus.x - STYLE.plusSize, plus.y - STYLE.plusSize);
     point(plus.x + STYLE.plusSize, plus.y + STYLE.plusSize);
   }
-  for (const { box } of [...scene.texts.values(), ...scene.brackets.values()]) {
+  for (const { box } of [...scene.texts.values(), ...scene.brackets.values(), ...(scene.models?.values() ?? [])]) {
     point(box.x1, box.y1);
     point(box.x2, box.y2);
   }
@@ -365,5 +421,5 @@ export function sceneToSVG(scene, { scale = 40, margin = 0.4, background = null,
   const bg = background ? `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${background}"/>` : '';
   const inkscape = grouping ? ' xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"' : ''; // (named groups' labels)
   return `<svg xmlns="http://www.w3.org/2000/svg"${inkscape} viewBox="${x} ${y} ${w} ${h}" width="${Math.ceil(w)}" height="${Math.ceil(h)}">`
-    + `${bg}${sceneMarkup(scene, scale, { grouping })}</svg>`;
+    + `${sceneMarkup(scene, scale, { grouping, standalone: true, first: bg })}</svg>`;
 }

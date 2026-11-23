@@ -344,7 +344,7 @@ export function flip(ed, horizontal) {
       fn(item, 'x1', 'y1');
       fn(item, 'x2', 'y2');
     }
-    for (const item of ed.doc.pluses.values()) if (wanted.has(item.id)) fn(item, 'x', 'y');
+    for (const item of [...ed.doc.pluses.values(), ...(ed.doc.models?.values() ?? [])]) if (wanted.has(item.id)) fn(item, 'x', 'y');
   };
   each((o, kx, ky) => points.push([o[kx], o[ky]]));
   const xs = points.map((p) => p[0]);
@@ -360,6 +360,14 @@ export function flip(ed, horizontal) {
       if (horizontal) o[kx] = 2 * cx - o[kx];
       else o[ky] = 2 * cy - o[ky];
     }), (a) => (horizontal ? Math.PI - a : -a));
+    // a 3D model turned half round in space as a molecule is (its wedges swapped: the same molecule, turned over),
+    // about the page's upright for a flip left to right, about its level for one up and down; not mirrored (that
+    // would show the other enantiomer)
+    const half = horizontal ? [-1, 1, -1] : [1, -1, -1];
+    for (const model of doc.models?.values() ?? []) {
+      if (!ids.includes(model.id)) continue;
+      model.rotation = (model.rotation ?? [[1, 0, 0], [0, 1, 0], [0, 0, 1]]).map((row, k) => row.map((v) => v * half[k]));
+    }
     // (hydrogens and groups written on a side by a template, HO and HOH2C on the left: on the other side, OH)
     const sides = horizontal ? { left: 'right', right: 'left' } : { up: 'down', down: 'up' };
     for (const id of atoms) {

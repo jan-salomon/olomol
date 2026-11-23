@@ -1,0 +1,39 @@
+{
+ "format": "olom",
+ "version": "1.0",
+ "app": "olomol 0.6.0-dev",
+ "atoms": [
+  {"id": 1, "element": "C", "x": -1.5458, "y": -0.2761},
+  {"id": 2, "element": "C", "x": -0.679, "y": 0.2224},
+  {"id": 3, "element": "O", "x": -0.6773, "y": 1.2225},
+  {"id": 4, "element": "O", "x": 0.1862, "y": -0.2789},
+  {"id": 5, "element": "C", "x": 1.0531, "y": 0.2195},
+  {"id": 6, "element": "C", "x": 1.9183, "y": -0.2818},
+  {"id": 12, "element": "H", "x": -1.0472, "y": -1.1429, "highlight": "#fff09a"},
+  {"id": 14, "element": "H", "x": -2.0472, "y": -1.1412, "highlight": "#fff09a"},
+  {"id": 16, "element": "H", "x": -2.411, "y": 0.2254, "highlight": "#fff09a"},
+  {"id": 18, "element": "H", "x": 1.5547, "y": 1.0849, "highlight": "#b5dcff"},
+  {"id": 20, "element": "H", "x": 0.5547, "y": 1.0866, "highlight": "#b5dcff"},
+  {"id": 22, "element": "H", "x": 1.4169, "y": -1.1471, "highlight": "#b9e8b0"},
+  {"id": 24, "element": "H", "x": 2.4169, "y": -1.1487, "highlight": "#b9e8b0"},
+  {"id": 26, "element": "H", "x": 2.7852, "y": 0.2168, "highlight": "#b9e8b0"}
+ ],
+ "bonds": [
+  {"id": 7, "atoms": [1, 2]},
+  {"id": 8, "atoms": [2, 3], "order": 2},
+  {"id": 9, "atoms": [2, 4]},
+  {"id": 10, "atoms": [4, 5]},
+  {"id": 11, "atoms": [5, 6]},
+  {"id": 13, "atoms": [1, 12]},
+  {"id": 15, "atoms": [1, 14]},
+  {"id": 17, "atoms": [1, 16]},
+  {"id": 19, "atoms": [5, 18]},
+  {"id": 21, "atoms": [5, 20]},
+  {"id": 23, "atoms": [6, 22]},
+  {"id": 25, "atoms": [6, 24]},
+  {"id": 27, "atoms": [6, 26]}
+ ],
+ "texts": [
+  {"id": 28, "x": -6.7467, "y": -2.2072, "text": "δ 2.04 (s, 3H) yellow · δ 4.12 (q, 2H) blue · δ 1.26 (t, 3H) green", "onMolecule": {"atom": 6, "slot": "below"}}
+ ]
+}

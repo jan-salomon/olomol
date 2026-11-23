@@ -1,4 +1,4 @@
-// Small dialogs: the periodic table, About, reporting a problem, the shortcuts, Save as.
+// Small dialogs: the periodic table, reporting a problem, the shortcuts, Save as. (About is the about page.)
 import { keptText, sameDrawing } from '../io/saving.js';
 import { versionsOf } from './history.js';
 import { useEffect, useRef, useState } from 'react';
@@ -7,8 +7,8 @@ import { isEmpty } from '../model/doc.js';
 import { t } from '../i18n/i18n.js';
 import { icons } from './icons.jsx';
 import { SHORTCUTS } from './keys.js';
-import { ABOUT_PAGE, CITATION, CITATIONS, copyRows, DOI, mailLink, REPORT_ADDRESS, reportRows, VERSION, WHATS_NEW } from './report.js';
-import { download, readAny, svgOf } from '../io/files.js';
+import { copyRows, CONTACT_ADDRESS, mailLink, REPORT_ADDRESS, reportRows } from './report.js';
+import { readAny, svgOf } from '../io/files.js';
 import { shownTitle } from './tabs.js';
 import { applyStyle, clampPoints, fromPoints, LIMITS, POINTS, STYLE } from '../render/style.js';
 import { smilesToMolfile } from '../io/rdkit.js';
@@ -39,7 +39,7 @@ export function Seconds({ since }) {
   return <span className="seconds">{Math.floor((performance.now() - start) / 1000)} s</span>;
 }
 
-function Dialog({ title, onClose, children, width }) {
+export function Dialog({ title, onClose, children, width }) {
   useEscape(onClose);
   return (
     <>
@@ -95,97 +95,7 @@ export function PeriodicTable({ onPick, onClose }) {
   );
 }
 
-// How to cite this version: the citation (selectable), its DOI as a link, and buttons that copy it or save
-// it for a reference manager (BibTeX, RIS, CSL JSON).
-function HowToCite() {
-  const [said, setSaid] = useState(null);
-  if (!CITATION) return null;
-  const copy = async (format) => {
-    try {
-      await navigator.clipboard.writeText(format.text);
-      setSaid(t('{format} copied.', { format: format.label }));
-    } catch {
-      setSaid(t('Could not copy it: select the citation and copy it by hand.'));
-    }
-  };
-  const save = (format) => {
-    download(format.text, `olomol-${format.id === 'csl' ? 'csl' : 'citation'}.${format.ext}`, format.mime);
-    setSaid(null);
-  };
-  const [before, after] = CITATION.split(`https://doi.org/${DOI}`);
-  return (
-    <div className="cite" data-testid="how-to-cite">
-      <h3>{t('How to cite')}</h3>
-      <p>{t('If olomol helped with a publication, a thesis or teaching materials, please cite the version you used:')}</p>
-      <p className="citation" data-testid="citation">
-        {before}
-        <a href={`https://doi.org/${DOI}`} target="_blank" rel="noreferrer">https://doi.org/{DOI}</a>
-        {after}
-      </p>
-      <div className="cite-row">
-        <span className="small">{t('Copy as')}</span>
-        {CITATIONS.map((format) => (
-          <button key={format.id} type="button" className="btn" onClick={() => copy(format)} data-testid={`citation-copy-${format.id}`}>{format.id === 'text' ? t('Text') : format.label}</button>
-        ))}
-      </div>
-      <div className="cite-row">
-        <span className="small">{t('Download as')}</span>
-        {CITATIONS.filter((format) => format.id !== 'text').map((format) => (
-          <button key={format.id} type="button" className="btn" onClick={() => save(format)} data-testid={`citation-save-${format.id}`} title={t('For {programs}', { programs: { bibtex: 'LaTeX (BibTeX, BibLaTeX)', ris: 'Zotero, Mendeley, EndNote, Citavi', csl: 'Zotero, Pandoc' }[format.id] })}>.{format.ext}</button>
-        ))}
-      </div>
-      {said && <p className="small" role="status">{said}</p>}
-    </div>
-  );
-}
-
-// About olomol: what it is, its version, how to cite it, where drawings stay, its licence and what it is
-// built on, in short parts (the keys and the mouse: the Keyboard shortcuts window).
-export function About({ onClose, onShortcuts }) {
-  const link = (href, text) => <a href={href} target="_blank" rel="noreferrer">{text}</a>;
-  const credits = [
-    [link('https://www.rdkit.org', 'RDKit'), t('layout, SMILES, InChI, ring templates and the force field UFF'), 'BSD-3-Clause'],
-    [link('https://lifescience.opensource.epam.com/indigo/', 'Indigo'), t('file formats and its layout engine'), 'Apache 2.0'],
-    [link('https://github.com/hodakamori/megane-rdkit', 'megane-rdkit'), t('3D structures'), 'BSD-3-Clause'],
-    [link('https://github.com/cheminfo/openchemlib-js', 'OpenChemLib'), t('energies of 3D structures, and those RDKit cannot make'), 'BSD-3-Clause'],
-    [link('https://github.com/epam/ketcher', 'Ketcher'), t('its file format KET, so drawings open there too'), 'Apache 2.0'],
-  ];
-  return (
-    // (as wide as its text, which keeps to a readable line: no empty band beside it)
-    <Dialog title={t('About olomol')} onClose={onClose} width="min(700px, calc(100vw - 32px))">
-      <div className="body about">
-        <p className="lead">{t('A free program for drawing chemical structures, reactions and reaction mechanisms.')}</p>
-        <p className="meta">
-          {t('Version {version}', { version: VERSION })}
-          {' · '}
-          <a href={WHATS_NEW} target="_blank" rel="noopener">{t("What's new")}</a>
-          {' · '}
-          {/* ?stay: this page all the same, though a kept link to it now opens the app */}
-          <a href={ABOUT_PAGE} target="_blank" rel="noopener" data-testid="about-page">{t('What olomol does, with videos')}</a>
-        </p>
-        <HowToCite />
-        <h3>{t('Your drawings stay with you')}</h3>
-        <p>{t('olomol runs entirely in your browser and works offline once opened. Drawings stay on your computer; only a name or a molecule you look up on PubChem is sent there. Chrome and Edge can install it as an app.')}</p>
-        <h3>{t('Licence')}</h3>
-        <p>
-          {t('olomol is free to use under the {licence}. The code was written with substantial help from Claude (Anthropic).', {
-            licence: <a href="LICENSE.txt" target="_blank" rel="noreferrer" data-testid="licence">{t('MIT License')}</a>,
-          })}
-        </p>
-        <h3>{t('Built on')}</h3>
-        <ul className="credits">
-          {credits.map(([name, what, licence], k) => <li key={k}>{name}: {what} <span className="small">({licence})</span></li>)}
-        </ul>
-        <p className="small">
-          {t('All licence texts: {licences}', { licences: <a href="THIRD_PARTY_LICENSES/README.md" target="_blank" rel="noreferrer">THIRD_PARTY_LICENSES</a> })}
-          {onShortcuts && <>{' · '}<button type="button" className="link" onClick={onShortcuts}>{t('Keyboard shortcuts')}</button></>}
-        </p>
-      </div>
-    </Dialog>
-  );
-}
-
-// Reporting a problem or an idea: nothing is sent from here. A table of
+// Reporting a problem: nothing is sent from here. A table of
 // what helps to know (version, browser, system, the drawing as a link),
 // a button that copies it, and one that starts an e-mail to paste it into.
 export function Report({ editor, onClose }) {
@@ -208,7 +118,7 @@ export function Report({ editor, onClose }) {
     }
   };
   return (
-    <Dialog title={t('Report a problem or an idea')} onClose={onClose} width="min(640px, calc(100vw - 32px))">
+    <Dialog title={t('Report a problem')} onClose={onClose} width="min(640px, calc(100vw - 32px))">
       <div className="body report">
         <p>
           {t('Write an e-mail to {address}: what you did, what happened and what you expected. A screenshot helps too.', {
@@ -241,6 +151,9 @@ export function Report({ editor, onClose }) {
           </a>
         </div>
         <p className="small">{t('Nothing is sent from here: you see the e-mail before you send it.')}</p>
+        <p className="small" data-testid="report-contact">
+          {t('Ideas and questions: {address}', { address: <a href={`mailto:${CONTACT_ADDRESS}?subject=olomol`}>{CONTACT_ADDRESS}</a> })}
+        </p>
       </div>
     </Dialog>
   );

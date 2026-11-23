@@ -318,6 +318,204 @@ test('Haworth and Fischer templates have the stereo of their sugars and amino ac
   assert.equal(byHand('D-Glyceraldehyde, Fischer'), flat(expected['D-Glyceraldehyde, Fischer']), 'one crossing by hand: no stereo');
 });
 
+test('A Fischer projection drawn by hand is read only when said so, and stops being one when it is no longer a cross', async () => {
+  const { PROJECTIONS } = await import('../src/chem/projections.js');
+  const { keepFischer, readAsFischer } = await import('../src/chem/fischer.js');
+  const { writeMolfile } = await import('../src/io/molfile.js');
+  const smiles = (doc) => {
+    const mol = RDKit.get_mol(writeMolfile(doc).molfile, JSON.stringify({ removeHs: true }));
+    try {
+      return mol.get_smiles();
+    } finally {
+      mol.delete();
+    }
+  };
+  const canonical = (s) => {
+    const mol = RDKit.get_mol(s);
+    try {
+      return mol.get_smiles();
+    } finally {
+      mol.delete();
+    }
+  };
+  // (the templates as they are, their centres marked: the stereo to get; CHO and CH2OH stay labels, *)
+  const template = (name) => smiles(PROJECTIONS.find(([n]) => n === name)[1]());
+  const glucose = template('D-Glucose, Fischer');
+  assert.match(glucose, /@.*@.*@.*@/);
+  const byHand = (name, turn = 0) => {
+    const doc = PROJECTIONS.find(([n]) => n === name)[1]();
+    const [c, s] = [Math.cos((turn * Math.PI) / 180), Math.sin((turn * Math.PI) / 180)];
+    for (const atom of doc.atoms.values()) {
+      delete atom.projection;
+      [atom.x, atom.y] = [c * atom.x - s * atom.y, s * atom.x + c * atom.y];
+    }
+    return doc;
+  };
+  const centres = (doc) => [...doc.atoms.values()].filter((a) => a.projection === 'fischer').map((a) => a.id);
+
+  // said so: read; a little askew too
+  const doc = byHand('D-Glucose, Fischer');
+  assert.equal(smiles(doc), canonical(glucose.replace(/@/g, '')), 'a drawing until said');
+  assert.deepEqual(readAsFischer(doc, [...doc.atoms.keys()], true), { changed: 4, sideways: 0 });
+  assert.equal(smiles(doc), glucose);
+  const askew = byHand('D-Glucose, Fischer', 8);
+  readAsFischer(askew, [...askew.atoms.keys()], true);
+  assert.equal(smiles(askew), glucose, '8° askew');
+  // one crossing, said so: read (D-glyceraldehyde)
+  const one = byHand('D-Glyceraldehyde, Fischer');
+  readAsFischer(one, [...one.atoms.keys()], true);
+  assert.equal(smiles(one), template('D-Glyceraldehyde, Fischer'));
+  // a chain on its side: refused
+  const side = byHand('D-Glucose, Fischer', 90);
+  assert.deepEqual(readAsFischer(side, [...side.atoms.keys()], true), { changed: 0, sideways: 4 });
+
+  // kept while it stays a cross; a crossing drawn onto the chain becomes a centre
+  keepFischer(doc);
+  const [top, , , bottom] = centres(doc).sort((p, q) => doc.atoms.get(p).y - doc.atoms.get(q).y);
+  delete doc.atoms.get(bottom).projection;
+  assert.deepEqual(keepFischer(doc), { dropped: 0, grown: 1 });
+  // a bond bent 30° off: that centre goes, the rest stay
+  const h = [...doc.bonds.values()].filter((b) => b.a === top || b.b === top).map((b) => doc.atoms.get(b.a === top ? b.b : b.a)).find((a) => a.y === doc.atoms.get(top).y && a.el === 'H');
+  const t0 = doc.atoms.get(top);
+  [h.x, h.y] = [t0.x + Math.sign(h.x - t0.x) * Math.cos(Math.PI / 6), t0.y - Math.sin(Math.PI / 6)];
+  assert.deepEqual(keepFischer(doc), { dropped: 1, grown: 0 });
+  assert.equal(centres(doc).length, 3);
+  // turned by 90°: still crosses, but what was above and below is now left and right: all go
+  for (const atom of doc.atoms.values()) [atom.x, atom.y] = [-atom.y, atom.x];
+  assert.deepEqual(keepFischer(doc), { dropped: 3, grown: 0 });
+  // turned by 180°: still a Fischer projection
+  const upside = byHand('D-Glucose, Fischer');
+  readAsFischer(upside, [...upside.atoms.keys()], true);
+  keepFischer(upside);
+  for (const atom of upside.atoms.values()) [atom.x, atom.y] = [-atom.x, -atom.y];
+  assert.deepEqual(keepFischer(upside), { dropped: 0, grown: 0 });
+  assert.equal(smiles(upside), glucose);
+  // off: one atom chosen, the whole chain a drawing again
+  readAsFischer(upside, [centres(upside)[0]], false);
+  assert.equal(centres(upside).length, 0);
+});
+
+test('A molecule drawn with wedges drawn as its Fischer projection: C1 at the top, each group on its side, the same stereoisomer', async () => {
+  const { toFischer } = await import('../src/chem/chains.js');
+  const fromSmiles = (smiles) => {
+    const mol = RDKit.get_mol(smiles);
+    mol.set_new_coords();
+    const doc = readMolfile(mol.get_molblock()).doc;
+    mol.delete();
+    return doc;
+  };
+  // the side of each centre's heavy group, top to bottom ('→' right)
+  const sides = (made) => made.centres.map((id) => made.doc.atoms.get(id)).sort((p, q) => p.y - q.y).map((c) => {
+    const near = [...made.doc.bonds.values()].filter((b) => b.a === c.id || b.b === c.id).map((b) => made.doc.atoms.get(b.a === c.id ? b.b : b.a));
+    const group = near.find((a) => a.el !== 'H' && Math.abs(a.y - c.y) < 1e-6);
+    return `${group.el}${group.x > c.x ? '→' : '←'}`;
+  }).join(' ');
+  const cases = {
+    'O=C[C@H](O)[C@@H](O)[C@H](O)[C@H](O)CO': 'O→ O← O→ O→', // D-glucose
+    'OC(=O)[C@H](O)[C@H](O)C(=O)O': 'O→ O→', // meso-tartaric acid: both on one side
+    'C[C@@H](O)[C@H](N)C(=O)O': 'N← O→', // L-threonine
+    'C[C@H](N)C(=O)O': 'N←', // L-alanine
+    // a stereocentre at an end of the main chain: the vertical line on through its phenyl, above
+    'C[C@H](NC)[C@H](O)c1ccccc1': 'O← N←', // (−)-ephedrine, (1R,2S)
+    'C[C@H](NC)[C@@H](O)c1ccccc1': 'O→ N←', // (+)-pseudoephedrine, (1S,2S)
+    'O[C@@H](c1ccccc1)C(=O)O': 'O←', // (S)-mandelic acid: two carbons, CO2H above, the phenyl below
+  };
+  for (const [smiles, want] of Object.entries(cases)) {
+    const doc = fromSmiles(smiles);
+    const made = await toFischer(RDKit, doc, [...doc.atoms.keys()][0]);
+    assert.ok(!made.error, `${smiles}: ${made.error}`);
+    assert.equal(sides(made), want, smiles);
+    assert.ok(made.centres.every((id) => made.doc.atoms.get(id).projection === 'fischer'));
+  }
+  // CHO written as a label (one atom, which IUPAC's chain leaves out), the hydrogens drawn with their wedges
+  const drawnHs = (smiles) => {
+    const mol = RDKit.get_mol(smiles);
+    const withHs = RDKit.get_mol(mol.add_hs());
+    mol.delete();
+    withHs.set_new_coords();
+    const doc = readMolfile(withHs.get_molblock()).doc;
+    withHs.delete();
+    return doc;
+  };
+  const labelled = drawnHs('O=C[C@H](O)[C@@H](O)[C@H](O)[C@H](O)CO');
+  const c1 = [...labelled.bonds.values()].find((b) => b.order === 2);
+  const [c, o] = labelled.atoms.get(c1.a).el === 'C' ? [c1.a, c1.b] : [c1.b, c1.a];
+  for (const [id, b] of labelled.bonds) {
+    const other = b.a === c ? b.b : b.b === c ? b.a : null;
+    if (b.a === o || b.b === o || (other != null && labelled.atoms.get(other).el === 'H')) {
+      if (other != null && labelled.atoms.get(other).el === 'H') labelled.atoms.delete(other);
+      labelled.bonds.delete(id);
+    }
+  }
+  labelled.atoms.delete(o);
+  Object.assign(labelled.atoms.get(c), { el: '*', alias: 'CHO', hSide: 'left' });
+  const fromLabel = await toFischer(RDKit, labelled, c);
+  assert.ok(!fromLabel.error, `CHO as a label: ${fromLabel.error}`);
+  assert.equal(sides(fromLabel), 'O→ O← O→ O→', 'CHO as a label, H drawn');
+  const top = [...fromLabel.doc.atoms.values()].filter((a) => fromLabel.atoms.includes(a.id)).sort((p, q) => p.y - q.y)[0];
+  assert.equal(top.alias, 'CHO');
+  assert.equal(top.hSide, undefined);
+  const refused = async (smiles) => {
+    const doc = fromSmiles(smiles);
+    return (await toFischer(RDKit, doc, [...doc.atoms.keys()][0])).error;
+  };
+  assert.equal(await refused('OCC(O)C=O'), 'none');
+  assert.equal(await refused('NCC(=O)O'), 'achiral', 'glycine: no stereocentre at all, not one without its wedge');
+  assert.equal(await refused('OC[C@@H](O)C(O)C=O'), 'open');
+  assert.equal(await refused('O[C@H]1CCCC[C@@H]1C'), 'ring');
+});
+
+test('A molecule\'s main chain drawn as a zigzag: the same stereoisomer, wedges where it needs them; a Fischer projection too', async () => {
+  const { toZigzag } = await import('../src/chem/chains.js');
+  const { PROJECTIONS } = await import('../src/chem/projections.js');
+  const { writeMolfile } = await import('../src/io/molfile.js');
+  const fromSmiles = (smiles) => {
+    const mol = RDKit.get_mol(smiles);
+    mol.set_new_coords();
+    const doc = readMolfile(mol.get_molblock()).doc;
+    mol.delete();
+    return doc;
+  };
+  const smilesOf = (doc, ids) => {
+    const mol = RDKit.get_mol(writeMolfile(doc, ids).molfile);
+    try {
+      return mol.get_smiles();
+    } finally {
+      mol.delete();
+    }
+  };
+  const wedges = (made) => [...made.doc.bonds.values()].filter((b) => b.stereo === 'wedge' || b.stereo === 'hash').length;
+  for (const [smiles, n] of [['O=C[C@H](O)[C@@H](O)[C@H](O)[C@H](O)CO', 4], ['CC(C)Cc1ccc(cc1)[C@@H](C)C(=O)O', 1], ['CCCC(CC)C(C)C', 0], ['OC/C=C/CCC', 0], ['C[C@H](NC)[C@H](O)c1ccccc1', 2]]) { // (ephedrine: C1, at the chain's end, one wedge)
+    const doc = fromSmiles(smiles);
+    const made = await toZigzag(RDKit, doc, [...doc.atoms.keys()][1]);
+    assert.ok(!made.error, `${smiles}: ${made.error}`);
+    assert.equal(smilesOf(made.doc, made.atoms), smilesOf(doc, [...doc.atoms.keys()]), smiles);
+    assert.equal(wedges(made), n, `${smiles}: wedges`);
+  }
+  // drawn where it was: the atoms' average place the same (a zigzag clicked again stays put)
+  const middle = (doc, ids) => [0, 1].map((k) => ids.reduce((sum, id) => sum + (k ? doc.atoms.get(id).y : doc.atoms.get(id).x), 0) / ids.length);
+  const zig = fromSmiles('CC(C)C[C@@H](C)O');
+  const once = await toZigzag(RDKit, zig, [...zig.atoms.keys()][1]);
+  const twice = await toZigzag(RDKit, once.doc, once.atoms[0]);
+  for (const made of [once, twice]) middle(made.doc, made.atoms).forEach((v, k) => assert.ok(Math.abs(v - middle(zig, [...zig.atoms.keys()])[k]) < 1e-6, 'in place'));
+  for (const id of once.atoms) assert.ok(Math.hypot(once.doc.atoms.get(id).x - twice.doc.atoms.get(id).x, once.doc.atoms.get(id).y - twice.doc.atoms.get(id).y) < 1e-6, 'a zigzag clicked again: the same');
+  // the templates' Fischer projections (CHO and CH2OH as labels; glyceraldehyde's one carbon between them)
+  for (const name of ['D-Glyceraldehyde, Fischer', 'D-Glucose, Fischer', 'L-Alanine, Fischer']) {
+    const doc = PROJECTIONS.find(([n]) => n === name)[1]();
+    const made = await toZigzag(RDKit, doc, [...doc.atoms.keys()][1]);
+    assert.ok(!made.error, `${name}: ${made.error}`);
+    assert.ok(![...made.doc.atoms.values()].some((a) => a.projection), `${name}: no Fischer projection left`);
+    // (C1 on the left: CHO or CO2H left of the other end)
+    const ends = [...made.doc.atoms.values()].filter((a) => made.atoms.includes(a.id) && a.alias).sort((p, q) => p.x - q.x);
+    assert.ok(['CHO', 'CO2H'].includes(ends[0].alias), `${name}: ${ends.map((a) => a.alias).join(' … ')}`);
+  }
+  // refused: a Z double bond in the chain (a zigzag draws it E), a ring
+  const z = fromSmiles('OC/C=C\\CCC');
+  assert.equal((await toZigzag(RDKit, z, [...z.atoms.keys()][1])).error, 'stereo');
+  const ring = fromSmiles('C1CCCCC1');
+  assert.equal((await toZigzag(RDKit, ring, [...ring.atoms.keys()][0])).error, 'ring');
+});
+
 test('Draw out keeps a label\'s highlight on its group, and the bond\'s on the bond', async () => {
   const { ABBREVIATIONS } = await import('../src/chem/abbreviations.js');
   const { drawOutWith } = await import('../src/editor/groups.js');

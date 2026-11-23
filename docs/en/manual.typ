@@ -49,7 +49,7 @@ The first visit takes a little longer, and a bar shows how much is left. The che
 #v(0.3em)
 #grid(columns: (1fr, 1fr), gutter: 16pt,
   legenda(
-    (1, [*Top bar*, in groups: the drawing's name and #ui[Autosaved], new drawing #ik("newDoc"), open #ik("open"), save #ik("save"), #ui[Export] | undo and redo #ik("undo") #ik("redo") | #ui[Redraw], #ui[Turn in 3D] #ik("turn3d") | #ui[Align], flips #ik("flipH") #ik("flipV") #ik("flipBond"), #ui[Horizontal / vertical] #ik("snap") | ring flip and turning a chair #ik("ringFlip") #ik("chairTurn") | zoom, #ik("fit") and #ui[Show] #ik("present"). In a narrow window, the groups that don't fit go under #ik("more") at the end of the bar. With two drawings or more, the tabs are under it (@karty).]),
+    (1, [*Top bar*, in groups: the drawing's name and #ui[Autosaved], new drawing #ik("newDoc"), open #ik("open"), save #ik("save"), #ui[Export] | undo and redo #ik("undo") #ik("redo") | #ui[Redraw], #ui[Turn in 3D] #ik("turn3d") | #ui[Align], flips #ik("flipH") #ik("flipV") #ik("flipBond"), #ui[Horizontal / vertical] #ik("snap") | the projections #ik("ringFlip"): ring flip, turning a chair, Fischer projection and zigzag (@fischer) | zoom, #ik("fit") and #ui[Show] #ik("present"). In a narrow window, the groups that don't fit go under #ik("more") at the end of the bar. With two drawings or more, the tabs are under it (@karty).]),
     (2, [*Drawing tools.* A small triangle in a button's corner means it has more variants: rest the pointer on the button, click the triangle, or click the chosen tool again. At the bottom, #ik("objects") opens the #ui[Objects] panel (@objekty).]),
     (3, [*Bottom bar*: elements, the periodic table #ik("table"), rings, #ui[Templates] and the *search bar* (@nazev).]),
   ),
@@ -79,7 +79,7 @@ The round button #ik("napoveda") at the bottom right opens *Help*, the quickest 
 
 Above the tags, #ui[Examples in action] opens the about page in a new tab, with five short videos of olomol at work: a mechanism, a reaction scheme, a molecule built in steps and partly redrawn, a complex turned in 3D, and a Haworth projection of glucose made a chair, flipped and turned in 3D.
 
-The header of the Help window has the #ui[Quick start] (PDF), this #ui[Manual] on the web and, beside it, #ui[PDF] for printing (the Czech ones when the program is in Czech), #ui[What's new] with the changes in each version, #ui[Keyboard shortcuts], #ui[Report a problem or an idea] (@problemy, also the bug #ik("debug") at the top right) and #ui[About], with the credits and licences. What's new and About are also under the version in the bottom left corner.
+The header of the Help window has the #ui[Quick start] (PDF), this #ui[Manual] on the web and, beside it, #ui[PDF] for printing (the Czech ones when the program is in Czech), #ui[What's new] with the changes in each version, #ui[Keyboard shortcuts], #ui[Report a problem] (@problemy, also the bug #ik("debug") at the top right) and #ui[About], the about page with how to cite olomol, the credits and licences. What's new and About are also under the version in the bottom left corner; both open in a new tab.
 
 == The drawing saves itself <ulozeni>
 
@@ -126,7 +126,7 @@ Everything starts with the single bond #ik("single"), which is already chosen wh
 
 == Chains and rings
 
-The chain tool #ik("chain") (#kl[Z]) draws a zigzag chain: drag from an atom or from the canvas. While you drag, it shows how many bonds it adds; with #kl[Shift] the zigzag starts the other way.
+The chain tool #ik("chain") (#kl[Z]) draws a zigzag chain: drag from an atom or from the canvas. While you drag, it shows how many atoms it adds (from the canvas, the one it starts from too); with #kl[Shift] the zigzag starts the other way.
 
 *Rings* are in the bottom bar (benzene and 3- to 8-membered rings) and among the variants of the ring tool on the left. Before you click, a see-through preview shows what will happen:
 
@@ -372,7 +372,7 @@ Type part of a name into #ui[Search…], in English or Czech (`acid`, `glucose`,
 
   You can also draw a chair by hand with the bond tool: it is recognised by the shape every chair has, even if it isn't exactly the template's. Its opposite edges are parallel and two opposite corners point inwards (a zigzag). A regular hexagon, a Haworth ring and a boat don't have this shape. A ring with blunt tips, where you can't tell which chair it shows, isn't taken for a chair. When you point at a recognised chair or drag one of its atoms, the whole ring lights up in green-teal instead of the usual blue; the drawing itself doesn't change. Stereochemistry, #ui[Turn in 3D] and the ring flip work on a recognised chair. #ui[Ring flip] #ik("ringFlip") turns a chair into the other chair (@preklopeni).
 - *Newman projections* of ethane, butane and cyclohexane are molecules seen along a bond: the front carbon is the point in the middle, the back carbon the circle, and every group round them is an ordinary atom. Curved arrows, charges, lone pairs and R/S work on them as on any molecule: an E2 on cyclohexane, seen along C1–C2 and C5–C4 with the axial bonds straight up and down, is drawn with an arrow from the axial C–H to the bond seen end on (point between the middle and the circle) and one from C–Br to Br. A click right in the middle picks the front carbon, a click on the circle the back one. With a carbon of the projection selected, the #ui[Newman projection] panel rewrites the groups (#ui[Front], #ui[Back]: H, CH3, OH, Cl, Ph…), sets the #ui[Dihedral] (#ui[0°] eclipsed (syn), #ui[60°] gauche, #ui[120°] eclipsed, #ui[180°] anti) and turns the back carbon with #ui[Turn the back 60°]; in cyclohexane the ring groups stay and the back can't turn on its own. Files and SMILES get the stereoisomer the projection shows; molfile, CDXML and the other formats for other programs get it drawn plainly with wedges. #ui[Redraw] makes an ordinary drawing of it, and drawings from older versions open as molecules.
-- *Haworth and Fischer projections* (glucose, galactose, ribose, glyceraldehyde, alanine, serine…) carry stereochemistry, which is written to files as wedges.
+- *Haworth and Fischer projections* from the templates (glucose, galactose, ribose, glyceraldehyde, alanine, serine…) carry stereochemistry, which is written to files as wedges. A Fischer projection can also be made from any open chain drawn with wedges, or drawn by hand and read as one with a click (@fischer).
 
 #obr("img/newman-e2.svg", sirka: 28%, popis: [An E2 on cyclohexane seen along C1–C2 and C5–C4: the Br and the H taken are trans-diaxial])
 
@@ -534,7 +534,7 @@ Sometimes a molecule reads best from one particular side. Select one molecule an
 - *Drag* to turn it, or with #kl[Shift] to turn it in the plane of the page.
 - The *arrow keys* turn it in small steps, with #kl[Shift] in the plane of the page.
 - #ui[Clearest view] goes back to the view the program found best, which is also where it starts.
-- #ui[Stick model] (#kl[S]) shows the model itself instead of the drawing, turned the same way: its true bond lengths and angles, with every hydrogen. Groups written as shorthands are drawn out (see below). It has the drawing's colours and highlights of atoms and bonds too. #ui[Small hydrogens] (#kl[H]) draws the hydrogens the model adds small and close to their atoms, so that the skeleton stands out; those you drew as atoms stay as they are. It doesn't go onto the canvas: instead of #ui[Use this view] there is #ui[Save picture] (PNG, with SVG beside it), for notes next to the drawing, say, and #kl[Esc] closes the window with your drawing as it was.
+- #ui[Stick model] (#kl[S]) shows the model itself instead of the drawing, turned the same way: its true bond lengths and angles, with every hydrogen. Groups written as shorthands are drawn out (see below). It has the drawing's colours and highlights of atoms and bonds too. The column beside it sets how it is shown: #ui[Ball and stick], #ui[Sticks] or #ui[Space-filling] (each atom as large as its van der Waals radius); hydrogens #ui[all], #ui[small] (those the model adds small and close to their atoms, so that the skeleton stands out; those you drew stay as they are) or #ui[none] (only those you drew), in turn with #kl[H]; and the back paler or not. Instead of #ui[Use this view] there are #ui[Put on canvas], which puts the model itself beside its molecule (@modely), and #ui[Save picture] (PNG, with SVG beside it). #kl[Esc] closes the window with your drawing as it was.
 - #ui[Use this view] puts the drawing on the canvas. #kl[Ctrl+Z] undoes it. The paler back is only a help in this window; on the canvas you get an ordinary drawing.
 
 #figure(
@@ -568,6 +568,23 @@ The wedges are chosen so that R/S and E/Z stay as you drew them, and the 3D mode
   [Complexes work too. The whole complex is optimised by a force field (UFF), so each ligand keeps its proper shape, chelating ligands such as EDTA wrap round the metal and porphyrins stay flat, and where two bonds cross, the one behind is broken. If the program has no 3D model for a molecule, it tells you why.],
   obr("img/otoceni-edta.png", popis: [EDTA round Ca#super[2+], built from a flat drawing]),
 )
+
+== 3D models on the canvas <modely>
+
+A molecule's 3D model can stand in the drawing beside it, as a picture that is still a model: in #ui[Turn in 3D], switch to #ui[Stick model] (#kl[S]), turn it as you want it and click #ui[Put on canvas]. The model goes to the right of its molecule, selected; #kl[Ctrl+Z] takes it away again. It has its molecule's colours and highlights, read from the drawing, so a group highlighted in the formula is highlighted in the model too.
+
+#obr("img/model-platno.png", sirka: 100%, popis: [Ibuprofen and its 3D model on the canvas, the model selected and its panel on the right])
+
+With a model selected, the panel on the right shows it another way:
+
+- #ui[Style]: #ui[Ball and stick], #ui[Sticks] or #ui[Space-filling];
+- #ui[Hydrogens]: #ui[all], #ui[small] or #ui[none] (only those you drew), and #ui[Labels] #ui[drawn out] or #ui[as balls] for a molecule with shorthands (Ph, OAc);
+- #ui[Depth]: #ui[back paler] or #ui[even], and #ui[Size] from ½ to 2 (#ui[1]: a bond as long as in the drawing);
+- three sliders turn it, #ui[Left–right], #ui[Back–forward] and #ui[In the page], each from −180° to 180° from where it was when you selected it; #ui[Turn in 3D…] opens the window on the model, where #ui[Apply] keeps the turn and the look.
+
+*When its molecule changes* (an atom, a charge, a bond, a wedge, or the conformation drawn, such as a chair flipped), the model stays as it was built, with a dashed frame round it, and the panel says #ui[Its molecule has changed since: the model is as it was.] #ui[Update] builds it again from the molecule as it is now, seen from the same side as before. Moving the molecule or colouring it doesn't make the model out of date.
+
+A model is part of the drawing like anything else: it is selected, moved, copied (with its molecule, the copy has its own model), grouped, aligned, flipped and turned with the rest, and it is listed in the #ui[Objects] panel (@objekty). It is in pictures and PDFs as you see it. Only olomol's own files (.olom) and links keep it as a model; the other formats leave it out and say so.
 
 == Redrawing only a part <casti>
 
@@ -613,7 +630,7 @@ Below, #ui[Whole molecules] offers the usual drawings of the whole thing, should
 
 - #ik("flipH") and #ik("flipV") in the top bar flip the selection, or with nothing selected the whole drawing. Wedges are swapped, so the molecule stays the same (R stays R).
 - *Flip over a bond* #ik("flipBond"): select part of a molecule, click the button, then click a bond. The selected part turns about the bond as an axis; with nothing selected, the smaller side does. The preview washes out what turns and shows in blue where it goes; #kl[Esc] cancels. R/S is kept.
-- *Ring flip* #ik("ringFlip") turns a chair into the other chair, axial ⇄ equatorial: click the button, then the chair (inside its ring or on one of its bonds). Each group stays on its face of the ring (up or down), so an axial group pointing up becomes an equatorial one pointing up, and cis and trans, R/S and D or L are kept: β-D-glucose, all equatorial, becomes the all-axial chair and is still β-D-glucose. Every ring atom stays where it was (left, right, back or front), so the class sees the same carbon go from axial to equatorial; a group such as CH#sub[2]OH or phenyl turns as a whole. The preview shows the other chair in blue. The flip is animated through a boat (one tip drops, then the other rises); #ui[Settings] → #ui[Animations] turns that off. #kl[Shift]+click puts the other chair beside the first, with an equilibrium arrow between them: the picture for a handout. Another click flips the chair back; #kl[Esc] ends.
+- *Ring flip* #ik("ringFlip") turns a chair into the other chair, axial ⇄ equatorial: choose it under the projections button in the top bar (@fischer), then click the chair (inside its ring or on one of its bonds). Each group stays on its face of the ring (up or down), so an axial group pointing up becomes an equatorial one pointing up, and cis and trans, R/S and D or L are kept: β-D-glucose, all equatorial, becomes the all-axial chair and is still β-D-glucose. Every ring atom stays where it was (left, right, back or front), so the class sees the same carbon go from axial to equatorial; a group such as CH#sub[2]OH or phenyl turns as a whole. The preview shows the other chair in blue. The flip is animated through a boat (one tip drops, then the other rises); #ui[Settings] → #ui[Animations] turns that off. #kl[Shift]+click puts the other chair beside the first, with an equilibrium arrow between them: the picture for a handout. Another click flips the chair back; #kl[Esc] ends.
 
   A chair from the templates (#ui[Templates] → #ui[Conformations and projections], turned, enlarged, mirrored or with groups added) flips, and so does one drawn by hand if it is recognised (it turns green-teal under the pointer). The flipped chair is drawn in the template's shape. A flat six-membered ring, a hexagon or a Haworth projection, becomes a chair: pointed at, it turns green-teal with the chair see-through over it, and a click draws it. Each group goes axial or equatorial by its face, from its wedge or hashed wedge (a Haworth's group up or down), so the molecule stays the same. It is always the templates' chair, its left tip raised (a sugar ⁴C#sub[1], β-D-glucose all equatorial); the ring flip gives the other one. A group whose side the drawing doesn't say goes equatorial, with a wavy bond where it sits on a stereocentre. A ring with a double bond (a cyclohexene) and fused or bridged rings (decalins, steroids) are refused with a message.
 
@@ -626,6 +643,18 @@ Below, #ui[Whole molecules] offers the usual drawings of the whole thing, should
   #obr("img/newman-preklopeni.svg", sirka: 62%, popis: [Cyclohexane in a Newman projection flipped, with #kl[Shift]+click beside the first: the trans-diaxial Br and Cl are now diequatorial])
 - *Turn a chair* #ik("chairTurn") turns a chair a third of the way round its axis, anticlockwise (with #kl[Shift] clockwise): each ring atom moves two corners on with its groups, which stay axial or equatorial, up or down. It is the same molecule in the same conformation, only seen turned; three turns bring it back. When a flat ring becomes a chair with its atoms on other corners than you wanted, turn it until they are where you want them; the ring flip gives the other conformation.
 - #ui[Horizontal / vertical] #ik("snap") makes a bond straight. Click the button, then the bond: the selection turns if the bond is in it, otherwise the whole molecule. Another click on the bond turns it a quarter further. With one bond selected, its molecule turns as soon as you press the button.
+
+== Fischer projections and zigzags <fischer>
+
+The projections button in the top bar holds four tools: #ui[Ring flip] #ik("ringFlip"), #ui[Turn a chair] #ik("chairTurn"), #ui[Fischer projection] #ik("fischer") and #ui[Zigzag] #ik("zigzag"). It shows the one used last: a click picks it, and a click on the button again, on its corner or with the right mouse button opens the list.
+
+- *From wedges to a Fischer projection.* Choose #ui[Fischer projection] and click a molecule drawn with wedges: it is drawn as its Fischer projection. The main chain (the IUPAC one, C1 at the top) runs straight down, each stereocentre is a crossing with its horizontal bonds towards you and its vertical ones away, and the groups at the ends are written as CHO, CH#sub[2]OH, CO#sub[2]H, CO#sub[2]Me, CN or CH#sub[3]. A stereocentre at an end of the main chain is a crossing too: the vertical line goes on through its largest carbon group, as books draw ephedrine with its phenyl on top. While you point at the molecule, its projection shows see-through over it.
+- *To a zigzag.* #ui[Zigzag] draws the main chain of the molecule you click, a Fischer projection too, as a zigzag: C1 on the left, each group pointing out from its corner, with the wedges that keep each R/S.
+- *A Fischer projection drawn by hand.* Draw the chain straight down with the bond tool, each stereocentre a carbon with four single bonds: one to the left, one to the right, one up and one down (each within 15°). As drawn, it is only a drawing: olomol reads no stereochemistry into crossings by their shape. Click the chain with #ui[Fischer projection], and it is read as a Fischer projection, horizontal bonds towards you and vertical ones away, so SMILES, InChI, #ui[Info], R/S and files get the stereoisomer it shows. When you point at it, its spine lights up green, paler while a click would read it. Click it again and it is plain lines again, with no stereochemistry. While it is read, the note above it says so, and the atom you point at lights up blue as anywhere else. A crossing you add straight above or below joins it; one that is no longer a crossing, or a chain turned on its side, stops being read, and the program says so.
+
+Each conversion keeps every stereocentre's R/S and is checked: a result that would be another stereoisomer is not drawn, and the program says why. It also says why when there is nothing it can do: a stereocentre without a wedge, a main chain that is a ring (proline, a sugar in its ring form), a molecule without a stereocentre (glycine), a double bond in the chain or a carbon in it with more than two groups.
+
+#obr("img/fischer-cikcak.svg", sirka: 100%, ramecek: false, popis: [D-glucose drawn with wedges, as its Fischer projection (#ui[Fischer projection]) and as a zigzag again (#ui[Zigzag]): the same stereoisomer each time])
 
 = Atom numbering and the Info card <cislovani>
 
@@ -697,7 +726,7 @@ When #ui[Atom colours] in #ui[Settings] is set to #ui[Black], the elements are d
   [
     *Highlighting* is a soft coloured background behind atoms and bonds, as RDKit draws it. It marks a group, a reaction centre or the common part of several molecules.
 
-    Use the highlighter #ik("zvyraznovac") at the very bottom left, with eight colours. Click atoms and bonds or box them; a second click takes the highlight off. The panel does the same under #ui[Highlight], and here too the rainbow circle offers more light colours.
+    Use the highlighter #ik("zvyraznovac") at the very bottom left, with eight colours. Click atoms and bonds or box them; a second click takes the highlight off. The panel does the same under #ui[Highlight], and here too the rainbow circle offers more light colours. Below the colours, #ui[Pattern] makes a highlight #ui[hatched], #ui[lines] or #ui[dots], each in its own colour, so that highlights are told apart without colour too: in black and white, or by colour-blind readers.
 
     *A click inside a ring fills it* with colour. Round written atoms (O, N, CH#sub[2]) a round cut-out remains, so the colour does not cover the letters.
 
@@ -807,6 +836,16 @@ SVG is the sharpest in print: Word and PowerPoint insert it (Insert → Pictures
 #ui[Export] → #ui[Copy link] makes a link that *holds the whole drawing*, after the \# sign, which the browser does not send to the server. Whoever opens it sees your drawing, and their own comes back with #kl[Ctrl+Z]. Some chat programs cut long links short; if that happens, send the .olom file.
 
 *A link with a structure.* A link can also say which structure to draw, written by hand, in a worksheet or by a chatbot: `olomol.org/#smiles=CCO` draws ethanol, `#name=caffeine` looks the name up in PubChem, and `#inchi=…` and `#cid=2244` work too. `&title=…` names the drawing, and several structures open each in a tab of its own, in order: `#title=Exercise&smiles=C=CC.Br&title=Solution&smiles=CC(Br)C` is an exercise with its solution behind it, ready for #ui[Show]. A reaction SMILES (reactants`>`reagents`>`products) is drawn as a reaction. The installed app has no address bar: paste such a link into the search bar (@nazev). Chatbots learn how to write these links from `olomol.org/llms.txt`.
+
+== olomol in your own page <vlozeni>
+
+olomol can be put into a web page of your own, a course page, a blog or a practice site, with only the tools you choose: `olomol.org/embed.html?only=curved-arrows#smiles=CC(=O)O.OCC` is an editor with only curved arrows, on acetic acid and ethanol. The address names the parts switched on (`only=`) or off (`off=`), the drawing after the \# as in a link, and `readonly` for a drawing only to look at. Whatever is switched off is refused, however it is asked for. Such an editor has no tabs, files, help or settings, and keeps nothing in the browser.
+
+#ui[Export] → #ui[Embed in a page…] writes this for you in three steps. First what the editor can do: #ui[Curved arrows], #ui[Drawing structures], #ui[Everything] or #ui[Only to look at], or the parts one by one in their groups (pointed at, each says what it is); PubChem, under #ui[Outside olomol], is a choice of its own, because what is typed into it goes there. Then what it starts with: #ui[This drawing], #ui[The selection] or #ui[Empty], and the height. Last, copy the code. #ui[Without code] gives an iframe, which goes into any page that takes HTML, a Moodle page too: anyone can draw in it, but the page can't see what was drawn, so it suits a figure to turn and zoom, or practice whose answer is shown elsewhere. #ui[Try it] shows the editor right there, as the code puts it into a page, at its height and with its tools, and follows whatever you change.
+
+#obr("img/vlozeni.png", sirka: 80%, popis: [The address above in a page: only Select, Erase and the curved arrow, and an arrow drawn])
+
+For a page that reads what was drawn, `olomol.org/embed.js` gives an element, `<olomol-editor>`, and calls that return the drawing as data: the curved arrows by the atoms they start and end at, SMILES, InChI, a step written the same way however it is drawn (to compare an answer with the right one), which atoms were clicked. olomol hands over the data; whether an answer is right is the page's to decide. Everything is described in appendix B of the manual on the web, `olomol.org/manual.html#embedding`.
 
 = Settings and keyboard shortcuts <nastaveni>
 
@@ -968,6 +1007,7 @@ olomol is a testing version. This is what it cannot do yet, or can do only in pa
 - *A name from a structure* is something the program cannot make. The other way round, a structure from a name goes through PubChem, so it needs the internet and English names.
 - *IUPAC numbering* handles the parent chain and simple rings. Fused, bridged and spiro rings must be numbered by hand with the atom number tool #ik("atomNumber").
 - *Lone pairs, curved arrows, brackets, special bonds and colours* are carried only by olomol's own files (.olom), links and pictures, and mostly by KET, not by molfile or SMILES.
+- *3D models on the canvas* are kept as models only in .olom files and links; other formats leave them out (pictures and PDFs show them).
 - *Chairs* give stereochemistry only on their own, not fused or bridged; boats give none. #ui[Ring flip] and #ui[Turn a chair] refuse fused and bridged rings and rings with a double bond.
 - *Copying pictures to the clipboard* is not allowed by some browsers. The program tells you so; export a PNG instead.
 - *The drawings in the browser* live only in this browser on this computer and do not sync between computers. To carry them over, use .olom files or links.
@@ -975,7 +1015,7 @@ olomol is a testing version. This is what it cannot do yet, or can do only in pa
 
 == Problems and ideas <problemy>
 
-Every message is welcome, even about a small thing. Click the bug #ik("debug") at the top right (or #ui[Report a problem or an idea] in Help). A window opens with a table of what helps to find a fault: the program's version, the browser, the system, the window size and, if you leave #ui[With the drawing (a link that holds it whole, so I can see what you saw)] ticked, a link to the drawing.
+Every message is welcome, even about a small thing. Click the bug #ik("debug") at the top right (or #ui[Report a problem] in Help). A window opens with a table of what helps to find a fault: the program's version, the browser, the system, the window size and, if you leave #ui[With the drawing (a link that holds it whole, so I can see what you saw)] ticked, a link to the drawing.
 
 #obr("img/nahlaseni.png", sirka: 72%, popis: [The window for reporting a problem])
 
@@ -983,7 +1023,7 @@ Every message is welcome, even about a small thing. Click the bug #ik("debug") a
 + A link to a drawing is too long for an e-mail, so with the drawing, click #ui[Copy the table] and paste the table (#kl[Ctrl+V]) at the end of the e-mail.
 + A screenshot or the drawing's .olom file helps too.
 
-Nothing is sent from here: you see the e-mail and send it yourself. If no e-mail opens after the click (you use webmail only, say), write to the address by hand and paste the table all the same. The program's version is also at the bottom left and in #ui[About].
+Ideas and questions go to contact\@olomol.org (the window names it too). Nothing is sent from here: you see the e-mail and send it yourself. If no e-mail opens after the click (you use webmail only, say), write to the address by hand and paste the table all the same. The program's version is also at the bottom left.
 
 #show: prilohy
 
@@ -1049,7 +1089,7 @@ olomol is a *static web page*: HTML, JavaScript and WebAssembly, nothing more. I
 
 == Data and files <data-soubory>
 
-- *Its own format* is .olom, #strong[O]lomol #strong[L]ayout #strong[O]bject #strong[M]odel: the drawing as olomol holds it, in JSON (UTF-8), so any program, script or language model can read and write it. Coordinates are in bond lengths, references between objects go by id, defaults are left out. The format makes promises: every olomol opens every earlier .olom; a new minor version (1.0 → 1.1) only adds; what a reader doesn't know (a newer olomol's field, another program's `program:key`) it keeps and writes back unchanged. The full description is `docs/olom.md` in the source code.
+- *Its own format* is .olom, #strong[O]lomol #strong[L]ayout #strong[O]bject #strong[M]odel: the drawing as olomol holds it, in JSON (UTF-8), so any program, script or language model can read and write it. Coordinates are in bond lengths, references between objects go by id, defaults are left out. The format makes promises: every olomol opens every earlier .olom; a new minor version (1.0 → 1.1) only adds; what a reader doesn't know (a newer olomol's field, another program's `program:key`) it keeps and writes back unchanged. The full description is appendix C of the manual on the web, `olomol.org/manual.html#olom` (and `docs/olom.md` in the source code).
 - *KET*, the JSON of Ketcher, is written for Ketcher and Indigo (abbreviations as Ketcher's groups, projections as wedges) and read, as were olomol's own files before 0.5.0.
 - *Saving as you go:* each open drawing, its earlier versions and the recent files are in the browser's IndexedDB; the settings in `localStorage`.
 - *A link to a drawing:* the .olom, compressed (`deflate-raw`) and written in base64url after `#d=`. The browser does not send the part of an address after \# to the server, so a drawing in a link never passes through the server olomol is on.
@@ -1086,8 +1126,8 @@ The examples in the manual are real drawings of the program, not redrawn picture
 
 == Licence and credits
 
-olomol is free to use under the MIT License: it may be used, shared and changed, also in other programs, as long as the copyright and licence notice stays with it. The program uses *RDKit* (BSD-3-Clause, including the ring system templates © Schrödinger and its universal force field, UFF, ported to JavaScript), *Indigo* by EPAM Systems (Apache 2.0), *megane-rdkit* (BSD-3-Clause; RDKit's 3D structures as WebAssembly), *OpenChemLib* (BSD-3-Clause) and *React* (MIT). KET is the format of *Ketcher* (EPAM Systems, Apache 2.0); no Ketcher code is in the program. Compound data on request come from *PubChem* (National Library of Medicine, USA). All licence texts open from the #ui[About olomol] window (#ui[About] under the version at the bottom left). The code was written with substantial help from Claude, a model by Anthropic.
+olomol is free to use under the MIT License: it may be used, shared and changed, also in other programs, as long as the copyright and licence notice stays with it. The program uses *RDKit* (BSD-3-Clause, including the ring system templates © Schrödinger and its universal force field, UFF, ported to JavaScript), *Indigo* by EPAM Systems (Apache 2.0), *megane-rdkit* (BSD-3-Clause; RDKit's 3D structures as WebAssembly), *OpenChemLib* (BSD-3-Clause) and *React* (MIT). KET is the format of *Ketcher* (EPAM Systems, Apache 2.0); no Ketcher code is in the program. Compound data on request come from *PubChem* (National Library of Medicine, USA). All licence texts are linked from the about page (#ui[About] under the version at the bottom left). The code was written with substantial help from Claude, a model by Anthropic.
 
 === How to cite
 
-If olomol helped with a publication, a thesis or teaching materials, cite it with the version you used. The #ui[About olomol] window has the citation: copy it as text, BibTeX, RIS or CSL JSON, or save it as a .bib, .ris or .json file for a reference manager (Zotero, Mendeley, EndNote, Citavi, LaTeX). It gives olomol's DOI on Zenodo, which stands for all its versions, and the number of the version you use.
+If olomol helped with a publication, a thesis or teaching materials, cite it with the version you used. #ui[About] opens the about page, whose #ui[How to cite] has the citation: copy it as text, BibTeX, RIS or CSL JSON, or save it as a .bib, .ris or .json file for a reference manager (Zotero, Mendeley, EndNote, Citavi, LaTeX). It gives olomol's DOI on Zenodo, which stands for all its versions, and the number of the version you use.

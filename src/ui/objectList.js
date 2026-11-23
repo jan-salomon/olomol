@@ -1,6 +1,7 @@
 // The Objects panel's list (ObjectsPanel.jsx): the drawing as things, the way a click selects them, in reading
 // order (lines from the top, each from the left): molecules (with the names on their anchors), reaction arrows
-// (with what is on them), "+" signs, texts standing free, brackets of their own; groups (Ctrl+G) holding theirs.
+// (with what is on them), "+" signs, texts standing free, brackets of their own, 3D models; groups (Ctrl+G) holding
+// theirs.
 // What belongs to something (a curved arrow, a text on an anchor, a molecule on an arrow) is in it, not listed.
 import { formulaOf } from '../chem/formula.js';
 import { groupChain, parentOf } from '../editor/grouping.js';
@@ -57,6 +58,10 @@ function thingsOf(ed) {
     if (bracket.atoms?.length) continue; // (round its molecule: in it)
     things.push({ key: `o${bracket.id}`, kind: 'bracket', ids: [bracket.id], label: t('Brackets'), note: [bracket.sup, bracket.sub].filter(Boolean).join(' '),
       at: middle([[bracket.x1, bracket.y1], [bracket.x2, bracket.y2]]), rep: bracket.id });
+  }
+  for (const model of doc.models?.values() ?? []) {
+    const atoms = model.atoms.filter((id) => doc.atoms.has(id));
+    things.push({ key: `o${model.id}`, kind: 'model', ids: [model.id], label: t('3D model'), note: atoms.length ? formulaText(doc, atoms) : '', at: [model.x, model.y], rep: model.id });
   }
   for (const thing of things) thing.item ??= { id: thing.rep };
   return things;

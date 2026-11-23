@@ -2,7 +2,7 @@ import { execSync } from 'node:child_process';
 import { readFileSync, statSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { LANGUAGES, PAGES, pathOf, releaseDate as releaseDateIn, splitPage } from './scripts/pages.mjs';
+import { citedVersion, LANGUAGES, PAGES, pathOf, releaseDate as releaseDateIn, splitPage } from './scripts/pages.mjs';
 
 // the sizes of the big files, for the progress bar while they download (src/io/download.js)
 const size = (file) => statSync(new URL(`node_modules/${file}`, import.meta.url)).size;
@@ -24,13 +24,14 @@ function commit() {
 // none for a development version (0.4.0-dev), which has no section of its own
 const releaseDate = () => releaseDateIn(readFileSync(new URL('public/changelog.html', import.meta.url), 'utf8'), version);
 
-// The quick start and manual, Czech and English, go along with the site (dist/docs/), so
+// The quick start and manual, Czech and English, go along with the site (dist/docs/), and for developers how to
+// embed olomol and its file format,
 // the help button links them wherever it is hosted; in development Vite
 // serves docs/ itself.
 const manuals = {
   name: 'olomol-manuals',
   generateBundle() {
-    for (const file of ['rychly-start.pdf', 'manual.pdf', 'en/quick-start.pdf', 'en/manual.pdf']) this.emitFile({ type: 'asset', fileName: `docs/${file}`, source: readFileSync(new URL(`docs/${file}`, import.meta.url)) });
+    for (const file of ['rychly-start.pdf', 'manual.pdf', 'en/quick-start.pdf', 'en/manual.pdf', 'embed.md', 'olom.md']) this.emitFile({ type: 'asset', fileName: `docs/${file}`, source: readFileSync(new URL(`docs/${file}`, import.meta.url)) });
   },
 };
 
@@ -48,7 +49,7 @@ const languagePages = {
       const source = readFileSync(new URL(`public/${page}`, import.meta.url), 'utf8');
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.setHeader('Cache-Control', 'no-cache');
-      res.end(splitPage(source, page, lang, { version, released: releaseDate() }).replace('</head>', '<script type="module" src="/@vite/client"></script></head>'));
+      res.end(splitPage(source, page, lang, { version, released: releaseDate(), doi: conceptDoi ?? '', cited: citedVersion(readFileSync(new URL('public/changelog.html', import.meta.url), 'utf8'), version) }).replace('</head>', '<script type="module" src="/@vite/client"></script></head>'));
     });
     const changed = (file) => {
       if (/\/public\/(about|changelog)(\.html|\/)/.test(file)) server.ws.send({ type: 'full-reload' });
@@ -82,6 +83,6 @@ export default defineConfig({
   // Vite's dependency pre-bundling would move the script away from it.
   optimizeDeps: { exclude: ['indigo-ketcher'] },
   worker: { format: 'es' },
-  // the app, and the page a "PubChem page" button opens
-  build: { rolldownOptions: { input: { main: 'index.html', pubchem: 'pubchem.html' } } },
+  // the app, the page a "PubChem page" button opens, and the app to embed in other pages (src/features.js)
+  build: { rolldownOptions: { input: { main: 'index.html', pubchem: 'pubchem.html', embed: 'embed.html' } } },
 });

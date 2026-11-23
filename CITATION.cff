@@ -15,8 +15,11 @@ authors:
     given-names: Jan
     orcid: "https://orcid.org/0009-0000-2447-3767"
     affiliation: "Department of Physical Chemistry, Palacký University Olomouc"
-version: 0.5.1
-date-released: "2026-11-20"
+contact:
+  - name: olomol
+    email: contact@olomol.org
+version: 0.6.0
+date-released: "2026-11-23"
 doi: 10.5281/zenodo.24104909
 identifiers:
   - type: doi
@@ -27,7 +30,7 @@ identifiers:
     description: olomol 0.5.0.
 license: MIT
 url: "https://olomol.org/"
-repository-code: "https://github.com/jansa249/olomol"
+repository-code: "https://github.com/jan-salomon/olomol"
 keywords:
   - chemistry education
   - chemical structure drawing

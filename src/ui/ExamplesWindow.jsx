@@ -17,7 +17,7 @@ import { icons } from './icons.jsx';
 import { ABOUT_PAGE, DOCS, WHATS_NEW } from './report.js';
 
 
-export default function ExamplesWindow({ editor, dark, fit, onClose, onKeys, onReport, onAbout }) {
+export default function ExamplesWindow({ editor, dark, fit, onClose, onKeys, onReport }) {
   const [id, setId] = useState(EXAMPLES[0].id);
   const [tag, setTag] = useState(null);
   const shown = EXAMPLES.filter((ex) => !tag || ex.tags.includes(tag));
@@ -59,8 +59,8 @@ export default function ExamplesWindow({ editor, dark, fit, onClose, onKeys, onR
           <a className="btn" href={WHATS_NEW} target="_blank" rel="noopener"
             title={t("All versions; you're on {version}", { version: __APP_VERSION__ })} data-testid="help-changelog">{icons.external}<span className="label">{t("What's new")}</span></a>
           <button type="button" className="btn" onClick={() => { onClose(); onKeys(); }} title="?" data-testid="help-keys">{icons.keyboard}<span className="label">{t('Keyboard shortcuts')}</span></button>
-          <button type="button" className="btn" onClick={() => { onClose(); onReport(); }} data-testid="help-report">{icons.mail}<span className="label">{t('Report a problem or an idea')}</span></button>
-          <button type="button" className="btn" onClick={() => { onClose(); onAbout(); }} title={t('About, credits and licences')} data-testid="help-about">{icons.info}<span className="label">{t('About')}</span></button>
+          <button type="button" className="btn" onClick={() => { onClose(); onReport(); }} data-testid="help-report">{icons.mail}<span className="label">{t('Report a problem')}</span></button>
+          <a className="btn" href={ABOUT_PAGE} target="_blank" rel="noopener" title={t('About, credits and licences')} data-testid="help-about">{icons.info}<span className="label">{t('About')}</span></a>
         </nav>
         <button type="button" className="btn" onClick={onClose} aria-label={t('Close')}>{icons.close}</button>
       </header>

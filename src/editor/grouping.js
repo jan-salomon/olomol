@@ -6,7 +6,7 @@
 //
 // doc.groups: Map id → { id, members: [ids] }. Members: atoms (each standing for its molecule: all its atoms are
 // kept, so that one deleted or a bond broken leaves the rest in), reaction arrows (with what is on them), "+"
-// signs, texts standing free, brackets, and groups. A bond, a curved arrow, an orbital, a text on an anchor, a
+// signs, texts standing free, brackets, 3D models, and groups. A bond, a curved arrow, an orbital, a text on an anchor, a
 // molecule on an arrow: in the group of what it belongs to.
 import { fragments } from '../model/graph.js';
 import { t } from '../i18n/i18n.js';
@@ -23,7 +23,7 @@ function moleculesOf(doc) {
 }
 
 // What an object counts as for groups: { atoms: its molecule's atoms } or { id } (an arrow, a "+", a free text,
-// a bracket); a bond, a curved arrow, an orbital, a ring fill, a text on an anchor or an arrow, a molecule on an
+// a bracket, a 3D model: a picture of its own, beside its molecule or not); a bond, a curved arrow, an orbital, a ring fill, a text on an anchor or an arrow, a molecule on an
 // arrow: what it belongs to. null: nothing that can be grouped.
 function unitOf(doc, id, molecule) {
   if (doc.atoms.has(id)) {
@@ -45,7 +45,7 @@ function unitOf(doc, id, molecule) {
     if (text.arrow != null && doc.arrows.has(text.arrow)) return { id: text.arrow };
     return { id };
   }
-  if (doc.arrows.has(id) || doc.pluses.has(id) || doc.brackets.has(id)) return { id };
+  if (doc.arrows.has(id) || doc.pluses.has(id) || doc.brackets.has(id) || doc.models?.has(id)) return { id };
   return null;
 }
 const keyOf = (unit) => (unit.atoms ? `m${Math.min(...unit.atoms)}` : `o${unit.id}`);
@@ -83,7 +83,7 @@ export function groupIds(ed, groupId, { moleculeIds, arrowIds }) {
       if (!ids.has(id)) for (const one of moleculeIds(ed, molecule(id))) ids.add(one);
     } else if (doc.arrows.has(id)) {
       for (const one of arrowIds(doc, id)) ids.add(one);
-    } else if (doc.pluses.has(id) || doc.texts.has(id) || doc.brackets.has(id)) {
+    } else if (doc.pluses.has(id) || doc.texts.has(id) || doc.brackets.has(id) || doc.models?.has(id)) {
       ids.add(id);
     }
   };
@@ -102,7 +102,7 @@ export function pruneGroups(doc) {
   // (a molecule put on a reaction arrow is the arrow's now, as a text put on an anchor: out of its group, which
   // could no longer be taken apart, its keys matching nothing)
   const onArrow = (id) => doc.atoms.get(id).arrow != null && doc.arrows.has(doc.atoms.get(id).arrow);
-  const member = (id) => doc.groups.has(id) || (doc.atoms.has(id) && !onArrow(id)) || doc.arrows.has(id) || doc.pluses.has(id) || doc.brackets.has(id)
+  const member = (id) => doc.groups.has(id) || (doc.atoms.has(id) && !onArrow(id)) || doc.arrows.has(id) || doc.pluses.has(id) || doc.brackets.has(id) || doc.models?.has(id)
     || (doc.texts.has(id) && doc.texts.get(id).anchor == null && doc.texts.get(id).arrow == null);
   oneGroupPerMolecule(doc);
   for (let changed = true; changed;) {

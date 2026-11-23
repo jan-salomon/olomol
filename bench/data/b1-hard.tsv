@@ -1,0 +1,165 @@
+# B1: hard cases for lone pairs and hydrogens, chosen by hand
+# SOURCE: written for this benchmark (textbook species); extends the molecules in tests/chem.test.mjs
+# LICENCE: CC0 1.0 (written for olomol's benchmarks)
+# DATE: 2026-11-06
+# SEED: none (no random choice)
+# COLUMNS: id, SMILES, kind, note (tab separated)
+ammonium	[NH4+]	ion	
+hydroxide	[OH-]	ion	
+hydronium	[OH3+]	ion	
+methyl-cation	[CH3+]	ion	carbocation
+methyl-anion	[CH3-]	ion	carbanion
+tert-butyl-cation	C[C+](C)C	ion	carbocation
+acylium	CC#[O+]	ion	
+nitronium	O=[N+]=O	ion	
+trimethyloxonium	C[O+](C)C	ion	
+tetramethylammonium	C[N+](C)(C)C	ion	
+iminium	C=[N+](C)C	ion	
+acetate	CC(=O)[O-]	ion	
+methoxide	C[O-]	ion	
+phenoxide	[O-]c1ccccc1	ion	
+methanethiolate	C[S-]	ion	
+amide-anion	[NH2-]	ion	
+enolate	C=C[O-]	ion	
+cyanide	[C-]#N	ion	
+acetylide	C#[C-]	ion	
+carbonate	O=C([O-])[O-]	ion	
+bicarbonate	OC(=O)[O-]	ion	
+trimethylsulfonium	C[S+](C)C	ion	
+tetramethylphosphonium	C[P+](C)(C)C	ion	
+tropylium	[cH+]1cccccc1	ion	aromatic cation
+cyclopentadienide	[cH-]1cccc1	ion	aromatic anion
+guanidinium	NC(N)=[NH2+]	ion	
+pyridinium	c1cc[nH+]cc1	ion	
+imidazolium	c1c[nH+]c[nH]1	ion	
+benzenediazonium	N#[N+]c1ccccc1	ion	
+fluoride	[F-]	ion	
+chloride	[Cl-]	ion	
+oxide	[O-2]	ion	dianion
+borohydride	[BH4-]	boron	
+tetrafluoroborate	F[B-](F)(F)F	boron	
+hexafluorophosphate	F[P-](F)(F)(F)(F)F	hypervalent	
+alanate	[AlH4-]	aluminium	
+methyl-radical	[CH3]	radical	
+hydroxyl-radical	[OH]	radical	
+chlorine-atom	[Cl]	radical	
+nitric-oxide	[N]=O	radical	
+nitrogen-dioxide	O=N[O]	radical	
+TEMPO	CC1(C)CCCC(C)(C)N1[O]	radical	
+allyl-radical	C=C[CH2]	radical	
+benzyl-radical	[CH2]c1ccccc1	radical	
+dioxygen-triplet	[O][O]	radical	
+phenyl-radical	[c]1ccccc1	radical	
+superoxide	[O-][O]	radical	
+tert-butyl-radical	C[C](C)C	radical	
+methylene	[CH2]	carbene	
+dichlorocarbene	Cl[C]Cl	carbene	
+nitrene	[NH]	carbene	
+NHC	CN1C=CN(C)[C]1	carbene	Arduengo-type carbene
+carbon-monoxide	[C-]#[O+]	carbene	
+methyl-isocyanide	C[N+]#[C-]	carbene	
+phosphorus-ylene	C=P(c1ccccc1)(c1ccccc1)c1ccccc1	ylide	Wittig reagent, ylene form
+phosphorus-ylide	[CH2-][P+](c1ccccc1)(c1ccccc1)c1ccccc1	ylide	Wittig reagent, ylide form
+sulfur-ylide	[CH2-][S+](C)C	ylide	
+diazomethane	C=[N+]=[N-]	ylide	
+acetonitrile-oxide	CC#[N+][O-]	ylide	
+pyridine-N-oxide	[O-][n+]1ccccc1	N-oxide	
+trimethylamine-N-oxide	C[N+](C)(C)[O-]	N-oxide	
+nitrone	C=[N+](C)[O-]	N-oxide	
+azoxybenzene	[O-][N+](=Nc1ccccc1)c1ccccc1	N-oxide	
+hydroxylamine	NO	N-oxide	
+nitromethane	C[N+](=O)[O-]	nitro	
+nitrobenzene	O=[N+]([O-])c1ccccc1	nitro	
+nitrate	[O-][N+](=O)[O-]	nitro	
+nitric-acid	O[N+](=O)[O-]	nitro	
+nitrite	O=N[O-]	nitro	
+nitrosomethane	CN=O	nitro	
+methyl-azide	CN=[N+]=[N-]	azide	
+azide-anion	[N-]=[N+]=[N-]	azide	
+phenyl-azide	[N-]=[N+]=Nc1ccccc1	azide	
+hydrazoic-acid	N=[N+]=[N-]	azide	
+DMSO	CS(C)=O	sulfoxide	
+DMSO-ylidic	C[S+](C)[O-]	sulfoxide	charge-separated form
+methyl-phenyl-sulfoxide	CS(=O)c1ccccc1	sulfoxide	
+dimethyl-sulfone	CS(C)(=O)=O	sulfone	
+methanesulfonamide	CS(N)(=O)=O	sulfone	
+methanesulfonic-acid	CS(=O)(=O)O	sulfone	
+sulfuric-acid	OS(=O)(=O)O	sulfone	
+sulfate	[O-]S(=O)(=O)[O-]	sulfone	
+sulfite	[O-]S([O-])=O	sulfoxide	
+thionyl-chloride	O=S(Cl)Cl	sulfoxide	
+sulfur-dioxide	O=S=O	sulfoxide	
+sulfur-trioxide	O=S(=O)=O	sulfone	
+sulfur-hexafluoride	FS(F)(F)(F)(F)F	hypervalent	
+sulfur-tetrafluoride	FS(F)(F)F	hypervalent	
+phosphoric-acid	OP(=O)(O)O	phosphate	
+phosphate	[O-]P(=O)([O-])[O-]	phosphate	
+trimethyl-phosphate	COP(=O)(OC)OC	phosphate	
+dimethyl-methylphosphonate	COP(C)(=O)OC	phosphate	
+triphenylphosphine-oxide	O=P(c1ccccc1)(c1ccccc1)c1ccccc1	phosphate	
+phosphine	P	phosphate	
+phosphorus-trichloride	ClP(Cl)Cl	phosphate	
+phosphorus-pentachloride	ClP(Cl)(Cl)(Cl)Cl	hypervalent	
+perchlorate	[O-]Cl(=O)(=O)=O	hypervalent	
+perchloric-acid	OCl(=O)(=O)=O	hypervalent	
+chlorate	[O-]Cl(=O)=O	hypervalent	
+chlorite	[O-]Cl=O	hypervalent	
+hypochlorite	[O-]Cl	ion	
+chlorine-trifluoride	FCl(F)F	hypervalent	
+chlorine-pentafluoride	FCl(F)(F)(F)F	hypervalent	
+bromine-pentafluoride	FBr(F)(F)(F)F	hypervalent	
+iodine-heptafluoride	FI(F)(F)(F)(F)(F)F	hypervalent	
+iodosobenzene	O=Ic1ccccc1	hypervalent	
+periodate	[O-]I(=O)(=O)=O	hypervalent	
+PIDA	CC(=O)OI(OC(C)=O)c1ccccc1	hypervalent	(diacetoxyiodo)benzene
+xenon-difluoride	F[Xe]F	hypervalent	
+xenon-tetrafluoride	F[Xe](F)(F)F	hypervalent	
+borane	B	boron	
+boron-trifluoride	FB(F)F	boron	
+trimethyl-borate	COB(OC)OC	boron	
+phenylboronic-acid	OB(O)c1ccccc1	boron	
+borazine	B1=NB=NB=N1	boron	B–N ring (RDKit cannot kekulize the aromatic form)
+ammonia-borane	[NH3+][BH3-]	boron	
+tetraphenylborate	c1ccc([B-](c2ccccc2)(c2ccccc2)c2ccccc2)cc1	boron	
+aluminium-chloride	Cl[Al](Cl)Cl	aluminium	
+trimethylaluminium	C[Al](C)C	aluminium	
+tetrachloroaluminate	Cl[Al-](Cl)(Cl)Cl	aluminium	
+DIBAL	CC(C)C[AlH]CC(C)C	aluminium	
+pyrrole	c1cc[nH]c1	heteroaromatic	
+pyridine	c1ccncc1	heteroaromatic	
+imidazole	c1c[nH]cn1	heteroaromatic	
+furan	c1ccoc1	heteroaromatic	
+thiophene	c1ccsc1	heteroaromatic	
+oxazole	c1cocn1	heteroaromatic	
+thiazole	c1cscn1	heteroaromatic	
+pyrazole	c1cn[nH]c1	heteroaromatic	
+indole	c1ccc2[nH]ccc2c1	heteroaromatic	
+purine	c1ncc2[nH]cnc2n1	heteroaromatic	
+pyrimidine	c1cncnc1	heteroaromatic	
+1H-1,2,4-triazole	c1nc[nH]n1	heteroaromatic	
+1H-tetrazole	c1nnn[nH]1	heteroaromatic	
+2-pyridone	O=c1cccc[nH]1	heteroaromatic	
+4-pyridone	O=c1cc[nH]cc1	heteroaromatic	
+caffeine	Cn1cnc2c1c(=O)n(C)c(=O)n2C	heteroaromatic	
+pyrylium	c1cc[o+]cc1	heteroaromatic	
+selenophene	c1cc[se]c1	heteroaromatic	
+deuteromethane	[2H]C([2H])([2H])[2H]	isotope	
+carbon-13-methane	[13CH4]	isotope	
+oxygen-18-water	[18OH2]	isotope	
+chloroform-d	[2H]C(Cl)(Cl)Cl	isotope	
+nitrogen-15-ammonia	[15NH3]	isotope	
+tritiated-water	[3H]O[3H]	isotope	
+carbon-13-acetic-acid	C[13C](=O)O	isotope	
+deuterium-oxide-ion	[2H][O-]	isotope	
+water	O	misc	
+ammonia	N	misc	
+methane	C	misc	
+hydrogen-fluoride	F	misc	
+hydrogen-sulfide	S	misc	
+silane	[SiH4]	misc	
+methylmagnesium-bromide	C[Mg]Br	misc	Grignard reagent
+methyllithium	C[Li]	misc	
+ozone	[O-][O+]=O	misc	
+carbon-dioxide	O=C=O	misc	
+nitrous-oxide	[N-]=[N+]=O	misc	
+hydrogen-peroxide	OO	misc	

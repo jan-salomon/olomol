@@ -1,0 +1,36 @@
+<!doctype html>
+<!-- olomol to embed in another page (an iframe): the editor without tabs, files or anything kept in the browser,
+     with the parts its address asks for (src/features.js), the drawing from its #… as in olomol's links:
+       <iframe src="https://olomol.org/embed.html?only=curved-arrows,charges-electrons#smiles=CC(=O)O" width="800" height="420"></iframe>
+     data-embed below is what tells the app it is embedded. -->
+<html lang="en" data-embed>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>olomol</title>
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <script>
+      // the theme the page asks for (?theme=dark, auto: the system's), before anything is drawn
+      const theme = new URLSearchParams(location.search).get('theme');
+      if (theme === 'dark' || theme === 'light' || !theme) document.documentElement.dataset.theme = theme || 'light';
+    </script>
+    <style>
+      /* while the app loads (React replaces it) */
+      .splash { position: fixed; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px; margin: 0; background: #f7f8fb; color: #1c1f26; font: 650 16px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+      @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .splash { background: #13151b; color: #e7e9f0; } }
+      :root[data-theme='dark'] .splash { background: #13151b; color: #e7e9f0; }
+      .splash > * { animation: splash-in 0.3s 0.4s both; }
+      .splash b { display: flex; align-items: center; gap: 8px; }
+      .splash b span { width: 20px; height: 20px; background: url(icons/icon.svg) center / contain no-repeat; }
+      .splash i { width: 120px; height: 4px; border-radius: 2px; background: rgba(16, 53, 169, 0.14); overflow: hidden; }
+      .splash i::after { content: ''; display: block; width: 40%; height: 100%; border-radius: 2px; background: linear-gradient(90deg, #1035a9, #2e6fdb); animation: splash-run 1.2s ease-in-out infinite; }
+      @keyframes splash-in { from { opacity: 0; } }
+      @keyframes splash-run { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+    </style>
+  </head>
+  <body>
+    <div id="root"><div class="splash" role="progressbar" aria-label="olomol"><b><span></span>olomol</b><i></i></div></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

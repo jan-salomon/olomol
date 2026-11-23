@@ -8,7 +8,8 @@
 // With --only <names> (comma separated: preklopeni, newman-e2, newman-preklopeni,
 // tycinkovy-model (and tycinkovy-model-male-h), skupiny, lambda-delta, orbitaly-diels-alder, orbitaly-sn2, nova-vazba, plochy-kruh, sipky,
 // lewis, or new for all of them; znacka-ulozeno, kontextove-menu, objekty, karty, styl-vlastni, or 05 for all of them; napoveda,
-// Help's window; and nahlaseni, the report window), only those pictures, the others left as they are.
+// Help's window; and nahlaseni, the report window; model-platno, fischer-cikcak, vlozeni, or 06 for all of
+// them), only those pictures, the others left as they are.
 // The pictures are then made 256-colour PNGs (scripts/shrink-pictures.py, needs Pillow).
 // Then compile the manual: typst compile --root . docs/manual.typ (and
 // docs/rychly-start.typ).
@@ -220,6 +221,7 @@ async function newShots(wanted = null) {
   if (take('preklopeni')) {
     await page.setViewportSize({ width: 1440, height: 900 });
     await show(readFileSync('src/ui/examples/conformations.olom', 'utf8'), 30, 60);
+    await page.getByTestId('projections').click({ button: 'right' });
     await page.getByTestId('ring-flip').click();
     const chair = await state(() => {
       // (the first ring of six atoms, the one furthest left: its middle on the screen)
@@ -369,6 +371,7 @@ async function newShots(wanted = null) {
       olomol.setDoc(cyclohexaneNewmanDoc({ axial: ['Br', 'Cl'] }));
     });
     await fit(30, 60);
+    await page.getByTestId('projections').click({ button: 'right' });
     await page.getByTestId('ring-flip').click();
     // (on a ring bond that isn't seen end on: C2–C3)
     const at = await state(() => {
@@ -647,6 +650,108 @@ async function helpShot() {
   await page.setViewportSize({ width: 1440, height: 900 });
 }
 
+// --- the pictures of 0.6: taken after the others, or alone with --only (their names, or 06 for all of them) ---
+// D-glucose, open chain, drawn with wedges as RDKit lays it out
+const GLUCOSE = 'O=C[C@H](O)[C@@H](O)[C@H](O)[C@H](O)CO';
+async function shots06(wanted = null) {
+  const take = (name) => !wanted || wanted.includes('06') || wanted.includes(name);
+  // a 3D model on the canvas: ibuprofen and its ball-and-stick model, put there from Turn in 3D's stick model, selected,
+  // with the panel that shows it
+  if (take('model-platno')) {
+    await page.setViewportSize({ width: 1440, height: WINDOW_HEIGHT });
+    await show('CC(C)Cc1ccc(cc1)[C@H](C)C(=O)O', 380, 46);
+    await selectAll();
+    await page.getByTestId('turn3d').click();
+    await page.getByTestId('turn3d-stage').waitFor({ timeout: 60_000 });
+    await page.waitForTimeout(800);
+    await page.getByTestId('turn3d-stage').focus();
+    await page.keyboard.press('s');
+    await page.waitForTimeout(400);
+    await page.getByTestId('turn3d-put').click();
+    await page.waitForFunction(() => olomol.doc.models.size === 1, null, { timeout: 30_000 });
+    // (the molecule and its model in the free part of the window, the model selected and its panel open)
+    await state(() => {
+      const [left, top, right, bottom] = [110, 90, 380, 150];
+      const { scene } = olomol;
+      const boxes = [...olomol.doc.atoms.values()].map((a) => ({ x1: a.x, y1: a.y, x2: a.x, y2: a.y }));
+      for (const { box } of scene.models?.values() ?? []) boxes.push(box);
+      const [x1, y1, x2, y2] = [Math.min(...boxes.map((b) => b.x1)) - 1, Math.min(...boxes.map((b) => b.y1)) - 1, Math.max(...boxes.map((b) => b.x2)) + 1, Math.max(...boxes.map((b) => b.y2)) + 1];
+      const [w, h] = [window.innerWidth - left - right, window.innerHeight - top - bottom];
+      const scale = Math.min(w / (x2 - x1), h / (y2 - y1), 52);
+      olomol.setView({ scale, tx: left + w / 2 - ((x1 + x2) / 2) * scale, ty: top + h / 2 - ((y1 + y2) / 2) * scale });
+    });
+    await state(() => {
+      olomol.notice = null; // (the word that it was put there: not in the picture)
+      olomol.emit();
+    });
+    await page.mouse.move(5, 450);
+    await page.waitForTimeout(600);
+    await hints(false);
+    await shot('model-platno', { x: 100, y: 60, width: 1340, height: WINDOW_HEIGHT - 150 });
+    await hints(true);
+    await page.keyboard.press('Escape');
+  }
+  // D-glucose three ways, as the tools draw it: with wedges, as its Fischer projection, as a zigzag (an exported
+  // drawing, its three side by side)
+  if (take('fischer-cikcak')) {
+    await clear();
+    await state(async (smiles) => {
+      const { smilesToMolfile, getRDKit } = await import('/src/io/rdkit.js');
+      const { readMolfile } = await import('/src/io/molfile.js');
+      const { copyObjects, emptyDoc, addArrow } = await import('/src/model/doc.js');
+      const { toFischer, toZigzag } = await import('/src/chem/chains.js');
+      const RDKit = await getRDKit();
+      const wedged = readMolfile(await smilesToMolfile(smiles)).doc;
+      const fischer = await toFischer(RDKit, wedged, [...wedged.atoms.keys()][0]);
+      const zigzag = await toZigzag(RDKit, fischer.doc, fischer.atoms[0]);
+      const doc = emptyDoc();
+      const width = (d, ids) => { const xs = ids.map((id) => d.atoms.get(id).x); return [Math.min(...xs), Math.max(...xs)]; };
+      const middleY = (d, ids) => { const ys = ids.map((id) => d.atoms.get(id).y); return (Math.min(...ys) + Math.max(...ys)) / 2; };
+      let x = 0;
+      const parts = [[wedged, [...wedged.atoms.keys()]], [fischer.doc, fischer.atoms], [zigzag.doc, zigzag.atoms]];
+      parts.forEach(([d, ids], k) => {
+        const [x1, x2] = width(d, ids);
+        // (an arrow between, with room for the labels at the ends: OHC, CH2OH)
+        if (k) {
+          addArrow(doc, x + 1.2, 0, x + 3, 0);
+          x += 4.6;
+        }
+        copyObjects(d, ids, x - x1, -middleY(d, ids), doc);
+        x += x2 - x1;
+      });
+      olomol.setDoc(doc);
+    }, GLUCOSE);
+    await fit(30, 60);
+    await svg('fischer-cikcak');
+  }
+  // olomol in a page: embed.html with only curved arrows, on acetic acid and ethanol, an arrow drawn (the alcohol's
+  // O to the carbonyl C)
+  if (take('vlozeni')) {
+    const embed = await context.newPage();
+    await embed.setViewportSize({ width: 860, height: 420 });
+    const address = new URL('embed.html', base);
+    address.search = `?test&lang=${english ? 'en' : 'cs'}&only=curved-arrows`;
+    address.hash = 'smiles=CC(=O)O.OCC';
+    await embed.goto(address.href);
+    await embed.waitForFunction(() => window.olomol && olomol.doc.atoms.size > 0, null, { timeout: 30_000 });
+    await embed.waitForTimeout(600);
+    await embed.evaluate(() => {
+      olomol.change((doc) => {
+        const atoms = [...doc.atoms.values()];
+        const carbonylC = atoms.find((a) => a.el === 'C' && [...doc.bonds.values()].some((b) => b.order === 2 && (b.a === a.id || b.b === a.id)));
+        const alcohol = atoms.filter((a) => a.el === 'O').find((o) => [...doc.bonds.values()].filter((b) => b.a === o.id || b.b === o.id).length === 1 && ![...doc.bonds.values()].some((b) => b.order === 2 && (b.a === o.id || b.b === o.id)) && ![...doc.bonds.values()].some((b) => (b.a === o.id || b.b === o.id) && (doc.atoms.get(b.a === o.id ? b.b : b.a).id === carbonylC.id)));
+        const id = doc.nextId++;
+        doc.curves.set(id, { id, electrons: 2, from: { atom: alcohol.id, pair: 0 }, to: { atom: carbonylC.id }, color: null });
+      });
+      olomol.setTool({ name: 'curve', electrons: 2 });
+    });
+    await embed.mouse.move(5, 200);
+    await embed.waitForTimeout(500);
+    await embed.screenshot({ path: `${OUT}/vlozeni.png` });
+    await embed.close();
+  }
+}
+
 const only = args.includes('--only') ? args[args.indexOf('--only') + 1].split(',') : null;
 // the screenshots in 256 colours: a third of the size, the same to the eye (scripts/shrink-pictures.py)
 const shrink = () => {
@@ -659,6 +764,7 @@ if (only) {
   if (only.includes('nahlaseni')) await reportShot();
   await newShots(only.filter((name) => name !== 'napoveda' && name !== 'nahlaseni'));
   await shots05(only);
+  await shots06(only);
   await browser.close();
   shrink();
   console.log(`pictures in ${OUT}/: ${only.join(', ')}`);
@@ -970,6 +1076,7 @@ for (const [example, name] of [['aspirin', 'kotvy'], ['enzyme', 'bocni-oblouky']
 // the pictures of 0.4 and 0.5 (on the same page, before it goes; 0.5's last: they leave tabs open)
 await newShots();
 await shots05();
+await shots06();
 await context.close();
 
 // 26. the login window and the Install button of a built site (the login is in Czech only)

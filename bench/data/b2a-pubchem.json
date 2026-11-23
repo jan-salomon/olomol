@@ -1,0 +1,136 @@
+{
+ "SOURCE": "PubChem PUG REST, https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/<name>/property/SMILES,InChIKey,Title/JSON",
+ "LICENCE": "PubChem data are in the public domain (NCBI); see https://www.ncbi.nlm.nih.gov/home/about/policies/",
+ "DATE": "2026-11-06",
+ "SEED": "none",
+ "answers": {
+  "cyclohexane": {
+   "cid": 8078,
+   "smiles": "C1CCCCC1",
+   "inchikey": "XDTMQSROBMDMFD-UHFFFAOYSA-N",
+   "title": "Cyclohexane",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "methylcyclohexane": {
+   "cid": 7962,
+   "smiles": "CC1CCCCC1",
+   "inchikey": "UAEPNZWRGJTJPN-UHFFFAOYSA-N",
+   "title": "Methylcyclohexane",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-glucopyranose": {
+   "cid": 64689,
+   "smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-VFUOTHLCSA-N",
+   "title": "Beta-D-Glucose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "alpha-D-glucopyranose": {
+   "cid": 79025,
+   "smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-DVKNGEFBSA-N",
+   "title": "Alpha-D-Glucose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "ethane": {
+   "cid": 6324,
+   "smiles": "CC",
+   "inchikey": "OTMSDBZUPAUEDD-UHFFFAOYSA-N",
+   "title": "Ethane",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "butane": {
+   "cid": 7843,
+   "smiles": "CCCC",
+   "inchikey": "IJDNQMDRQITEOD-UHFFFAOYSA-N",
+   "title": "Butane",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-galactopyranose": {
+   "cid": 439353,
+   "smiles": "C([C@@H]1[C@@H]([C@@H]([C@H]([C@@H](O1)O)O)O)O)O",
+   "inchikey": "WQZGKKKJIJFFOK-FPRJBGLDSA-N",
+   "title": "beta-D-Galactopyranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "beta-D-ribofuranose": {
+   "cid": 447347,
+   "smiles": "C([C@@H]1[C@H]([C@H]([C@@H](O1)O)O)O)O",
+   "inchikey": "HMFHBZSHGGEWLO-TXICZTDVSA-N",
+   "title": "beta-D-Ribose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "2-deoxy-beta-D-ribofuranose": {
+   "cid": 439576,
+   "smiles": "C1[C@@H]([C@H](O[C@H]1O)CO)O",
+   "inchikey": "PDWIQYODPROSQH-VPENINKCSA-N",
+   "title": "2-Deoxy-beta-D-erythro-pentofuranose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "D-glyceraldehyde": {
+   "cid": 79014,
+   "smiles": "C([C@H](C=O)O)O",
+   "inchikey": "MNQZXJOMYWMBOU-VKHMYHEASA-N",
+   "title": "(+)-Glyceraldehyde",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "L-glyceraldehyde": {
+   "cid": 439723,
+   "smiles": "C([C@@H](C=O)O)O",
+   "inchikey": "MNQZXJOMYWMBOU-GSVOUGTGSA-N",
+   "title": "(-)-Glyceraldehyde",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "aldehydo-D-glucose": {
+   "cid": 107526,
+   "smiles": "C([C@H]([C@H]([C@@H]([C@H](C=O)O)O)O)O)O",
+   "inchikey": "GZCGUPFRVQAUEE-SLPGGIOYSA-N",
+   "title": "(2R,3S,4R,5R)-2,3,4,5,6-pentahydroxyhexanal",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "keto-D-fructose": {
+   "cid": 5984,
+   "smiles": "C([C@H]([C@H]([C@@H](C(=O)CO)O)O)O)O",
+   "inchikey": "BJHIKXHVCXFQLS-UYFOZJQFSA-N",
+   "title": "D-(-)-Fructose",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "L-alanine": {
+   "cid": 5950,
+   "smiles": "C[C@@H](C(=O)O)N",
+   "inchikey": "QNAYBMKLOCPYGJ-REOHCLBHSA-N",
+   "title": "L-Alanine",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "L-serine": {
+   "cid": 5951,
+   "smiles": "C([C@@H](C(=O)O)N)O",
+   "inchikey": "MTCFGRXMJLQNBG-REOHCLBHSA-N",
+   "title": "L-Serine",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  },
+  "adamantane": {
+   "cid": 9238,
+   "smiles": "C1C2CC3CC1CC(C2)C3",
+   "inchikey": "ORILYTVJVMAKLC-UHFFFAOYSA-N",
+   "title": "Adamantane",
+   "otherCids": [],
+   "retrieved": "2026-11-06"
+  }
+ }
+}

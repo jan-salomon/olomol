@@ -6,11 +6,15 @@
 // site's build needs no Typst.
 //   npm run manual:web          (after the pictures and the PDFs: docs/README.md)
 // German has no manual of its own: Help in German opens the English one.
+// The page has two appendices more than the PDF, in English in both pages: the embedding guide (docs/embed.md) as
+// B, #embedding, for those who put olomol into a page of their own, and the .olom file format (docs/olom.md) as C,
+// #olom, for programs that read or write olomol's drawings.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { toHtml } from './markdown.mjs';
 
 const SITE = 'https://olomol.org/';
 const PAGES = {
@@ -19,15 +23,23 @@ const PAGES = {
     title: 'olomol – Manual', heading: 'Manual', contents: 'Contents', open: 'Open olomol', pdfLabel: 'PDF for printing',
     description: 'The olomol manual: drawing chemical structures, reactions and curved-arrow mechanisms in the browser, step by step.',
     quick: ['docs/en/quick-start.pdf', 'Quick start (PDF)'], language: 'Language',
+    appendices: [{ title: 'Embedding olomol in a page', note: '' }, { title: 'The .olom file format', note: '' }],
   },
   cs: {
     source: 'docs/manual.typ', out: 'public/cs/manual.html', root: '../', pdf: 'docs/manual.pdf',
     title: 'olomol – Příručka', heading: 'Příručka', contents: 'Obsah', open: 'Otevřít olomol', pdfLabel: 'PDF k tisku',
     description: 'Příručka k olomolu: kreslení chemických struktur, reakcí a mechanismů se zahnutými šipkami v prohlížeči, krok za krokem.',
     quick: ['docs/rychly-start.pdf', 'Rychlý start (PDF)'], language: 'Jazyk',
+    appendices: [{ title: 'Vložení olomolu do stránky', note: 'Tento návod pro autory webových stránek je jen v angličtině.' },
+      { title: 'Formát souborů .olom', note: 'Popis formátu pro autory programů je jen v angličtině.' }],
   },
 };
 const IMAGES = 'public/manual/img';
+// the appendices only the page has (above), from Markdown, after the Typst source's own (A)
+const APPENDICES = [
+  { file: 'docs/embed.md', id: 'embedding', letter: 'B' },
+  { file: 'docs/olom.md', id: 'olom', letter: 'C' },
+];
 
 const work = mkdtempSync(join(tmpdir(), 'olomol-manual-'));
 // (the folder kept, only pictures no longer in a page removed at the end: a dev server running meanwhile loses
@@ -79,8 +91,23 @@ for (const [lang, page] of Object.entries(PAGES)) {
     return `<img src="${src}" alt=""${picture.width ? ` width="${picture.width}"` : ''} loading="lazy" decoding="async">`;
   });
   // the contents (obsah() in styl.typ): beside the text, not in it
-  const toc = body.match(/<nav class="toc">[\s\S]*?<\/nav>/)?.[0] ?? '';
+  let toc = body.match(/<nav class="toc">[\s\S]*?<\/nav>/)?.[0] ?? '';
   body = body.replace(toc, '');
+  // the appendices from Markdown (APPENDICES): each one's first heading the chapter's (B, C…), its ## the sections
+  // (B.1, B.2…), its links to the other guides to docs/; and their entries in the contents
+  const entries = [];
+  APPENDICES.forEach(({ file, id, letter }, k) => {
+    const { title, note } = page.appendices[k];
+    const md = toHtml(readFileSync(file, 'utf8').replace(/^# .*\n/, ''), {
+      level: 2, idPrefix: `${id}-`, link: (href) => (/^[a-z]+:|^#|^\//.test(href) ? href : APPENDICES.find((a) => a.file === `docs/${href}`) ? `#${APPENDICES.find((a) => a.file === `docs/${href}`).id}` : `${page.root}docs/${href}`),
+    });
+    const sections = md.headings.filter((heading) => heading.depth === 2);
+    const numbered = sections.reduce((html, heading, n) => html.replace(`<h3 id="${heading.id}">`, `<h3 id="${heading.id}"><span class="prefix">${letter}.${n + 1}</span> `), md.html);
+    body += `\n<h2 id="${id}" class="appendix">${letter} ${escape(title)}</h2>\n${note ? `<p><em>${escape(note)}</em></p>\n` : ''}${numbered}\n`;
+    entries.push(`<li><div><p><a href="#${id}"><span class="prefix">${letter}</span> ${escape(title)}</a></p></div><ol style="list-style-type: none">${sections.map((heading, n) => `<li><a href="#${heading.id}"><span class="prefix">${letter}.${n + 1}</span> ${heading.html}</a></li>`).join('')}</ol></li>`);
+  });
+  const end = toc.lastIndexOf('</ol>');
+  if (end >= 0) toc = toc.slice(0, end) + entries.join('') + toc.slice(end);
   const other = lang === 'en' ? 'cs' : 'en';
   const href = (target) => `${page.root}${PAGES[target].out.replace(/^public\//, '')}`;
   const languages = Object.keys(PAGES).map((code) => (code === lang
@@ -149,14 +176,7 @@ const CSS = `
     --shadow: 0 10px 34px rgba(25, 30, 60, 0.08), 0 2px 6px rgba(25, 30, 60, 0.05);
     color-scheme: light;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --accent: #8fb0ff; --accent-2: #6f97f5; --accent-soft: rgba(143, 176, 255, 0.12);
-      --text: #e7e9f0; --muted: #a0a6b6; --canvas: #13151b; --panel: #1b1e26; --edge: rgba(255, 255, 255, 0.09);
-      --shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
-      color-scheme: dark;
-    }
-  }
+  /* (light only, as the about page: a page to read, whatever the system's theme) */
   * { box-sizing: border-box; }
   html { scroll-padding-top: 72px; }
   img { max-width: 100%; height: auto; }
@@ -213,6 +233,12 @@ const CSS = `
   td, th { padding: 4px 10px; text-align: left; vertical-align: top; }
   tr:nth-child(even) td { background: var(--accent-soft); }
   code { font: 0.9em ui-monospace, monospace; }
+  /* the embedding guide (appendix B): its code blocks, its wide tables of calls scrolling on their own */
+  pre { margin: 10px 0 16px; padding: 12px 14px; border-radius: 8px; background: var(--panel); border: 1px solid var(--edge); overflow-x: auto; font-size: 13.5px; line-height: 1.45; }
+  pre code { font-size: 1em; }
+  .appendix ~ table { display: block; overflow-x: auto; font-size: 14px; }
+  .appendix ~ table th { border-bottom: 2px solid var(--edge); }
+  main h3 .prefix { color: var(--muted); font-weight: 600; margin-right: 4px; }
   @media (max-width: 900px) {
     .layout { grid-template-columns: 1fr; gap: 0; }
     .layout > aside { position: static; max-height: none; padding: 14px 0 0; }

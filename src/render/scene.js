@@ -9,6 +9,7 @@ import { electronsByAtom, RADICAL_PLACES } from '../chem/valence.js';
 import { bondsByAtom, bracketMembers, curveEndsThere, orbitalAngle, otherEnd, ringIntact } from '../model/doc.js';
 import { fragmentIndex, fragments, ringList, smallestRings } from '../model/graph.js';
 import { boldBonds, bondShapes, dashSide, doubleBondRule } from './bonds.js';
+import { modelBox, outOfDate } from './model3d.js';
 import { crowdedLabelSide, hasLabel, hydrogenSide, layoutLabel } from './labels.js';
 import { lobeSpans, orbitalLobes, overlapLine, SHADE } from './orbitals.js';
 import { angleBetween, arrowCandidates, arrowGeometry, distinctCandidates, electronAngles, electronLayout, pickCurve, shownPairs } from './mechanism.js';
@@ -313,6 +314,9 @@ export function buildScene(doc, settingsGiven = DEFAULT_SETTINGS, { debug = fals
     scene.texts.set(text.id, { text, at: placed ? [placed.x, placed.y] : [text.x, text.y], ...layoutText(placed ?? text), color: text.color ?? ink, anchored: Boolean(placed) });
   }
   for (const bracket of doc.brackets.values()) scene.brackets.set(bracket.id, { bracket, ...bracketShapes(bracket), color: bracket.color ?? ink });
+  // 3D models: where each stands, and whether its molecule has changed since it was built (render/model3d.js)
+  scene.models = new Map();
+  for (const item of doc.models?.values() ?? []) if (item.model) scene.models.set(item.id, { item, box: modelBox(item), stale: outOfDate(doc, item) });
   // curved arrows, each keeping clear of the ones before it
   const done = [];
   const curveList = [...doc.curves.values()];
@@ -324,7 +328,7 @@ export function buildScene(doc, settingsGiven = DEFAULT_SETTINGS, { debug = fals
     if (!best) continue;
     // (`shape`, `tip`, `variant`: the curve drawn, kept with the arrow for its file: editor.js; ways: how many that
     // look different it has, for the panel's Other way to go round them)
-    const geometry = { ...arrowGeometry(best, curve.electrons), color: curve.color ?? ink, curve, tailKey: best.tail.key, headNormal: best.head.normal ?? null,
+    const geometry = { ...arrowGeometry(best, curve.electrons), color: curve.color ?? settings.curveColor ?? ink, curve, tailKey: best.tail.key, headNormal: best.head.normal ?? null,
       shape: best.shape, tip: best.tip, variant, ways: distinctCandidates(candidates, 6).length };
     if (debug) geometry.debug = { best, candidates: candidates.slice(0, 12) };
     scene.curves.set(curve.id, geometry);

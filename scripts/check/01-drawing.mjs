@@ -68,9 +68,20 @@ export default async function run() {
   await hoverAndPress(await bondMiddle(lastBond), '2');
   await tool('chain').click();
   const r3 = await atomXY(ring[3]);
-  await dragBetween(r3, [r3[0] - 0.2, r3[1] + 3]);
-  c = await counts();
-  check(c.atoms === 11, `chain tool: a drag adds a zigzag chain (${c.atoms - 8} atoms)`);
+  {
+    // (by hand, to read the badge before the button is let go)
+    const [x1, y1] = await screen(r3);
+    const [x2, y2] = await screen([r3[0] - 0.2, r3[1] + 3]);
+    await page.mouse.move(x1, y1);
+    await page.mouse.down();
+    await page.mouse.move((x1 + x2) / 2, (y1 + y2) / 2, { steps: 4 });
+    await page.mouse.move(x2, y2, { steps: 6 });
+    const shown = await page.evaluate(() => document.querySelector('.canvas svg g.badge text')?.textContent);
+    await page.mouse.up();
+    await page.waitForTimeout(80);
+    c = await counts();
+    check(c.atoms === 11 && shown === '3', `chain tool: a drag from an atom adds a zigzag chain (${c.atoms - 8} atoms), the badge counting the atoms it adds (${shown})`);
+  }
   await page.keyboard.press('Control+z');
   check((await counts()).atoms === 8, 'Ctrl+Z undoes the chain');
   await page.keyboard.press('Control+Shift+z');

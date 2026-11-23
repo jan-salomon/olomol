@@ -8,6 +8,8 @@ import { linkTo } from '../io/link.js';
 import { isEmpty } from '../model/doc.js';
 
 export const REPORT_ADDRESS = 'bugs@olomol.org';
+// ideas, questions, translations, teaching: everything that is not a problem in the app
+export const CONTACT_ADDRESS = 'contact@olomol.org';
 export const VERSION = `${__APP_VERSION__} (${[__BUILD_DATE__, __COMMIT__].filter(Boolean).join(', ')})`;
 // The about page and What's new in the app's language: a page of each per language (scripts/pages.mjs),
 // cs/… and de/…; the English one with ?lang=en, so it stays English whatever language was picked before
@@ -25,50 +27,6 @@ export const WHATS_NEW = `${pageIn('changelog.html')}#v${__APP_VERSION__.replace
 export const ABOUT_PAGE = pageIn('about.html', 'stay');
 // the day this version was released (What's new's date; null for a development version), as the language writes it
 export const RELEASED = __RELEASE_DATE__ ? new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(`${__RELEASE_DATE__}T12:00`)) : null;
-// How to cite this version: olomol's concept DOI on Zenodo (of all versions; vite.config.js) and this version's
-// number; null for a development version, which has no release date
-export const DOI = __RELEASE_DATE__ && __DOI__ ? __DOI__ : null;
-export const CITATION = DOI
-  ? `Salomon, J. (${__RELEASE_DATE__.slice(0, 4)}). olomol: drawing chemical structures, reactions and mechanisms (Version ${__APP_VERSION__}) [Computer software]. Zenodo. https://doi.org/${DOI}`
-  : null;
-// The same citation for reference managers: [{ id, label, ext, mime, text }] (none for a development version).
-// BibTeX as @misc, which BibTeX and BibLaTeX both read; RIS for Zotero, Mendeley, EndNote and Citavi; CSL JSON
-// for Zotero, Pandoc and Markdown.
-export const CITATIONS = (() => {
-  if (!DOI) return [];
-  const [year, month, day] = __RELEASE_DATE__.split('-');
-  const title = 'olomol: drawing chemical structures, reactions and mechanisms';
-  const url = `https://doi.org/${DOI}`;
-  const bibtex = [
-    `@misc{salomon_olomol_${year},`,
-    '  author       = {Salomon, Jan},',
-    `  title        = {{olomol}: drawing chemical structures, reactions and mechanisms},`,
-    `  version      = {${__APP_VERSION__}},`,
-    `  year         = {${year}},`,
-    `  month        = ${['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'][Number(month) - 1]},`,
-    '  publisher    = {Zenodo},',
-    `  doi          = {${DOI}},`,
-    `  url          = {${url}},`,
-    `  note         = {Computer software, version ${__APP_VERSION__}},`,
-    '}',
-    '',
-  ].join('\n');
-  const ris = [
-    'TY  - COMP', 'AU  - Salomon, Jan', `TI  - ${title}`, `PY  - ${year}`, `DA  - ${year}/${month}/${day}`, `ET  - ${__APP_VERSION__}`,
-    'PB  - Zenodo', `DO  - ${DOI}`, `UR  - ${url}`, 'ER  - ', '',
-  ].join('\r\n');
-  const csl = JSON.stringify([{
-    id: `salomon_olomol_${year}`, type: 'software', title, author: [{ family: 'Salomon', given: 'Jan' }],
-    issued: { 'date-parts': [[Number(year), Number(month), Number(day)]] }, version: __APP_VERSION__, publisher: 'Zenodo', DOI, URL: url,
-  }], null, 2);
-  return [
-    { id: 'text', label: 'Text', ext: 'txt', mime: 'text/plain', text: CITATION },
-    { id: 'bibtex', label: 'BibTeX', ext: 'bib', mime: 'application/x-bibtex', text: bibtex },
-    { id: 'ris', label: 'RIS', ext: 'ris', mime: 'application/x-research-info-systems', text: ris },
-    { id: 'csl', label: 'CSL JSON', ext: 'json', mime: 'application/vnd.citationstyles.csl+json', text: csl },
-  ];
-})();
-
 // "Chrome 141", "Firefox 145", "Edge 141", "Safari 18", from the user agent.
 function browser() {
   const ua = navigator.userAgent;

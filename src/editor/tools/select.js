@@ -292,6 +292,8 @@ export const select = {
         // (texts turn about their middles, upright; brackets drawn as boxes stay upright round what turns)
         g.texts = g.ids.filter((id) => ed.doc.texts.has(id) && ed.scene.texts.get(id)).map((id) => [ed.doc.texts.get(id), [ed.doc.texts.get(id).x, ed.doc.texts.get(id).y], { ...ed.scene.texts.get(id).box }]);
         g.boxes = g.ids.map((id) => ed.doc.brackets.get(id)).filter((b) => b && !b.atoms?.length).map((b) => [b, { x1: b.x1, y1: b.y1, x2: b.x2, y2: b.y2 }]);
+        // (3D models turn as they move round: about the line of sight, as much)
+        g.models = g.ids.map((id) => ed.doc.models?.get(id)).filter(Boolean).map((m) => [m, m.rotation ?? [[1, 0, 0], [0, 1, 0], [0, 0, 1]]]);
       }
       const [cx, cy] = g.centre;
       let angle = Math.atan2(g.point[1] - cy, g.point[0] - cx) - Math.atan2(g.start[1] - cy, g.start[0] - cx);
@@ -305,6 +307,9 @@ export const select = {
       const turn = ([x, y]) => [cx + (x - cx) * cos - (y - cy) * sin, cy + (x - cx) * sin + (y - cy) * cos];
       for (const [text, at, box] of g.texts) mapText(text, at, box, turn);
       for (const [bracket, box] of g.boxes) mapBracket(bracket, box, turn);
+      // (the page's y is down, a model's up: turned the other way round its z)
+      const spin = [[cos, sin, 0], [-sin, cos, 0], [0, 0, 1]];
+      for (const [model, before] of g.models) model.rotation = spin.map((row) => [0, 1, 2].map((j) => row[0] * before[0][j] + row[1] * before[1][j] + row[2] * before[2][j]));
       ed.preview = { kind: 'angle', centre: g.centre, text: `${Math.round(((angle / DEGREE) % 360 + 360) % 360)}°` };
       ed.touched();
     } else if (g.mode === 'box') {

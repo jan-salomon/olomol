@@ -7,6 +7,7 @@ import { fragments } from '../model/graph.js';
 import { canGroup, canUngroup, groupChain } from '../editor/grouping.js';
 import { selectedGroup, selectGroup } from '../editor/tools.js';
 import { t } from '../i18n/i18n.js';
+import { allowed } from '../features.js';
 import { copyPicture, pasteText } from './actions.js';
 import { commands } from './commands.jsx';
 import { icons } from './icons.jsx';
@@ -43,13 +44,13 @@ export function ContextMenu({ editor, ui, at, point, hit, onClose }) {
   };
   const groups = selected ? [
     [item('cut', t('Cut'), icons.cut, clip('cut'), 'Ctrl+X'), item('copy', t('Copy'), icons.copy, clip('copy'), 'Ctrl+C'),
-      item('picture', t('Copy as picture'), icons.copy, () => copyPicture(editor), 'Ctrl+Shift+C'), item('paste', t('Paste'), icons.paste, paste, 'Ctrl+V'),
+      allowed('export') && item('picture', t('Copy as picture'), icons.copy, () => copyPicture(editor), 'Ctrl+Shift+C'), item('paste', t('Paste'), icons.paste, paste, 'Ctrl+V'),
       item('delete', t('Delete'), icons.trash, () => editor.deleteSelection(), 'Del')],
     atoms.length ? [from('Redraw'), from('Turn in 3D')] : [],
     [from('Flip left–right'), from('Flip top–bottom'),
       // (a bond right-clicked: it horizontal or vertical, its molecule turning; again: a quarter further)
       // (the selection turning if the bond is in it, as with the snap tool; else its molecule)
-      hit?.kind === 'bond' && editor.doc.bonds.has(hit.id) && item('snap', t('This bond horizontal or vertical'), icons.snap, () => snapBond(editor, hit.id))],
+      allowed('align-flip') && hit?.kind === 'bond' && editor.doc.bonds.has(hit.id) && item('snap', t('This bond horizontal or vertical'), icons.snap, () => snapBond(editor, hit.id))],
     // (Abbreviate as the panel offers it: a whole molecule too; Separate where One compound was made)
     [abbreviatable(editor.doc, [...new Set([...ids, ...atoms])]) && from('Abbreviate'), canDrawOut(editor.doc, atoms) && from('Draw out'),
       molecules > 1 && from('One compound'), [...editor.doc.bonds.values()].some((b) => b.kind === 'link' && atoms.includes(b.a)) && from('Separate')],

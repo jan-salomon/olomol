@@ -335,15 +335,16 @@ export default async function run() {
   // --- flipping: a text stays where it is (no one flips a text); a Fischer projection said to be the mirror image;
   // written sides swapped ---
   await clear();
-  await paste('OCC(O)C=O');
   const flipped = await state(async () => {
     const { flip } = await import('/src/arrange/align.js');
+    const { PROJECTIONS } = await import('/src/chem/projections.js');
+    // (D-glyceraldehyde's template: a crossing marked as a Fischer projection's centre)
+    olomol.setDoc(PROJECTIONS.find(([name]) => name === 'D-Glyceraldehyde, Fischer')[1]());
     olomol.change((doc) => {
       const id = doc.nextId++;
       doc.texts.set(id, { id, x: 3, y: 0, text: 'rt, 24 h', color: null });
       const o = [...doc.atoms.values()].find((a) => a.el === 'O');
       Object.assign(o, { hSide: 'left' });
-      [...doc.atoms.values()].find((a) => a.el === 'C').projection = 'fischer';
     });
     const id = Math.max(...olomol.doc.texts.keys());
     const at = () => [olomol.doc.texts.get(id).x, olomol.doc.texts.get(id).y].join();

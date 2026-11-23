@@ -260,7 +260,8 @@ function propertyLines(kind, pairs) {
 // (N⁺–B⁻: what a 3D builder can read). `sided`: for a 3D builder, the drawn
 // hydrogens of a carbon with a wedge or hashed wedge as ²H and ³H, so that
 // its wedge counts even where it is no stereocentre (a CH2: the axial H of a
-// chair or a Newman projection stays the axial one). `kinds` (for a file, for
+// chair or a Newman projection stays the axial one); 'wedges': those wedges
+// only, the hydrogens as they are (the caller tells them apart). `kinds` (for a file, for
 // other programs): dative bonds as type 9, from the donor, and hydrogen bonds
 // as type 10 (RDKit reads 10 as a single bond). `units`:
 // repeating units (brackets with n) as SRU sgroups.
@@ -310,7 +311,7 @@ export function writeMolfile(doc, ids = null, name = '', { partial = false, dati
   for (const bond of bonds) {
     const wedge = newman?.wedges.get(bond.id) ?? projected.get(bond.id);
     const [a, b] = wedge && wedge.from === bond.b ? [bond.b, bond.a] : [bond.a, bond.b];
-    if (sided && (wedge || ['wedge', 'hash'].includes(bond.stereo))) {
+    if (sided === true && (wedge || ['wedge', 'hash'].includes(bond.stereo))) {
       // (the wedge's narrow end: its drawn hydrogens told apart)
       const hydrogens = byAtom.get(a).map((x) => otherId(x, a)).filter((id) => index.has(id) && doc.atoms.get(id).el === 'H' && !isotope.get(id));
       hydrogens.slice(0, 2).forEach((id, k) => isotope.set(id, k + 2));

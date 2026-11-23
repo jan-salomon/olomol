@@ -12,9 +12,11 @@ import { hitTest } from './hit.js';
 import { TOOLS } from './tools.js';
 import { takeOff } from './tools/select.js';
 import { dropPartedNewmans, endOnBonds } from '../chem/newman.js';
+import { keepFischer } from '../chem/fischer.js';
 import { pruneGroups } from './grouping.js';
 import { overfullLabel } from '../chem/abbreviations.js';
 import { t } from '../i18n/i18n.js';
+import { allOn, allowed, EMBED_LOOK, EMBEDDED, lockedAtoms, lockedTouched, refusal, startingTool, switchedOff, toolAllowed, toolPart } from '../features.js';
 
 const HISTORY = 200;
 
@@ -30,6 +32,7 @@ export function newTitle(date = new Date()) {
 const SETTINGS_KEY = 'olomol-settings';
 
 function loadSettings() {
+  if (EMBEDDED) return { ...DEFAULT_SETTINGS, ...EMBED_LOOK }; // (an embedded editor: as set for everyone, and as its address asks; not this browser's olomol.org settings)
   try {
     return { ...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) ?? '{}') };
   } catch {
@@ -67,6 +70,12 @@ export function boundsOf(doc, only = null, scene = null) {
       points.push([t.x, t.y], [t.x + Math.max(...lines.map((line) => line.length)) * 0.3, t.y + (lines.length - 1) * 0.6]);
     }
   }
+  // (3D models with their balls: their box, as the scene has it)
+  for (const m of doc.models?.values() ?? []) {
+    if (!shown(m)) continue;
+    const box = scene?.models?.get(m.id)?.box;
+    points.push(...(box ? [[box.x1, box.y1], [box.x2, box.y2]] : [[m.x, m.y]]));
+  }
   // (curved arrows as drawn: one bowing far out of the molecules was cut off by Fit)
   for (const [id, curve] of scene?.curves ?? []) if (shown({ id })) points.push(...curve.samples);
   if (!points.length) return null;
@@ -84,7 +93,7 @@ export class Editor {
     this.view = { scale: 42, tx: 400, ty: 300 };
     this.settings = loadSettings();
     applyStyle(this.settings);
-    this.tool = { name: 'bond', order: 1, stereo: '' };
+    this.tool = startingTool(); // (embedded with bonds switched off, features.js: curved arrows, else Select)
     this.debug = false;
     this.undoStack = [];
     this.redoStack = [];
@@ -188,29 +197,51 @@ export class Editor {
 
   // --- changing the document ---
 
-  // Runs `change(doc)` as one undo step. Returns its result.
+  // Runs `change(doc)` as one undo step. Returns its result. (`lastRefused`: whether it was refused and undone, for
+  // a tool not to say it was done)
   change(change) {
     const before = this.labelsNow();
     this.checkpoint();
     const result = change(this.doc);
     this.touched();
-    this.refuseOverfull(before);
+    this.lastRefused = this.refuseChange(before);
     return result;
   }
 
   // An abbreviation can't take a second bond (Ph is C6H5, on one bond): an action that gives one to a label
   // drawn before (a bond grown from it or pulled onto it, a group, ring or atom merged onto it, a label typed on
   // an atom with two bonds) is undone, with a word why. One drawn so already (an older file) is ringed red.
+  // With parts of olomol switched off (an embedded editor, features.js), also the drawing as it was, for a change
+  // touching one of them to be refused.
   labelsNow() {
-    return { over: overfullLabels(this.doc), atoms: new Set(this.doc.atoms.keys()), checkpoints: this.checkpoints, version: this.docVersion, redo: this.redoStack };
+    return { over: overfullLabels(this.doc), atoms: new Set(this.doc.atoms.keys()), checkpoints: this.checkpoints, version: this.docVersion, redo: this.redoStack, doc: allOn() && !lockedAtoms().size ? null : cloneDoc(this.doc) };
+  }
+
+  // A change refused (undone, said why): one touching a part switched off or an atom the page locked, or one
+  // overfilling a label
+  refuseChange(before) {
+    if (this.docVersion === before.version) return false;
+    const part = before.doc && switchedOff(before.doc, this.doc);
+    if (part || (before.doc && lockedTouched(before.doc, this.doc))) {
+      this.goBack(before);
+      this.say(part ? refusal(part) : t('This structure is given: it stays as it is here.'), 'error');
+      return true;
+    }
+    return this.refuseOverfull(before);
   }
 
   refuseOverfull(before) {
-    if (this.docVersion === before.version) return false;
     const now = overfullLabels(this.doc);
     const worse = [...now].find(([id, n]) => before.atoms.has(id) && n > (before.over.get(id) ?? 0));
     if (!worse) return false;
     const label = this.doc.atoms.get(worse[0]).alias; // (before it goes: Ph typed on a carbon is a carbon again)
+    this.goBack(before);
+    this.say(t('{label} stands for a group on one bond, so it can\'t take another. Draw it out (in the panel) to bond to its atoms.', { label }), 'error');
+    return true;
+  }
+
+  // Back to where `before` (labelsNow) was: the undo steps since then taken away, the drawing as it was
+  goBack(before) {
     let state = null;
     for (let n = this.checkpoints - before.checkpoints; n > 0 && this.undoStack.length; n--) state = this.undoStack.pop();
     if (this.shiftedOff?.at > before.checkpoints) this.undoStack.unshift(this.shiftedOff.state);
@@ -219,8 +250,14 @@ export class Editor {
     // (and what could be redone before it: a refused action leaves the history as it was)
     this.redoStack = before.redo ?? this.redoStack;
     if (state) this.restore(state);
-    this.say(t('{label} stands for a group on one bond, so it can\'t take another. Draw it out (in the panel) to bond to its atoms.', { label }), 'error');
-    return true;
+  }
+
+  // A Fischer projection's centres that are crossings no more (a bond bent, the chain turned onto its side):
+  // drawings again, and said so; crossings drawn onto its chain: centres (chem/fischer.js). True if any changed.
+  keepFischer() {
+    const { dropped, grown } = keepFischer(this.doc);
+    if (dropped) this.say(t('{n} centres of the Fischer projection are no longer crossings (a bond left the horizontal or vertical, or the chain was turned on its side): their stereo is no longer read from it. Undo to keep it.', { n: dropped }), 'info', 7000);
+    return Boolean(dropped || grown);
   }
 
   // Saves the current state for undo (before a change, or at the start of a drag).
@@ -256,6 +293,8 @@ export class Editor {
     // the panel lit ▬ on a double bond and it came back bold at single again)
     for (const bond of this.doc.bonds.values()) if (bond.bold && (bond.order !== 1 || bond.stereo || bond.kind)) delete bond.bold;
     dropPartedNewmans(this.doc); // a Newman projection's two carbons pulled apart: an ordinary bond
+    spreadOnArrows(this.doc); // a molecule on a reaction arrow grown or joined: all of it on the arrow
+    if (!this.gesture) this.keepFischer(); // (a drag: when it ends, pointerUp)
     // the structure round aromatic rings or COO⁻ changed: marks that no longer hold go (Kekulé)
     if (marksKey(this.doc) !== this.marks) {
       dropStaleMarks(this.doc);
@@ -412,7 +451,7 @@ export class Editor {
     this.settings = { ...this.settings, ...changes };
     this.styleKey = null; // (put in place again before the next drawing: the drawing's own, else these)
     try {
-      localStorage.setItem(SETTINGS_KEY, JSON.stringify(this.settings));
+      if (!EMBEDDED) localStorage.setItem(SETTINGS_KEY, JSON.stringify(this.settings));
     } catch {
       // private window: the settings just aren't remembered
     }
@@ -422,6 +461,11 @@ export class Editor {
   }
 
   setTool(tool) {
+    // (a tool of a part switched off: not picked, whatever asks for it, a button, a key, the search bar)
+    if (!toolAllowed(tool)) {
+      this.say(refusal(allowed(toolPart(tool)) ? 'structure' : toolPart(tool)), 'error');
+      return;
+    }
     TOOLS[this.tool.name]?.cancel?.(this);
     this.tool = tool;
     this.preview = null;
@@ -503,7 +547,7 @@ export class Editor {
   }
 
   // Everything that moves with the selection (atoms, arrows, "+", text,
-  // brackets), with the numbers of the molecules that move.
+  // brackets, 3D models), with the numbers of the molecules that move.
   movingIds() {
     const atoms = this.selectedAtoms(); // (a Newman projection's two carbons together)
     const moving = new Set(atoms);
@@ -516,7 +560,7 @@ export class Editor {
         for (const t of anchored) if (inside.has(t.anchor)) numbers.push(t.id);
       }
     }
-    return [...new Set([...atoms, ...this.selected('arrows'), ...this.selected('pluses'), ...this.selected('texts'), ...this.selected('brackets'), ...numbers])];
+    return [...new Set([...atoms, ...this.selected('arrows'), ...this.selected('pluses'), ...this.selected('texts'), ...this.selected('brackets'), ...this.selected('models'), ...numbers])];
   }
 
   deleteSelection() {
@@ -563,14 +607,17 @@ export class Editor {
   // (pixels) whose top left corner is at `left`, `top`; with `selected` and
   // something selected, that, as large as it fits (closer than the whole
   // drawing goes).
-  fit(width, height, { left = 0, top = 0, selected = false, most = null } = {}) {
+  // `also`: another drawing whose extent is taken in too (an answer: the room where students will draw)
+  fit(width, height, { left = 0, top = 0, selected = false, most = null, also = null } = {}) {
     const ids = KINDS.flatMap((kind) => [...this.doc[kind].keys()]);
-    if (!ids.length) {
+    const extra = also ? boundsOf(also) : null;
+    if (!ids.length && !extra) {
       this.setView({ scale: 42, tx: left + width / 2, ty: top + height / 2 });
       return;
     }
     const chosen = selected && this.selection.size > 0;
-    const box = boundsOf(this.doc, chosen ? this.selection : null, this.scene);
+    let box = ids.length ? boundsOf(this.doc, chosen ? this.selection : null, this.scene) : null;
+    if (extra) box = box ? [Math.min(box[0], extra[0]), Math.max(box[1], extra[1]), Math.min(box[2], extra[2]), Math.max(box[3], extra[3])] : extra;
     if (!box) return; // (only bonds or curved arrows selected: their atoms aren't)
     const [x1, x2, y1, y2] = box;
     const scale = Math.min(most ?? (chosen ? 200 : 70), Math.max(8, Math.min(width / (x2 - x1), height / (y2 - y1))));
@@ -626,7 +673,10 @@ export class Editor {
     this.gesture = null;
     if (g.moved) tool.dragEnd?.(this, g);
     else tool.click?.(this, g);
-    this.refuseOverfull(g.labels);
+    if (!this.refuseChange(g.labels) && this.keepFischer()) {
+      this.docVersion += 1;
+      this.updateStereo();
+    }
     this.hover = this.hitAt(point);
     this.emit();
   }
@@ -668,5 +718,32 @@ export class Editor {
   // The object under the pointer, if it is an atom or bond (for key shortcuts).
   hovered(kind) {
     return this.hover?.kind === kind && getObject(this.doc, this.hover.id) ? this.hover.id : null;
+  }
+}
+
+// A molecule on a reaction arrow is on it whole: atoms drawn onto it there (a bond pulled out of it, a group joined
+// to it) take its place on the arrow, as the drawing already shows it (scene.js: a molecule with any atom on an
+// arrow stands on it). Else a file, or a page reading the drawing (get('olom')), had only part of it there.
+const ON_ARROW = ['arrow', 'arrowSlot', 'arrowSign', 'arrowOrder'];
+// (along bonds that make one molecule: not a hydrogen bond or a partial bond to a neighbour, which would pull it on
+// for good)
+function spreadOnArrows(doc) {
+  const byAtom = new Map([...doc.atoms.keys()].map((id) => [id, []]));
+  for (const bond of doc.bonds.values()) {
+    if (bond.kind === 'hbond' || bond.kind === 'partial' || !byAtom.has(bond.a) || !byAtom.has(bond.b)) continue;
+    byAtom.get(bond.a).push(bond);
+    byAtom.get(bond.b).push(bond);
+  }
+  for (const members of fragments(doc, byAtom)) {
+    const atoms = members.map((id) => doc.atoms.get(id));
+    const on = atoms.find((atom) => atom.arrow != null && doc.arrows.has(atom.arrow));
+    if (!on) continue;
+    for (const atom of atoms) {
+      if (ON_ARROW.every((key) => atom[key] === on[key])) continue;
+      for (const key of ON_ARROW) {
+        if (on[key] === undefined) delete atom[key];
+        else atom[key] = on[key];
+      }
+    }
   }
 }

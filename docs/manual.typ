@@ -45,7 +45,7 @@ Poprvé se stránka načítá o něco déle a pruh ukazuje, kolik zbývá. Chemi
 #v(0.3em)
 #grid(columns: (1fr, 1fr), gutter: 16pt,
   legenda(
-    (1, [*Horní lišta*, ve skupinách: název kresby a #ui[Uchováno], nová kresba #ik("newDoc"), otevřít #ik("open"), uložit #ik("save"), #ui[Export] | zpět a znovu #ik("undo") #ik("redo") | #ui[Překreslit], #ui[Otočit ve 3D] #ik("turn3d") | #ui[Zarovnat], překlopení #ik("flipH") #ik("flipV") #ik("flipBond"), #ui[Vodorovně / svisle] #ik("snap") | překlopení a otočení židličky #ik("ringFlip") #ik("chairTurn") | zvětšení, #ik("fit") a #ui[Promítat] #ik("present"). V úzkém okně se skupiny, které se nevejdou, schovají pod #ik("more") na konci lišty. Při dvou a více kresbách jsou pod ní karty (@karty).]),
+    (1, [*Horní lišta*, ve skupinách: název kresby a #ui[Uchováno], nová kresba #ik("newDoc"), otevřít #ik("open"), uložit #ik("save"), #ui[Export] | zpět a znovu #ik("undo") #ik("redo") | #ui[Překreslit], #ui[Otočit ve 3D] #ik("turn3d") | #ui[Zarovnat], překlopení #ik("flipH") #ik("flipV") #ik("flipBond"), #ui[Vodorovně / svisle] #ik("snap") | projekce #ik("ringFlip"): překlopení a otočení židličky, Fischerova projekce a cik-cak (@fischer) | zvětšení, #ik("fit") a #ui[Promítat] #ik("present"). V úzkém okně se skupiny, které se nevejdou, schovají pod #ik("more") na konci lišty. Při dvou a více kresbách jsou pod ní karty (@karty).]),
     (2, [*Kreslicí nástroje.* Trojúhelníček v rohu tlačítka znamená, že má další varianty: nechte myš chvíli na tlačítku, klikněte na trojúhelníček, nebo znovu na zvolený nástroj. Dole #ik("objects") otevírá panel #ui[Objekty] (@objekty).]),
     (3, [*Dolní lišta*: prvky, periodická tabulka #ik("table"), kruhy, #ui[Šablony] a *vyhledávací řádek* (@nazev).]),
   ),
@@ -75,7 +75,7 @@ Kulaté tlačítko #ik("napoveda") vpravo dole otevře *nápovědu*, nejrychlej�
 
 Nad štítky otevře #ui[Ukázky na videu] v nové kartě stránku o programu s pěti krátkými videi z práce v programu: mechanismus, reakční schéma, molekula stavěná po krocích a překreslená jen zčásti, komplex otočený ve 3D a Haworthova projekce glukosy změněná na židličku, překlopená a otočená ve 3D.
 
-V záhlaví okna nápovědy je #ui[Rychlý start] (PDF), tato #ui[Příručka] na webu a vedle ní #ui[PDF] k tisku, #ui[Co je nového] se změnami v každé verzi, #ui[Klávesové zkratky], #ui[Nahlásit problém nebo nápad] (@problemy, také brouk #ik("debug") vpravo nahoře) a #ui[O aplikaci] s poděkováním a licencemi. #ui[Co je nového] a #ui[O aplikaci] jsou také pod verzí vlevo dole.
+V záhlaví okna nápovědy je #ui[Rychlý start] (PDF), tato #ui[Příručka] na webu a vedle ní #ui[PDF] k tisku, #ui[Co je nového] se změnami v každé verzi, #ui[Klávesové zkratky], #ui[Nahlásit problém] (@problemy, také brouk #ik("debug") vpravo nahoře) a #ui[O aplikaci], stránka o olomolu s citací, poděkováním a licencemi. #ui[Co je nového] a #ui[O aplikaci] jsou také pod verzí vlevo dole; obojí se otevře v nové kartě.
 
 == Kresba se ukládá sama <ulozeni>
 
@@ -124,7 +124,7 @@ Všechno začíná jednoduchou vazbou #ik("single"), která je při spuštění 
 
 == Řetězce a kruhy
 
-Nástroj řetězec #ik("chain") (#kl[Z]) kreslí cik-cak řetězec: táhněte z atomu nebo z plátna. Během tažení ukazuje, kolik vazeb přidá; se #kl[Shift] začne cik-cak na druhou stranu.
+Nástroj řetězec #ik("chain") (#kl[Z]) kreslí cik-cak řetězec: táhněte z atomu nebo z plátna. Během tažení ukazuje, kolik atomů přidá (z plátna i ten, ze kterého začíná); se #kl[Shift] začne cik-cak na druhou stranu.
 
 *Kruhy* jsou v dolní liště (benzen a 3- až 8členné kruhy) a také ve variantách nástroje kruhu vlevo. Než kliknete, průhledný náhled ukáže, co se stane:
 
@@ -370,7 +370,7 @@ Do pole #ui[Hledat…] napište část názvu, česky nebo anglicky (`kyselina`,
 
   Židličku můžete nakreslit i ručně, nástrojem vazby: program ji pozná podle tvaru, který má každá židlička, i když není přesně jako v šabloně. Protější hrany jsou rovnoběžné a dva protější rohy míří dovnitř (cik-cak). Pravidelný šestiúhelník, Haworthův kruh ani vanička tento tvar nemají. Kruh se zaoblenými, tupými špičkami, u kterého nejde poznat, kterou židličku ukazuje, program za židličku nebere. Když na rozpoznanou židličku ukážete myší nebo táhnete některý její atom, celý kruh se zvýrazní zelenomodře místo obvyklé modré; kresba se tím nemění. S rozpoznanou židličkou funguje stereochemie, #ui[Otočit ve 3D] i překlopení. #ui[Překlopení židličky] #ik("ringFlip") z jedné židličky udělá druhou (@preklopeni).
 - *Newmanovy projekce* ethanu, butanu a cyklohexanu jsou molekuly při pohledu podél vazby: přední uhlík je bod uprostřed, zadní uhlík kruh a každá skupina kolem nich je obyčejný atom. Zahnuté šipky, náboje, volné páry i R/S na nich fungují jako na každé molekule: eliminaci E2 na cyklohexanu, viděném podél C1–C2 a C5–C4 s axiálními vazbami svisle nahoru a dolů, nakreslíte šipkou z axiální vazby C–H na vazbu viděnou z čela (místo mezi středem a kruhem) a šipkou z C–Br na Br. Kliknutí přesně doprostřed vybere přední uhlík, kliknutí na kruh zadní. Když je vybraný uhlík projekce, panel #ui[Newmanova projekce] umí přepsat skupiny (#ui[Přední], #ui[Zadní]: H, CH3, OH, Cl, Ph…), nastavit #ui[Torzní úhel] (#ui[0°] zákrytová (syn), #ui[60°] gauche, #ui[120°] zákrytová, #ui[180°] anti) a tlačítkem #ui[Otočit zadní o 60°] otáčet zadním uhlíkem; v cyklohexanu skupiny kruhu zůstávají a zadní uhlík se sám otočit nedá. Soubory a SMILES dostanou stereoizomer, který projekce ukazuje; molfile, CDXML a další formáty pro jiné programy ho dostanou nakreslený obyčejně, s klíny. #ui[Překreslit] z něj udělá obyčejný nákres a nákresy ze starších verzí se otevřou jako molekuly.
-- *Haworthovy a Fischerovy projekce* (glukosa, galaktosa, ribosa, glyceraldehyd, alanin, serin…) mají stereochemii, která se do souborů zapíše jako klíny.
+- *Haworthovy a Fischerovy projekce* ze šablon (glukosa, galaktosa, ribosa, glyceraldehyd, alanin, serin…) mají stereochemii, která se do souborů zapíše jako klíny. Fischerovu projekci jde udělat i z kteréhokoli otevřeného řetězce nakresleného s klíny, nebo ji nakreslit ručně a kliknutím ji nechat přečíst (@fischer).
 
 #obr("img/newman-e2.svg", sirka: 28%, popis: [Eliminace E2 na cyklohexanu viděném podél C1–C2 a C5–C4: Br a odtrhávaný H jsou trans-diaxiální])
 
@@ -532,7 +532,7 @@ Někdy molekula nejlépe vynikne z jedné konkrétní strany. Vyberte jednu mole
 - *Tažením* molekulu otáčíte, s #kl[Shift] v rovině papíru.
 - *Šipky na klávesnici* otáčejí po malých krocích, s #kl[Shift] v rovině papíru.
 - #ui[Nejpřehlednější pohled] se vrátí k pohledu, který program našel jako nejlepší a na kterém také začíná.
-- #ui[Tyčinkový model] (#kl[S]) ukáže místo nákresu model takový, jaký je, otočený stejně: se skutečnými délkami vazeb a úhly a se všemi vodíky. Skupiny psané zkratkou jsou rozkreslené (viz níže). Barvy a zvýraznění atomů a vazeb z kresby má také. #ui[Malé vodíky] (#kl[H]) nakreslí vodíky, které model přidá, malé a blízko jejich atomů, aby vynikla kostra; ty, které jste nakreslili jako atomy, zůstanou, jak jsou. Na plátno nejde: místo #ui[Použít tento pohled] je #ui[Uložit obrázek] (PNG, vedle něj SVG), třeba do poznámek vedle nákresu, a #kl[Esc] okno zavře, kresba zůstane, jak byla.
+- #ui[Tyčinkový model] (#kl[S]) ukáže místo nákresu model takový, jaký je, otočený stejně: se skutečnými délkami vazeb a úhly a se všemi vodíky. Skupiny psané zkratkou jsou rozkreslené (viz níže). Barvy a zvýraznění atomů a vazeb z kresby má také. Sloupec vedle něj určuje, jak se ukáže: #ui[Kuličky a tyčinky], #ui[Tyčinky] nebo #ui[Kalotový] (každý atom velký jako jeho van der Waalsův poloměr); vodíky #ui[všechny], #ui[malé] (ty, které model přidá, malé a blízko jejich atomů, aby vynikla kostra; ty, které jste nakreslili, zůstanou, jak jsou) nebo #ui[nic] (jen ty, které jste nakreslili), postupně klávesou #kl[H]; a zadní část bledší, nebo ne. Místo #ui[Použít tento pohled] je tu #ui[Dát na plátno], které dá vedle molekuly samotný model (@modely), a #ui[Uložit obrázek] (PNG, vedle něj SVG). #kl[Esc] okno zavře, kresba zůstane, jak byla.
 - #ui[Použít tento pohled] dá nákres na plátno. #kl[Ctrl+Z] ho vrátí. Bledší zadní část je jen pomůcka v tomto okně; na plátně je běžný nákres.
 
 #figure(
@@ -566,6 +566,23 @@ Klíny se volí tak, aby R/S a E/Z zůstaly, jak jste je nakreslili, a podle va�
   [Funguje to i s komplexy. Celý komplex se optimalizuje silovým polem (UFF), takže každý ligand si zachová správný tvar, chelatační ligandy jako EDTA se obtočí kolem kovu, porfyriny zůstanou rovné a kde se dvě vazby kříží, ta vzadu je přerušená. Když program pro molekulu 3D model nemá, řekne proč.],
   obr("img/otoceni-edta.png", popis: [EDTA kolem Ca#super[2+], z ploché kresby]),
 )
+
+== 3D modely na plátně <modely>
+
+3D model molekuly může stát v kresbě vedle ní, jako obrázek, který je pořád modelem: v okně #ui[Otočit ve 3D] přepněte na #ui[Tyčinkový model] (#kl[S]), otočte ho, jak ho chcete mít, a klikněte na #ui[Dát na plátno]. Model se objeví vpravo od své molekuly a je vybraný; #kl[Ctrl+Z] ho zase odebere. Má barvy a zvýraznění své molekuly, přečtené z kresby, takže skupina zvýrazněná ve vzorci je zvýrazněná i v modelu.
+
+#obr("img/model-platno.png", sirka: 100%, popis: [Ibuprofen a jeho 3D model na plátně, model vybraný a vpravo jeho panel])
+
+S vybraným modelem ho panel vpravo ukáže jinak:
+
+- #ui[Styl]: #ui[Kuličky a tyčinky], #ui[Tyčinky] nebo #ui[Kalotový];
+- #ui[Vodíky]: #ui[všechny], #ui[malé] nebo #ui[nic] (jen ty, které jste nakreslili), a u molekuly se zkratkami (Ph, OAc) #ui[Zkratky] #ui[rozkreslené], nebo #ui[jako koule];
+- #ui[Hloubka]: #ui[vzadu bledší], nebo #ui[stejně], a #ui[Velikost] od ½ do 2 (#ui[1]: vazba stejně dlouhá jako v kresbě);
+- tři posuvníky ho otáčejí, #ui[Doleva–doprava], #ui[Dozadu–dopředu] a #ui[V rovině stránky], každý od −180° do 180° od toho, jak byl otočený, když jste ho vybrali; #ui[Otočit ve 3D…] otevře okno s modelem a #ui[Použít] v něm otočení i vzhled ponechá.
+
+*Když se jeho molekula změní* (atom, náboj, vazba, klín nebo nakreslená konformace, třeba překlopená židlička), model zůstane takový, jaký byl sestavený, kolem něj se objeví čárkovaný rámeček a panel napíše #ui[Jeho molekula se mezitím změnila: model je, jaký byl.] #ui[Aktualizovat] ho sestaví znovu z molekuly, jaká je teď, a ukáže ho ze stejné strany jako dřív. Přesunutí molekuly ani její obarvení model nezastará.
+
+Model je součástí kresby jako cokoli jiného: vybere se, přesune, zkopíruje (s molekulou, kopie má vlastní model), seskupí, zarovná, překlopí i otočí se zbytkem a je v panelu #ui[Objekty] (@objekty). V obrázcích a PDF je tak, jak ho vidíte. Jako model ho uchovají jen vlastní soubory olomolu (.olom) a odkazy; ostatní formáty ho vynechají a řeknou to.
 
 == Překreslení jen části <casti>
 
@@ -611,7 +628,7 @@ Níž #ui[Celé molekuly] nabízí obvyklé nákresy celé molekuly, kdybyste je
 
 - #ik("flipH") a #ik("flipV") v horní liště překlopí výběr, nebo bez výběru celou kresbu. Klíny se přitom prohodí, takže molekula zůstane stejná (R zůstane R).
 - *Překlopit přes vazbu* #ik("flipBond"): vyberte část molekuly, klikněte na tlačítko a pak na vazbu. Vybraná část se kolem vazby otočí jako kolem osy; bez výběru se otočí menší strana. Náhled zešedí, co se otočí, a modře ukáže, kam, a #kl[Esc] to zruší. R/S zůstává.
-- *Překlopení židličky* #ik("ringFlip") udělá z jedné židličky druhou, axiální ⇄ ekvatoriální: klikněte na tlačítko a pak na židličku (dovnitř kruhu nebo na některou jeho vazbu). Každá skupina zůstane na téže straně kruhu (nahoře, nebo dole), axiální skupina mířící nahoru se tedy stane ekvatoriální mířící nahoru a cis a trans, R/S i D nebo L zůstávají: β-D-glukosa se všemi skupinami ekvatoriálně se změní v židličku se všemi axiálně a je to pořád β-D-glukosa. Každý atom kruhu zůstane, kde byl (vlevo, vpravo, vzadu, vpředu), takže třída vidí, jak týž uhlík přejde z axiální polohy do ekvatoriální; skupina jako CH#sub[2]OH nebo fenyl se otočí jako celek. Náhled modře ukáže druhou židličku. Překlopení je animované přes vaničku (jeden hrot klesne, pak druhý stoupne); #ui[Nastavení] → #ui[Animace] to vypne. #kl[Shift]+kliknutí dá druhou židličku vedle první, mezi ně rovnovážnou šipku: obrázek do podkladů pro studenty. Další kliknutí židličku překlopí zpět; #kl[Esc] skončí.
+- *Překlopení židličky* #ik("ringFlip") udělá z jedné židličky druhou, axiální ⇄ ekvatoriální: zvolte ho pod tlačítkem projekcí v horní liště (@fischer) a klikněte na židličku (dovnitř kruhu nebo na některou jeho vazbu). Každá skupina zůstane na téže straně kruhu (nahoře, nebo dole), axiální skupina mířící nahoru se tedy stane ekvatoriální mířící nahoru a cis a trans, R/S i D nebo L zůstávají: β-D-glukosa se všemi skupinami ekvatoriálně se změní v židličku se všemi axiálně a je to pořád β-D-glukosa. Každý atom kruhu zůstane, kde byl (vlevo, vpravo, vzadu, vpředu), takže třída vidí, jak týž uhlík přejde z axiální polohy do ekvatoriální; skupina jako CH#sub[2]OH nebo fenyl se otočí jako celek. Náhled modře ukáže druhou židličku. Překlopení je animované přes vaničku (jeden hrot klesne, pak druhý stoupne); #ui[Nastavení] → #ui[Animace] to vypne. #kl[Shift]+kliknutí dá druhou židličku vedle první, mezi ně rovnovážnou šipku: obrázek do podkladů pro studenty. Další kliknutí židličku překlopí zpět; #kl[Esc] skončí.
 
   Překlopit jde židlička ze šablon (#ui[Šablony] → #ui[Konformace a projekce], otočená, zvětšená, zrcadlená nebo s přidanými skupinami) i nakreslená ručně, pokud ji program pozná (pod ukazatelem se zvýrazní zelenomodře). Překlopená se nakreslí ve tvaru šablony. Plochý šestičlenný kruh, šestiúhelník nebo Haworthova projekce, se změní na židličku: pod ukazatelem se zvýrazní zelenomodře a průhledně se nad ním ukáže židlička, kliknutí ji nakreslí. Každá skupina přijde do axiální nebo ekvatoriální polohy podle strany kruhu, kterou říká její klín nebo šrafovaný klín (u Haworthovy projekce nahoru, nebo dolů), takže molekula zůstane stejná. Vždy je to židlička ze šablon s levou špičkou nahoře (cukr ⁴C#sub[1], β-D-glukosa má všechny skupiny ekvatoriálně); druhou dá překlopení. Skupina, u které kresba neříká, na které straně je, přijde do ekvatoriální polohy a tam, kde sedí na stereocentru, dostane vlnovku. Kruh s dvojnou vazbou (cyklohexen) a kondenzované nebo přemostěné kruhy (dekaliny, steroidy) program odmítne a řekne proč.
 
@@ -624,6 +641,18 @@ Níž #ui[Celé molekuly] nabízí obvyklé nákresy celé molekuly, kdybyste je
   #obr("img/newman-preklopeni.svg", sirka: 62%, popis: [Překlopení cyklohexanu v Newmanově projekci, #kl[Shift]+kliknutím vedle původní: trans-diaxiální Br a Cl jsou teď diekvatoriální])
 - *Otočit židličku* #ik("chairTurn") otočí židličku o třetinu otáčky kolem její osy, proti směru hodinových ručiček (se #kl[Shift] po směru): každý atom kruhu se posune o dva rohy dál i se svými skupinami, které zůstanou axiální nebo ekvatoriální, nahoře nebo dole. Je to stejná molekula ve stejné konformaci, jen otočená; po třech otočeních je jako na začátku. Když se plochý kruh změní na židličku s atomy na jiných rozích, než jste chtěli, otáčejte ji, dokud nebudou tam, kde je chcete mít; druhou konformaci dá překlopení.
 - #ui[Vodorovně / svisle] #ik("snap") srovná vazbu. Klikněte na tlačítko a pak na vazbu: otočí se výběr, pokud je vazba v něm, jinak celá molekula. Další kliknutí na vazbu otočí o čtvrt otáčky dál. S jednou vybranou vazbou se její molekula otočí hned po stisku tlačítka.
+
+== Fischerovy projekce a cik-cak <fischer>
+
+Tlačítko projekcí v horní liště má čtyři nástroje: #ui[Překlopení židličky] #ik("ringFlip"), #ui[Otočit židličku] #ik("chairTurn"), #ui[Fischerova projekce] #ik("fischer") a #ui[Cik-cak] #ik("zigzag"). Ukazuje ten naposledy použitý: kliknutí ho zvolí, další kliknutí na tlačítko, na jeho roh nebo pravým tlačítkem myši otevře seznam.
+
+- *Z klínů Fischerova projekce.* Zvolte #ui[Fischerova projekce] a klikněte na molekulu nakreslenou s klíny: nakreslí se jako její Fischerova projekce. Hlavní řetězec (ten podle IUPAC, C1 nahoře) vede svisle dolů, každé stereocentrum je křížení s vodorovnými vazbami k vám a svislými od vás a skupiny na koncích se napíšou jako CHO, CH#sub[2]OH, CO#sub[2]H, CO#sub[2]Me, CN nebo CH#sub[3]. Stereocentrum na konci hlavního řetězce je také křížení: svislá čára pokračuje jeho největší uhlíkatou skupinou, jako když učebnice kreslí efedrin s fenylem nahoře. Když na molekulu ukazujete, její projekce je nad ní vidět průhledně.
+- *Na cik-cak.* #ui[Cik-cak] nakreslí hlavní řetězec molekuly, na kterou kliknete (třeba i Fischerovy projekce), jako cik-cak: C1 vlevo, každá skupina míří ven ze svého rohu a klíny zachovají každé R/S.
+- *Fischerova projekce nakreslená ručně.* Nakreslete nástrojem vazby řetězec svisle dolů, každé stereocentrum jako uhlík se čtyřmi jednoduchými vazbami: jednou doleva, jednou doprava, jednou nahoru a jednou dolů (každá s odchylkou nejvýš 15°). Tak, jak je nakreslený, je to jen kresba: olomol do křížení podle jejich tvaru žádnou stereochemii nečte. Klikněte na řetězec nástrojem #ui[Fischerova projekce] a přečte se jako Fischerova projekce, vodorovné vazby k vám a svislé od vás, takže SMILES, InChI, #ui[Info], R/S i soubory dostanou stereoizomer, který ukazuje. Když na něj ukážete, jeho páteř se rozsvítí zeleně, bledě, dokud by ho kliknutí teprve přečetlo. Další kliknutí z něj udělá zase jen čáry, bez stereochemie. Dokud se čte, říká to nápis nad ním a atom, na který ukážete, se rozsvítí modře jako jinde. Křížení, které přidáte přímo nad nebo pod něj, se k němu připojí; to, které už křížením není, nebo řetězec otočený na bok se přestane číst a program to řekne.
+
+Každý převod zachová R/S každého stereocentra a je zkontrolovaný: výsledek, který by byl jiným stereoizomerem, se nenakreslí a program řekne proč. Řekne to i tehdy, když nemůže nic udělat: stereocentrum bez klínu, hlavní řetězec, který je kruhem (prolin, cukr v cyklické formě), molekula bez stereocentra (glycin), dvojná vazba v řetězci nebo uhlík v něm s víc než dvěma skupinami.
+
+#obr("img/fischer-cikcak.svg", sirka: 100%, ramecek: false, popis: [D-glukosa nakreslená s klíny, jako Fischerova projekce (#ui[Fischerova projekce]) a znovu jako cik-cak (#ui[Cik-cak]): pokaždé týž stereoizomer])
 
 = Číslování atomů a karta Info <cislovani>
 
@@ -695,7 +724,7 @@ Když v #ui[Nastavení] přepnete #ui[Barvy atomů] na #ui[Černé], prvky se kr
   [
     *Zvýraznění* je měkký barevný podklad za atomy a vazbami, jak ho kreslí RDKit. Hodí se k označení skupiny, reakčního centra nebo společné části několika molekul.
 
-    Použijte zvýrazňovač #ik("zvyraznovac") úplně dole vlevo, s osmi barvami. Klikněte na atomy a vazby nebo je orámujte; další kliknutí zvýraznění zruší. V panelu je totéž v části #ui[Zvýraznění] a i tady duhové kolečko nabízí další, světlé barvy.
+    Použijte zvýrazňovač #ik("zvyraznovac") úplně dole vlevo, s osmi barvami. Klikněte na atomy a vazby nebo je orámujte; další kliknutí zvýraznění zruší. V panelu je totéž v části #ui[Zvýraznění] a i tady duhové kolečko nabízí další, světlé barvy. Pod barvami udělá #ui[Vzor] zvýraznění #ui[šrafované], #ui[čáry] nebo #ui[tečky], každé v jeho barvě, aby se zvýraznění rozlišila i bez barvy: černobíle nebo pro barvoslepé čtenáře.
 
     *Kliknutí dovnitř kruhu kruh vyplní* barvou. Kolem napsaných atomů (O, N, CH#sub[2]) zůstane kulatý výřez, aby barva nešla přes písmena.
 
@@ -805,6 +834,16 @@ Nejostřejší je v tištěné práci SVG: Word i PowerPoint ho vloží (Vložen
 #ui[Export] → #ui[Kopírovat odkaz] vytvoří odkaz, ve kterém je *celá kresba přímo uložená*, za znakem \#, který prohlížeč na server neposílá. Kdo ho otevře, uvidí vaši kresbu a jeho vlastní se mu vrátí přes #kl[Ctrl+Z]. Dlouhé odkazy některé chatovací programy zkrátí; pak pošlete soubor .olom.
 
 *Odkaz se strukturou.* Odkaz může také říct, jakou strukturu nakreslit, napsaný ručně, v pracovním listu nebo chatbotem: `olomol.org/#smiles=CCO` nakreslí ethanol, `#name=caffeine` vyhledá název na PubChemu a fungují i `#inchi=…` a `#cid=2244`. `&title=…` kresbu pojmenuje a víc struktur se otevře každá ve vlastní kartě, popořadě: `#title=Úloha&smiles=C=CC.Br&title=Řešení&smiles=CC(Br)C` je úloha a za ní její řešení, připravené pro #ui[Promítat]. Reakční SMILES (výchozí látky`>`činidla`>`produkty) se nakreslí jako reakce. Nainstalovaná aplikace nemá adresní řádek: takový odkaz vložte do vyhledávacího řádku (@nazev). Chatboti se psát takové odkazy naučí z `olomol.org/llms.txt`.
+
+== olomol ve vlastní stránce <vlozeni>
+
+olomol jde vložit do vlastní webové stránky, třeba stránky kurzu, blogu nebo webu s cvičeními, jen s nástroji, které zvolíte: `olomol.org/embed.html?only=curved-arrows#smiles=CC(=O)O.OCC` je editor jen se zahnutými šipkami, na kyselině octové a ethanolu. Adresa říká zapnuté části (`only=`) nebo vypnuté (`off=`), kresbu za \# jako v odkazu a `readonly` pro kresbu jen k prohlížení. Cokoli vypnutého se odmítne, ať o to žádá cokoli. Takový editor nemá karty, soubory, nápovědu ani nastavení a v prohlížeči nic neuchovává.
+
+#ui[Export] → #ui[Vložit do stránky…] to napíše za vás ve třech krocích. Nejdřív co v editoru půjde dělat: #ui[Zahnuté šipky], #ui[Kreslení struktur], #ui[Všechno] nebo #ui[Jen k prohlížení], nebo části jednotlivě v jejich skupinách (když na ni ukážete, řekne, co to je); PubChem pod #ui[Mimo olomol] je volba sama pro sebe, protože tam jde, co se do editoru napíše. Potom čím začne: #ui[Tato kresba], #ui[Výběr], nebo #ui[Prázdná], a výška. Nakonec zkopírujte kód. #ui[Bez kódu] dá iframe, který se vloží do kterékoli stránky, která přijímá HTML, i do stránky v Moodlu: kreslit v něm může kdokoli, ale stránka nevidí, co se nakreslilo, takže se hodí pro obrázek k otáčení a zvětšování nebo pro cvičení, jehož řešení je jinde. #ui[Vyzkoušet] ukáže editor přímo v okně, tak jak ho kód vloží do stránky, s jeho výškou i nástroji, a mění se s tím, co změníte.
+
+#obr("img/vlozeni.png", sirka: 80%, popis: [Adresa výše ve stránce: jen výběr, guma a zahnutá šipka, jedna šipka nakreslená])
+
+Pro stránku, která čte, co se nakreslilo, dává `olomol.org/embed.js` prvek `<olomol-editor>` a volání, která vrátí kresbu jako data: zahnuté šipky podle atomů, na kterých začínají a končí, SMILES, InChI, krok zapsaný stejně, ať je nakreslený jakkoli (k porovnání odpovědi se správnou), a na které atomy se kliklo. olomol předá data; jestli je odpověď správná, rozhodne stránka. Všechno je popsané v příloze B příručky na webu, `olomol.org/cs/manual.html#embedding` (anglicky).
 
 = Nastavení a klávesové zkratky <nastaveni>
 
@@ -966,6 +1005,7 @@ olomol je zkušební verze. Tohle zatím neumí, nebo umí jen zčásti:
 - *Název ze struktury* program vytvořit neumí. Opačný směr, struktura z názvu, jde přes PubChem, tedy s internetem a s anglickými názvy.
 - *Číslování IUPAC* zvládne hlavní řetězec a jednoduché cykly. Kondenzované, přemostěné a spiro cykly je třeba očíslovat ručně nástrojem čísla atomů #ik("atomNumber").
 - *Volné páry, zahnuté šipky, závorky, zvláštní vazby a barvy* nesou jen vlastní soubory olomolu (.olom), odkazy a obrázky a z větší části i KET, ne molfile nebo SMILES.
+- *3D modely na plátně* uchovají jako modely jen soubory .olom a odkazy; ostatní formáty je vynechají (obrázky a PDF je ukazují).
 - *Židličky* dávají stereochemii, jen když stojí samy (ne kondenzované ani přemostěné); vaničky ji nedávají vůbec. #ui[Překlopení židličky] a #ui[Otočit židličku] odmítnou kondenzované a přemostěné kruhy a kruhy s dvojnou vazbou.
 - *Kopírování obrázků do schránky* některé prohlížeče nedovolí. Program to oznámí; pak exportujte PNG.
 - *Kresby v prohlížeči* jsou jen v tomto prohlížeči na tomto počítači a mezi počítači se nesynchronizují. Přenesete je souborem .olom nebo odkazem.
@@ -973,7 +1013,7 @@ olomol je zkušební verze. Tohle zatím neumí, nebo umí jen zčásti:
 
 == Problémy a nápady <problemy>
 
-Budeme rádi za každou zprávu, i za drobnost. Klikněte na brouka #ik("debug") vpravo nahoře (nebo na #ui[Nahlásit problém nebo nápad] v nápovědě). Otevře se okno s tabulkou toho, co pomůže chybu najít: verze programu, prohlížeč, systém, velikost okna, a když necháte zaškrtnuté #ui[S kresbou (odkaz, ve kterém je celá, abych viděl, co vy)], i odkaz na kresbu.
+Budeme rádi za každou zprávu, i za drobnost. Klikněte na brouka #ik("debug") vpravo nahoře (nebo na #ui[Nahlásit problém] v nápovědě). Otevře se okno s tabulkou toho, co pomůže chybu najít: verze programu, prohlížeč, systém, velikost okna, a když necháte zaškrtnuté #ui[S kresbou (odkaz, ve kterém je celá, abych viděl, co vy)], i odkaz na kresbu.
 
 #obr("img/nahlaseni.png", sirka: 72%, popis: [Okno pro nahlášení problému])
 
@@ -981,7 +1021,7 @@ Budeme rádi za každou zprávu, i za drobnost. Klikněte na brouka #ik("debug")
 + Odkaz na kresbu je na e-mail moc dlouhý, takže s kresbou klikněte na #ui[Kopírovat tabulku] a tabulku vložte (#kl[Ctrl+V]) na konec e-mailu.
 + Pomůže i snímek obrazovky nebo soubor kresby .olom.
 
-Odsud se nic neposílá: e-mail uvidíte a odešlete sami. Když se po kliknutí žádný e-mail neotevře (třeba používáte jen webovou poštu), napište na adresu ručně a tabulku vložte stejně. Verzi programu najdete také vlevo dole a v okně #ui[O aplikaci].
+Nápady a otázky patří na contact\@olomol.org (okno tu adresu uvádí také). Odsud se nic neposílá: e-mail uvidíte a odešlete sami. Když se po kliknutí žádný e-mail neotevře (třeba používáte jen webovou poštu), napište na adresu ručně a tabulku vložte stejně. Verzi programu najdete také vlevo dole.
 
 #show: prilohy
 
@@ -1047,7 +1087,7 @@ olomol je *statická webová stránka*: HTML, JavaScript a WebAssembly, nic víc
 
 == Data a soubory <data-soubory>
 
-- *Vlastní formát* je .olom, z anglického #strong[O]lomol #strong[L]ayout #strong[O]bject #strong[M]odel: kresba tak, jak ji olomol drží, v JSON (UTF-8), takže ji umí přečíst i zapsat kterýkoli program, skript nebo jazykový model. Souřadnice jsou v délkách vazeb, objekty se na sebe odkazují přes id, výchozí hodnoty se nevypisují. Formát něco slibuje: každý olomol otevře každý dřívější soubor .olom; nová dílčí verze (1.0 → 1.1) jen přidává; co čtenář nezná (pole novějšího olomolu, `program:klíč` jiného programu), to si nechá a zapíše zpátky beze změny. Úplný popis je v souboru `docs/olom.md` ve zdrojovém kódu.
+- *Vlastní formát* je .olom, z anglického #strong[O]lomol #strong[L]ayout #strong[O]bject #strong[M]odel: kresba tak, jak ji olomol drží, v JSON (UTF-8), takže ji umí přečíst i zapsat kterýkoli program, skript nebo jazykový model. Souřadnice jsou v délkách vazeb, objekty se na sebe odkazují přes id, výchozí hodnoty se nevypisují. Formát něco slibuje: každý olomol otevře každý dřívější soubor .olom; nová dílčí verze (1.0 → 1.1) jen přidává; co čtenář nezná (pole novějšího olomolu, `program:klíč` jiného programu), to si nechá a zapíše zpátky beze změny. Úplný popis je v příloze C příručky na webu, `olomol.org/cs/manual.html#olom` (anglicky; ve zdrojovém kódu `docs/olom.md`).
 - *KET*, JSON programu Ketcher, se zapisuje pro Ketcher a Indigo (zkratky jako skupiny Ketcheru, projekce jako klíny) a čte, stejně jako dřívější vlastní soubory olomolu před verzí 0.5.0.
 - *Průběžné ukládání:* každá otevřená kresba, její dřívější verze a nedávné soubory jsou v IndexedDB prohlížeče, nastavení v `localStorage`.
 - *Odkaz na kresbu:* soubor .olom, zkomprimovaný (`deflate-raw`) a zapsaný v base64url za `#d=`. Část adresy za znakem \# prohlížeč serveru neposílá, takže kresba v odkazu nikdy neprojde serverem, kde je olomol uložený.
@@ -1084,8 +1124,8 @@ Příklady v příručce jsou skutečné kresby programu, ne překreslené obrá
 
 == Licence a poděkování
 
-olomol je zdarma k použití pod licencí MIT: smí se používat, šířit i upravovat, i v jiných programech, pokud zůstane zachována zmínka o autorovi a licenci. Program používá *RDKit* (BSD-3-Clause, včetně šablon kruhových systémů © Schrödinger a univerzálního silového pole UFF, převedeného do JavaScriptu), *Indigo* od EPAM Systems (Apache 2.0), *megane-rdkit* (BSD-3-Clause; 3D struktury z RDKit ve WebAssembly), *OpenChemLib* (BSD-3-Clause) a *React* (MIT). Formát KET je formát programu *Ketcher* (EPAM Systems, Apache 2.0); kód Ketcheru v programu není. Data o sloučeninách na požádání poskytuje *PubChem* (National Library of Medicine, USA). Všechny texty licencí se otevřou z okna #ui[O aplikaci olomol] (#ui[O aplikaci] pod verzí vlevo dole). Na kódu se výrazně podílel model Claude od společnosti Anthropic.
+olomol je zdarma k použití pod licencí MIT: smí se používat, šířit i upravovat, i v jiných programech, pokud zůstane zachována zmínka o autorovi a licenci. Program používá *RDKit* (BSD-3-Clause, včetně šablon kruhových systémů © Schrödinger a univerzálního silového pole UFF, převedeného do JavaScriptu), *Indigo* od EPAM Systems (Apache 2.0), *megane-rdkit* (BSD-3-Clause; 3D struktury z RDKit ve WebAssembly), *OpenChemLib* (BSD-3-Clause) a *React* (MIT). Formát KET je formát programu *Ketcher* (EPAM Systems, Apache 2.0); kód Ketcheru v programu není. Data o sloučeninách na požádání poskytuje *PubChem* (National Library of Medicine, USA). Všechny texty licencí jsou odkázané ze stránky o olomolu (#ui[O aplikaci] pod verzí vlevo dole). Na kódu se výrazně podílel model Claude od společnosti Anthropic.
 
 === Jak citovat
 
-Pokud vám olomol pomohl s publikací, závěrečnou prací nebo výukovými materiály, citujte ho i s verzí, kterou jste použili. V okně #ui[O aplikaci olomol] je citace: zkopírujete ji jako text, BibTeX, RIS nebo CSL JSON, nebo ji uložíte jako soubor .bib, .ris nebo .json pro správce citací (Zotero, Mendeley, EndNote, Citavi, LaTeX). Obsahuje DOI olomolu na Zenodu, společné všem verzím, a číslo verze, kterou používáte.
+Pokud vám olomol pomohl s publikací, závěrečnou prací nebo výukovými materiály, citujte ho i s verzí, kterou jste použili. #ui[O aplikaci] otevře stránku o olomolu, kde je v části #ui[Jak citovat] citace: zkopírujete ji jako text, BibTeX, RIS nebo CSL JSON, nebo ji uložíte jako soubor .bib, .ris nebo .json pro správce citací (Zotero, Mendeley, EndNote, Citavi, LaTeX). Obsahuje DOI olomolu na Zenodu, společné všem verzím, a číslo verze, kterou používáte.

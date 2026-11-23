@@ -12,7 +12,7 @@ const BACK = 0.28;
 
 const inBox = ([x, y], b, pad = 0) => x >= b.x1 - pad && x <= b.x2 + pad && y >= b.y1 - pad && y <= b.y2 + pad;
 
-// Returns { kind: 'atom' | 'bond' | 'curve' | 'arrow' | 'plus' | 'text' | 'bracket' |
+// Returns { kind: 'atom' | 'bond' | 'curve' | 'arrow' | 'plus' | 'text' | 'bracket' | 'model' (a 3D model) |
 // 'orbital' (lobe: which of its lobes) | 'overlap' | 'fill', id, distance, pair?, radical?, arc and arcId? (a reaction arrow's side arc: its key and id) } or null. `only`: kinds to consider.
 // Inside a filled ring, with nothing else there, the fill: it stands for its
 // ring (a click selects the ring, a double click the molecule, a drag moves it).
@@ -94,6 +94,10 @@ export function hitTest(scene, point, { only = null, skip = new Set() } = {}) {
       if (point[0] > sides[1][0] && inBox(point, box, 0.03)) consider({ kind: 'bracket', id: bracket.id, distance: 0 });
     }
   }
+  if (wants('model')) {
+    // anywhere in its box (a little further off than a hit on a line: an atom beside it wins)
+    for (const { item, box } of scene.models?.values() ?? []) if (inBox(point, box, 0)) consider({ kind: 'model', id: item.id, distance: 0.1 });
+  }
   const near = within(other, 0.18);
   if (near) return near;
   // the dashed line between two orbitals
@@ -134,6 +138,7 @@ export function idsInRect(scene, { x1, y1, x2, y2 }) {
   for (const { text, box } of scene.texts.values()) if (inside([(box.x1 + box.x2) / 2, (box.y1 + box.y2) / 2])) ids.push(text.id);
   for (const { curve, samples } of scene.curves.values()) if (samples.every(inside)) ids.push(curve.id);
   for (const { bracket, box } of scene.brackets.values()) if (inside([box.x1, box.y1]) && inside([box.x2, box.y2])) ids.push(bracket.id);
+  for (const { item, box } of scene.models?.values() ?? []) if (inside([(box.x1 + box.x2) / 2, (box.y1 + box.y2) / 2])) ids.push(item.id);
   return withOrbitals(scene, ids, atoms);
 }
 
@@ -166,5 +171,6 @@ export function idsInPolygon(scene, polygon) {
   for (const { curve, samples } of scene.curves.values()) if (samples.every(inside)) ids.push(curve.id);
   // (a bracket with all four corners inside, as a box takes one with its two)
   for (const { bracket, box } of scene.brackets.values()) if ([[box.x1, box.y1], [box.x2, box.y1], [box.x1, box.y2], [box.x2, box.y2]].every(inside)) ids.push(bracket.id);
+  for (const { item, box } of scene.models?.values() ?? []) if (inside([(box.x1 + box.x2) / 2, (box.y1 + box.y2) / 2])) ids.push(item.id);
   return withOrbitals(scene, ids, atoms);
 }

@@ -15,7 +15,7 @@ ChemSketch):
   (dashed: forming or breaking, for transition states), **hydrogen bonds**
   (dotted) and **dative** bonds (an arrow from the donor; it uses the
   donor's lone pair). Partial, hydrogen and dative bonds don't go into
-  molfiles; KET keeps them. Click an atom to
+  molfiles; .olom files and KET keep them. Click an atom to
   add a bond in a sensible direction (zigzag, the widest gap), drag from it
   to pull one out in 15° steps (Shift: free), drop it on an atom to close a
   ring. Clicking a bond changes it (single → double → triple; a double bond
@@ -58,15 +58,18 @@ ChemSketch):
   read too, by the shape every chair drawing has (a zigzag hexagon: opposite
   edges parallel, two opposite corners pointing in); pointed at, a chair
   read lights up green-teal instead of blue.
-- **Name / SMILES** (in the bottom bar, or the / key): type a **SMILES or
+- **The search bar** (the right end of the bottom bar, or the / key): type a **SMILES or
   InChI** (drawn here, offline, with a picture as you type; a SMILES with a
   mistake is explained, e.g. "Atom 3 (O) has 3 bonds", and a charge
   written after its atom, N[+], is put right to [N+]) or a **name or PubChem number** (aspirin,
   CID 2244, looked up on PubChem) and press Enter; then click where it
   should go. Only what you typed is sent to PubChem, and only names and
   numbers, unless you ask for the **PubChem page** of what you typed (then
-  that SMILES or InChI is sent to find it). The template search takes the
-  same things.
+  that SMILES or InChI is sent to find it). It also finds elements, templates
+  (by name, or `?ester` for those with a part), olomol's own tools and
+  actions by name or by what they do (with their keys), the open drawings and
+  recent files, and opens an olomol link or its #part pasted in. A SMILES,
+  InChI or CID comes first; a word finds what olomol has before PubChem.
 - Charges and **δ+ / δ−** (beside a bare corner where there is room),
   **unpaired electrons** (radical tool: one dot, again two side by side,
   again none; three or four, each on a side of its own, in the panel's
@@ -93,15 +96,15 @@ ChemSketch):
   molecule's orbital draws a dashed overlap line between the two lobes
   chosen (a Diels–Alder's HOMO and LUMO); curved arrows start and end on lobes.
   In Turn in 3D the p orbitals stand upright to the molecule's plane as
-  seen, on the side they were drawn on. KET keeps them.
+  seen, on the side they were drawn on. .olom files and KET keep them.
 - **Brackets** (tool on the left, key K, or "Brackets" in the panel for
   the selected atoms): round a whole molecule for a **transition state**
   (‡) or an **ion** ([Fe(CN)₆]⁴⁻; the panel puts ‡, + or − at the top
   right, or anything you type), round part of a chain for a **repeating
   unit**: the brackets cross the bonds that leave it, at their middle,
   and get an n. Square or round. They move with the molecule inside when
-  you align. KET keeps them (and shows them in Ketcher as pictures); other
-  structure files don't.
+  you align. .olom files and KET keep them (Ketcher shows them as
+  pictures); other structure files don't.
 - **Abbreviations** that count: Me, Et, iPr, tBu, Ph, Bn, Ac, Bz, Boc,
   Cbz, Fmoc, Ts, Ms, Tf, TMS, TBS, TIPS, OMe, OAc, OTs, OTf, CO2Et, CO2H,
   CHO, CH2OH, CN, CF3, NO2, NHBoc and more (periodic table dialog, or typed
@@ -131,8 +134,8 @@ ChemSketch):
   numbering of their own and are left to the **atom number** tool (with
   Text), which numbers atoms in the order you click them (again: off), for
   NMR assignments and the like; the panel's **Number** field changes one.
-  The numbers sit beside the atoms, outside rings, and go into KET files,
-  links and pictures.
+  The numbers sit beside the atoms, outside rings, and go into .olom and
+  KET files, links and pictures.
 - Reaction arrows (→, ⇌, ↔, ⇒, the multistep arrow, a **crossed** arrow for a reaction that does not go, an
   **equals sign** for the same thing drawn another way), an equilibrium that **lies to one
   side** (the panel's Favours: the other harpoon shorter), the **dipole arrow** (crossed, from δ+ to
@@ -146,11 +149,28 @@ ChemSketch):
   pasting a SMILES or molfile from elsewhere works too, checked to mean
   the molecule given, a double bond left open with a wavy bond beside
   it), arrows nudge the
-  selection.
+  selection. The **right mouse button** offers what can be done with what is
+  under it (cut, copy, paste, delete, Redraw, Turn in 3D, flips, a bond
+  horizontal, Abbreviate, One compound, Group…), each with its key.
+- **Groups** (Ctrl+G, apart again with Ctrl+Shift+G, nested): things held
+  together for selecting and moving without being one compound (a molecule
+  and its number, half a scheme). A click still selects an atom or a
+  molecule; Ctrl+click the group, Ctrl+drag moves it; Align moves groups
+  as wholes and SVG keeps them as groups. The **Objects** panel (at the foot
+  of the tool rail) lists the drawing's things and groups: select, light
+  up, unfold, name a group by a double click, drag rows into or out of
+  groups.
 - Zoom with Ctrl+wheel or the buttons, pan with Space+drag, the middle
   button (it doesn't paste selected text, as Linux would), the wheel
-  (Shift+wheel: sideways). Your drawing is kept in the browser between
-  visits.
+  (Shift+wheel: sideways).
+- **Tabs**: each drawing in a tab of its own, with its own undo, file and
+  view; renamed by a double click, moved by dragging, duplicated from the
+  right-click menu (an exercise and a copy for its solution). Every open
+  drawing is kept in the browser and comes back next time; the browser also
+  keeps **earlier versions** of each, a few minutes apart, shown as pictures
+  to bring one back. **Show** puts the open drawings full screen one after
+  another, for a lecture (→ and ←, Space, Page Up/Down: a clicker; Esc back
+  to drawing).
 - **Keys**: over an atom, C N O S P F H I L (Cl) B (Br) change the
   element, + − the charge, "." the unpaired electrons, ":" the lone pairs;
   over a bond 1 2 3 (1 again: wedge, then hashed wedge, as in Ketcher);
@@ -213,7 +233,7 @@ atoms and bonds to mark a group (panel or highlighter tool), and **filled
 rings** (the highlighter clicked inside a ring, also in any colour from its
 rainbow; a round bite keeps the colour off
 written atoms, goes when the ring is broken, and the highlighter's "No
-highlight" or the eraser takes it away). **Keep together** joins
+highlight" or the eraser takes it away). **One compound** joins
 molecules such as K⁺, K⁺ and SiF₆²⁻ into one by invisible links: they
 move, line up in a grid and count as one (formula K₂SiF₆); Settings shows
 the links. An atom with too many bonds gets a dashed red ring on screen. Black-and-white mode
@@ -266,6 +286,19 @@ with its name; **Small hydrogens** (H) draws the hydrogens the model adds
 small and close to their atoms. **Save picture** saves the stick model as
 PNG or SVG. The window remembers G and H until the tab is closed.
 
+**3D models on the canvas** (**Put on canvas** in Turn in 3D's stick
+model): the model beside its molecule, in its colours and highlights; in the
+panel ball and stick, sticks or space-filling (van der Waals radii),
+hydrogens all, small or none, shorthands drawn out or as balls, the back
+paler or even, size ½ to 2, turned by three sliders (left–right,
+back–forward, in the page) or in Turn in 3D (Apply). When the molecule
+changes (an atom, a charge, a bond, a wedge, the conformation drawn: a chair
+flipped; not a move or a colour), the model stays as built, in a dashed
+frame, and **Update** builds it again, seen from the same side. Selected,
+moved, copied, grouped, aligned, flipped and turned with the rest, in the
+Objects panel, in pictures and PDFs; kept as a model only in .olom files
+and links.
+
 **Align**: line up, space evenly, grid (where the selection was), and **Align reaction
 scheme** (one row, even gaps, horizontal arrows, reagents travel with their
 arrow, compound labels on one line). Molecules joined by a curved arrow
@@ -288,18 +321,36 @@ bond where a group's side isn't drawn on a stereocentre; cyclohexenes
 refused. **Turn a chair** turns a chair a third of the way round its axis
 (Shift: the other way), each ring atom two corners on with its groups,
 which stay axial or equatorial, up or down: the same conformation, seen
-turned. In the panel: **R/S and E/Z labels** (from RDKit; **Λ and Δ** at an octahedral metal with two or three chelates, by IUPAC's skew lines, kept by Redraw and Turn in 3D) for the selected molecule or for single atoms and bonds; they go into exported pictures and KET files.
+turned. Ring flip, Turn a chair, **Fischer projection** and **Zigzag** are
+under one projections button in the top bar. **Fischer projection**: a
+molecule drawn with wedges clicked is drawn as its Fischer projection (the
+IUPAC main chain upright, C1 at the top, each stereocentre a crossing, the
+end groups written CHO, CH2OH, CO2H, CO2Me, CN, CH3); a chain of crossings
+drawn by hand (each a carbon with four single bonds left, right, up and
+down, within 15°) is read as a Fischer projection only when clicked
+(horizontal bonds towards the viewer, vertical ones away), its spine lit
+green when pointed at; clicked again, a drawing again. **Zigzag**: any
+molecule's main chain (a Fischer projection's too) as a zigzag, C1 on the
+left, with the wedges that keep its R/S. Each conversion is checked by
+canonical SMILES and refused with a reason (a stereocentre without a wedge,
+a ring as the main chain, no stereocentre, a double bond in the chain);
+a see-through preview on hover. In the panel: **R/S and E/Z labels** (from RDKit; **Λ and Δ** at an octahedral metal with two or three chelates, by IUPAC's skew lines, kept by Redraw and Turn in 3D) for the selected molecule or for single atoms and bonds; they go into exported pictures, .olom and KET files.
 
-**Settings**: the **style**, Screen or **ACS 1996** (ChemDraw's style for
-ACS journals: bonds 14.4 pt, lines 0.6 pt, Arial 10 pt; pictures then come
-out at that true size); atom colours by element or black; **carbons**: CH₃ written at chain ends,
+**Settings**: the drawing's **style**, Screen, **ACS** (ChemDraw's ACS
+Document 1996: bonds 14.4 pt, lines 0.6 pt, Arial 10 pt), **RSC** (12.2 pt,
+0.5 pt, Arial 7 pt), Slides (thicker, for a projector) or one's own (bond
+length, lines, bold bonds and wedges, hash spacing, the margin round labels,
+label size, sans or serif), with its charges and lone pairs: it belongs to
+the drawing and its file, pictures and PDFs come out at its true size, and
+**Use for new drawings** makes it the default; atom colours by element or black; **carbons**: CH₃ written at chain ends,
 plain line ends, or every carbon written (CH₂, CH: for those who don't yet
 read a corner as a carbon; the panel's **Carbons** switch changes the
 carbons selected: all of a molecule's, or single ones); charges as + − or circled ⊕ ⊖; aromatic rings with a circle or
 dashed lines; lone pairs as dots or bars (Lewis,
 as taught in Czechia and Germany); coordination bonds as arrows or plain lines;
-the colour of new curved arrows (e.g. red); the **language**; light, dark
-or automatic theme; animations on or off (by default as the system asks); debug mode.
+One compound's links hidden or shown; the colour of new curved arrows (e.g.
+red); the **language**; light, dark or automatic theme; animations on or off
+(by default as the system asks); debug mode.
 
 **Languages**: English, Czech and German. The browser's language is used
 when there is one of these; Settings picks another (the page loads again,
@@ -307,8 +358,8 @@ the drawing stays), and a link with `?lang=cs` opens in that language.
 Template names are translated and can be searched in either language;
 PubChem only knows English names. A language is one file of translations
 in `src/i18n/` (English text → its translation); `npm test` lists any text
-that is missing from one. The Czech and German were written by Claude and
-need a check by native speakers.
+that is missing from one. The manuals are in English and Czech; Help in
+German opens the English one.
 
 **Debug mode** (Settings → Debug) shows how the rules decided: in the
 re-layout dialog the engine, its rule, the ring template used, the time and
@@ -319,6 +370,25 @@ their costs. A panel explains the decisions for whatever is under the
 pointer (hydrogen side, charge corner, electron counts, double bond rule,
 the cost of an arrow and what it is made of).
 
+## In another page
+
+**embed.html**: olomol with only the parts its address switches on or off
+(`?only=curved-arrows,charges-electrons`, `?off=…`; 17 named parts), the
+drawing from `#d=`, `#smiles=`, `#inchi=`, `#name=` or `#cid=`, `?readonly`,
+`?theme`, `?lang`, `?arrowcolor`; no tabs, files, help or settings, nothing
+kept in the browser. A change that touches a part switched off is refused
+and said why, whatever made it. **`<olomol-editor>`** (embed.js) wraps it,
+with calls through `postMessage`: `get` the curved arrows by atom ids, the
+canonical form of a step (one string for every drawing of the same step:
+equivalent atoms as drawn in 3D, any ids, any order, any layout), SMILES,
+InChI, InChIKeys, molfile, .olom, SVG, PNG, chairs' and Newman projections'
+conformations, atom classes; `set`, `setParts`, `lock`, `pick`,
+`highlight`, `showMessage`, `readOnly`; events when the student changes the
+drawing. Described in [embed.md](embed.md). **Export → Embed in a page…** writes
+both for the drawing on screen: the tools by preset (curved arrows, drawing
+structures, everything, only to look at) or part by part, PubChem as a tick of
+its own, the height, and a Try it link.
+
 ## Files
 
 - The drawing has a **name** (top bar; by default `drawing-` with date and
@@ -326,41 +396,55 @@ the cost of an arrow and what it is made of).
   Saving and exporting **ask for the file name**: Chrome and Edge show
   their own save dialog (name and folder); in Firefox our dialog asks for
   the name and the file goes where Firefox puts downloads.
-- **Save** (Ctrl+S) writes **KET**, Ketcher's JSON format, which this app
-  also uses as its own: molecules, reaction arrows, "+" and text as
-  standard KET, so **Ketcher and Indigo open it**; lone pairs and curved
-  arrows also as small pictures, so Ketcher shows them; and an `olomol`
-  section with what only this app uses (colours, highlights, ring fills,
-  which atoms show lone pairs, arrows tied to atoms and bonds), which
-  other programs ignore.
-- **Open** (Ctrl+O) reads KET (also files of the Ketcher-based version:
+- **Save** (Ctrl+S) writes an **olomol drawing**, a `.olom` file (JSON,
+  described in [olom.md](olom.md)), with everything in it: lone pairs,
+  curved arrows, colours, highlights, numbers, groups, 3D models and the
+  drawing's style. As in a word processor, a drawing knows its file: in
+  Chrome and Edge Ctrl+S writes it back without asking, Ctrl+Shift+S is
+  Save as; a dot on the button and the tab marks changes not in the file
+  yet; a file another program wrote is never written over, and one changed
+  since it was read is asked about first. Firefox and Safari download
+  instead.
+- **Open** (Ctrl+O) reads .olom, KET (also files of the Ketcher-based version:
   their lone pair and arrow pictures become real, anchored ones again),
-  molfiles, SDF, SMILES, RXN, CDXML, CDX (ChemDraw), CML and **XYZ**;
+  molfiles, SDF, SMILES, RXN, CDXML, CDX (ChemDraw), CML and **XYZ**, and
+  SVG and PNG pictures exported from olomol (they carry the drawing inside
+  them); it lists the **recent files** first; files can be dropped on the
+  window, and the installed app opens .olom files from the file manager;
   pasting also takes an InChI. From ChemDraw, abbreviations stay labels, an
   atom's written hydrogens are kept and an attachment point becomes an R; a
-  reaction from an RXN file is lined up, its reagents on the arrow. A drawing (KET, CDXML, CDX, CML) or a
-  reaction opens in place of the one there is; a file of molecules only
+  reaction from an RXN file is lined up, its reagents on the arrow. A drawing (.olom, KET, CDXML, CDX, CML) or a
+  reaction opens in a tab of its own; a file of molecules only
   (molfile, SDF, SMILES, XYZ) goes into the drawing like a template (click
   where it should go). Its 3D coordinates come without bonds
   (from a quantum chemistry program): it gets its bonds from the distances,
   bond orders from the valences (with charges where nothing else fits:
   nitro, carboxylate, ammonium), R/S and E/Z from the geometry, and is
   then drawn in 2D.
-- **Copy as picture** (Ctrl+Shift+C): a PNG on the clipboard, to paste
-  into Word, PowerPoint or Google Docs.
+- **Copy as picture** (Ctrl+Shift+C): a PNG on the clipboard, with an SVG
+  beside it for programs that take one, to paste into Word, PowerPoint or
+  Google Docs.
 - **Copy link** (Export menu): a link with the drawing inside it (in the
   part after #, which browsers don't send to the server). Whoever opens it
-  gets the drawing; their own comes back with Ctrl+Z.
+  gets the drawing; their own comes back with Ctrl+Z. A link can also say
+  which structure to draw: `#smiles=CCO`, `#name=caffeine`, `#inchi=…`,
+  `#cid=2244`, with `&title=…`; several open in tabs of their own, in order
+  (an exercise, then its solution, for Show).
 - **Export**: **SVG** (pure vector, text stays text, for Inkscape), **PNG**
-  (4× resolution, transparent or white), and as structure files molfile,
-  SDF, SMILES, InChI, KET, and **XYZ** with 3D coordinates
+  (4× resolution, transparent or white; it says its own size, so Word places
+  it as large as the style gives), **PDF / Print** (the drawing alone on a
+  page at its style's size), and as structure files KET (for Ketcher:
+  abbreviations as its groups, Haworth and Fischer projections as wedges),
+  molfile, SDF, SMILES, InChI and **XYZ** with 3D coordinates
   (all hydrogens; a conformer from RDKit's ETKDG, or OpenChemLib's, that
   keeps R/S and E/Z, minimised with MMFF94s; a metal complex optimised by
   UFF as in Turn in 3D, Λ/Δ and its ligands' R/S as drawn; several molecules side by side; worked out in the background while you draw on, then saved with a button): a starting
   geometry for Gaussian, ORCA and the like, not an optimised one.
   Structure files keep atoms, positions, charges, isotopes, radicals and
-  wedges, so other programs can load them; only KET and the pictures keep
-  lone pairs and curved arrows. "Only the selection" exports part of the
+  wedges, so other programs can load them; lone pairs, curved arrows,
+  brackets, partial bonds and colours are kept only in olomol's own files,
+  links and pictures, and mostly in KET. Beside a format, the menu says what
+  of the drawing it can't hold. "Only the selection" exports part of the
   drawing (ticked by itself when something is selected). RXN and CDXML
   are not offered until they are tried in the programs that read them.
 

@@ -11,6 +11,8 @@
   --accent-glow: rgba(16, 53, 169, 0.32);
   --select: #2f6bff; /* what is selected or under the pointer: a vivid blue, blended over the drawing */
   --chair: #a6e3d6; /* a ring read as a chair, under the pointer: pastel green-teal, opaque (red would read as an error) */
+  --fischer: #d2f1ea; /* a Fischer projection's spine, pointed at: the same, paler (its atoms' blue pointer halo shows on it) */
+  --chair-text: #0f766e; /* what is said beside it (a Fischer projection's spine: Fischer projection) */
   --select-pale: #a3bdff; /* under the pointer: --select halfway to white */
   --turned: #1f5fe0; /* where a part turned over a bond goes, and the bond */
   --select-blend: multiply;
@@ -48,11 +50,15 @@
     --accent-line: rgba(123, 150, 242, 0.55);
   --select: #4d84ff;
   --chair: #1f6157;
+  --fischer: #18443e;
+  --chair-text: #7dd3c0;
   --select-pale: #26427f; /* (halfway to black: blended by screen) */
   --turned: #6f9dff;
   --select-blend: screen;
     --select: #4d84ff;
     --chair: #1f6157;
+    --fischer: #18443e;
+  --chair-text: #7dd3c0;
     --select-pale: #26427f; /* (halfway to black: blended by screen) */
     --turned: #6f9dff;
     --select-blend: screen;
@@ -76,6 +82,8 @@
   --accent-line: rgba(123, 150, 242, 0.55);
   --select: #4d84ff;
   --chair: #1f6157;
+  --fischer: #18443e;
+  --chair-text: #7dd3c0;
   --select-pale: #26427f; /* (halfway to black: blended by screen) */
   --turned: #6f9dff;
   --select-blend: screen;
@@ -109,6 +117,11 @@ button { font: inherit; color: inherit; }
 .canvas .halos { opacity: 0.32; }
 .canvas .halo.hover { fill: var(--select-pale); stroke: var(--select-pale); } /* (paler, under the selection in the same group) */
 .canvas .chair-under { stroke: var(--chair); } /* (a ring read as a chair, pointed at: opaque, under the bonds) */
+.canvas .chair-under .spine { stroke: var(--fischer); }
+/* (both fade in, so pointing at a molecule doesn't flash it) */
+.canvas .chair-under { animation: fade 0.2s ease-out; }
+@media (prefers-reduced-motion: reduce) { .canvas .chair-under { animation: none; } }
+.canvas .chair-note { fill: var(--chair-text); stroke: none; font-weight: 600; }
 .canvas .anchor { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
 .canvas .rubber { fill: var(--accent-soft); stroke: var(--accent-line); stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; }
 .canvas .rubber.erase { fill: rgba(224, 17, 95, 0.08); stroke: rgba(224, 17, 95, 0.6); }
@@ -134,6 +147,7 @@ button { font: inherit; color: inherit; }
 .canvas .slot-plus { stroke: #fff; stroke-width: 2.5; stroke-linecap: round; fill: none; vector-effect: non-scaling-stroke; }
 .canvas .link-line { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 2 4; stroke-linecap: round; opacity: 0.75; vector-effect: non-scaling-stroke; }
 .canvas .error-ring { fill: none; stroke: var(--danger); stroke-width: 2; stroke-dasharray: 4 2.5; vector-effect: non-scaling-stroke; }
+.canvas .stale-model { fill: none; stroke: #e8590c; stroke-width: 1.5; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; pointer-events: none; }
 .canvas .ghost-copy { opacity: 0.45; pointer-events: none; }
 .canvas .ghost-copy.tinted { opacity: 1; }
 /* turning a part over a bond: where it is, washed out (grey), its copy where it goes in blue */
@@ -359,6 +373,9 @@ a.btn { color: inherit; text-decoration: none; }
   opacity: 0.8;
 }
 .rail .btn:hover .corner { opacity: 1; }
+/* the top bar's projections button: its kinds under it, as the rail's tools */
+.topbar .btn.projections { position: relative; }
+.topbar .btn.projections .corner { position: absolute; right: 2px; bottom: 2px; width: 0; height: 0; border-left: 8px solid transparent; border-bottom: 8px solid currentColor; border-bottom-right-radius: 3px; opacity: 0.7; }
 .rail .group-sep { height: 1px; background: var(--edge); margin: 3px 6px; }
 .rail .el-symbol { font-weight: 650; font-size: 15px; }
 
@@ -389,6 +406,9 @@ a.btn { color: inherit; text-decoration: none; }
 }
 
 /* --- inspector (right) --- */
+/* (embedded: folded to a button, the panel under it once opened) */
+.glass.inspector-fold { top: 64px; right: 12px; padding: 4px 12px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--text); cursor: pointer; z-index: 3; }
+html[data-embed] .inspector { top: 100px; max-height: calc(100vh - 176px); }
 .inspector input, .menu input, .dialog input { user-select: text; }
 .inspector {
   top: 64px;
@@ -431,6 +451,11 @@ a.btn { color: inherit; text-decoration: none; }
 .inspector .charge-row .seg { flex-wrap: nowrap; }
 .charge-row .seg:not(.charge) button { min-width: 0; padding: 4px 6px; }
 .inspector .seg { flex-wrap: wrap; } /* longer words in other languages */
+/* a 3D model's turns: a slider each, its name before and its angle after */
+.inspector .turns .slider { display: flex; align-items: center; gap: 8px; }
+.inspector .turns .slider .name { flex: 0 0 92px; }
+.inspector .turns .slider input { flex: 1 1 auto; min-width: 0; accent-color: var(--accent); }
+.inspector .turns .slider .value { flex: 0 0 34px; text-align: right; font-variant-numeric: tabular-nums; }
 .seg button.on { background: var(--glass-strong); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); color: var(--accent); font-weight: 600; }
 .formula-row {
   display: flex;
@@ -736,6 +761,7 @@ select.field { height: 28px; border: 1px solid var(--edge); border-radius: 8px; 
 .downloads .bar { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--hover); overflow: hidden; }
 .downloads .bar div { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.2s linear; }
 .notice.error { border-color: rgba(224, 17, 95, 0.4); color: var(--danger); }
+.notice.success { border-color: rgba(18, 140, 76, 0.4); color: #128c4c; }
 .xyz-job { padding: 8px 10px 8px 16px; font-size: 13px; pointer-events: auto; animation: pop 0.15s ease-out; }
 .xyz-job .line { display: flex; align-items: center; gap: 10px; }
 .xyz-job p { margin: 6px 6px 2px 0; max-width: 560px; }
@@ -1003,6 +1029,38 @@ kbd {
 .report td:first-child { white-space: nowrap; color: var(--muted); width: 1%; word-break: normal; }
 .report .buttons { display: flex; gap: 8px; margin: 10px 0 6px; }
 .report .btn { text-decoration: none; color: inherit; }
+/* Embed in a page (EmbedDialog.jsx): three numbered steps */
+.embed .intro { margin: 0 0 4px; }
+.embed-step { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--edge); }
+.embed-step h3 { display: flex; align-items: center; gap: 8px; font-size: 14px; margin: 0 0 10px; }
+.embed-step h3 .num { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; }
+.embed .seg button { font-size: 13px; padding: 5px 12px; }
+.embed .groups { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 6px; }
+.embed .groups fieldset:first-child { grid-column: 1 / -1; } /* (the drawing tools, the most, across) */
+@media (max-width: 560px) { .embed .groups { grid-template-columns: 1fr; } }
+.embed .groups.off { opacity: 0.45; }
+.embed fieldset { border: 1px solid var(--edge); border-radius: 10px; padding: 6px 10px 8px; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; }
+.embed legend { font-size: 11.5px; font-weight: 600; color: var(--muted); padding: 0 4px; text-transform: uppercase; letter-spacing: 0.03em; }
+.embed fieldset .small { flex-basis: 100%; margin: 2px 0 0; }
+.embed .chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px 3px 6px; border-radius: 999px; background: var(--hover); font-size: 12.5px; cursor: pointer; user-select: none; }
+.embed .chip.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.embed .chip input { margin: 0; accent-color: var(--accent); }
+.embed .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 6px 0; }
+.embed .tick input[type="number"] { width: 5em; margin: 0 4px; }
+.embed .btn { text-decoration: none; color: inherit; }
+.embed .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.embed .btn.primary:hover { filter: brightness(1.1); }
+.embed .muted { color: var(--muted); }
+.embed .kinds { margin: 0 0 6px; }
+/* Try it: the embedded editor over the dialog, at the height the code gives it (as wide as a page's column) */
+.tryout-scrim { z-index: 45; }
+.dialog.tryout { z-index: 46; width: min(960px, calc(100vw - 32px)); }
+.dialog.tryout header .small { margin-left: 6px; font-weight: 400; }
+.dialog.tryout iframe { display: block; width: calc(100% - 28px); max-height: calc(100vh - 110px); margin: 14px; border: 1px solid #d0d4dc; border-radius: 8px; box-sizing: border-box; background: var(--canvas, #fff); }
+.embed .btn.on { background: var(--accent-soft); color: var(--accent); }
+.embed .guide { display: inline-flex; align-items: center; gap: 5px; color: var(--accent); }
+.embed .guide svg { width: 15px; height: 15px; }
+.embed-step textarea { width: 100%; box-sizing: border-box; margin: 4px 0 2px; font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; padding: 8px 10px; border: 1px solid var(--edge); border-radius: 8px; background: var(--hover); color: inherit; resize: vertical; word-break: break-all; }
 
 /* the version in the bottom left corner: quiet, under the tool rail, gone where the bottom bar needs the room */
 .version-mark {
@@ -1075,6 +1133,15 @@ kbd {
 .turn3d .btn.primary.anyway { background: #c2410c; border-color: #c2410c; box-shadow: none; color: #fff; }
 .turn3d .buttons { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .turn3d .buttons .group { display: flex; gap: 8px; flex-wrap: wrap; }
+.turn3d .stage-row { display: flex; gap: 12px; align-items: flex-start; }
+.turn3d .stage-row .stage { flex: 1 1 auto; min-width: 0; }
+/* how the stick model is shown: a column beside the stage, each option its name over its choices */
+.turn3d .look { flex: 0 0 150px; display: flex; flex-direction: column; gap: 12px; }
+.turn3d .look .option { display: flex; flex-direction: column; gap: 4px; }
+.turn3d .look .name { font-size: 12px; color: var(--muted); }
+.turn3d .look .seg.column { display: flex; flex-direction: column; align-items: stretch; }
+.turn3d .look .seg.column button { text-align: left; }
+.turn3d .look .legend { margin: 0; }
 /* what is said under the stage: one height whatever is said (the help, a warning, the legend), so the window
    doesn't move as the views switch; a rare longer note scrolls */
 .turn3d .notes { height: 92px; overflow-y: auto; }
@@ -1091,6 +1158,22 @@ kbd {
 .turn3d .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 6px 0 0; font-size: 13px; color: var(--muted); }
 .turn3d .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .turn3d .legend i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+/* Turn in 3D in a short window (an embedded editor a few hundred pixels high): the whole frame, the stage all the room
+   left, the words under it only when they warn, smaller buttons; nothing to scroll */
+@media (max-height: 560px) {
+  .dialog.turn3d { top: 6px; left: 6px; right: 6px; bottom: 6px; transform: none; width: auto !important; max-height: none; }
+  .dialog.turn3d header { padding-top: 6px; padding-bottom: 6px; }
+  .turn3d .body { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; padding: 8px 12px 8px; }
+  .turn3d .stage-row { flex: 1 1 auto; min-height: 0; }
+  .turn3d .stage-row .stage, .turn3d .stage { height: 100%; max-height: none; aspect-ratio: auto; }
+  .turn3d .look { flex-basis: 128px; gap: 6px; max-height: 100%; overflow-y: auto; }
+  .turn3d .look .seg.column button { padding: 3px 8px; }
+  .turn3d .notes { height: auto; overflow: visible; }
+  .turn3d .notes > p.small { display: none; }
+  .turn3d .notes .warn { margin: 6px 0 0; padding: 4px 10px; font-size: 12px; }
+  .turn3d .buttons { margin-top: 6px; }
+  .turn3d .buttons .btn { height: 30px; padding: 0 10px; font-size: 12.5px; }
+}
 
 /* the canvas's right-click menu (ContextMenu.jsx): an icon before each item */
 .context-menu { min-width: 240px; }
@@ -1149,3 +1232,16 @@ body.showing .canvas { background-image: none !important; cursor: default !impor
 .objects-out { position: absolute; left: 6px; right: 6px; top: 5px; height: 28px; display: grid; place-items: center; border: 1.5px dashed var(--edge); border-radius: 6px; background: var(--glass-strong); font-size: 11.5px; color: var(--muted); }
 .objects-out.drop { border-color: var(--accent-line); color: var(--text); }
 @media (max-width: 900px) { .objects { display: none; } }
+
+/* an embedded editor's corner (embed.html): olomol, a link to it; small, but always there: at the bottom right, over
+   the bottom bar where there is one */
+.embed-mark { flex-direction: row; align-items: center; gap: 5px; left: auto; right: 14px; bottom: 10px; text-decoration: none; color: var(--muted); }
+body:has(.dock) .embed-mark { bottom: 64px; }
+.embed-mark:hover { color: var(--accent); }
+@media (max-width: 1259px), (max-height: 809px) { .version-mark.embed-mark { display: flex; } }
+/* an embedded editor, often low: the rail's buttons their size, the rail scrolling, above the bottom bar */
+:root[data-embed] .rail .btn { flex-shrink: 0; }
+:root[data-embed] body:has(.dock) .rail { max-height: calc(100vh - 136px); }
+/* (no bottom bar: the hint at the bottom, not over the drawing) */
+:root[data-embed] body:not(:has(.dock)) .tool-hint { bottom: 12px; }
+

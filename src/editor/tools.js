@@ -17,6 +17,7 @@ import { atom, bond, chain } from './tools/draw.js';
 import { ring } from './tools/rings.js';
 import { group, place } from './tools/stamps.js';
 import { chairTurnTool, flipOver, ringFlipTool, snapTool } from './tools/turning.js';
+import { fischerTool, zigzagTool } from './tools/fischer.js';
 import { changeCharge, charge, pairs, radical, togglePartial, toggleLonePairs } from './tools/electrons.js';
 import { orbitalTool } from './tools/orbitals.js';
 import { curve } from './tools/curves.js';
@@ -32,7 +33,7 @@ export { describe } from './tools/curves.js';
 export { fillRing, highlightObjects, paintObjects } from './tools/colour.js';
 export { bracketAtoms, keepApart, keepTogether, numberAtoms, setAtomNumber } from './tools/objects.js';
 
-export const TOOLS = { select, erase, bond, atom, chain, ring, group, place, flipOver, ringFlip: ringFlipTool, chairTurn: chairTurnTool, snapBond: snapTool, charge, radical, pairs, orbital: orbitalTool, curve, rxn, plus, text, atomNumber, paint, highlight, bracket };
+export const TOOLS = { select, erase, bond, atom, chain, ring, group, place, flipOver, ringFlip: ringFlipTool, chairTurn: chairTurnTool, fischer: fischerTool, zigzag: zigzagTool, snapBond: snapTool, charge, radical, pairs, orbital: orbitalTool, curve, rxn, plus, text, atomNumber, paint, highlight, bracket };
 
 // Sets the element of atoms (an element key over an atom, or over the selection; an element picked in the bottom
 // bar or the periodic table with atoms selected), in one step.

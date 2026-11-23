@@ -12,6 +12,12 @@ import { checkUnsaved, drawingNow, keepDrawing, newTab, openInTab, showTab, tabN
 import { forgetRecent, rememberFile } from './history.js';
 
 export { checkUnsaved };
+
+// Something of a part switched off asked for (features.js): said, not done
+function refused(ed, part) {
+  ed.say(refusal(part), 'error');
+  return false;
+}
 import { stereoLabels, wantsStereo } from '../chem/stereo.js';
 import { chemistryMolfile } from '../editor/abbreviate.js';
 import { identifiers } from '../io/rdkit.js';
@@ -24,6 +30,7 @@ import { newTitle } from '../editor/editor.js';
 import { TOOLS } from '../editor/tools.js';
 import { copyObjects, emptyDoc, freeIds, isEmpty } from '../model/doc.js';
 import { t } from '../i18n/i18n.js';
+import { allowed, EMBEDDED, refusal } from '../features.js';
 
 // --- the drawing's own file ---
 
@@ -53,9 +60,10 @@ export function ask(ed, { title, text, choices }) {
 }
 
 // A new drawing in a tab of its own (ui/tabs.js), at 100 %
-export const newDrawing = (ed) => newTab(ed, { always: true });
+export const newDrawing = (ed) => (EMBEDDED ? false : newTab(ed, { always: true }));
 
 export async function openFile(ed, fit) {
+  if (EMBEDDED) return; // (an embedded editor has no files: its drawing is the page's)
   const file = await openPicked();
   if (file) await openFiles(ed, [file], fit);
 }
@@ -149,8 +157,9 @@ export async function openRecent(ed, entry, fit) {
 // Files dropped on the window, or given by the file manager (the installed app, launchQueue): those olomol
 // opens read and opened (openFiles); the others said. `given`: handles or Files.
 export async function openGiven(ed, given, fit, options) {
+  if (EMBEDDED) return refused(ed, 'structures-from-text');
   const names = given.map((one) => one.name);
-  const refused = names.filter((name) => !opens(name));
+  const unopened = names.filter((name) => !opens(name));
   const files = [];
   for (const one of given.filter((g) => opens(g.name))) {
     try {
@@ -160,7 +169,7 @@ export async function openGiven(ed, given, fit, options) {
     }
   }
   if (files.length) await openFiles(ed, files, fit, options);
-  if (refused.length) ed.say(t('olomol does not open {files}: drawings and molecules only (KET, molfile, SDF, RXN, CDXML, CDX, CML, SMILES, XYZ).', { files: refused.join(', ') }), 'error', 8000);
+  if (unopened.length) ed.say(t('olomol does not open {files}: drawings and molecules only (KET, molfile, SDF, RXN, CDXML, CDX, CML, SMILES, XYZ).', { files: unopened.join(', ') }), 'error', 8000);
 }
 
 // Asks for a file name (the dialog in App.jsx): resolves to the name
@@ -213,6 +222,7 @@ async function pickAndWrite(ed, contentFor, { ext, mime, description, name: sugg
 // Save (Ctrl+S): into the drawing's own file without asking, if it has one in .olom under its name (io/saving.js),
 // else as Save as. Save as (Ctrl+Shift+S, `as`): asks where, and the file chosen is the drawing's from then on.
 export async function saveFile(ed, { as = false } = {}) {
+  if (EMBEDDED) return false;
   if (isEmpty(ed.doc)) {
     ed.say(t('Nothing to save yet.'));
     return;
@@ -306,6 +316,7 @@ export async function savePicture(ed, svg, format, suffix = '') {
 // Exports the selection (if any) or everything.
 // (the background as set in the Export menu, from the search bar too: White background)
 export async function exportAs(ed, format, { background = ed.settings.whiteBackground ? '#ffffff' : null, selectionOnly = false } = {}) {
+  if (!allowed('export')) return refused(ed, 'export');
   const ids = selectionOnly && ed.selection.size ? [...new Set([...ed.selection, ...ed.selectedAtoms()])] : null;
   if (isEmpty(ed.doc)) {
     ed.say(t('Nothing to export yet.'));
@@ -352,6 +363,7 @@ function partText(ed, ids) {
 // Export → PDF / Print…: the drawing (or the selection) alone on a page in the browser's print window, which
 // saves it as a PDF or prints it (io/print.js). (The browser check takes the page instead: olomolTestPrint.)
 export async function printDrawing(ed, { selectionOnly = false } = {}) {
+  if (!allowed('export')) return refused(ed, 'export');
   if (isEmpty(ed.doc)) {
     ed.say(t('Nothing to print yet.'));
     return;
@@ -436,6 +448,7 @@ export async function saveXyz(ed) {
 // sits on a coloured slide too, unless `background` (the Export menu's
 // White background).
 export async function copyPicture(ed, { background = ed.settings.whiteBackground ? '#ffffff' : null } = {}) {
+  if (!allowed('export')) return refused(ed, 'export');
   if (isEmpty(ed.doc)) {
     ed.say(t('Nothing to copy yet.'));
     return;
@@ -487,12 +500,15 @@ export function copySelection(ed) {
 // puts it down, selected; Esc leaves it out.
 // Resolves to true when it opened a tab of its own (a link: the caller fits the view to it).
 export async function pasteText(ed, text, at) {
+  const own = clipboard && (!text || text === clipboard.text || text === clipboard.ket);
+  // (an embedded editor with structures from text switched off: only what was copied in it, features.js)
+  if (!own && text?.trim() && !allowed('structures-from-text')) return refused(ed, 'structures-from-text');
   // an olomol link (https://olomol.org/#smiles=…, #d=…, or only its #part): opened, as from the address bar
   const link = olomolLink(text);
-  if (link) return openLink(ed, link);
+  if (link) return EMBEDDED ? refused(ed, 'structures-from-text') : openLink(ed, link);
   try {
     let doc;
-    if (clipboard && (!text || text === clipboard.text || text === clipboard.ket)) doc = clipboard.doc;
+    if (own) doc = clipboard.doc;
     else if (text?.trim()) ({ doc } = await readAny(text, { settings: ed.settings }));
     else return;
     if (isEmpty(doc)) return;
@@ -524,6 +540,7 @@ export async function reloadKeepingView(ed) {
 
 // Copies a link that opens this drawing (it travels inside the link itself).
 export async function copyLink(ed) {
+  if (EMBEDDED) return refused(ed, 'export');
   try {
     const link = await linkTo(ed.doc, { settings: ed.settings, title: ed.title });
     await navigator.clipboard.writeText(link);
@@ -561,6 +578,36 @@ export async function openLink(ed, href = null) {
     return false;
   } finally {
     if (own && !busy) history.replaceState(null, '', location.href.split('#')[0]);
+  }
+}
+
+// An embedded editor's drawing (embed.html): the one in its address, #d=… or the first structure of #smiles=… (or
+// inchi, name, cid: looked up on PubChem even with PubChem switched off, being the page's, not the student's), in
+// place of what is there, with nothing to undo. Whether there was one.
+export async function openEmbedded(ed) {
+  const link = location.href;
+  try {
+    let doc = null;
+    const [first] = structuresIn(link);
+    if (first) {
+      let text = first.value;
+      if (first.kind === 'name' || first.kind === 'cid') text = (await lookUp(first.kind === 'cid' ? `CID ${first.value}` : first.value)).smiles;
+      if (first.kind === 'inchi' && !text.startsWith('InChI=')) text = `InChI=${text}`;
+      ({ doc } = await readAny(text, { name: first.kind === 'inchi' ? 'link.inchi' : 'link.smi', settings: ed.settings }));
+    } else {
+      const ket = await drawingIn(new URL(link).hash);
+      if (ket) ({ doc } = await readAny(ket, { name: 'link.ket' }));
+    }
+    if (!doc) return { opened: false, error: null };
+    ed.setDoc(doc);
+    ed.undoStack = [];
+    ed.redoStack = [];
+    ed.emit();
+    return { opened: true, error: null };
+  } catch (error) {
+    console.warn('[embed]', error);
+    ed.say(t('Could not open the drawing in this link: {reason}', { reason: error.message }), 'error', 10_000);
+    return { opened: false, error: error.message };
   }
 }
 

@@ -70,6 +70,13 @@
 //        of it, as of a molecule: − AlCl₃); order: its place in the stack
 //        on its anchor or arrow, from the molecule or arrow out; align:
 //        'left' | 'center' | 'right' for its lines, or none (see textAlign)
+// model: { id, x, y (its middle on the page), size (a bond's length in it, in the drawing's bond lengths), rotation
+//        (3×3: how it is turned), atoms (the drawing's atoms it was built from, in its order: its first
+//        model.drawn), model ({ elements, points (3D, a bond 1 long, round their middle), bonds: [[a, b, order,
+//        kind]], groups: [{ name, atoms }] (a label's atoms), drawn }), signature (the molecule as it was built:
+//        render/model3d.js; another now means out of date), look ({ style, hydrogens, groups, fade }: how it is
+//        shown, MODEL_LOOK's where not set), color } — a 3D model of a molecule as a picture on the page
+//        (render/model3d.js); its colours and highlights are its molecule's, read from the drawing.
 // curve: { id, electrons (2 | 1), from, to, color, variant } — curved arrows.
 //        from: { bond } | { atom } (a lone pair) | { atom, radical: true };
 //        to: { atom } | { bond } | { atom, newBond } (a new bond between
@@ -103,10 +110,10 @@
 //        drawn: atoms (standing for their molecules), reaction arrows, "+" signs, free texts, brackets and
 //        groups (editor/grouping.js)
 
-export const KINDS = ['atoms', 'bonds', 'arrows', 'pluses', 'texts', 'curves', 'fills', 'brackets', 'orbitals', 'overlaps'];
+export const KINDS = ['atoms', 'bonds', 'arrows', 'pluses', 'texts', 'curves', 'fills', 'brackets', 'orbitals', 'overlaps', 'models'];
 
 export function emptyDoc() {
-  return { atoms: new Map(), bonds: new Map(), arrows: new Map(), pluses: new Map(), texts: new Map(), curves: new Map(), fills: new Map(), brackets: new Map(), orbitals: new Map(), overlaps: new Map(), groups: new Map(), nextId: 1 };
+  return { atoms: new Map(), bonds: new Map(), arrows: new Map(), pluses: new Map(), texts: new Map(), curves: new Map(), fills: new Map(), brackets: new Map(), orbitals: new Map(), overlaps: new Map(), models: new Map(), groups: new Map(), nextId: 1 };
 }
 
 // A document from elsewhere (an older version, a test) with every collection there.
@@ -524,6 +531,15 @@ export function copyObjects(doc, ids, dx = 0, dy = 0, target = doc) {
       target[kind].set(copy.id, copy);
     }
   }
+  // a 3D model: copied when chosen, or with its molecule (every one of its atoms copied); its atoms the copies
+  for (const item of doc.models?.values() ?? []) {
+    if (!wanted.has(item.id) && !(item.atoms.length && item.atoms.every((id) => map.has(id)))) continue;
+    const copy = fresh(item);
+    Object.assign(copy, { x: item.x + dx, y: item.y + dy, atoms: item.atoms.map((id) => map.get(id) ?? id) });
+    // (the fingerprint of the molecule as built, of the copies: still up to date if it was)
+    if (item.atoms.every((id) => map.has(id)) && copy.signature) copy.signature = renumbered(copy.signature, (id) => map.get(id));
+    (target.models ??= new Map()).set(copy.id, copy);
+  }
   // a copied bracket made round atoms: round their copies (a plain box if none of them are copied); all it was
   // round, the atoms drawn on later too (they count by their ids being after the bracket's, which the copies' aren't)
   for (const [from, id] of map) {
@@ -599,6 +615,24 @@ export function copyObjects(doc, ids, dx = 0, dy = 0, target = doc) {
   return [...map.values()];
 }
 
+export function addModel(doc, x, y, extra = {}) {
+  const item = { id: doc.nextId++, x, y, size: 1, rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]], atoms: [], model: null, signature: null, look: {}, color: null, ...extra };
+  doc.models.set(item.id, item);
+  return item;
+}
+
+// A 3D model's fingerprint of its molecule (render/model3d.js moleculeSignature: "id:…,…|a:b:…,…|…") with the atoms'
+// ids renumbered by `newId` (old id → new id, or undefined to keep it: a copy's, a file's), in the order
+// moleculeSignature writes them.
+export function renumbered(signature, newId) {
+  const [atoms, bonds = '', ...rest] = String(signature).split('|');
+  const id = (v) => String(newId(Number(v)) ?? v);
+  const newAtoms = atoms.split(',').map((a) => a.split(':')).map(([n, ...rest]) => [id(n), ...rest])
+    .sort((p, q) => Number(p[0]) - Number(q[0])).map((a) => a.join(':'));
+  const newBonds = bonds ? bonds.split(',').map((b) => b.split(':')).map(([a, b, ...rest]) => [id(a), id(b), ...rest].join(':')).sort() : [];
+  return [`${newAtoms.join(',')}`, newBonds.join(','), ...rest].join('|');
+}
+
 // Everything movable as points: calls fn(object, key) for each x/y pair.
 // Used to move, rotate and flip a set of objects.
 export function forEachPoint(doc, ids, fn) {
@@ -611,11 +645,11 @@ export function forEachPoint(doc, ids, fn) {
       fn(item, ['x2', 'y2']);
     }
   }
-  for (const kind of ['pluses', 'texts']) for (const item of doc[kind].values()) if (wanted.has(item.id)) fn(item, ['x', 'y']);
+  for (const kind of ['pluses', 'texts', 'models']) for (const item of doc[kind]?.values() ?? []) if (wanted.has(item.id)) fn(item, ['x', 'y']);
 }
 
-// The movable objects that aren't atoms or bonds: arrows, "+", text, brackets.
-export const freeIds = (doc) => [...doc.arrows.keys(), ...doc.pluses.keys(), ...doc.texts.keys(), ...doc.brackets.keys()];
+// The movable objects that aren't atoms or bonds: arrows, "+", text, brackets, 3D models.
+export const freeIds = (doc) => [...doc.arrows.keys(), ...doc.pluses.keys(), ...doc.texts.keys(), ...doc.brackets.keys(), ...(doc.models?.keys() ?? [])];
 
 export function moveObjects(doc, ids, dx, dy) {
   forEachPoint(doc, ids, (object, [kx, ky]) => {

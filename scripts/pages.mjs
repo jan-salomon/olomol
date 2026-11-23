@@ -10,6 +10,7 @@
 import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { citationOf } from '../src/citation.js';
 
 export const LANGUAGES = ['en', 'cs', 'de'];
 export const PAGES = ['about.html', 'changelog.html'];
@@ -121,9 +122,43 @@ function decodeEntities(text, page) {
 const metaContent = (html, attr, name) =>
   html.match(new RegExp(`<meta ${attr}="${name}"[^>]*content="([^"]*)"`))?.[1] ?? null;
 
-// The page in one language. version, released: package.json's version and its release date (for the JSON-LD)
-export function splitPage(html, page, lang, { version = '', released = '' } = {}) {
+// The about page's How to cite (<div class="cite" data-citation></div>): this version's citation (src/citation.js,
+// in English) with its DOI as a link, and buttons that copy it as text, BibTeX, RIS or CSL JSON or save it as a
+// file (the page's script does that, from the formats given as JSON beside them); the buttons' words in each
+// language (the page is cut down to one after this)
+const escapeHtml = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function citationBlock({ version, released, doi }) {
+  const cited = citationOf({ version, released, doi });
+  if (!cited) return '';
+  const url = `https://doi.org/${doi}`;
+  const [before, after] = escapeHtml(cited.text).split(url);
+  const words = (cs, en, de) => `<span lang="cs">${cs}</span><span lang="en">${en}</span><span lang="de">${de}</span>`;
+  const save = { bibtex: 'LaTeX (BibTeX, BibLaTeX)', ris: 'Zotero, Mendeley, EndNote, Citavi', csl: 'Zotero, Pandoc' };
+  const rows = cited.formats.length ? `
+      <div class="cite-row"><span class="label">${words('Kopírovat jako', 'Copy as', 'Kopieren als')}</span>${cited.formats.map((f) => `<button type="button" data-copy="${f.id}">${f.label}</button>`).join('')}</div>
+      <div class="cite-row"><span class="label">${words('Stáhnout jako', 'Download as', 'Herunterladen als')}</span>${cited.formats.filter((f) => f.id !== 'text').map((f) => `<button type="button" data-save="${f.id}" title="${save[f.id]}">.${f.ext}</button>`).join('')}</div>
+      <p class="said" role="status"></p>
+      <script type="application/json" id="citation-formats">${JSON.stringify(cited.formats).replace(/</g, '\\u003c')}</script>` : '';
+  return `<div class="cite" data-citation>
+      <p class="citation" data-testid="citation">${before}<a href="${url}">${url}</a>${after ?? ''}</p>${rows}
+    </div>`;
+}
+
+// The version a citation names, and its date: this one, or for a development version (0.6.0-dev, no date of its
+// own) the version it is becoming, once What's new has its section (the citation then as it will be)
+export function citedVersion(changelog, version) {
+  const released = releaseDate(changelog, version);
+  if (released) return { version, released };
+  const next = version.replace(/-.*/, '');
+  return { version: next, released: releaseDate(changelog, next) };
+}
+
+// The page in one language. version, released: package.json's version and its release date (for the JSON-LD);
+// cited: { version, released } for the citation (citedVersion); doi: the concept DOI to cite (package.json's
+// conceptDoi)
+export function splitPage(html, page, lang, { version = '', released = '', doi = '', cited = { version, released } } = {}) {
   const root = lang === 'en' ? '' : '../';
+  html = html.replace('<div class="cite" data-citation></div>', citationBlock({ ...cited, doi }));
   let out = keepLanguage(html, lang);
   const left = tokens(out).filter((token) => token.kind === 'open' && token.name !== 'html' && langOf(token.tag) && langOf(token.tag) !== lang);
   if (left.length) throw new Error(`pages: ${page} (${lang}) still has ${left[0].tag}`);
@@ -229,14 +264,14 @@ function sitemap() {
 
 // after the build: dist/about.html (as Vite copied it from public/) into its three pages, and so on
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const { version } = JSON.parse(readFileSync('package.json', 'utf8'));
+  const { version, conceptDoi: doi } = JSON.parse(readFileSync('package.json', 'utf8'));
   const released = releaseDate(readFileSync('public/changelog.html', 'utf8'), version);
   for (const page of PAGES) {
     const source = readFileSync(`public/${page}`, 'utf8');
     for (const lang of LANGUAGES) {
       const file = `dist/${pathOf(page, lang)}`;
       if (lang !== 'en' && !existsSync(`dist/${lang}`)) mkdirSync(`dist/${lang}`);
-      writeFileSync(file, splitPage(source, page, lang, { version, released }));
+      writeFileSync(file, splitPage(source, page, lang, { version, released, doi, cited: citedVersion(readFileSync('public/changelog.html', 'utf8'), version) }));
     }
   }
   writeFileSync('dist/sitemap.xml', sitemap());
